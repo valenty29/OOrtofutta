@@ -1,4 +1,4 @@
-package Models;
+package it.unina.studenti.oortof.models;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

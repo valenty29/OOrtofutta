@@ -1,4 +1,4 @@
-package Models;
+package it.unina.studenti.oortof.models;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,7 +10,7 @@ public class Uovo extends Prodotto {
     private CatQualita CatQualita;
     private CatPeso CatPeso;
 
-    public Uovo(int codProdotto, String nome, float prezzo, boolean sfuso, CatProdotto tipo, int tipoAllevamento, String daAnimale, String codAllevamento, Models.CatQualita catQualita, Models.CatPeso catPeso) {
+    public Uovo(int codProdotto, String nome, float prezzo, boolean sfuso, CatProdotto tipo, int tipoAllevamento, String daAnimale, String codAllevamento, it.unina.studenti.oortof.models.CatQualita catQualita, it.unina.studenti.oortof.models.CatPeso catPeso) {
         super(codProdotto, nome, prezzo, sfuso, tipo);
         TipoAllevamento = tipoAllevamento;
         DaAnimale = daAnimale;
@@ -60,19 +60,19 @@ public class Uovo extends Prodotto {
         CodAllevamento = codAllevamento;
     }
 
-    public Models.CatQualita getCatQualita() {
+    public it.unina.studenti.oortof.models.CatQualita getCatQualita() {
         return CatQualita;
     }
 
-    public void setCatQualita(Models.CatQualita catQualita) {
+    public void setCatQualita(it.unina.studenti.oortof.models.CatQualita catQualita) {
         CatQualita = catQualita;
     }
 
-    public Models.CatPeso getCatPeso() {
+    public it.unina.studenti.oortof.models.CatPeso getCatPeso() {
         return CatPeso;
     }
 
-    public void setCatPeso(Models.CatPeso catPeso) {
+    public void setCatPeso(it.unina.studenti.oortof.models.CatPeso catPeso) {
         CatPeso = catPeso;
     }
 }
