@@ -1,25 +1,20 @@
 package it.unina.studenti.oortof.models;
 
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.Date;
 
 public class LottoCaseareo extends Lotto {
-    private Date dataMungitura;
+  private Date dataMungitura;
 
+  public LottoCaseareo(int id, Prodotto prodotto, String codLotto, Date scadenza, float disponibilita, Date dataProduzione, String codPaeseOrigine, Date dataMungitura) {
+    super(id, prodotto, codLotto, scadenza, disponibilita, dataProduzione, codPaeseOrigine);
+    this.dataMungitura = dataMungitura;
+  }
 
-    public LottoCaseareo(String codLottoProdotto, Date scadenza, float disponibilita, Date dataProduzione, String codPaeseOrigine, Date dataMungitura) {
-        super(codLottoProdotto, scadenza, disponibilita, dataProduzione, codPaeseOrigine);
-        this.dataMungitura = dataMungitura;
-    }
-
-    public LottoCaseareo(ResultSet rSet) {
-        super(rSet);
-        try {
-            dataMungitura = rSet.getDate(7);
-        } catch (SQLException e)
-        {
-
-        }
-    }
+  public Date getDataMungitura() {
+    return dataMungitura;
+  }
+  
+  public void setDataMungitura(Date dataMungitura) {
+    this.dataMungitura = dataMungitura;
+  }
 }

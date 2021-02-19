@@ -1,47 +1,32 @@
 package it.unina.studenti.oortof.models;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Prodotto {
-  private int codProdotto;
+  private int id;
   private String nome;
   private float prezzo;
   private boolean sfuso;
   private CatProdotto tipo;
   private List<Lotto> lotti = new ArrayList<Lotto>();
 
-  public Prodotto(int codProdotto, String nome, float prezzo, boolean sfuso, CatProdotto catProdotto) {
-    this.codProdotto = codProdotto;
+  public Prodotto(int id, String nome, float prezzo, boolean sfuso, CatProdotto catProdotto) {
+    this.id = id;
     this.nome = nome;
     this.prezzo = prezzo;
     this.sfuso = sfuso;
     this.tipo = catProdotto;
   }
 
-  public Prodotto(ResultSet rSet) {
-    try {
-      this.codProdotto = rSet.getInt(0);
-      this.nome = rSet.getString(1);
-      this.prezzo = rSet.getFloat(2);
-      this.sfuso = rSet.getBoolean(3);
-      this.tipo = CatProdotto.valueOf(rSet.getString(4));
-    }
-    catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
+  public int getId() {
+    return id;
   }
-
-  public int getCodProdotto() {
-    return codProdotto;
+  
+  public void setId(int id) {
+    this.id = id;
   }
-
-  public void setCodProdotto(int codProdotto) {
-    this.codProdotto = codProdotto;
-  }
-
+  
   public String getNome() {
     return nome;
   }
@@ -118,6 +103,9 @@ public abstract class Prodotto {
     if (this == other) {
       return true;
     }
-    return codProdotto == ((Prodotto)other).codProdotto;
+    if (id > 0 && ((Prodotto)other).id > 0) {
+      return id == ((Prodotto)other).id;
+    }
+    return nome.equals(((Prodotto)other).nome);
   }
 }

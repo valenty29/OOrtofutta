@@ -1,78 +1,49 @@
 package it.unina.studenti.oortof.models;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 public class Uovo extends Prodotto {
-    private int TipoAllevamento;
-    private String DaAnimale;
-    private String CodAllevamento;
-    private CatQualita CatQualita;
-    private CatPeso CatPeso;
+  private int tipoAllevamento;
+  private String daAnimale;
+  private String codAllevamento;
+  private CatPeso catPeso;
 
-    public Uovo(int codProdotto, String nome, float prezzo, boolean sfuso, CatProdotto tipo, int tipoAllevamento, String daAnimale, String codAllevamento, it.unina.studenti.oortof.models.CatQualita catQualita, it.unina.studenti.oortof.models.CatPeso catPeso) {
-        super(codProdotto, nome, prezzo, sfuso, tipo);
-        TipoAllevamento = tipoAllevamento;
-        DaAnimale = daAnimale;
-        CodAllevamento = codAllevamento;
-        CatQualita = catQualita;
-        CatPeso = catPeso;
-    }
+  public Uovo(int id, int codProdotto, String nome, float prezzo, boolean sfuso, CatProdotto catProdotto, int tipoAllevamento, String daAnimale, String codAllevamento, CatPeso catPeso) {
+    super(id, codProdotto, nome, prezzo, sfuso, catProdotto);
+    this.tipoAllevamento = tipoAllevamento;
+    this.daAnimale = daAnimale;
+    this.codAllevamento = codAllevamento;
+    this.catPeso = catPeso;
+  }
+
+  public int getTipoAllevamento() {
+    return tipoAllevamento;
+  }
+
+  public void setTipoAllevamento(int tipoAllevamento) {
+    this.tipoAllevamento = tipoAllevamento;
+  }
+
+  public String getDaAnimale() {
+    return daAnimale;
+  }
+
+  public void setDaAnimale(String daAnimale) {
+    this.daAnimale = daAnimale;
+  }
+
+  public String getCodAllevamento() {
+    return codAllevamento;
+  }
+
+  public void setCodAllevamento(String codAllevamento) {
+    this.codAllevamento = codAllevamento;
+  }
 
 
-    public Uovo(ResultSet rSet) {
-        super(rSet);
-        try {
-            TipoAllevamento = rSet.getInt(5);
-            DaAnimale = rSet.getString(6);
-            CodAllevamento = rSet.getString(7);
-            CatQualita = CatQualita.valueOf(rSet.getString(8));
-            CatPeso = CatPeso.valueOf(rSet.getString(9));
+  public CatPeso getCatPeso() {
+    return catPeso;
+  }
 
-        } catch (SQLException e)
-        {
-
-        }
-    }
-
-
-    public int getTipoAllevamento() {
-        return TipoAllevamento;
-    }
-
-    public void setTipoAllevamento(int tipoAllevamento) {
-        TipoAllevamento = tipoAllevamento;
-    }
-
-    public String getDaAnimale() {
-        return DaAnimale;
-    }
-
-    public void setDaAnimale(String daAnimale) {
-        DaAnimale = daAnimale;
-    }
-
-    public String getCodAllevamento() {
-        return CodAllevamento;
-    }
-
-    public void setCodAllevamento(String codAllevamento) {
-        CodAllevamento = codAllevamento;
-    }
-
-    public it.unina.studenti.oortof.models.CatQualita getCatQualita() {
-        return CatQualita;
-    }
-
-    public void setCatQualita(it.unina.studenti.oortof.models.CatQualita catQualita) {
-        CatQualita = catQualita;
-    }
-
-    public it.unina.studenti.oortof.models.CatPeso getCatPeso() {
-        return CatPeso;
-    }
-
-    public void setCatPeso(it.unina.studenti.oortof.models.CatPeso catPeso) {
-        CatPeso = catPeso;
+  public void setCatPeso(CatPeso catPeso) {
+        this.catPeso = catPeso;
     }
 }

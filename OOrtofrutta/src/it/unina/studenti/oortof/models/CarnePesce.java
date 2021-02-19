@@ -1,7 +1,5 @@
 package it.unina.studenti.oortof.models;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class CarnePesce extends Prodotto {
   private TipoCarnePesce tipoCP;
@@ -9,25 +7,12 @@ public class CarnePesce extends Prodotto {
   private String animale;
   private boolean confezionato;
 
-  public CarnePesce(int codProdotto, String nome, float prezzo, boolean sfuso, CatProdotto tipo, TipoCarnePesce tipoCP, boolean daAllevamento, String animale, boolean confezionato) {
-    super(codProdotto, nome, prezzo, sfuso, tipo);
+  public CarnePesce(int id, String nome, float prezzo, boolean sfuso, CatProdotto tipo, TipoCarnePesce tipoCP, boolean daAllevamento, String animale, boolean confezionato) {
+    super(id, nome, prezzo, sfuso, tipo);
     this.tipoCP = tipoCP;
     this.daAllevamento = daAllevamento;
     this.animale = animale;
     this.confezionato = confezionato;
-  }
-
-  public CarnePesce(ResultSet rSet) {
-    super(rSet);
-    try {
-      tipoCP = TipoCarnePesce.valueOf(rSet.getString(5));
-      daAllevamento = rSet.getBoolean(6);
-      animale = rSet.getString(7);
-      confezionato = rSet.getBoolean(8);
-    }
-    catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
   }
 
   public TipoCarnePesce getTipoCP() {

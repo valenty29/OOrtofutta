@@ -1,4 +1,4 @@
-package Models;
+package it.unina.studenti.oortof.models;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -27,7 +27,7 @@ public class Scontrino {
             prezzoTotale = rSet.getFloat(3);
         } catch (SQLException e)
         {
-
+          throw new RuntimeException(e);
         }
     }
 
