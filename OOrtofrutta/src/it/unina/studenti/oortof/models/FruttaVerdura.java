@@ -3,30 +3,29 @@ package it.unina.studenti.oortof.models;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class FruttaVerdura extends Prodotto {
+public class FruttaVerdura  {
+    private Prodotto prodotto;
     private TipoFruttaVerdura tipoFV;
     private boolean bio;
     private boolean surgelato;
 
 
 
-    public FruttaVerdura(int CodProdotto, String Nome, float Prezzo, boolean Sfuso, CatProdotto Tipo, TipoFruttaVerdura tipoFV, boolean bio, boolean surgelato)
+    public FruttaVerdura(Prodotto prodotto, TipoFruttaVerdura tipoFV, boolean bio, boolean surgelato)
     {
-        super(CodProdotto, Nome, Prezzo, Sfuso, Tipo);
+        this.prodotto = prodotto;
         this.tipoFV = tipoFV;
         this.bio = bio;
         this.surgelato = surgelato;
     }
 
-    public FruttaVerdura(ResultSet rSet)
-    {
-        super(rSet);
-        try {
-            tipoFV = TipoFruttaVerdura.valueOf(rSet.getString(5));
-            bio = rSet.getBoolean(6);
-            surgelato = rSet.getBoolean(7);
-        } catch (SQLException e) {
-        }
+
+    public Prodotto getProdotto() {
+        return prodotto;
+    }
+
+    public void setProdotto(Prodotto prodotto) {
+        this.prodotto = prodotto;
     }
 
     public TipoFruttaVerdura getTipoFV() {
@@ -52,6 +51,4 @@ public class FruttaVerdura extends Prodotto {
     public void setSurgelato(boolean surgelato) {
         this.surgelato = surgelato;
     }
-
-
 }

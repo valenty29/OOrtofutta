@@ -1,8 +1,14 @@
 package it.unina.studenti.oortof.gui;
 
+import it.unina.studenti.oortof.models.Bibita;
+import it.unina.studenti.oortof.models.DBContext;
+import it.unina.studenti.oortof.models.SQLProductDAO;
+import it.unina.studenti.oortof.models.TipoBibita;
+
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.EventQueue;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -34,7 +40,21 @@ public class PrincipaleFrame extends JFrame {
   /**
    * Create the frame.
    */
+  private void test()
+  {
+    DBContext context = new DBContext("jdbc:postgresql://localhost/postgres", "postgres", "Inb4Ext!");
+    SQLProductDAO dao = new SQLProductDAO(context);
+
+    List<Bibita> bibites = dao.getBibita(null, null, 0.2f, 1.2f, true, null, null, null, TipoBibita.SoftDrink);
+    for(Bibita bib: bibites)
+    {
+        System.out.println(bib.getProdotto().getNome());
+    }
+  }
+
+
   public PrincipaleFrame() {
+    test();
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setBounds(100, 100, 450, 300);
     contentPane = new JPanel();

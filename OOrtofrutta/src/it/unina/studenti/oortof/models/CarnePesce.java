@@ -17,18 +17,7 @@ public class CarnePesce extends Prodotto {
     this.confezionato = confezionato;
   }
 
-  public CarnePesce(ResultSet rSet) {
-    super(rSet);
-    try {
-      tipoCP = TipoCarnePesce.valueOf(rSet.getString(5));
-      daAllevamento = rSet.getBoolean(6);
-      animale = rSet.getString(7);
-      confezionato = rSet.getBoolean(8);
-    }
-    catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
-  }
+
 
   public TipoCarnePesce getTipoCP() {
     return tipoCP;

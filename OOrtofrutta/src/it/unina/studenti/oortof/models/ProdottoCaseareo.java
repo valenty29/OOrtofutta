@@ -3,30 +3,26 @@ package it.unina.studenti.oortof.models;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ProdottoCaseareo extends Prodotto {
+public class ProdottoCaseareo {
+    private Prodotto prodotto;
     private String tipoLatte;
     private String stabilimento;
     private int stagionatura;
 
-    public ProdottoCaseareo(int CodProdotto, String Nome, float Prezzo, boolean Sfuso, CatProdotto Tipo, String tipoLatte, String stabilimento, int stagionatura) {
-        super(CodProdotto, Nome, Prezzo, Sfuso, Tipo);
+    public ProdottoCaseareo(Prodotto prodotto, String tipoLatte, String stabilimento, int stagionatura) {
+        this.prodotto = prodotto;
         this.tipoLatte = tipoLatte;
         this.stabilimento = stabilimento;
         this.stagionatura = stagionatura;
     }
 
-    public ProdottoCaseareo(ResultSet rSet) {
-        super(rSet);
-        try {
-            tipoLatte = rSet.getString(5);
-            stabilimento = rSet.getString(6);
-            stagionatura = rSet.getInt(7);
-        } catch (SQLException e)
-        {
-
-        }
+    public Prodotto getProdotto() {
+        return prodotto;
     }
 
+    public void setProdotto(Prodotto prodotto) {
+        this.prodotto = prodotto;
+    }
 
     public String getTipoLatte() {
         return tipoLatte;

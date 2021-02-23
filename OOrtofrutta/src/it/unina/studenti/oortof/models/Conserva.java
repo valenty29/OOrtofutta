@@ -3,21 +3,20 @@ package it.unina.studenti.oortof.models;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class Conserva extends Prodotto {
+public class Conserva {
+    private Prodotto prodotto;
     private TipoConservazione tipoC;
-    public Conserva(int CodProdotto, String Nome, float Prezzo, boolean Sfuso, CatProdotto Tipo, TipoConservazione tipoC) {
-        super(CodProdotto, Nome, Prezzo, Sfuso, Tipo);
+    public Conserva(Prodotto prodotto, TipoConservazione tipoC) {
+        this.prodotto = prodotto;
         this.tipoC = tipoC;
     }
 
-    public Conserva(ResultSet rSet) {
-        super(rSet);
-        try {
-            tipoC = TipoConservazione.valueOf(rSet.getString(5));
-        } catch (SQLException e)
-        {
+    public Prodotto getProdotto() {
+        return prodotto;
+    }
 
-        }
+    public void setProdotto(Prodotto prodotto) {
+        this.prodotto = prodotto;
     }
 
     public TipoConservazione getTipoC() {

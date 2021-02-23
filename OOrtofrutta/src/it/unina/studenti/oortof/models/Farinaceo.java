@@ -3,63 +3,58 @@ package it.unina.studenti.oortof.models;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class Farinaceo extends Prodotto {
-    private boolean Glutine;
-    private String TipoFarina;
-    private boolean Fresco;
-    private boolean Surgelato;
+public class Farinaceo {
+    private Prodotto prodotto;
+    private boolean glutine;
+    private String tipoFarina;
+    private boolean fresco;
+    private boolean surgelato;
 
-    public Farinaceo(int codProdotto, String nome, float prezzo, boolean sfuso, CatProdotto tipo, boolean glutine, String tipoFarina, boolean fresco, boolean surgelato) {
-        super(codProdotto, nome, prezzo, sfuso, tipo);
-        Glutine = glutine;
-        TipoFarina = tipoFarina;
-        Fresco = fresco;
-        Surgelato = surgelato;
+    public Farinaceo(Prodotto prodotto, int id, String nome, float prezzo, boolean sfuso, CatProdotto tipo, boolean glutine, String tipoFarina, boolean fresco, boolean surgelato) {
+        this.prodotto = prodotto;
+        this.glutine = glutine;
+        this.tipoFarina = tipoFarina;
+        this.fresco = fresco;
+        this.surgelato = surgelato;
     }
 
-    public Farinaceo(ResultSet rSet)
-    {
-        super(rSet);
-        try {
-            Glutine = rSet.getBoolean(5);
-            TipoFarina = rSet.getString(6);
-            Fresco = rSet.getBoolean(7);
-            Surgelato = rSet.getBoolean(8);
-        } catch (SQLException e)
-        {
+    public Prodotto getProdotto() {
+        return prodotto;
+    }
 
-        }
+    public void setProdotto(Prodotto prodotto) {
+        this.prodotto = prodotto;
     }
 
     public boolean isGlutine() {
-        return Glutine;
+        return glutine;
     }
 
     public void setGlutine(boolean glutine) {
-        Glutine = glutine;
+        this.glutine = glutine;
     }
 
     public String getTipoFarina() {
-        return TipoFarina;
+        return tipoFarina;
     }
 
     public void setTipoFarina(String tipoFarina) {
-        TipoFarina = tipoFarina;
+        this.tipoFarina = tipoFarina;
     }
 
     public boolean isFresco() {
-        return Fresco;
+        return fresco;
     }
 
     public void setFresco(boolean fresco) {
-        Fresco = fresco;
+        this.fresco = fresco;
     }
 
     public boolean isSurgelato() {
-        return Surgelato;
+        return surgelato;
     }
 
     public void setSurgelato(boolean surgelato) {
-        Surgelato = surgelato;
+        this.surgelato = surgelato;
     }
 }
