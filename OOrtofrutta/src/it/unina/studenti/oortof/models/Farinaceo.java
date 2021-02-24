@@ -10,7 +10,7 @@ public class Farinaceo {
     private boolean fresco;
     private boolean surgelato;
 
-    public Farinaceo(Prodotto prodotto, int id, String nome, float prezzo, boolean sfuso, CatProdotto tipo, boolean glutine, String tipoFarina, boolean fresco, boolean surgelato) {
+    public Farinaceo(Prodotto prodotto, boolean glutine, String tipoFarina, boolean fresco, boolean surgelato) {
         this.prodotto = prodotto;
         this.glutine = glutine;
         this.tipoFarina = tipoFarina;

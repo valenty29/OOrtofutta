@@ -5,40 +5,37 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Lotto {
-    private String codLottoProdotto;
+    private int id;
+    private String codLotto;
     private Date scadenza;
     private float disponibilita;
     private Date dataProduzione;
     private String codPaeseOrigine;
 
-    public Lotto(String codLottoProdotto, Date scadenza, float disponibilita, Date dataProduzione, String codPaeseOrigine) {
-        this.codLottoProdotto = codLottoProdotto;
+    public Lotto(int id, String codLotto, Date scadenza, float disponibilita, Date dataProduzione, String codPaeseOrigine) {
+        this.id = id;
+        this.codLotto = codLotto;
         this.scadenza = scadenza;
         this.disponibilita = disponibilita;
         this.dataProduzione = dataProduzione;
         this.codPaeseOrigine = codPaeseOrigine;
     }
 
-    public Lotto(ResultSet rSet)
-    {
-        try {
-            codLottoProdotto = rSet.getString(0);
-            scadenza = rSet.getDate(3);
-            disponibilita = rSet.getFloat(4);
-            dataProduzione = rSet.getDate(5);
-            codPaeseOrigine = rSet.getString(6);
-        } catch (SQLException e)
-        {
 
-        }
+    public int getId() {
+        return id;
     }
 
-    public String getCodLottoProdotto() {
-        return codLottoProdotto;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setCodLottoProdotto(String codLottoProdotto) {
-        this.codLottoProdotto = codLottoProdotto;
+    public String getCodLotto() {
+        return codLotto;
+    }
+
+    public void setCodLotto(String codLotto) {
+        this.codLotto = codLotto;
     }
 
     public Date getScadenza() {

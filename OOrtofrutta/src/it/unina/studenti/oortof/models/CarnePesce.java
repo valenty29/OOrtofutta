@@ -3,21 +3,30 @@ package it.unina.studenti.oortof.models;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class CarnePesce extends Prodotto {
+public class CarnePesce {
+  private Prodotto prodotto;
   private TipoCarnePesce tipoCP;
   private boolean daAllevamento;
   private String animale;
   private boolean confezionato;
 
-  public CarnePesce(int codProdotto, String nome, float prezzo, boolean sfuso, CatProdotto tipo, TipoCarnePesce tipoCP, boolean daAllevamento, String animale, boolean confezionato) {
-    super(codProdotto, nome, prezzo, sfuso, tipo);
+
+
+  public CarnePesce(Prodotto prodotto, TipoCarnePesce tipoCP, boolean daAllevamento, String animale, boolean confezionato) {
+    this.prodotto = prodotto;
     this.tipoCP = tipoCP;
     this.daAllevamento = daAllevamento;
     this.animale = animale;
     this.confezionato = confezionato;
   }
 
+  public Prodotto getProdotto() {
+    return prodotto;
+  }
 
+  public void setProdotto(Prodotto prodotto) {
+    this.prodotto = prodotto;
+  }
 
   public TipoCarnePesce getTipoCP() {
     return tipoCP;

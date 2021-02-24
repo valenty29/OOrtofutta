@@ -45,7 +45,7 @@ public class PrincipaleFrame extends JFrame {
     DBContext context = new DBContext("jdbc:postgresql://localhost/postgres", "postgres", "Inb4Ext!");
     SQLProductDAO dao = new SQLProductDAO(context);
 
-    List<Bibita> bibites = dao.getBibita(null, null, 0.2f, 1.2f, true, null, null, null, TipoBibita.SoftDrink);
+    List<Bibita> bibites = dao.getBibita(null, null, null, null, null, null, null, null, null);
     for(Bibita bib: bibites)
     {
         System.out.println(bib.getProdotto().getNome());
