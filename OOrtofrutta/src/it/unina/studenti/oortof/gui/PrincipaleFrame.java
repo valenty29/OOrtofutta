@@ -3,6 +3,7 @@ package it.unina.studenti.oortof.gui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
