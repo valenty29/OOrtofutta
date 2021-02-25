@@ -2,6 +2,7 @@ package it.unina.studenti.oortof.models;
 
 import java.util.Date;
 
+
 public class Lotto {
   private int id;
   private Prodotto prodotto;

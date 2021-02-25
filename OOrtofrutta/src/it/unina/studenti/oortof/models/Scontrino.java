@@ -1,65 +1,87 @@
 package it.unina.studenti.oortof.models;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.List;
 
 public class Scontrino {
-    private int codScontrino;
-    private String cfCliente;
-    private Timestamp dataOrario;
-    private float prezzoTotale;
 
-    public Scontrino(int codScontrino, String cfCliente, Timestamp dataOrario, float prezzoTotale)
-    {
-        this.codScontrino = codScontrino;
-        this.cfCliente = cfCliente;
-        this.dataOrario = dataOrario;
-        this.prezzoTotale = prezzoTotale;
-    }
-    public Scontrino(ResultSet rSet)
-    {
-        try {
-            codScontrino = rSet.getInt(0);
-            cfCliente = rSet.getString(1);
-            dataOrario = rSet.getTimestamp(2);
-            prezzoTotale = rSet.getFloat(3);
-        } catch (SQLException e)
-        {
-          throw new RuntimeException(e);
-        }
-    }
+  private int id;
+  private Cliente cliente;
+  private Date dataOrario;
+  private float prezzoTotale;
+  private List<Acquisto> acquisti;
 
-    public int getCodScontrino() {
-        return codScontrino;
-    }
+  public Scontrino(int id, Cliente cliente, Date dataOrario, float prezzoTotale, List<Acquisto> acquisti) {
+    this.id = id;
+    this.cliente = cliente;
+    this.dataOrario = dataOrario;
+    this.prezzoTotale = prezzoTotale;
+    this.acquisti = acquisti;
+  }
 
-    public void setCodScontrino(int codScontrino) {
-        this.codScontrino = codScontrino;
-    }
+  public int getId() {
+    return id;
+  }
 
-    public String getCfCliente() {
-        return cfCliente;
-    }
+  public void setId(int id) {
+    this.id = id;
+  }
 
-    public void setCfCliente(String cfCliente) {
-        this.cfCliente = cfCliente;
-    }
+  public Cliente getCliente() {
+    return cliente;
+  }
 
-    public Timestamp getDataOrario() {
-        return dataOrario;
-    }
+  public void setCliente(Cliente cliente) {
+    this.cliente = cliente;
+  }
 
-    public void setDataOrario(Timestamp dataOrario) {
-        this.dataOrario = dataOrario;
-    }
+  public Date getDataOrario() {
+    return dataOrario;
+  }
 
-    public float getPrezzoTotale() {
-        return prezzoTotale;
-    }
+  public void setDataOrario(Date dataOrario) {
+    this.dataOrario = dataOrario;
+  }
 
-    public void setPrezzoTotale(float prezzoTotale) {
-        this.prezzoTotale = prezzoTotale;
-    }
+  public float getPrezzoTotale() {
+    return prezzoTotale;
+  }
+
+  public void setPrezzoTotale(float prezzoTotale) {
+    this.prezzoTotale = prezzoTotale;
+  }
+  
+  public List<Acquisto> getAcquisti() {
+    return acquisti;
+  }
+
+  public void setAcquisti(List<Acquisto> acquisti) {
+    this.acquisti = acquisti;
+  }
+  
+  public void addAcquisto(Acquisto acquisto) {
+    acquisti.add(acquisto);
+  }
+
+  public void addLotto(int index, Acquisto acquisto) {
+    acquisti.add(index, acquisto);
+  }
+  
+  public Acquisto getAcquistoAt(int index) {
+    return acquisti.get(index);
+  }
+  
+  public void removeAcquisto(int index) {
+    acquisti.remove(index);
+  }
+  
+  public void removeAcquisto(Acquisto acquisto) {
+    acquisti.remove(acquisto);
+  }
+  
+  public int getAcquistiSize() {
+    return acquisti.size();
+  }
+  
+  
 }

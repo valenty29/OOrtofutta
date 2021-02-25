@@ -1,14 +1,14 @@
 package it.unina.studenti.oortof.models;
 
 
-public class CarnePesce extends Prodotto {
+public class CarnePesce extends Prodotto{
   private TipoCarnePesce tipoCP;
   private boolean daAllevamento;
   private String animale;
   private boolean confezionato;
 
-  public CarnePesce(int id, String nome, float prezzo, boolean sfuso, CatProdotto tipo, TipoCarnePesce tipoCP, boolean daAllevamento, String animale, boolean confezionato) {
-    super(id, nome, prezzo, sfuso, tipo);
+  public CarnePesce(int id, String nome, float prezzo, boolean sfuso, CatProdotto catProdotto, TipoCarnePesce tipoCP, boolean daAllevamento, String animale, boolean confezionato) {
+    super(id, nome, prezzo, sfuso, catProdotto);
     this.tipoCP = tipoCP;
     this.daAllevamento = daAllevamento;
     this.animale = animale;

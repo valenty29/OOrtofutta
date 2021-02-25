@@ -1,6 +1,7 @@
 package it.unina.studenti.oortof.models;
 
 import java.util.Date;
+import java.util.List;
 
 public class Cliente {
   private int id;
@@ -12,8 +13,9 @@ public class Cliente {
   private Genere genere;
   private String email;
   private int totalePunti;
+  private List<Scontrino> scontrini;
 
-  public Cliente(int id, String cf, String nome, String cognome, Date dataNascita, String luogoNascita, Genere genere, String email, int totalePunti) {
+  public Cliente(int id, String cf, String nome, String cognome, Date dataNascita, String luogoNascita, Genere genere, String email, int totalePunti, List<Scontrino> scontrini) {
     this.id = id;
     this.cf = cf;
     this.nome = nome;
@@ -23,6 +25,7 @@ public class Cliente {
     this.genere = genere;
     this.email = email;
     this.totalePunti = totalePunti;
+    this.scontrini = scontrini;
   }
 
   public int getId() {
@@ -95,6 +98,38 @@ public class Cliente {
 
   public void setTotalePunti(int totalePunti) {
     this.totalePunti = totalePunti;
+  }
+  
+  public List<Scontrino> getScontrini() {
+    return scontrini;
+  }
+
+  public void setScontrini(List<Scontrino> scontrini) {
+    this.scontrini = scontrini;
+  }
+  
+  public void addScontrino(Scontrino scontrino) {
+    scontrini.add(scontrino);
+  }
+
+  public void addScontrino(int index, Scontrino scontrino) {
+    scontrini.add(index, scontrino);
+  }
+  
+  public Scontrino getScontrinoAt(int index) {
+    return scontrini.get(index);
+  }
+  
+  public void removeScontrino(int index) {
+    scontrini.remove(index);
+  }
+  
+  public void removeScontrino(Scontrino scontrino) {
+    scontrini.remove(scontrino);
+  }
+  
+  public int getScontriniSize() {
+    return scontrini.size();
   }
   
   public String toString() {

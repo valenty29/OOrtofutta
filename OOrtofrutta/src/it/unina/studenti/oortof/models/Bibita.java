@@ -1,18 +1,20 @@
 package it.unina.studenti.oortof.models;
 
 
-public class Bibita extends Prodotto {
+public class Bibita extends Prodotto{
   private float gradazioneAlcolica;
   private boolean frizzante;
   private TipoBibita tipoBibita;
+
+  
 
   public Bibita(int id, String nome, float prezzo, boolean sfuso, CatProdotto catProdotto, float gradazioneAlcolica, boolean frizzante, TipoBibita tipoBibita) {
     super(id, nome, prezzo, sfuso, catProdotto);
     this.gradazioneAlcolica = gradazioneAlcolica;
     this.frizzante = frizzante;
     this.tipoBibita = tipoBibita;
+    
   }
-
 
   public float getGradazioneAlcolica() {
     return gradazioneAlcolica;

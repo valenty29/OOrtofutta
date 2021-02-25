@@ -1,7 +1,6 @@
 package it.unina.studenti.oortof.gui;
 
 import javax.swing.JPanel;
-import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
@@ -10,9 +9,15 @@ import javax.swing.JTextField;
 import javax.swing.JCheckBox;
 import javax.swing.JTabbedPane;
 import javax.swing.JRadioButton;
-import java.awt.GridLayout;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
+import javax.swing.border.TitledBorder;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 public class ProdottiPanel extends JPanel {
+
+  private static final long serialVersionUID = 1L;
   private JTextField nomeTextField;
   private JTextField codiceProdottoTextField;
   private JTextField prezzoTextField;
@@ -22,21 +27,35 @@ public class ProdottiPanel extends JPanel {
   private JTextField tipoFarinaTextField;
   private JTextField textField;
   private JTextField gradazioneAlcolicaTextField;
+  private JTable table;
 
   /**
    * Create the panel.
    */
   public ProdottiPanel() {
-    setLayout(new BorderLayout(0, 0));
+    GridBagLayout gridBagLayout = new GridBagLayout();
+    gridBagLayout.columnWidths = new int[]{680, 0};
+    gridBagLayout.rowHeights = new int[]{128, 157, 200, 0};
+    gridBagLayout.columnWeights = new double[]{0.0, Double.MIN_VALUE};
+    gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+    setLayout(gridBagLayout);
     
-    JPanel ricercaPanel = new JPanel();
-    add(ricercaPanel, BorderLayout.NORTH);
-    GridBagLayout gbl_ricercaPanel = new GridBagLayout();
-    gbl_ricercaPanel.columnWidths = new int[]{0, 147, 0, 0, 0, 0};
-    gbl_ricercaPanel.rowHeights = new int[]{0, 0, 0, 0, 0};
-    gbl_ricercaPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-    gbl_ricercaPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-    ricercaPanel.setLayout(gbl_ricercaPanel);
+    JPanel commonPanel = new JPanel();
+    commonPanel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Informazioni comuni", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+    GridBagConstraints gbc_commonPanel = new GridBagConstraints();
+    gbc_commonPanel.weightx = 1.0;
+    gbc_commonPanel.weighty = 1.0;
+    gbc_commonPanel.fill = GridBagConstraints.BOTH;
+    gbc_commonPanel.insets = new Insets(0, 0, 5, 0);
+    gbc_commonPanel.gridx = 0;
+    gbc_commonPanel.gridy = 0;
+    add(commonPanel, gbc_commonPanel);
+    GridBagLayout gbl_commonPanel = new GridBagLayout();
+    gbl_commonPanel.columnWidths = new int[]{0, 147, 0, 0, 0, 0};
+    gbl_commonPanel.rowHeights = new int[]{0, 0, 0, 0, 0};
+    gbl_commonPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+    gbl_commonPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+    commonPanel.setLayout(gbl_commonPanel);
     
     JLabel nomeLabel = new JLabel("Nome");
     GridBagConstraints gbc_nomeLabel = new GridBagConstraints();
@@ -44,7 +63,7 @@ public class ProdottiPanel extends JPanel {
     gbc_nomeLabel.insets = new Insets(0, 0, 5, 5);
     gbc_nomeLabel.gridx = 0;
     gbc_nomeLabel.gridy = 0;
-    ricercaPanel.add(nomeLabel, gbc_nomeLabel);
+    commonPanel.add(nomeLabel, gbc_nomeLabel);
     
     nomeTextField = new JTextField();
     GridBagConstraints gbc_nomeTextField = new GridBagConstraints();
@@ -52,7 +71,7 @@ public class ProdottiPanel extends JPanel {
     gbc_nomeTextField.fill = GridBagConstraints.HORIZONTAL;
     gbc_nomeTextField.gridx = 1;
     gbc_nomeTextField.gridy = 0;
-    ricercaPanel.add(nomeTextField, gbc_nomeTextField);
+    commonPanel.add(nomeTextField, gbc_nomeTextField);
     nomeTextField.setColumns(10);
     
     JCheckBox fruttaVerduraCheckbox = new JCheckBox("Frutta e Verdura");
@@ -61,7 +80,7 @@ public class ProdottiPanel extends JPanel {
     gbc_fruttaVerduraCheckbox.insets = new Insets(0, 0, 5, 5);
     gbc_fruttaVerduraCheckbox.gridx = 3;
     gbc_fruttaVerduraCheckbox.gridy = 0;
-    ricercaPanel.add(fruttaVerduraCheckbox, gbc_fruttaVerduraCheckbox);
+    commonPanel.add(fruttaVerduraCheckbox, gbc_fruttaVerduraCheckbox);
     
     JCheckBox carnePesceCheckbox = new JCheckBox("Carne e pesce");
     GridBagConstraints gbc_carnePesceCheckbox = new GridBagConstraints();
@@ -69,7 +88,7 @@ public class ProdottiPanel extends JPanel {
     gbc_carnePesceCheckbox.insets = new Insets(0, 0, 5, 0);
     gbc_carnePesceCheckbox.gridx = 4;
     gbc_carnePesceCheckbox.gridy = 0;
-    ricercaPanel.add(carnePesceCheckbox, gbc_carnePesceCheckbox);
+    commonPanel.add(carnePesceCheckbox, gbc_carnePesceCheckbox);
     
     JLabel codiceProdottoLabel = new JLabel("Codice Prodotto");
     GridBagConstraints gbc_codiceProdottoLabel = new GridBagConstraints();
@@ -77,7 +96,7 @@ public class ProdottiPanel extends JPanel {
     gbc_codiceProdottoLabel.insets = new Insets(0, 0, 5, 5);
     gbc_codiceProdottoLabel.gridx = 0;
     gbc_codiceProdottoLabel.gridy = 1;
-    ricercaPanel.add(codiceProdottoLabel, gbc_codiceProdottoLabel);
+    commonPanel.add(codiceProdottoLabel, gbc_codiceProdottoLabel);
     
     codiceProdottoTextField = new JTextField();
     GridBagConstraints gbc_codiceProdottoTextField = new GridBagConstraints();
@@ -85,7 +104,7 @@ public class ProdottiPanel extends JPanel {
     gbc_codiceProdottoTextField.fill = GridBagConstraints.HORIZONTAL;
     gbc_codiceProdottoTextField.gridx = 1;
     gbc_codiceProdottoTextField.gridy = 1;
-    ricercaPanel.add(codiceProdottoTextField, gbc_codiceProdottoTextField);
+    commonPanel.add(codiceProdottoTextField, gbc_codiceProdottoTextField);
     codiceProdottoTextField.setColumns(10);
     
     JCheckBox prodottiCaseariCheckbox = new JCheckBox("Prodotti casearei");
@@ -94,7 +113,7 @@ public class ProdottiPanel extends JPanel {
     gbc_prodottiCaseariCheckbox.insets = new Insets(0, 0, 5, 5);
     gbc_prodottiCaseariCheckbox.gridx = 3;
     gbc_prodottiCaseariCheckbox.gridy = 1;
-    ricercaPanel.add(prodottiCaseariCheckbox, gbc_prodottiCaseariCheckbox);
+    commonPanel.add(prodottiCaseariCheckbox, gbc_prodottiCaseariCheckbox);
     
     JCheckBox bibiteCheckbox = new JCheckBox("Bibite");
     GridBagConstraints gbc_bibiteCheckbox = new GridBagConstraints();
@@ -102,7 +121,7 @@ public class ProdottiPanel extends JPanel {
     gbc_bibiteCheckbox.insets = new Insets(0, 0, 5, 0);
     gbc_bibiteCheckbox.gridx = 4;
     gbc_bibiteCheckbox.gridy = 1;
-    ricercaPanel.add(bibiteCheckbox, gbc_bibiteCheckbox);
+    commonPanel.add(bibiteCheckbox, gbc_bibiteCheckbox);
     
     JLabel prezzoLabel = new JLabel("Prezzo");
     GridBagConstraints gbc_prezzoLabel = new GridBagConstraints();
@@ -110,7 +129,7 @@ public class ProdottiPanel extends JPanel {
     gbc_prezzoLabel.insets = new Insets(0, 0, 5, 5);
     gbc_prezzoLabel.gridx = 0;
     gbc_prezzoLabel.gridy = 2;
-    ricercaPanel.add(prezzoLabel, gbc_prezzoLabel);
+    commonPanel.add(prezzoLabel, gbc_prezzoLabel);
     
     prezzoTextField = new JTextField();
     GridBagConstraints gbc_prezzoTextField = new GridBagConstraints();
@@ -118,7 +137,7 @@ public class ProdottiPanel extends JPanel {
     gbc_prezzoTextField.fill = GridBagConstraints.HORIZONTAL;
     gbc_prezzoTextField.gridx = 1;
     gbc_prezzoTextField.gridy = 2;
-    ricercaPanel.add(prezzoTextField, gbc_prezzoTextField);
+    commonPanel.add(prezzoTextField, gbc_prezzoTextField);
     prezzoTextField.setColumns(10);
     
     JCheckBox farinaceiCheckbox = new JCheckBox("Farinacei");
@@ -127,7 +146,7 @@ public class ProdottiPanel extends JPanel {
     gbc_farinaceiCheckbox.insets = new Insets(0, 0, 5, 5);
     gbc_farinaceiCheckbox.gridx = 3;
     gbc_farinaceiCheckbox.gridy = 2;
-    ricercaPanel.add(farinaceiCheckbox, gbc_farinaceiCheckbox);
+    commonPanel.add(farinaceiCheckbox, gbc_farinaceiCheckbox);
     
     JCheckBox conserveCheckbox = new JCheckBox("Conserve");
     GridBagConstraints gbc_conserveCheckbox = new GridBagConstraints();
@@ -135,7 +154,7 @@ public class ProdottiPanel extends JPanel {
     gbc_conserveCheckbox.insets = new Insets(0, 0, 5, 0);
     gbc_conserveCheckbox.gridx = 4;
     gbc_conserveCheckbox.gridy = 2;
-    ricercaPanel.add(conserveCheckbox, gbc_conserveCheckbox);
+    commonPanel.add(conserveCheckbox, gbc_conserveCheckbox);
     
     JCheckBox sfusoCheckBox = new JCheckBox("Sfuso");
     GridBagConstraints gbc_sfusoCheckBox = new GridBagConstraints();
@@ -143,7 +162,7 @@ public class ProdottiPanel extends JPanel {
     gbc_sfusoCheckBox.insets = new Insets(0, 0, 0, 5);
     gbc_sfusoCheckBox.gridx = 1;
     gbc_sfusoCheckBox.gridy = 3;
-    ricercaPanel.add(sfusoCheckBox, gbc_sfusoCheckBox);
+    commonPanel.add(sfusoCheckBox, gbc_sfusoCheckBox);
     
     JCheckBox uovaCheckbox = new JCheckBox("Uova");
     GridBagConstraints gbc_uovaCheckbox = new GridBagConstraints();
@@ -151,17 +170,25 @@ public class ProdottiPanel extends JPanel {
     gbc_uovaCheckbox.insets = new Insets(0, 0, 0, 5);
     gbc_uovaCheckbox.gridx = 3;
     gbc_uovaCheckbox.gridy = 3;
-    ricercaPanel.add(uovaCheckbox, gbc_uovaCheckbox);
+    commonPanel.add(uovaCheckbox, gbc_uovaCheckbox);
     
     JCheckBox altriTipoCheckbox = new JCheckBox("Altri tipi");
     GridBagConstraints gbc_altriTipoCheckbox = new GridBagConstraints();
     gbc_altriTipoCheckbox.anchor = GridBagConstraints.WEST;
     gbc_altriTipoCheckbox.gridx = 4;
     gbc_altriTipoCheckbox.gridy = 3;
-    ricercaPanel.add(altriTipoCheckbox, gbc_altriTipoCheckbox);
+    commonPanel.add(altriTipoCheckbox, gbc_altriTipoCheckbox);
     
     JTabbedPane caratteristicheSpecifichePanel = new JTabbedPane(JTabbedPane.TOP);
-    add(caratteristicheSpecifichePanel, BorderLayout.CENTER);
+    caratteristicheSpecifichePanel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Informazioni Specifiche", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+    GridBagConstraints gbc_caratteristicheSpecifichePanel = new GridBagConstraints();
+    gbc_caratteristicheSpecifichePanel.weightx = 1.0;
+    gbc_caratteristicheSpecifichePanel.weighty = 1.0;
+    gbc_caratteristicheSpecifichePanel.fill = GridBagConstraints.BOTH;
+    gbc_caratteristicheSpecifichePanel.insets = new Insets(0, 0, 5, 0);
+    gbc_caratteristicheSpecifichePanel.gridx = 0;
+    gbc_caratteristicheSpecifichePanel.gridy = 1;
+    add(caratteristicheSpecifichePanel, gbc_caratteristicheSpecifichePanel);
     
     JPanel fruttaVerduraPanel = new JPanel();
     caratteristicheSpecifichePanel.addTab("Frutta e Verdura", null, fruttaVerduraPanel, null);
@@ -597,6 +624,22 @@ public class ProdottiPanel extends JPanel {
     gbc_sottoSpiritoRadioButton.gridx = 2;
     gbc_sottoSpiritoRadioButton.gridy = 1;
     conservePanel.add(sottoSpiritoRadioButton, gbc_sottoSpiritoRadioButton);
+    
+    JPanel lottiPanel = new JPanel();
+    lottiPanel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Lotti", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+    GridBagConstraints gbc_lottiPanel = new GridBagConstraints();
+    gbc_lottiPanel.weightx = 1.0;
+    gbc_lottiPanel.weighty = 1.0;
+    gbc_lottiPanel.fill = GridBagConstraints.BOTH;
+    gbc_lottiPanel.gridx = 0;
+    gbc_lottiPanel.gridy = 2;
+    add(lottiPanel, gbc_lottiPanel);
+    
+    JScrollPane scrollPane = new JScrollPane();
+    lottiPanel.add(scrollPane);
+    
+    table = new JTable();
+    scrollPane.add(table);
     
   }
 

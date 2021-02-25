@@ -3,7 +3,8 @@ package it.unina.studenti.oortof.models;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Prodotto {
+
+public class Prodotto {
   private int id;
   private String nome;
   private float prezzo;

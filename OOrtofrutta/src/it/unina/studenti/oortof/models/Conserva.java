@@ -1,6 +1,7 @@
 package it.unina.studenti.oortof.models;
 
 
+
 public class Conserva extends Prodotto {
   private TipoConservazione tipoConservazione;
 
