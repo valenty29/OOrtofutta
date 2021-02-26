@@ -7,7 +7,7 @@ public class Uovo extends Prodotto {
   private String codAllevamento;
   private CatPeso catPeso;
 
-  public Uovo(int id, String nome, float prezzo, boolean sfuso, CatProdotto catProdotto, int tipoAllevamento, String daAnimale, String codAllevamento, CatPeso catPeso) {
+  public Uovo(int id, String nome, float prezzo, boolean sfuso, CatProdotto catProdotto, int tipoAllevamento, String codAllevamento, CatPeso catPeso) {
     super(id, nome, prezzo, sfuso, catProdotto);
     this.tipoAllevamento = tipoAllevamento;
     this.codAllevamento = codAllevamento;

@@ -1,8 +1,11 @@
 package it.unina.studenti.oortof.gui;
 
 
+import it.unina.studenti.oortof.models.*;
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -52,6 +55,16 @@ public class PrincipaleFrame extends JFrame {
   }
 
   public PrincipaleFrame() {
+    DBContext context = new DBContext("jdbc:postgresql:postgres", "postgres", "Inb4Ext!");
+    SQLProductDAO dao = new SQLProductDAO(context);
+
+    //List<Bibita> bibs = dao.getBibita(null, null, null, null, null, null, null, null, null);
+
+    //dao.createProduct(new Prodotto(1, "Ciao", 10f, true, CatProdotto.Conserva));
+    Prodotto ao = new Prodotto(2, "Ciao", 1f, true, CatProdotto.Conserva);
+    ArrayList<Prodotto> ass = new ArrayList<>();
+    ass.add(ao);
+    dao.deleteProducts(ass);
     setTitle("Ortofrutta");
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setBounds(100, 100, 800,  600);

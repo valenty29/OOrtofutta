@@ -12,7 +12,7 @@ public class Lotto {
   private Date dataProduzione;
   private String codPaeseOrigine;
 
-  public Lotto(int id, Prodotto prodotto, String codLotto, Date scadenza, float disponibilita, Date dataProduzione, String codPaeseOrigine) {
+  public Lotto(int id, String codLotto, Date scadenza, float disponibilita, Date dataProduzione, String codPaeseOrigine) {
     this.id = id;
     this.prodotto = prodotto;
     this.codLotto = codLotto;

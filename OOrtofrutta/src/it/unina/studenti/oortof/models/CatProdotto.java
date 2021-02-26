@@ -7,7 +7,7 @@ public enum CatProdotto {
       return "Frutta e Verdura";
     }
   }, 
-  Prodottocaseareo {
+  Prodottocaseario {
     public String toString() {
       return "Prodotto Caseario";
     }
