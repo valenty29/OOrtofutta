@@ -24,8 +24,6 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import javax.swing.border.BevelBorder;
@@ -79,15 +77,14 @@ public class PrincipaleFrame extends JFrame {
     ProdottiPanel prodottiPanel = new ProdottiPanel();
     ilTabbedPanel.add(prodottiPanel);
     ilTabbedPanel.setTitleAt(0, "Prodotti");
-    
-    JPanel carrelloPanel = new JPanel();
+
+    CarrelloPanel carrelloPanel = new CarrelloPanel();
     ilTabbedPanel.add(carrelloPanel);
+    ilTabbedPanel.setTitleAt(1, "Carrello");
     
-    JPanel clientiPanel = new JPanel();
+    ClientiPanel clientiPanel = new ClientiPanel();
     ilTabbedPanel.add(clientiPanel);
-    
-    JPanel scontriniPanel = new JPanel();
-    ilTabbedPanel.add(scontriniPanel);
+    ilTabbedPanel.setTitleAt(2, "Clienti");
     
     JToolBar toolBar = new JToolBar();
     toolBar.setFloatable(false);
