@@ -1,13 +1,7 @@
 package it.unina.studenti.oortof.gui;
 
-
-import it.unina.studenti.oortof.models.*;
-
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -25,7 +19,6 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-
 import javax.swing.border.BevelBorder;
 import java.awt.Dimension;
 
@@ -33,7 +26,7 @@ public class PrincipaleFrame extends JFrame {
 
 
   private static final long serialVersionUID = 1L;
-  private JPanel contentPane;
+  private JPanel principalePanel;
 
   /**
    * Launch the application.
@@ -53,26 +46,17 @@ public class PrincipaleFrame extends JFrame {
   }
 
   public PrincipaleFrame() {
-    DBContext context = new DBContext("jdbc:postgresql:postgres", "postgres", "Inb4Ext!");
-    SQLProductDAO dao = new SQLProductDAO(context);
-
-    //List<Bibita> bibs = dao.getBibita(null, null, null, null, null, null, null, null, null);
-
-    //dao.createProduct(new Prodotto(1, "Ciao", 10f, true, CatProdotto.Conserva));
-    Prodotto ao = new Prodotto(2, "Ciao", 1f, true, CatProdotto.Conserva);
-    ArrayList<Prodotto> ass = new ArrayList<>();
-    ass.add(ao);
-    dao.deleteProducts(ass);
+    
     setTitle("Ortofrutta");
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setBounds(100, 100, 800,  600);
-    contentPane = new JPanel();
-    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-    setContentPane(contentPane);
-    contentPane.setLayout(new BorderLayout(0, 0));
+    principalePanel = new JPanel();
+    principalePanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+    setContentPane(principalePanel);
+    principalePanel.setLayout(new BorderLayout(0, 0));
     
     JTabbedPane ilTabbedPanel = new JTabbedPane(JTabbedPane.TOP);
-    contentPane.add(ilTabbedPanel, BorderLayout.CENTER);
+    principalePanel.add(ilTabbedPanel, BorderLayout.CENTER);
     
     ProdottiPanel prodottiPanel = new ProdottiPanel();
     ilTabbedPanel.add(prodottiPanel);
@@ -88,7 +72,7 @@ public class PrincipaleFrame extends JFrame {
     
     JToolBar toolBar = new JToolBar();
     toolBar.setFloatable(false);
-    contentPane.add(toolBar, BorderLayout.NORTH);
+    principalePanel.add(toolBar, BorderLayout.NORTH);
     
     Action rollbackAction = new AbstractAction("rollbackAction") {
       private static final long serialVersionUID = 1L;
@@ -200,7 +184,7 @@ public class PrincipaleFrame extends JFrame {
     toolBar.add(deleteButton);
     
     JPanel statusBar = new JPanel();
-    contentPane.add(statusBar, BorderLayout.SOUTH);
+    principalePanel.add(statusBar, BorderLayout.SOUTH);
     GridBagLayout gbl_statusBar = new GridBagLayout();
     statusBar.setLayout(gbl_statusBar);
     

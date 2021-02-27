@@ -1,6 +1,9 @@
-package it.unina.studenti.oortof.models;
+package it.unina.studenti.oortof.dao;
 
 import java.util.List;
+
+import it.unina.studenti.oortof.models.CatProdotto;
+import it.unina.studenti.oortof.models.Prodotto;
 
 public interface ProductDAO {
     List<Prodotto> getProducts(Integer codProdotto, String nome, Float prezzoFloor, Float prezzoCeil, Boolean sfuso, CatProdotto tipo);
