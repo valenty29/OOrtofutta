@@ -1,13 +1,15 @@
 package it.unina.studenti.oortof.models;
 
+public class ProdottoCasearioSpecifico extends ProdottoSpecifico {
 
-public class ProdottoCaseareo extends Prodotto {
   private String tipoLatte;
   private String stabilimento;
   private int stagionatura;
+  
+  public ProdottoCasearioSpecifico() {
+  }
 
-  public ProdottoCaseareo(int id, String nome, float prezzo, boolean sfuso, CatProdotto catProdotto, String tipoLatte, String stabilimento, int stagionatura) {
-    super(id, nome, prezzo, sfuso, catProdotto);
+  public ProdottoCasearioSpecifico(String tipoLatte, String stabilimento, int stagionatura) {
     this.tipoLatte = tipoLatte;
     this.stabilimento = stabilimento;
     this.stagionatura = stagionatura;
@@ -36,4 +38,12 @@ public class ProdottoCaseareo extends Prodotto {
   public void setStagionatura(int stagionatura) {
     this.stagionatura = stagionatura;
   }
+
+  public void copyTo(ProdottoSpecifico prodottoCasearioSpecifico) {
+    ((ProdottoCasearioSpecifico)prodottoCasearioSpecifico).setTipoLatte(tipoLatte);
+    ((ProdottoCasearioSpecifico)prodottoCasearioSpecifico).setStabilimento(stabilimento);
+    ((ProdottoCasearioSpecifico)prodottoCasearioSpecifico).setStagionatura(stagionatura);
+  }
+
+
 }

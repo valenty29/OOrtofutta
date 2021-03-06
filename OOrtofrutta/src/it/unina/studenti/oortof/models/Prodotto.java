@@ -1,100 +1,54 @@
 package it.unina.studenti.oortof.models;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 
-public class Prodotto {
-  private int id;
-  private String nome;
-  private float prezzo;
-  private boolean sfuso;
-  private CatProdotto tipo;
-  private List<Lotto> lotti = new ArrayList<Lotto>();
+public abstract class Prodotto extends ObservedModel implements PropertyChangeListener {
 
-  public Prodotto(int id, String nome, float prezzo, boolean sfuso, CatProdotto catProdotto) {
-    this.id = id;
-    this.nome = nome;
-    this.prezzo = prezzo;
-    this.sfuso = sfuso;
-    this.tipo = catProdotto;
-  }
+  public static final int ALTRO_INDEX = 0;
+  public static final int BIBITA_INDEX = 1;
+  public static final int CARNE_PESCE_INDEX = 2;
+  public static final int CONSERVA_INDEX = 3;
+  public static final int FARINACEO_INDEX = 4;
+  public static final int FRUTTA_VERDURA_INDEX = 5;
+  public static final int PRODOTTO_CASEARIO_INDEX = 6;
+  public static final int UOVO_INDEX = 7;
 
-  public int getId() {
-    return id;
+  private ProdottoCommon prodottoCommon;
+  private ProdottoSpecifico prodottoSpecifico;
+
+  protected Prodotto() {
+    prodottoCommon = new ProdottoCommon();
   }
   
-  public void setId(int id) {
-    this.id = id;
+  protected Prodotto(int id, String nome, float prezzo, boolean sfuso, CatProdotto catProdotto) {
+    prodottoCommon = new ProdottoCommon(id, nome, prezzo, sfuso, catProdotto);
   }
   
-  public String getNome() {
-    return nome;
-  }
-
-  public void setNome(String nome) {
-    this.nome = nome;
-  }
-
-  public float getPrezzo() {
-    return prezzo;
-  }
-
-  public void setPrezzo(float prezzo) {
-    this.prezzo = prezzo;
-  }
-
-  public boolean isSfuso() {
-    return sfuso;
-  }
-
-  public void setSfuso(boolean sfuso) {
-    this.sfuso = sfuso;
-  }
-
-  public CatProdotto getTipo() {
-    return tipo;
-  }
-
-  public void setTipo(CatProdotto tipo) {
-    this.tipo = tipo;
-  }
-
-  public List<Lotto> getLotti() {
-    return lotti;
-  }
-
-  public void setLotti(List<Lotto> lotti) {
-    this.lotti = lotti;
+  public void setProdottoCommon(ProdottoCommon prodottoCommon) {
+    this.prodottoCommon = prodottoCommon;
   }
   
-  public void addLotto(Lotto lotto) {
-    lotti.add(lotto);
+  public ProdottoCommon getProdottoCommon() {
+    return prodottoCommon;
   }
 
-  public void addLotto(int index, Lotto lotto) {
-    lotti.add(index, lotto);
+  public void setProdottoSpecifico(ProdottoSpecifico prodottoSpecifico) {
+    this.prodottoSpecifico = prodottoSpecifico;
   }
   
-  public Lotto getLottoAt(int index) {
-    return lotti.get(index);
+  public ProdottoSpecifico getProdottoSpecifico() {
+    return prodottoSpecifico;
   }
-  
-  public void removeLotto(int index) {
-    lotti.remove(index);
-  }
-  
-  public void removeLotto(Lotto lotto) {
-    lotti.remove(lotto);
-  }
-  
-  public int getLottiSize() {
-    return lotti.size();
-  }
-  
+
 
   public String toString() {
-    return nome;
+    return prodottoCommon.getNome();
+  }
+  
+  public void copyTo(Prodotto prodotto) {
+    getProdottoCommon().copyTo(prodotto.getProdottoCommon());
   }
   
   public boolean equals(Object other) {
@@ -104,9 +58,14 @@ public class Prodotto {
     if (this == other) {
       return true;
     }
-    if (id > 0 && ((Prodotto)other).id > 0) {
-      return id == ((Prodotto)other).id;
+    if (prodottoCommon.getId() > 0 && ((Prodotto)other).prodottoCommon.getId() > 0) {
+      return prodottoCommon.getId() == ((Prodotto)other).prodottoCommon.getId();
     }
-    return nome.equals(((Prodotto)other).nome);
+    return prodottoCommon.getNome().equals(((Prodotto)other).prodottoCommon.getNome());
+  }
+
+  @Override
+  public void propertyChange(PropertyChangeEvent evt) {
+    firePropertyChanged(evt);
   }
 }
