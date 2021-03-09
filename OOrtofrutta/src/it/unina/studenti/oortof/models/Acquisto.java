@@ -1,7 +1,7 @@
 package it.unina.studenti.oortof.models;
 
 
-public class Acquisto {
+public class Acquisto extends ObservedModel {
   private float quantita;
   private float prezzo;
   private Lotto lotto;
@@ -19,7 +19,9 @@ public class Acquisto {
   }
 
   public void setQuantita(float quantita) {
+    float oldQuantita = this.quantita;
     this.quantita = quantita;
+    firePropertyChanged("quantita", oldQuantita, quantita);
   }
 
   public float getPrezzo() {
@@ -27,7 +29,9 @@ public class Acquisto {
   }
 
   public void setPrezzo(float prezzo) {
+    float oldPrezzo = prezzo;
     this.prezzo = prezzo;
+    firePropertyChanged("prezzo", oldPrezzo, prezzo);
   }
 
   public Lotto getLotto() {
@@ -35,7 +39,9 @@ public class Acquisto {
   }
 
   public void setLotto(Lotto lotto) {
+    Lotto oldLotto = this.lotto;
     this.lotto = lotto;
+    firePropertyChanged("lotto", oldLotto, lotto);
   }
 
   public Scontrino getScontrino() {
@@ -43,9 +49,12 @@ public class Acquisto {
   }
 
   public void setScontrino(Scontrino scontrino) {
+    Scontrino oldScontrino = this.scontrino;
     this.scontrino = scontrino;
+    firePropertyChanged("scontrino", oldScontrino, scontrino);
   }
 
+  
   
   public boolean equals(Object other) {
     if (!(other instanceof Acquisto)) {

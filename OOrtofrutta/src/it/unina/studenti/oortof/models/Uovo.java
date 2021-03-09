@@ -1,40 +1,31 @@
 package it.unina.studenti.oortof.models;
 
 public class Uovo extends Prodotto {
+  
+  UovoSpecifico uovoSpecifico;
 
   
-  private int tipoAllevamento;
-  private String codAllevamento;
-  private CatPeso catPeso;
+  public Uovo() {
+    uovoSpecifico = new UovoSpecifico();
+  }
 
   public Uovo(int id, String nome, float prezzo, boolean sfuso, CatProdotto catProdotto, int tipoAllevamento, String codAllevamento, CatPeso catPeso) {
     super(id, nome, prezzo, sfuso, catProdotto);
-    this.tipoAllevamento = tipoAllevamento;
-    this.codAllevamento = codAllevamento;
-    this.catPeso = catPeso;
+    uovoSpecifico = new UovoSpecifico(tipoAllevamento, codAllevamento, catPeso);
+  }
+  
+  public void setUovoSpecifico(UovoSpecifico uovoSpecifico) {
+    UovoSpecifico oldUovoSpecifico = this.uovoSpecifico;
+    this.uovoSpecifico = uovoSpecifico;
+    firePropertyChanged("uovoSpecifico", oldUovoSpecifico, uovoSpecifico);
+  }
+  
+  public UovoSpecifico getUovoSpecifico() {
+    return uovoSpecifico;
   }
 
-  public int getTipoAllevamento() {
-    return tipoAllevamento;
-  }
-
-  public void setTipoAllevamento(int tipoAllevamento) {
-    this.tipoAllevamento = tipoAllevamento;
-  }
-
-  public String getCodAllevamento() {
-    return codAllevamento;
-  }
-
-  public void setCodAllevamento(String codAllevamento) {
-    this.codAllevamento = codAllevamento;
-  }
-
-  public CatPeso getCatPeso() {
-    return catPeso;
-  }
-
-  public void setCatPeso(CatPeso catPeso) {
-    this.catPeso = catPeso;
+  public void copyTo(Uovo uovo) {
+    super.copyTo(uovo);
+    uovoSpecifico.copyTo(uovo.getUovoSpecifico());
   }
 }

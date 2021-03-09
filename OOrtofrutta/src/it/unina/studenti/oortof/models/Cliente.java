@@ -1,9 +1,11 @@
 package it.unina.studenti.oortof.models;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Date;
 import java.util.List;
 
-public class Cliente {
+public class Cliente extends ObservedModel implements PropertyChangeListener{
   private int id;
   private String cf;
   private String nome;
@@ -42,15 +44,19 @@ public class Cliente {
   }
   
   public void setId(int id) {
+    int oldId = this.id;
     this.id = id;
+    firePropertyChanged("id", oldId, id);
   }
   
   public String getCF() {
     return cf;
   }
 
-  public void setCF(String CF) {
-    this.cf = CF;
+  public void setCF(String cf) {
+    String oldCF = this.cf;
+    this.cf = cf;
+    firePropertyChanged("cf", oldCF, cf);    
   }
 
   public String getNome() {
@@ -58,7 +64,9 @@ public class Cliente {
   }
 
   public void setNome(String nome) {
+    String oldNome = this.nome;
     this.nome = nome;
+    firePropertyChanged("nome", oldNome, nome);
   }
 
   public String getCognome() {
@@ -66,7 +74,9 @@ public class Cliente {
   }
 
   public void setCognome(String cognome) {
+    String oldCognome = this.cognome;
     this.cognome = cognome;
+    firePropertyChanged("cognome", oldCognome, cognome);
   }
 
   public Date getDataNascita() {
@@ -74,7 +84,9 @@ public class Cliente {
   }
 
   public void setDataNascita(Date dataNascita) {
+    Date oldDataNascita = this.dataNascita;
     this.dataNascita = dataNascita;
+    firePropertyChanged("dataNascita", oldDataNascita, dataNascita);
   }
 
   public String getLuogoNascita() {
@@ -82,7 +94,9 @@ public class Cliente {
   }
 
   public void setLuogoNascita(String luogoNascita) {
+    String oldLuogoNascita = this.luogoNascita;
     this.luogoNascita = luogoNascita;
+    firePropertyChanged("luogoNascita", oldLuogoNascita, luogoNascita);
   }
 
   public Genere getSesso() {
@@ -90,7 +104,9 @@ public class Cliente {
   }
 
   public void setSesso(Genere genere) {
+    Genere oldGenere = this.genere;
     this.genere = genere;
+    firePropertyChanged("genere", oldGenere, genere);
   }
 
   public String getEmail() {
@@ -98,7 +114,9 @@ public class Cliente {
   }
 
   public void setEmail(String email) {
+    String oldEmail = this.email;
     this.email = email;
+    firePropertyChanged("email", oldEmail, email);
   }
 
   public int getTotalePunti() {
@@ -106,7 +124,9 @@ public class Cliente {
   }
 
   public void setTotalePunti(int totalePunti) {
+    int oldTotalePunti = this.totalePunti;
     this.totalePunti = totalePunti;
+    firePropertyChanged("totalePunti", oldTotalePunti, totalePunti);
   }
   
   public List<Scontrino> getScontrini() {
@@ -114,15 +134,24 @@ public class Cliente {
   }
 
   public void setScontrini(List<Scontrino> scontrini) {
+    for (Scontrino scontrino : scontrini) {
+      scontrino.addPropertyChangeListener(this);       
+    }
+    List<Scontrino> oldScontrini = this.scontrini;
     this.scontrini = scontrini;
+    firePropertyChanged("scontrini", oldScontrini, scontrini);
   }
   
   public void addScontrino(Scontrino scontrino) {
     scontrini.add(scontrino);
+    firePropertyChanged("scontrino", null, scontrino);
+    scontrino.addPropertyChangeListener(this);
   }
 
   public void addScontrino(int index, Scontrino scontrino) {
     scontrini.add(index, scontrino);
+    firePropertyChanged("scontrino", index, scontrino);
+    scontrino.addPropertyChangeListener(this);
   }
   
   public Scontrino getScontrinoAt(int index) {
@@ -131,12 +160,17 @@ public class Cliente {
   
   public void removeScontrino(int index) {
     scontrini.remove(index);
+    Scontrino removedScontrino = scontrini.remove(index);
+    removedScontrino.removePropertyChangeListener(this);
+    firePropertyChanged("scontrino", removedScontrino, index);
   }
   
   public void removeScontrino(Scontrino scontrino) {
-    scontrini.remove(scontrino);
+    int toRemoveIndex = scontrini.indexOf(scontrino);
+    if (toRemoveIndex >= 0) {
+      removeScontrino(toRemoveIndex);
+    }
   }
-  
   public int getScontriniSize() {
     return scontrini.size();
   }
@@ -157,4 +191,10 @@ public class Cliente {
     }
     return cf.equals(((Cliente)other).cf);
   }
+
+  @Override
+  public void propertyChange(PropertyChangeEvent evt) {
+    firePropertyChanged(evt);
+  }
 }
+

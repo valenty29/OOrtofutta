@@ -1,4 +1,4 @@
-package it.unina.studenti.oortof.models;
+package it.unina.studenti.oortof.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
