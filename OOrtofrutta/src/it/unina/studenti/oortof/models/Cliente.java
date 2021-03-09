@@ -13,9 +13,10 @@ public class Cliente {
   private Genere genere;
   private String email;
   private int totalePunti;
+  private RaccoltaPunti raccoltaPunti;
   private List<Scontrino> scontrini;
 
-  public Cliente(int id, String cf, String nome, String cognome, Date dataNascita, String luogoNascita, Genere genere, String email, int totalePunti, List<Scontrino> scontrini) {
+  public Cliente(int id, String cf, String nome, String cognome, Date dataNascita, String luogoNascita, Genere genere, String email, int totalePunti, RaccoltaPunti raccoltaPunti) {
     this.id = id;
     this.cf = cf;
     this.nome = nome;
@@ -24,8 +25,16 @@ public class Cliente {
     this.luogoNascita = luogoNascita;
     this.genere = genere;
     this.email = email;
+    this.raccoltaPunti = raccoltaPunti;
     this.totalePunti = totalePunti;
-    this.scontrini = scontrini;
+  }
+
+  public RaccoltaPunti getRaccoltaPunti() {
+    return raccoltaPunti;
+  }
+
+  public void setRaccoltaPunti(RaccoltaPunti raccoltaPunti) {
+    this.raccoltaPunti = raccoltaPunti;
   }
 
   public int getId() {

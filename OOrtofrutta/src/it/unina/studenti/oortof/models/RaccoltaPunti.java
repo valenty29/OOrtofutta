@@ -2,7 +2,6 @@ package it.unina.studenti.oortof.models;
 
 public class RaccoltaPunti {
   private int id;
-  private Cliente cliente;
   private int fruttaVerdura;
   private int prodottoCaseario;
   private int farinaceo;
@@ -12,9 +11,8 @@ public class RaccoltaPunti {
   private int conserva;
   private int altro;
   
-  public RaccoltaPunti(int id, Cliente cliente, int fruttaVerdura, int prodottoCaseario, int farinaceo, int uovo, int carnePesce, int bibita, int conserva, int altro) {
+  public RaccoltaPunti(int id, int fruttaVerdura, int prodottoCaseario, int farinaceo, int uovo, int carnePesce, int bibita, int conserva, int altro) {
     this.id = id;
-    this.cliente = cliente;
     this.fruttaVerdura = fruttaVerdura;
     this.prodottoCaseario = prodottoCaseario;
     this.farinaceo = farinaceo;
@@ -31,14 +29,6 @@ public class RaccoltaPunti {
 
   public void setId(int id) {
     this.id = id;
-  }
-
-  public Cliente getCliente() {
-    return cliente;
-  }
-
-  public void setCliente(Cliente cliente) {
-    this.cliente = cliente;
   }
 
   public int getFruttaVerdura() {

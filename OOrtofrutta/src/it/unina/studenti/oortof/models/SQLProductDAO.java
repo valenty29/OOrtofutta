@@ -69,7 +69,6 @@ public class SQLProductDAO implements ProductDAO {
             //TODO
             return null;
         }
-
     }
 
     private List<Lotto> getLotti(int id, Connection connection)
@@ -93,12 +92,10 @@ public class SQLProductDAO implements ProductDAO {
             return lotti;
         } catch (SQLException e)
         {
-            //TODO
-            return null;
+            throw new RuntimeException(e);
         }
 
     }
-
 
     private String getProdottoFilters(Integer id, String nome, Float prezzoFloor, Float prezzoCeil, Boolean sfuso, CatProdotto tipo) {
         String query = "";

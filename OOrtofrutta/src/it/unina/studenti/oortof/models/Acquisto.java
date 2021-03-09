@@ -45,10 +45,7 @@ public class Acquisto {
   public void setScontrino(Scontrino scontrino) {
     this.scontrino = scontrino;
   }
-  
-  public String toString() {
-    return lotto.getProdotto().getNome() + " " + quantita;
-  }
+
   
   public boolean equals(Object other) {
     if (!(other instanceof Acquisto)) {
