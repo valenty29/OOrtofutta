@@ -2,27 +2,30 @@ package it.unina.studenti.oortof.models;
 
 public class Conserva extends Prodotto {
 
-  private ConservaSpecifico conservaSpecifico;
-  
   public Conserva() {
-    conservaSpecifico = new ConservaSpecifico();
+    super();
+    setProdottoSpecifico(new ConservaSpecifico());
+    prodottoCommon.setValue(ProdottoCommon.CONSERVA, Boolean.TRUE);
   }
   
-  public Conserva(int id, String nome, float prezzo, boolean sfuso, CatProdotto catProdotto, TipoConservazione tipoConservazione) {
-    super(id, nome, prezzo, sfuso, catProdotto);
-    conservaSpecifico = new ConservaSpecifico(tipoConservazione);
+  public Conserva(int id, String nome, float prezzo, boolean sfuso, TipoConservazione tipoConservazione) {
+    super(id, nome, prezzo, sfuso);
+    setProdottoSpecifico(new ConservaSpecifico(tipoConservazione));
+    prodottoCommon.setValue(ProdottoCommon.CONSERVA, Boolean.TRUE);
   }
   
   public void setConservaSpecifico(ConservaSpecifico conservaSpecifico) {
-    this.conservaSpecifico = conservaSpecifico;
+    ConservaSpecifico oldConservaSpecifico = (ConservaSpecifico)getProdottoSpecifico();
+    setProdottoSpecifico(conservaSpecifico);
+    firePropertyChanged("conservaSpecifico", oldConservaSpecifico, conservaSpecifico);
   }
   
   public ConservaSpecifico getConservaSpecifico() {
-    return conservaSpecifico;
+    return (ConservaSpecifico)getProdottoSpecifico();
   }
 
   public void copyTo(Conserva conserva) {
     super.copyTo(conserva);
-    conservaSpecifico.copyTo(conserva.getConservaSpecifico());
+    getProdottoSpecifico().copyTo(conserva.getConservaSpecifico());
   }
 }

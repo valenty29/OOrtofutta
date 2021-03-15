@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import it.unina.studenti.oortof.models.ApplicationCounter;
 import it.unina.studenti.oortof.models.ApplicationStatus;
 import it.unina.studenti.oortof.models.BibitaSpecifico;
+import it.unina.studenti.oortof.models.Prodotto;
 import it.unina.studenti.oortof.models.ProdottoCommon;
 import it.unina.studenti.oortof.models.ProdottoSpecifico;
 
@@ -75,7 +76,8 @@ public class PrincipaleFrame extends JFrame {
               try {
 System.err.println("THREAD START");
                 Thread.sleep(1000);
-                // T E S T
+                // T E S T che non funziona perchè è cambiato tutto
+                Prodotto p = new Prodotto();
                 ProdottoCommon prodottoCommon = new ProdottoCommon();
                 ProdottoSpecifico[] prodottiSpecifici = new ProdottoSpecifico[8];
                 ProdottoSpecifico ps = new BibitaSpecifico();

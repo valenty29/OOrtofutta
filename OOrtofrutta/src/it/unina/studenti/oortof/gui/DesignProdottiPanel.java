@@ -31,7 +31,7 @@ public abstract class DesignProdottiPanel extends JPanel {
   protected JTextField textField;
   protected JTextField gradazioneAlcolicaTextField;
   protected JCheckBox sfusoCheckBox = new JCheckBox("Sfuso");
-  protected JTabbedPane caratteristicheSpecifichePanel = new JTabbedPane(JTabbedPane.TOP);
+  protected JTabbedPane caratteristicheSpecificheTabbed = new JTabbedPane(JTabbedPane.TOP);
   protected JRadioButton sottovuotoRadioButton = new JRadioButton("Sottovuoto");
   protected JRadioButton sottolioRadioButton = new JRadioButton("Sott'olio");
   protected JRadioButton tipo0RadioButton = new JRadioButton("0");
@@ -93,6 +93,7 @@ public abstract class DesignProdottiPanel extends JPanel {
     JPanel commonPanel = new JPanel();
     commonPanel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Informazioni comuni", TitledBorder.LEADING, TitledBorder.TOP, null, null));
     GridBagConstraints gbc_commonPanel = new GridBagConstraints();
+    gbc_commonPanel.ipady = 10;
     gbc_commonPanel.weightx = 1.0;
     gbc_commonPanel.weighty = 1.0;
     gbc_commonPanel.fill = GridBagConstraints.BOTH;
@@ -101,9 +102,9 @@ public abstract class DesignProdottiPanel extends JPanel {
     gbc_commonPanel.gridy = 0;
     add(commonPanel, gbc_commonPanel);
     GridBagLayout gbl_commonPanel = new GridBagLayout();
-    gbl_commonPanel.columnWidths = new int[]{0, 147, 0, 0, 0, 0};
+    gbl_commonPanel.columnWidths = new int[]{0, 147, 0, 0, 0, 0, 0};
     gbl_commonPanel.rowHeights = new int[]{0, 0, 0, 0, 0};
-    gbl_commonPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+    gbl_commonPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
     gbl_commonPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
     commonPanel.setLayout(gbl_commonPanel);
     
@@ -134,13 +135,13 @@ public abstract class DesignProdottiPanel extends JPanel {
     gbc_fruttaVerduraCheckbox.gridy = 0;
     commonPanel.add(fruttaVerduraCheckbox, gbc_fruttaVerduraCheckbox);
     
-    carnePesceCheckbox.setEnabled(false);
-    GridBagConstraints gbc_carnePesceCheckbox = new GridBagConstraints();
-    gbc_carnePesceCheckbox.anchor = GridBagConstraints.WEST;
-    gbc_carnePesceCheckbox.insets = new Insets(0, 0, 5, 0);
-    gbc_carnePesceCheckbox.gridx = 4;
-    gbc_carnePesceCheckbox.gridy = 0;
-    commonPanel.add(carnePesceCheckbox, gbc_carnePesceCheckbox);
+    conserveCheckbox.setEnabled(false);
+    GridBagConstraints gbc_conserveCheckbox = new GridBagConstraints();
+    gbc_conserveCheckbox.anchor = GridBagConstraints.WEST;
+    gbc_conserveCheckbox.insets = new Insets(0, 0, 5, 5);
+    gbc_conserveCheckbox.gridx = 4;
+    gbc_conserveCheckbox.gridy = 0;
+    commonPanel.add(conserveCheckbox, gbc_conserveCheckbox);
     
     JLabel codiceProdottoLabel = new JLabel("Codice Prodotto");
     GridBagConstraints gbc_codiceProdottoLabel = new GridBagConstraints();
@@ -169,13 +170,13 @@ public abstract class DesignProdottiPanel extends JPanel {
     gbc_prodottiCaseariCheckbox.gridy = 1;
     commonPanel.add(prodottiCaseariCheckbox, gbc_prodottiCaseariCheckbox);
     
-    bibiteCheckbox.setEnabled(false);
-    GridBagConstraints gbc_bibiteCheckbox = new GridBagConstraints();
-    gbc_bibiteCheckbox.anchor = GridBagConstraints.WEST;
-    gbc_bibiteCheckbox.insets = new Insets(0, 0, 5, 0);
-    gbc_bibiteCheckbox.gridx = 4;
-    gbc_bibiteCheckbox.gridy = 1;
-    commonPanel.add(bibiteCheckbox, gbc_bibiteCheckbox);
+    farinaceiCheckbox.setEnabled(false);
+    GridBagConstraints gbc_farinaceiCheckbox = new GridBagConstraints();
+    gbc_farinaceiCheckbox.anchor = GridBagConstraints.WEST;
+    gbc_farinaceiCheckbox.insets = new Insets(0, 0, 5, 5);
+    gbc_farinaceiCheckbox.gridx = 4;
+    gbc_farinaceiCheckbox.gridy = 1;
+    commonPanel.add(farinaceiCheckbox, gbc_farinaceiCheckbox);
     
     JLabel prezzoLabel = new JLabel("Prezzo");
     GridBagConstraints gbc_prezzoLabel = new GridBagConstraints();
@@ -196,21 +197,21 @@ public abstract class DesignProdottiPanel extends JPanel {
     commonPanel.add(prezzoTextField, gbc_prezzoTextField);
     prezzoTextField.setColumns(10);
     
-    farinaceiCheckbox.setEnabled(false);
-    GridBagConstraints gbc_farinaceiCheckbox = new GridBagConstraints();
-    gbc_farinaceiCheckbox.anchor = GridBagConstraints.WEST;
-    gbc_farinaceiCheckbox.insets = new Insets(0, 0, 5, 5);
-    gbc_farinaceiCheckbox.gridx = 3;
-    gbc_farinaceiCheckbox.gridy = 2;
-    commonPanel.add(farinaceiCheckbox, gbc_farinaceiCheckbox);
+    uovaCheckbox.setEnabled(false);
+    GridBagConstraints gbc_uovaCheckbox = new GridBagConstraints();
+    gbc_uovaCheckbox.anchor = GridBagConstraints.WEST;
+    gbc_uovaCheckbox.insets = new Insets(0, 0, 5, 5);
+    gbc_uovaCheckbox.gridx = 3;
+    gbc_uovaCheckbox.gridy = 2;
+    commonPanel.add(uovaCheckbox, gbc_uovaCheckbox);
     
-    conserveCheckbox.setEnabled(false);
-    GridBagConstraints gbc_conserveCheckbox = new GridBagConstraints();
-    gbc_conserveCheckbox.anchor = GridBagConstraints.WEST;
-    gbc_conserveCheckbox.insets = new Insets(0, 0, 5, 0);
-    gbc_conserveCheckbox.gridx = 4;
-    gbc_conserveCheckbox.gridy = 2;
-    commonPanel.add(conserveCheckbox, gbc_conserveCheckbox);
+    carnePesceCheckbox.setEnabled(false);
+    GridBagConstraints gbc_carnePesceCheckbox = new GridBagConstraints();
+    gbc_carnePesceCheckbox.insets = new Insets(0, 0, 5, 5);
+    gbc_carnePesceCheckbox.anchor = GridBagConstraints.WEST;
+    gbc_carnePesceCheckbox.gridx = 4;
+    gbc_carnePesceCheckbox.gridy = 2;
+    commonPanel.add(carnePesceCheckbox, gbc_carnePesceCheckbox);
     
     sfusoCheckBox.setEnabled(false);
     sfusoCheckBox.setBackground(SystemColor.control);
@@ -221,22 +222,24 @@ public abstract class DesignProdottiPanel extends JPanel {
     gbc_sfusoCheckBox.gridy = 3;
     commonPanel.add(sfusoCheckBox, gbc_sfusoCheckBox);
     
-    uovaCheckbox.setEnabled(false);
-    GridBagConstraints gbc_uovaCheckbox = new GridBagConstraints();
-    gbc_uovaCheckbox.anchor = GridBagConstraints.WEST;
-    gbc_uovaCheckbox.insets = new Insets(0, 0, 0, 5);
-    gbc_uovaCheckbox.gridx = 3;
-    gbc_uovaCheckbox.gridy = 3;
-    commonPanel.add(uovaCheckbox, gbc_uovaCheckbox);
+    bibiteCheckbox.setEnabled(false);
+    GridBagConstraints gbc_bibiteCheckbox = new GridBagConstraints();
+    gbc_bibiteCheckbox.anchor = GridBagConstraints.WEST;
+    gbc_bibiteCheckbox.insets = new Insets(0, 0, 0, 5);
+    gbc_bibiteCheckbox.gridx = 3;
+    gbc_bibiteCheckbox.gridy = 3;
+    commonPanel.add(bibiteCheckbox, gbc_bibiteCheckbox);
     
     altriTipoCheckbox.setEnabled(false);
     GridBagConstraints gbc_altriTipoCheckbox = new GridBagConstraints();
+    gbc_altriTipoCheckbox.insets = new Insets(0, 0, 0, 5);
     gbc_altriTipoCheckbox.anchor = GridBagConstraints.WEST;
     gbc_altriTipoCheckbox.gridx = 4;
     gbc_altriTipoCheckbox.gridy = 3;
     commonPanel.add(altriTipoCheckbox, gbc_altriTipoCheckbox);
     
-    caratteristicheSpecifichePanel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Informazioni Specifiche", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+    caratteristicheSpecificheTabbed.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Informazioni Specifiche", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+    caratteristicheSpecificheTabbed.setVisible(false);
     GridBagConstraints gbc_caratteristicheSpecifichePanel = new GridBagConstraints();
     gbc_caratteristicheSpecifichePanel.weightx = 1.0;
     gbc_caratteristicheSpecifichePanel.weighty = 1.0;
@@ -244,12 +247,12 @@ public abstract class DesignProdottiPanel extends JPanel {
     gbc_caratteristicheSpecifichePanel.insets = new Insets(0, 0, 5, 0);
     gbc_caratteristicheSpecifichePanel.gridx = 0;
     gbc_caratteristicheSpecifichePanel.gridy = 1;
-    add(caratteristicheSpecifichePanel, gbc_caratteristicheSpecifichePanel);
+    add(caratteristicheSpecificheTabbed, gbc_caratteristicheSpecifichePanel);
     
     JPanel fruttaVerduraPanel = new JPanel();
     fruttaVerduraPanel.setEnabled(false);
-    caratteristicheSpecifichePanel.addTab("Frutta e Verdura", null, fruttaVerduraPanel, null);
-    caratteristicheSpecifichePanel.setEnabledAt(0, false);
+    caratteristicheSpecificheTabbed.addTab("Frutta e Verdura", null, fruttaVerduraPanel, null);
+    caratteristicheSpecificheTabbed.setEnabledAt(0, false);
     GridBagLayout gbl_fruttaVerduraPanel = new GridBagLayout();
     gbl_fruttaVerduraPanel.columnWidths = new int[]{0, 0, 0};
     gbl_fruttaVerduraPanel.rowHeights = new int[]{0, 0, 0};
@@ -289,8 +292,8 @@ public abstract class DesignProdottiPanel extends JPanel {
     fruttaVerduraPanel.add(biologicoCheckbox, gbc_biologicoCheckbox);
     
     JPanel conservePanel = new JPanel();
-    caratteristicheSpecifichePanel.addTab("Conserve", null, conservePanel, null);
-    caratteristicheSpecifichePanel.setEnabledAt(1, false);
+    caratteristicheSpecificheTabbed.addTab("Conserve", null, conservePanel, null);
+    caratteristicheSpecificheTabbed.setEnabledAt(1, false);
     GridBagLayout gbl_conservePanel = new GridBagLayout();
     gbl_conservePanel.columnWidths = new int[]{0, 0, 0, 0, 0};
     gbl_conservePanel.rowHeights = new int[]{0, 0, 0};
@@ -356,8 +359,8 @@ public abstract class DesignProdottiPanel extends JPanel {
     conservePanel.add(sottoSpiritoRadioButton, gbc_sottoSpiritoRadioButton);
     
     JPanel prodottiCaseariPanel = new JPanel();
-    caratteristicheSpecifichePanel.addTab("Prodotti caseari", null, prodottiCaseariPanel, null);
-    caratteristicheSpecifichePanel.setEnabledAt(2, false);
+    caratteristicheSpecificheTabbed.addTab("Prodotti caseari", null, prodottiCaseariPanel, null);
+    caratteristicheSpecificheTabbed.setEnabledAt(2, false);
     GridBagLayout gbl_prodottiCaseariPanel = new GridBagLayout();
     gbl_prodottiCaseariPanel.columnWidths = new int[]{0, 204, 0};
     gbl_prodottiCaseariPanel.rowHeights = new int[]{0, 0, 0, 0};
@@ -419,8 +422,8 @@ public abstract class DesignProdottiPanel extends JPanel {
     tipoLatteTextField.setColumns(10);
     
     JPanel farinaceiPanel = new JPanel();
-    caratteristicheSpecifichePanel.addTab("Farinacei", null, farinaceiPanel, null);
-    caratteristicheSpecifichePanel.setEnabledAt(3, false);
+    caratteristicheSpecificheTabbed.addTab("Farinacei", null, farinaceiPanel, null);
+    caratteristicheSpecificheTabbed.setEnabledAt(3, false);
     GridBagLayout gbl_farinaceiPanel = new GridBagLayout();
     gbl_farinaceiPanel.columnWidths = new int[]{0, 0, 0, 0};
     gbl_farinaceiPanel.rowHeights = new int[]{0, 0, 0};
@@ -468,8 +471,8 @@ public abstract class DesignProdottiPanel extends JPanel {
     farinaceiPanel.add(surgelatoFarinaceiCheckbox, gbc_surgelatoFarinaceiCheckbox);
     
     JPanel uovaPanel = new JPanel();
-    caratteristicheSpecifichePanel.addTab("Uova", null, uovaPanel, null);
-    caratteristicheSpecifichePanel.setEnabledAt(4, false);
+    caratteristicheSpecificheTabbed.addTab("Uova", null, uovaPanel, null);
+    caratteristicheSpecificheTabbed.setEnabledAt(4, false);
     GridBagLayout gbl_uovaPanel = new GridBagLayout();
     gbl_uovaPanel.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
     gbl_uovaPanel.rowHeights = new int[]{0, 0, 0};
@@ -547,8 +550,8 @@ public abstract class DesignProdottiPanel extends JPanel {
     uovaPanel.add(categoriaXLRadioButton, gbc_categoriaXLRadioButton);
     
     JPanel carnePescePanel = new JPanel();
-    caratteristicheSpecifichePanel.addTab("Carne e pesce", null, carnePescePanel, null);
-    caratteristicheSpecifichePanel.setEnabledAt(5, false);
+    caratteristicheSpecificheTabbed.addTab("Carne e pesce", null, carnePescePanel, null);
+    caratteristicheSpecificheTabbed.setEnabledAt(5, false);
     GridBagLayout gbl_carnePescePanel = new GridBagLayout();
     gbl_carnePescePanel.columnWidths = new int[]{0, 0, 137, 0};
     gbl_carnePescePanel.rowHeights = new int[]{0, 0, 0, 0};
@@ -613,8 +616,8 @@ public abstract class DesignProdottiPanel extends JPanel {
     carnePescePanel.add(confezionatoCheckBox, gbc_confezionatoCheckBox);
     
     JPanel bibitePanel = new JPanel();
-    caratteristicheSpecifichePanel.addTab("Bibite", null, bibitePanel, null);
-    caratteristicheSpecifichePanel.setEnabledAt(6, false);
+    caratteristicheSpecificheTabbed.addTab("Bibite", null, bibitePanel, null);
+    caratteristicheSpecificheTabbed.setEnabledAt(6, false);
     GridBagLayout gbl_bibitePanel = new GridBagLayout();
     gbl_bibitePanel.columnWidths = new int[]{0, 99, 0, 0, 0};
     gbl_bibitePanel.rowHeights = new int[]{0, 0, 0, 0};

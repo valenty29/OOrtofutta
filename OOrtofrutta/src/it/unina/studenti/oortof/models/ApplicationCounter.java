@@ -2,8 +2,8 @@ package it.unina.studenti.oortof.models;
 
 public class ApplicationCounter extends ObservedModel {
 
-  private int counter = -1;
-  private int limit = -1;
+  private int counter = 0;
+  private int limit = 0;
   
   private static final ApplicationCounter instance = new ApplicationCounter();
   
@@ -43,13 +43,13 @@ public class ApplicationCounter extends ObservedModel {
    
   public String toString() {
     StringBuilder sb = new StringBuilder("");
-    if (counter >= 0) {
+    if (counter > 0) {
       sb.append(counter);
     }
-    if (counter >= 0 || limit >= 0) {
+    if (counter > 0 || limit > 0) {
       sb.append('/');
     }
-    if (limit >= 0) {
+    if (limit > 0) {
       sb.append(limit);
     }
     return sb.toString();

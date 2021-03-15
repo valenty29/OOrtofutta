@@ -3,29 +3,30 @@ package it.unina.studenti.oortof.models;
 
 public class ProdottoCaseario extends Prodotto {
   
-  ProdottoCasearioSpecifico prodottoCasearioSpecifico;
-  
   public ProdottoCaseario() {
-    prodottoCasearioSpecifico = new ProdottoCasearioSpecifico();
+    super();
+    setProdottoSpecifico(new ProdottoCasearioSpecifico());
+    prodottoCommon.setValue(ProdottoCommon.PRODOTTO_CASEARIO, Boolean.TRUE);
   }
   
-  public ProdottoCaseario(int id, String nome, float prezzo, boolean sfuso, CatProdotto catProdotto, String tipoLatte, String stabilimento, int stagionatura) {
-    super(id, nome, prezzo, sfuso, catProdotto);
-    prodottoCasearioSpecifico = new ProdottoCasearioSpecifico(tipoLatte, stabilimento, stagionatura);
+  public ProdottoCaseario(int id, String nome, float prezzo, boolean sfuso, String tipoLatte, String stabilimento, int stagionatura) {
+    super(id, nome, prezzo, sfuso);
+    setProdottoSpecifico(new ProdottoCasearioSpecifico(tipoLatte, stabilimento, stagionatura));
+    prodottoCommon.setValue(ProdottoCommon.PRODOTTO_CASEARIO, Boolean.TRUE);
   }
   
   public void setProdottoCasearioSpecifico(ProdottoCasearioSpecifico prodottoCasearioSpecifico) {
-    ProdottoCasearioSpecifico oldProdottoCasearioSpecifico = this.prodottoCasearioSpecifico;
-    this.prodottoCasearioSpecifico = prodottoCasearioSpecifico;
+    ProdottoCasearioSpecifico oldProdottoCasearioSpecifico = (ProdottoCasearioSpecifico)getProdottoSpecifico();
+    setProdottoSpecifico(prodottoCasearioSpecifico);
     firePropertyChanged("prodottoCasearioSpecifico", oldProdottoCasearioSpecifico, prodottoCasearioSpecifico);
   }
   
   public ProdottoCasearioSpecifico getProdottoCasearioSpecifico() {
-    return prodottoCasearioSpecifico;
+    return (ProdottoCasearioSpecifico)getProdottoSpecifico();
   }
 
   public void copyTo(ProdottoCaseario prodottoCaseario) {
     super.copyTo(prodottoCaseario);
-    prodottoCasearioSpecifico.copyTo(prodottoCaseario.getProdottoCasearioSpecifico());
+    getProdottoSpecifico().copyTo(prodottoCaseario.getProdottoCasearioSpecifico());
   }
 }

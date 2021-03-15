@@ -1,31 +1,31 @@
 package it.unina.studenti.oortof.models;
 
-
 public class Bibita extends Prodotto {
   
-  private BibitaSpecifico bibitaSpecifico;
-
   public Bibita() {
-    bibitaSpecifico = new BibitaSpecifico(); 
+    super();
+    setProdottoSpecifico(new BibitaSpecifico());
+    prodottoCommon.setValue(ProdottoCommon.BIBITA, Boolean.TRUE);
   }
 
-  public Bibita(int id, String nome, float prezzo, boolean sfuso, CatProdotto catProdotto, float gradazioneAlcolica, boolean frizzante, TipoBibita tipoBibita) {
-    super(id, nome, prezzo, sfuso, catProdotto);
-    bibitaSpecifico = new BibitaSpecifico(gradazioneAlcolica, frizzante, tipoBibita);
+  public Bibita(int id, String nome, float prezzo, boolean sfuso, float gradazioneAlcolica, boolean frizzante, TipoBibita tipoBibita) {
+    super(id, nome, prezzo, sfuso);
+    setProdottoSpecifico(new BibitaSpecifico(gradazioneAlcolica, frizzante, tipoBibita));
+    prodottoCommon.setValue(ProdottoCommon.BIBITA, Boolean.TRUE);
   }
   
   public void setBibitaSpecifico(BibitaSpecifico bibitaSpecifico) {
-    BibitaSpecifico oldBibitaSpecifico = this.bibitaSpecifico;
-    this.bibitaSpecifico = bibitaSpecifico;
+    BibitaSpecifico oldBibitaSpecifico = (BibitaSpecifico)getProdottoSpecifico();
+    setProdottoSpecifico(bibitaSpecifico);
     firePropertyChanged("bibitaSpecifico", oldBibitaSpecifico, bibitaSpecifico);
   }
 
   public BibitaSpecifico getBibitaSpecifico() {
-    return bibitaSpecifico;
+    return (BibitaSpecifico)getProdottoSpecifico();
   }
   
   public void copyTo(Bibita bibita) {
     super.copyTo(bibita);
-    bibitaSpecifico.copyTo(bibita.getBibitaSpecifico());
+    getProdottoSpecifico().copyTo(bibita.getBibitaSpecifico());
   }
 }

@@ -2,30 +2,30 @@ package it.unina.studenti.oortof.models;
 
 public class Uovo extends Prodotto {
   
-  UovoSpecifico uovoSpecifico;
-
-  
   public Uovo() {
-    uovoSpecifico = new UovoSpecifico();
+    super();
+    setProdottoSpecifico(new UovoSpecifico());
+    prodottoCommon.setValue(ProdottoCommon.UOVO, Boolean.TRUE);
   }
 
-  public Uovo(int id, String nome, float prezzo, boolean sfuso, CatProdotto catProdotto, int tipoAllevamento, String codAllevamento, CatPeso catPeso) {
-    super(id, nome, prezzo, sfuso, catProdotto);
-    uovoSpecifico = new UovoSpecifico(tipoAllevamento, codAllevamento, catPeso);
-  }
+  public Uovo(int id, String nome, float prezzo, boolean sfuso, int tipoAllevamento, String codAllevamento, CatPeso catPeso) {
+    super(id, nome, prezzo, sfuso);
+    setProdottoSpecifico(new UovoSpecifico(tipoAllevamento, codAllevamento, catPeso));
+    prodottoCommon.setValue(ProdottoCommon.BIBITA, Boolean.TRUE);
+ }
   
   public void setUovoSpecifico(UovoSpecifico uovoSpecifico) {
-    UovoSpecifico oldUovoSpecifico = this.uovoSpecifico;
-    this.uovoSpecifico = uovoSpecifico;
+    UovoSpecifico oldUovoSpecifico = (UovoSpecifico)getProdottoSpecifico();
+    setProdottoSpecifico(uovoSpecifico);
     firePropertyChanged("uovoSpecifico", oldUovoSpecifico, uovoSpecifico);
   }
   
   public UovoSpecifico getUovoSpecifico() {
-    return uovoSpecifico;
+    return (UovoSpecifico)getProdottoSpecifico();
   }
 
   public void copyTo(Uovo uovo) {
     super.copyTo(uovo);
-    uovoSpecifico.copyTo(uovo.getUovoSpecifico());
+    getProdottoSpecifico().copyTo(uovo.getUovoSpecifico());
   }
 }
