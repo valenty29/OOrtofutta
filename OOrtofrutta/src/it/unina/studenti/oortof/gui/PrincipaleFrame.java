@@ -77,14 +77,14 @@ public class PrincipaleFrame extends JFrame {
 System.err.println("THREAD START");
                 Thread.sleep(1000);
                 // T E S T che non funziona perchè è cambiato tutto
-                Prodotto p = new Prodotto();
+                Prodotto p = new Prodotto(1, "si", 20, Boolean.FALSE);
                 ProdottoCommon prodottoCommon = new ProdottoCommon();
                 ProdottoSpecifico[] prodottiSpecifici = new ProdottoSpecifico[8];
                 ProdottoSpecifico ps = new BibitaSpecifico();
                 for (int i = 0; i < 8; i++) {
                   prodottiSpecifici[i] = ps;
                 }
-                ((ProdottiPanel)frame.prodottiTabbed.getComponent(0)).setModel(prodottoCommon, prodottiSpecifici);
+                ((ProdottiPanel)frame.prodottiTabbed.getComponent(0)).setModel(p);
                 Thread.sleep(15000);
 System.err.println("BINGO");
                 prodottoCommon.setNome("Pippo");
