@@ -11,7 +11,7 @@ public class Farinaceo extends Prodotto {
   public Farinaceo(int id, String nome, float prezzo, boolean sfuso, boolean glutine, String tipoFarina, boolean fresco, boolean surgelato) {
     super(id, nome, prezzo, sfuso);
     setProdottoSpecifico(new FarinaceoSpecifico(glutine, tipoFarina, fresco, surgelato));
-    prodottoCommon.setValue(ProdottoCommon.CONSERVA, Boolean.TRUE);
+    prodottoCommon.setValue(ProdottoCommon.FARINACEO, Boolean.TRUE);
   }
   
   public void setFarinaceoSpecifico(FarinaceoSpecifico farinaceoSpecifico) {

@@ -1,5 +1,7 @@
 package it.unina.studenti.oortof.models;
 
+import java.beans.PropertyChangeEvent;
+
 public class ProdottoCasearioSpecifico extends ProdottoSpecifico {
   
   public static final int TIPO_LATTE = 0;   //String
@@ -22,7 +24,12 @@ public class ProdottoCasearioSpecifico extends ProdottoSpecifico {
   }
 
   public void setTipoLatte(String tipoLatte) {
+    String oldTipoLatte = getTipoLatte();
+    if (equals(tipoLatte, oldTipoLatte)) {
+      return;
+    }
     setValue(TIPO_LATTE, tipoLatte);
+    firePropertyChanged("tipoLatte", oldTipoLatte, tipoLatte);
   }
 
   public String getStabilimento() {
@@ -30,7 +37,12 @@ public class ProdottoCasearioSpecifico extends ProdottoSpecifico {
   }
 
   public void setStabilimento(String stabilimento) {
+    String oldStabilimento = getStabilimento();
+    if (equals(stabilimento, oldStabilimento)) {
+      return;
+    }
     setValue(STABILIMENTO, stabilimento);
+    firePropertyChanged("stabilimento", oldStabilimento, stabilimento);
   }
 
   public Integer getStagionatura() {
@@ -38,13 +50,30 @@ public class ProdottoCasearioSpecifico extends ProdottoSpecifico {
   }
 
   public void setStagionatura(Integer stagionatura) {
+    Integer oldStagionatura = getStagionatura();
+    if (equals(stagionatura, oldStagionatura)) {
+      return;
+    }
     setValue(STAGIONATURA, stagionatura);
+    firePropertyChanged("stagionatura", oldStagionatura, stagionatura);
   }
 
   public void copyTo(ProdottoSpecifico prodottoCasearioSpecifico) {
     ((ProdottoCasearioSpecifico)prodottoCasearioSpecifico).setTipoLatte(getString(TIPO_LATTE));
     ((ProdottoCasearioSpecifico)prodottoCasearioSpecifico).setStabilimento(getString(STABILIMENTO));
     ((ProdottoCasearioSpecifico)prodottoCasearioSpecifico).setStagionatura(getInteger(STAGIONATURA));
+  }
+
+  @Override
+  public void propertyChange(PropertyChangeEvent evt) {
+    firePropertyChanged(evt);    
+  }
+
+  @Override
+  public void clear() {
+    setTipoLatte(null);
+    setStabilimento(null);
+    setStagionatura(null);
   }
 
 

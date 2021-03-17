@@ -37,21 +37,160 @@ public class ProdottoCommon extends ObservedModel implements PropertyChangeListe
     setValue(FRUTTA_VERDURA, Boolean.FALSE);
     setValue(PRODOTTO_CASEARIO, Boolean.FALSE);
     setValue(UOVO, Boolean.FALSE);
-    setValue(NOME, Boolean.FALSE);
-    setValue(PREZZO, Boolean.FALSE);
-    setValue(SFUSO, Boolean.FALSE);
+    setValue(NOME, nome);
+    setValue(PREZZO, prezzo);
+    setValue(SFUSO, sfuso);
   }
-
+  
   public Integer getId() {
     return (Integer)attributes[ID];
   }
   
   public void setId(Integer id) {
+    if (equals(id, attributes[ID])) {
+      return;
+    }
     Integer oldId = (Integer)attributes[ID];
     attributes[ID] = id;
     firePropertyChanged("id", oldId, id);
   }
   
+  public Boolean getAltro() {
+    return getBoolean(ALTRO);
+  }
+
+  public boolean isAltro() {
+    return isBoolean(ALTRO);
+  }
+
+  public void setAltro(Boolean altro) {
+    if (equals(altro, attributes[ALTRO])) {
+      return;
+    }
+    Boolean oldAltro = getAltro();
+    setValue(ALTRO, altro);
+    firePropertyChanged("altro", oldAltro, altro);
+  }
+
+  public Boolean getBibita() {
+    return getBoolean(BIBITA);
+  }
+
+  public boolean isBibita() {
+    return isBoolean(BIBITA);
+  }
+
+  public void setBibita(Boolean bibita) {
+    if (equals(bibita, attributes[BIBITA])) {
+      return;
+    }
+    Boolean oldBibita = getBibita();
+    setValue(BIBITA, bibita);
+    firePropertyChanged("bibita", oldBibita, bibita);
+  }
+
+  public Boolean getCarnePesce() {
+    return getBoolean(CARNE_PESCE);
+  }
+
+  public boolean isCarnePesce() {
+    return isBoolean(CARNE_PESCE);
+  }
+
+  public void setCarnePesce(Boolean carnePesce) {
+    if (equals(carnePesce, attributes[CARNE_PESCE])) {
+      return;
+    }
+    Boolean oldCarnePesce = getCarnePesce();
+    setValue(CARNE_PESCE, carnePesce);
+    firePropertyChanged("carnePesce", oldCarnePesce, carnePesce);
+  }
+
+  public Boolean getConserva() {
+    return getBoolean(CONSERVA);
+  }
+
+  public boolean isConserva() {
+    return isBoolean(CONSERVA);
+  }
+
+  public void setConserva(Boolean conserva) {
+    if (equals(conserva, attributes[CONSERVA])) {
+      return;
+    }
+    Boolean oldConserva = getConserva();
+    setValue(CONSERVA, conserva);
+    firePropertyChanged("conserva", oldConserva, conserva);
+  }
+
+  public Boolean getFarinaceo() {
+    return getBoolean(FARINACEO);
+  }
+
+  public boolean isFarinaceo() {
+    return isBoolean(FARINACEO);
+  }
+
+  public void setFarinaceo(Boolean farinaceo) {
+    if (equals(farinaceo, attributes[FARINACEO])) {
+      return;
+    }
+    Boolean oldFarinaceo = getFarinaceo();
+    setValue(FARINACEO, farinaceo);
+    firePropertyChanged("farinaceo", oldFarinaceo, farinaceo);
+  }
+
+  public Boolean getFruttaVerdura() {
+    return getBoolean(FRUTTA_VERDURA);
+  }
+
+  public boolean isFruttaVerdura() {
+    return isBoolean(FRUTTA_VERDURA);
+  }
+
+  public void setFruttaVerdura(Boolean fruttaVerdura) {
+    if (equals(fruttaVerdura, attributes[FRUTTA_VERDURA])) {
+      return;
+    }
+    Boolean oldFruttaVerdura = getFruttaVerdura();
+    setValue(FRUTTA_VERDURA, fruttaVerdura);
+    firePropertyChanged("fruttaVerdura", oldFruttaVerdura, fruttaVerdura);
+  }
+
+  public Boolean getProdottoCaseario() {
+    return getBoolean(PRODOTTO_CASEARIO);
+  }
+
+  public boolean isProdottoCaseario() {
+    return isBoolean(PRODOTTO_CASEARIO);
+  }
+
+  public void setProdottoCaseario(Boolean prodottoCaseario) {
+    if (equals(prodottoCaseario, attributes[PRODOTTO_CASEARIO])) {
+      return;
+    }
+    Boolean oldProdottoCaseario = getProdottoCaseario();
+    setValue(PRODOTTO_CASEARIO, prodottoCaseario);
+    firePropertyChanged("prodottoCaseario", oldProdottoCaseario, prodottoCaseario);
+  }
+
+  public Boolean getUovo() {
+    return getBoolean(UOVO);
+  }
+
+  public boolean isUovo() {
+    return isBoolean(UOVO);
+  }
+
+  public void setUovo(Boolean uovo) {
+    if (equals(uovo, attributes[UOVO])) {
+      return;
+    }
+    Boolean oldUovo = getUovo();
+    setValue(UOVO, uovo);
+    firePropertyChanged("uovo", oldUovo, uovo);
+  }
+
   public String getNome() {
     return (String)attributes[NOME];
   }
@@ -67,7 +206,7 @@ public class ProdottoCommon extends ObservedModel implements PropertyChangeListe
   }
 
   public void setPrezzo(Float prezzo) {
-    float oldPrezzo = getPrezzo();
+    Float oldPrezzo = getPrezzo();
     setValue(PREZZO, prezzo);
     firePropertyChanged("prezzo", oldPrezzo, prezzo);
   }
@@ -81,7 +220,7 @@ public class ProdottoCommon extends ObservedModel implements PropertyChangeListe
   }
 
   public void setSfuso(Boolean sfuso) {
-    boolean oldSfuso = getSfuso();
+    Boolean oldSfuso = getSfuso();
     setValue(SFUSO, sfuso);
     firePropertyChanged("sfuso", oldSfuso, sfuso);
   }
@@ -128,10 +267,14 @@ public class ProdottoCommon extends ObservedModel implements PropertyChangeListe
     int toRemoveIndex = ((List<Lotto>)attributes[LOTTI]).indexOf(lotto);
     if (toRemoveIndex >= 0) {
       removeLotto(toRemoveIndex);
+      lotto.removePropertyChangeListener(this);
     }
   }
   
   public void clearLotti() {
+    if (((List<Lotto>)attributes[LOTTI]).size() == 0) {
+      return;
+    }
     List<Lotto> oldLotti = new ArrayList<Lotto>(((List<Lotto>)attributes[LOTTI]));
     ((List<Lotto>)attributes[LOTTI]).clear();
     firePropertyChanged("lotto", oldLotti, ((List<Lotto>)attributes[LOTTI]));
@@ -152,6 +295,22 @@ public class ProdottoCommon extends ObservedModel implements PropertyChangeListe
       lotto.copyTo(newLotto);
       ((List<Lotto>)attributes[LOTTI]).add(newLotto);
     }
+  }
+  
+  public void clear() {
+    setId(null);
+    setAltro(Boolean.FALSE);
+    setBibita(Boolean.FALSE);
+    setCarnePesce(Boolean.FALSE);
+    setConserva(Boolean.FALSE);
+    setFarinaceo(Boolean.FALSE);
+    setFruttaVerdura(Boolean.FALSE);
+    setProdottoCaseario(Boolean.FALSE);
+    setUovo(Boolean.FALSE);
+    setNome(null);
+    setPrezzo(null);
+    setSfuso(Boolean.FALSE);
+    clearLotti();
   }
 
   @Override

@@ -18,12 +18,31 @@ public class Prodotto extends ObservedModel implements PropertyChangeListener {
   protected ProdottoCommon prodottoCommon;
   protected ProdottoSpecifico[] prodottiSpecifici;
 
-  protected Prodotto() {
+  public Prodotto() {
     prodottoCommon = new ProdottoCommon();
+    prodottiSpecifici = new ProdottoSpecifico[8];
+    prodottiSpecifici[ALTRO_INDEX] = new AltroSpecifico();
+    prodottiSpecifici[BIBITA_INDEX] = new BibitaSpecifico();
+    prodottiSpecifici[CARNE_PESCE_INDEX] = new CarnePesceSpecifico();
+    prodottiSpecifici[CONSERVA_INDEX] = new ConservaSpecifico();
+    prodottiSpecifici[FARINACEO_INDEX] = new FarinaceoSpecifico();
+    prodottiSpecifici[FRUTTA_VERDURA_INDEX] = new FruttaVerduraSpecifico();
+    prodottiSpecifici[PRODOTTO_CASEARIO_INDEX] = new ProdottoCasearioSpecifico();
+    prodottiSpecifici[UOVO_INDEX] = new UovoSpecifico();
+    prodottoCommon.addPropertyChangeListener(this);
+    prodottiSpecifici[ALTRO_INDEX].addPropertyChangeListener(this);
+    prodottiSpecifici[BIBITA_INDEX].addPropertyChangeListener(this);
+    prodottiSpecifici[CARNE_PESCE_INDEX].addPropertyChangeListener(this);
+    prodottiSpecifici[CONSERVA_INDEX].addPropertyChangeListener(this);
+    prodottiSpecifici[FARINACEO_INDEX].addPropertyChangeListener(this);
+    prodottiSpecifici[FRUTTA_VERDURA_INDEX].addPropertyChangeListener(this);
+    prodottiSpecifici[PRODOTTO_CASEARIO_INDEX].addPropertyChangeListener(this);
+    prodottiSpecifici[UOVO_INDEX].addPropertyChangeListener(this);
   }
   
   protected Prodotto(int id, String nome, float prezzo, boolean sfuso) {
     prodottoCommon = new ProdottoCommon(id, nome, prezzo, sfuso);
+    prodottoCommon.addPropertyChangeListener(this);
   }
   
   public void setProdottoCommon(ProdottoCommon prodottoCommon) {
@@ -59,6 +78,7 @@ public class Prodotto extends ObservedModel implements PropertyChangeListener {
     else if (prodottoSpecifico instanceof UovoSpecifico) {
       prodottiSpecifici[UOVO_INDEX] = prodottoSpecifico;
     }
+    prodottoSpecifico.addPropertyChangeListener(this);
   }
 
   
@@ -78,6 +98,13 @@ public class Prodotto extends ObservedModel implements PropertyChangeListener {
   
   public void copyTo(Prodotto prodotto) {
     getProdottoCommon().copyTo(prodotto.getProdottoCommon());
+  }
+  
+  public void clear() {
+    prodottoCommon.clear();
+    for (ProdottoSpecifico ps : prodottiSpecifici) {
+      ps.clear();
+    }
   }
   
   public boolean equals(Object other) {

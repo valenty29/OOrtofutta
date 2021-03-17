@@ -25,6 +25,7 @@ public class ProdottiPanel extends DesignProdottiPanel {
   private static final long serialVersionUID = 1L;
   
   Prodotto prodotto;
+  Prodotto oldProdotto = new Prodotto();
   
   ButtonGroup bg = new ButtonGroup();
   
@@ -168,6 +169,8 @@ public class ProdottiPanel extends DesignProdottiPanel {
   void insert() {
     setEnabledColor(true, Color.white);
     groupCheckBox(true);
+    prodotto.copyTo(oldProdotto);
+    prodotto.clear();
   }
 
   void update() {
@@ -180,13 +183,13 @@ public class ProdottiPanel extends DesignProdottiPanel {
     groupCheckBox(false);
     caratteristicheSpecificheTabbed.setVisible(false);
   }
-
+    
   void applicationStatusChanged(PropertyChangeEvent evt) {
     switch (ApplicationStatus.getInstance().getStatus()) {
-      case ApplicationStatus.NAVIGATION: navigation(); break;
-      case ApplicationStatus.INSERT: insert(); break;
-      case ApplicationStatus.UPDATE: update(); break;
-      case ApplicationStatus.SEARCH: search(); break;
+      case ApplicationStatus.STATUS_NAVIGATION: navigation(); break;
+      case ApplicationStatus.STATUS_INSERT: insert(); break;
+      case ApplicationStatus.STATUS_UPDATE: update(); break;
+      case ApplicationStatus.STATUS_SEARCH: search(); break;
     }
   }
   
@@ -194,12 +197,11 @@ public class ProdottiPanel extends DesignProdottiPanel {
     modelToView();
   }
   
-  //WIP
-  void modelToView() {
-    nomeTextField.setText(prodottoCommon.getNome());
-    codiceProdottoTextField.setValue(prodottoCommon.getId());
-    prezzoTextField.setValue(prodottoCommon.getPrezzo());
-    sfusoCheckBox.setSelected(prodottoCommon.isSfuso());
-  }
   
+ void modelToView() {
+    nomeTextField.setText(prodotto.getProdottoCommon().getNome());
+    codiceProdottoTextField.setValue(prodotto.getProdottoCommon().getId());
+    prezzoTextField.setValue(prodotto.getProdottoCommon().getPrezzo());
+    sfusoCheckBox.setSelected(prodotto.getProdottoCommon().isSfuso());
+  }
 }

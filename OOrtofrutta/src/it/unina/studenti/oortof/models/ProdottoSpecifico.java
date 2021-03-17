@@ -1,6 +1,9 @@
 package it.unina.studenti.oortof.models;
 
-public abstract class ProdottoSpecifico extends ObservedModel {
+import java.beans.PropertyChangeListener;
+
+public abstract class ProdottoSpecifico extends ObservedModel implements PropertyChangeListener {
 
   abstract public void copyTo(ProdottoSpecifico prodottoSpecifico);
+  abstract public void clear();
 }

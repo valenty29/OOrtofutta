@@ -36,7 +36,7 @@ public abstract class DesignProdottiPanel extends JPanel {
   protected JRadioButton sottolioRadioButton = new JRadioButton("Sott'olio");
   protected JRadioButton tipo0RadioButton = new JRadioButton("0");
   protected JRadioButton tipo1RadioButton = new JRadioButton("1");
-  protected JRadioButton tipo2NewRadioButton = new JRadioButton("2");
+  protected JRadioButton tipo2RadioButton = new JRadioButton("2");
   protected JRadioButton tipo3RadioButton = new JRadioButton("3");
   protected JRadioButton inZuccheriRadioButton = new JRadioButton("In zuccheri");
   protected JRadioButton conserveAltroTipoRadioButton = new JRadioButton("Altro tipo di conservazione");
@@ -50,7 +50,6 @@ public abstract class DesignProdottiPanel extends JPanel {
   protected JCheckBox senzaGlutineCheckbox = new JCheckBox("Senza glutine");
   protected JCheckBox frescoCheckbox = new JCheckBox("Fresco");
   protected JCheckBox surgelatoFarinaceiCheckbox = new JCheckBox("Surgelato");
-  protected JRadioButton salumiRadioButton = new JRadioButton("Salumi");
   protected JCheckBox confezionatoCheckBox = new JCheckBox("Confezionato");
   protected JRadioButton acquaRadioButton = new JRadioButton("Acqua");
   protected JRadioButton fermentatiRadioButton = new JRadioButton("Fermentati");
@@ -501,12 +500,12 @@ public abstract class DesignProdottiPanel extends JPanel {
     gbc_tipo1RadioButton.gridy = 0;
     uovaPanel.add(tipo1RadioButton, gbc_tipo1RadioButton);
     
-    tipo2NewRadioButton.setEnabled(false);
-    GridBagConstraints gbc_tipo2NewRadioButton = new GridBagConstraints();
-    gbc_tipo2NewRadioButton.insets = new Insets(0, 0, 5, 5);
-    gbc_tipo2NewRadioButton.gridx = 3;
-    gbc_tipo2NewRadioButton.gridy = 0;
-    uovaPanel.add(tipo2NewRadioButton, gbc_tipo2NewRadioButton);
+    tipo2RadioButton.setEnabled(false);
+    GridBagConstraints gbc_tipo2RadioButton = new GridBagConstraints();
+    gbc_tipo2RadioButton.insets = new Insets(0, 0, 5, 5);
+    gbc_tipo2RadioButton.gridx = 3;
+    gbc_tipo2RadioButton.gridy = 0;
+    uovaPanel.add(tipo2RadioButton, gbc_tipo2RadioButton);
     
     tipo3RadioButton.setEnabled(false);
     GridBagConstraints gbc_tipo3RadioButton = new GridBagConstraints();
@@ -600,19 +599,12 @@ public abstract class DesignProdottiPanel extends JPanel {
     gbc_selvagginaCheckBox.gridy = 1;
     carnePescePanel.add(selvagginaCheckBox, gbc_selvagginaCheckBox);
     
-    salumiRadioButton.setEnabled(false);
-    GridBagConstraints gbc_salumiRadioButton = new GridBagConstraints();
-    gbc_salumiRadioButton.insets = new Insets(0, 0, 0, 5);
-    gbc_salumiRadioButton.gridx = 0;
-    gbc_salumiRadioButton.gridy = 2;
-    carnePescePanel.add(salumiRadioButton, gbc_salumiRadioButton);
-    
     confezionatoCheckBox.setEnabled(false);
     GridBagConstraints gbc_confezionatoCheckBox = new GridBagConstraints();
+    gbc_confezionatoCheckBox.insets = new Insets(0, 0, 5, 0);
     gbc_confezionatoCheckBox.anchor = GridBagConstraints.WEST;
-    gbc_confezionatoCheckBox.insets = new Insets(0, 0, 0, 5);
-    gbc_confezionatoCheckBox.gridx = 1;
-    gbc_confezionatoCheckBox.gridy = 2;
+    gbc_confezionatoCheckBox.gridx = 2;
+    gbc_confezionatoCheckBox.gridy = 1;
     carnePescePanel.add(confezionatoCheckBox, gbc_confezionatoCheckBox);
     
     JPanel bibitePanel = new JPanel();
@@ -716,9 +708,42 @@ public abstract class DesignProdottiPanel extends JPanel {
     table = new JTable();
     scrollPane.add(table);
     
-    ButtonGroup bg = new ButtonGroup();
-    bg.add(fruttaRadioButton);
-    bg.add(verduraRadioButton);
+    ButtonGroup fruttaVerduraBG = new ButtonGroup();
+    fruttaVerduraBG.add(fruttaRadioButton);
+    fruttaVerduraBG.add(verduraRadioButton);
+    
+    ButtonGroup conserveBG = new ButtonGroup();
+    conserveBG.add(sottovuotoRadioButton);
+    conserveBG.add(sottolioRadioButton);
+    conserveBG.add(inZuccheriRadioButton);
+    conserveBG.add(conserveAltroTipoRadioButton);
+    conserveBG.add(sottacetoRadioButton);
+    conserveBG.add(sottosaleRadioButton);
+    conserveBG.add(sottoSpiritoRadioButton);
+    
+    ButtonGroup tipoAllevamentoBG = new ButtonGroup();
+    tipoAllevamentoBG.add(tipo0RadioButton);
+    tipoAllevamentoBG.add(tipo1RadioButton);
+    tipoAllevamentoBG.add(tipo2RadioButton);
+    tipoAllevamentoBG.add(tipo3RadioButton);
+    
+    ButtonGroup categoriaPesoBG = new ButtonGroup();
+    categoriaPesoBG.add(categoriaSRadioButton);
+    categoriaPesoBG.add(categoriaMRadioButton);
+    categoriaPesoBG.add(categoriaLRadioButton);
+    categoriaPesoBG.add(categoriaXLRadioButton);
+    
+    ButtonGroup carnePesceBG = new ButtonGroup();
+    carnePesceBG.add(carneRadioButton);
+    carnePesceBG.add(pesceRadioButton);
+    
+    ButtonGroup bibitaBG = new ButtonGroup();
+    bibitaBG.add(acquaRadioButton);
+    bibitaBG.add(fermentatiRadioButton);
+    bibitaBG.add(succhiDiFruttaRadioButton);
+    bibitaBG.add(liquoriRadioButton);
+    bibitaBG.add(softDrinkRadioButton);
+    bibitaBG.add(bibitaAltroRadioButton);
     
   }
 

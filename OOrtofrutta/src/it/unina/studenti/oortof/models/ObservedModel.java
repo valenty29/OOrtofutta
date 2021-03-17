@@ -36,7 +36,7 @@ public abstract class ObservedModel {
     try {
       return Integer.valueOf((String)attributes[index]);
     }
-    catch (NumberFormatException e) {
+    catch (Exception e) {
       return null;
     }
   }
@@ -45,7 +45,7 @@ public abstract class ObservedModel {
     try {
       return Float.valueOf((String)attributes[index]);
     }
-    catch (NumberFormatException e) {
+    catch (Exception e) {
       return null;
     }
   }
@@ -74,4 +74,10 @@ public abstract class ObservedModel {
       listener.propertyChange(pce);
     }
   }
+  
+  protected static boolean equals(Object a, Object b) {
+    return a == null && b == null || a != null && a.equals(b);
+  }
+
+
 }

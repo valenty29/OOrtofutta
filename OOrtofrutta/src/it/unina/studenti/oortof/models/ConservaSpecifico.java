@@ -1,5 +1,7 @@
 package it.unina.studenti.oortof.models;
 
+import java.beans.PropertyChangeEvent;
+
 public class ConservaSpecifico extends ProdottoSpecifico {
 
   public static final int TIPO_CONSERVAZIONE = 0;  //TipoConservazione
@@ -15,6 +17,9 @@ public class ConservaSpecifico extends ProdottoSpecifico {
   
   public void setTipoConservazione(TipoConservazione tipoConservazione) {
     TipoConservazione oldTipoConservazione = getTipoConservazione();
+    if (equals(tipoConservazione, oldTipoConservazione)) {
+      return;
+    }
     setValue(TIPO_CONSERVAZIONE, tipoConservazione);
     firePropertyChanged("tipoConservazione", oldTipoConservazione, tipoConservazione);
   }
@@ -25,5 +30,15 @@ public class ConservaSpecifico extends ProdottoSpecifico {
 
   public void copyTo(ProdottoSpecifico conservaSpecifico) {
     ((ConservaSpecifico)conservaSpecifico).setTipoConservazione(getTipoConservazione());
+  }
+
+  @Override
+  public void propertyChange(PropertyChangeEvent evt) {
+    firePropertyChanged(evt);    
+  }
+
+  @Override
+  public void clear() {
+    setTipoConservazione(null);
   }
 }
