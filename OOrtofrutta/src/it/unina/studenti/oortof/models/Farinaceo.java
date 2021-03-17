@@ -8,7 +8,7 @@ public class Farinaceo extends Prodotto {
     farinaceoSpecifico = new FarinaceoSpecifico();
   }
 
-  public Farinaceo(int id, String nome, float prezzo, boolean sfuso, CatProdotto catProdotto, boolean glutine, String tipoFarina, boolean fresco, boolean surgelato) {
+  public Farinaceo(Integer id, String nome, Float prezzo, Boolean sfuso, CatProdotto catProdotto, Boolean glutine, String tipoFarina, Boolean fresco, Boolean surgelato) {
     super(id, nome, prezzo, sfuso, catProdotto);
     farinaceoSpecifico = new FarinaceoSpecifico(glutine, tipoFarina, fresco, surgelato);
   }

@@ -9,7 +9,7 @@ public class Uovo extends Prodotto {
     uovoSpecifico = new UovoSpecifico();
   }
 
-  public Uovo(int id, String nome, float prezzo, boolean sfuso, CatProdotto catProdotto, int tipoAllevamento, String codAllevamento, CatPeso catPeso) {
+  public Uovo(Integer id, String nome, Float prezzo, Boolean sfuso, CatProdotto catProdotto, Integer tipoAllevamento, String codAllevamento, CatPeso catPeso) {
     super(id, nome, prezzo, sfuso, catProdotto);
     uovoSpecifico = new UovoSpecifico(tipoAllevamento, codAllevamento, catPeso);
   }

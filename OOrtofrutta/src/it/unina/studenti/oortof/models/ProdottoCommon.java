@@ -7,10 +7,10 @@ import java.util.List;
 
 public class ProdottoCommon extends ObservedModel implements PropertyChangeListener {
 
-  private int id;
+  private Integer id;
   private String nome;
-  private float prezzo;
-  private boolean sfuso;
+  private Float prezzo;
+  private Boolean sfuso;
   private CatProdotto catProdotto;
   private List<Lotto> lotti = new ArrayList<Lotto>();
 
@@ -18,7 +18,7 @@ public class ProdottoCommon extends ObservedModel implements PropertyChangeListe
   public ProdottoCommon() {
   }
   
-  protected ProdottoCommon(int id, String nome, float prezzo, boolean sfuso, CatProdotto catProdotto) {
+  public ProdottoCommon(Integer id, String nome, Float prezzo, Boolean sfuso, CatProdotto catProdotto) {
     this.id = id;
     this.nome = nome;
     this.prezzo = prezzo;
@@ -26,12 +26,12 @@ public class ProdottoCommon extends ObservedModel implements PropertyChangeListe
     this.catProdotto = catProdotto;
   }
 
-  public int getId() {
+  public Integer getId() {
     return id;
   }
   
-  public void setId(int id) {
-    int oldId = this.id;
+  public void setId(Integer id) {
+    Integer oldId = this.id;
     this.id = id;
     firePropertyChanged("id", oldId, id);
   }
@@ -46,25 +46,25 @@ public class ProdottoCommon extends ObservedModel implements PropertyChangeListe
     firePropertyChanged("nome", oldNome, nome);
   }
 
-  public float getPrezzo() {
+  public Float getPrezzo() {
     return prezzo;
   }
 
-  public void setPrezzo(float prezzo) {
-    float oldPrezzo = this.prezzo;
+  public void setPrezzo(Float prezzo) {
+    Float oldPrezzo = this.prezzo;
     this.prezzo = prezzo;
     firePropertyChanged("prezzo", oldPrezzo, prezzo);
   }
 
-  public boolean isSfuso() {
+  public Boolean isSfuso() {
     return sfuso;
   }
 
-  public void setSfuso(boolean sfuso) {
+  public void setSfuso(Boolean sfuso) {
     if (this.sfuso == sfuso) {
       return;
     }
-    boolean oldSfuso = this.sfuso;
+    Boolean oldSfuso = this.sfuso;
     this.sfuso = sfuso;
     firePropertyChanged("sfuso", oldSfuso, sfuso);
   }

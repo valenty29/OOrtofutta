@@ -2,27 +2,27 @@ package it.unina.studenti.oortof.models;
 
 public class FarinaceoSpecifico extends ProdottoSpecifico {
 
-  private boolean glutine;
+  private Boolean glutine;
   private String tipoFarina;
-  private boolean fresco;
-  private boolean surgelato;
+  private Boolean fresco;
+  private Boolean surgelato;
   
   public FarinaceoSpecifico() {
   }
 
-  public FarinaceoSpecifico(boolean glutine, String tipoFarina, boolean fresco, boolean surgelato) {
+  public FarinaceoSpecifico(Boolean glutine, String tipoFarina, Boolean fresco, Boolean surgelato) {
     this.glutine = glutine;
     this.tipoFarina = tipoFarina;
     this.fresco = fresco;
     this.surgelato = surgelato;
   }
 
-  public boolean isGlutine() {
+  public Boolean isGlutine() {
     return glutine;
   }
 
-  public void setGlutine(boolean glutine) {
-    boolean oldGlutine = this.glutine;
+  public void setGlutine(Boolean glutine) {
+    Boolean oldGlutine = this.glutine;
     this.glutine = glutine;
     firePropertyChanged("glutine", oldGlutine, glutine);
   }
@@ -37,22 +37,22 @@ public class FarinaceoSpecifico extends ProdottoSpecifico {
     firePropertyChanged("tipoFarina", oldTipoFarina, tipoFarina);
   }
 
-  public boolean isFresco() {
+  public Boolean isFresco() {
     return fresco;
   }
 
-  public void setFresco(boolean fresco) {
-    boolean oldFresco = this.fresco;
+  public void setFresco(Boolean fresco) {
+    Boolean oldFresco = this.fresco;
     this.fresco = fresco;
     firePropertyChanged("fresco", oldFresco, fresco);
   }
 
-  public boolean isSurgelato() {
+  public Boolean isSurgelato() {
     return surgelato;
   }
 
-  public void setSurgelato(boolean surgelato) {
-    boolean oldSurgelato = this.surgelato;
+  public void setSurgelato(Boolean surgelato) {
+    Boolean oldSurgelato = this.surgelato;
     this.surgelato = surgelato;
     firePropertyChanged("surgelato", oldSurgelato, surgelato);
   }

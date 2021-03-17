@@ -8,7 +8,7 @@ public class Conserva extends Prodotto {
     conservaSpecifico = new ConservaSpecifico();
   }
   
-  public Conserva(int id, String nome, float prezzo, boolean sfuso, CatProdotto catProdotto, TipoConservazione tipoConservazione) {
+  public Conserva(Integer id, String nome, Float prezzo, Boolean sfuso, CatProdotto catProdotto, TipoConservazione tipoConservazione) {
     super(id, nome, prezzo, sfuso, catProdotto);
     conservaSpecifico = new ConservaSpecifico(tipoConservazione);
   }

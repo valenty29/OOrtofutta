@@ -2,14 +2,14 @@ package it.unina.studenti.oortof.models;
 
 public class CarnePesceSpecifico extends ProdottoSpecifico{
   private TipoCarnePesce tipoCarnePesce;
-  private boolean daAllevamento;
+  private Boolean daAllevamento;
   private String animale;
-  private boolean confezionato;
+  private Boolean confezionato;
   
   public CarnePesceSpecifico() {
   }
   
-  public CarnePesceSpecifico(TipoCarnePesce tipoCarnePesce, boolean daAllevamento, String animale, boolean confezionato) {
+  public CarnePesceSpecifico(TipoCarnePesce tipoCarnePesce, Boolean daAllevamento, String animale, Boolean confezionato) {
     this.tipoCarnePesce = tipoCarnePesce;
     this.daAllevamento = daAllevamento;
     this.animale = animale;
@@ -27,12 +27,12 @@ public class CarnePesceSpecifico extends ProdottoSpecifico{
     firePropertyChanged("tipoCarnePesce", oldTipoCarnePesce, tipoCarnePesce);
   }
 
-  public boolean isDaAllevamento() {
+  public Boolean isDaAllevamento() {
     return daAllevamento;
   }
 
-  public void setDaAllevamento(boolean daAllevamento) {
-    boolean oldDaAllevamento = this.daAllevamento;
+  public void setDaAllevamento(Boolean daAllevamento) {
+    Boolean oldDaAllevamento = this.daAllevamento;
     this.daAllevamento = daAllevamento;
     firePropertyChanged("daAllevamento", oldDaAllevamento, daAllevamento);
   }
@@ -47,12 +47,12 @@ public class CarnePesceSpecifico extends ProdottoSpecifico{
     firePropertyChanged("animale", oldAnimale, animale);
   }
 
-  public boolean isConfezionato() {
+  public Boolean isConfezionato() {
     return confezionato;
   }
 
-  public void setConfezionato(boolean confezionato) {
-    boolean oldConfezionato = this.confezionato;
+  public void setConfezionato(Boolean confezionato) {
+    Boolean oldConfezionato = this.confezionato;
     this.confezionato = confezionato;
     firePropertyChanged("confezionato", oldConfezionato, confezionato);
   }

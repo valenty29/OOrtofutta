@@ -4,12 +4,12 @@ public class ProdottoCasearioSpecifico extends ProdottoSpecifico {
 
   private String tipoLatte;
   private String stabilimento;
-  private int stagionatura;
+  private Integer stagionatura;
   
   public ProdottoCasearioSpecifico() {
   }
 
-  public ProdottoCasearioSpecifico(String tipoLatte, String stabilimento, int stagionatura) {
+  public ProdottoCasearioSpecifico(String tipoLatte, String stabilimento, Integer stagionatura) {
     this.tipoLatte = tipoLatte;
     this.stabilimento = stabilimento;
     this.stagionatura = stagionatura;
@@ -31,11 +31,11 @@ public class ProdottoCasearioSpecifico extends ProdottoSpecifico {
     this.stabilimento = stabilimento;
   }
 
-  public int getStagionatura() {
+  public Integer getStagionatura() {
     return stagionatura;
   }
 
-  public void setStagionatura(int stagionatura) {
+  public void setStagionatura(Integer stagionatura) {
     this.stagionatura = stagionatura;
   }
 

@@ -9,7 +9,7 @@ public class Bibita extends Prodotto {
     bibitaSpecifico = new BibitaSpecifico(); 
   }
 
-  public Bibita(int id, String nome, float prezzo, boolean sfuso, CatProdotto catProdotto, float gradazioneAlcolica, boolean frizzante, TipoBibita tipoBibita) {
+  public Bibita(Integer id, String nome, Float prezzo, Boolean sfuso, CatProdotto catProdotto, Float gradazioneAlcolica, Boolean frizzante, TipoBibita tipoBibita) {
     super(id, nome, prezzo, sfuso, catProdotto);
     bibitaSpecifico = new BibitaSpecifico(gradazioneAlcolica, frizzante, tipoBibita);
   }

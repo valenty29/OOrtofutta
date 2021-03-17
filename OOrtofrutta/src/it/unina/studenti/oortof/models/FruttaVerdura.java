@@ -9,7 +9,7 @@ public class FruttaVerdura extends Prodotto {
     fruttaVerduraSpecifico = new FruttaVerduraSpecifico();
   }
 
-  public FruttaVerdura(int id, String nome, float prezzo, boolean sfuso, CatProdotto catProdotto, TipoFruttaVerdura tipoFruttaVerdura, boolean bio, boolean surgelato) {
+  public FruttaVerdura(Integer id, String nome, Float prezzo, Boolean sfuso, CatProdotto catProdotto, TipoFruttaVerdura tipoFruttaVerdura, Boolean bio, Boolean surgelato) {
     super(id, nome, prezzo, sfuso, catProdotto);
     fruttaVerduraSpecifico = new FruttaVerduraSpecifico(tipoFruttaVerdura, bio, surgelato);
   }

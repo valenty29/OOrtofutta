@@ -3,13 +3,13 @@ package it.unina.studenti.oortof.models;
 public class FruttaVerduraSpecifico extends ProdottoSpecifico {
 
   private TipoFruttaVerdura tipoFruttaVerdura;
-  private boolean bio;
-  private boolean surgelato;
+  private Boolean bio;
+  private Boolean surgelato;
   
   public FruttaVerduraSpecifico() {
   }
 
-  public FruttaVerduraSpecifico(TipoFruttaVerdura tipoFruttaVerdura, boolean bio, boolean surgelato) {
+  public FruttaVerduraSpecifico(TipoFruttaVerdura tipoFruttaVerdura, Boolean bio, Boolean surgelato) {
     this.tipoFruttaVerdura = tipoFruttaVerdura;
     this.bio = bio;
     this.surgelato = surgelato;
@@ -25,22 +25,22 @@ public class FruttaVerduraSpecifico extends ProdottoSpecifico {
     firePropertyChanged("tipoFruttaVerdura", oldTipoFruttaVerdura, tipoFruttaVerdura);    
   }
 
-  public boolean isBio() {
+  public Boolean isBio() {
     return bio;
   }
 
-  public void setBio(boolean bio) {
-    boolean oldBio = this.bio;
+  public void setBio(Boolean bio) {
+    Boolean oldBio = this.bio;
     this.bio = bio;
     firePropertyChanged("bio", oldBio, bio);
   }
 
-  public boolean isSurgelato() {
+  public Boolean isSurgelato() {
     return surgelato;
   }
 
-  public void setSurgelato(boolean surgelato) {
-    boolean oldSurgelato = this.surgelato;
+  public void setSurgelato(Boolean surgelato) {
+    Boolean oldSurgelato = this.surgelato;
     this.surgelato = surgelato;
     firePropertyChanged("surgelato", oldSurgelato, surgelato);
   }

@@ -2,35 +2,35 @@ package it.unina.studenti.oortof.models;
 
 public class BibitaSpecifico extends ProdottoSpecifico {
 
-  private float gradazioneAlcolica;
-  private boolean frizzante;
+  private Float gradazioneAlcolica;
+  private Boolean frizzante;
   private TipoBibita tipoBibita;
   
   public BibitaSpecifico() {
   }
   
-  public BibitaSpecifico(float gradazioneAlcolica, boolean frizzante, TipoBibita tipoBibita) {
+  public BibitaSpecifico(Float gradazioneAlcolica, Boolean frizzante, TipoBibita tipoBibita) {
     this.gradazioneAlcolica = gradazioneAlcolica;
     this.frizzante = frizzante;
     this.tipoBibita = tipoBibita;
   }
 
-  public float getGradazioneAlcolica() {
+  public Float getGradazioneAlcolica() {
     return gradazioneAlcolica;
   }
 
-  public void setGradazioneAlcolica(float gradazioneAlcolica) {
-    float oldGradazioneAlcolica = this.gradazioneAlcolica;
+  public void setGradazioneAlcolica(Float gradazioneAlcolica) {
+    Float oldGradazioneAlcolica = this.gradazioneAlcolica;
     this.gradazioneAlcolica = gradazioneAlcolica;
     firePropertyChanged("gradazioneAlcolica", oldGradazioneAlcolica, gradazioneAlcolica);
   }
 
-  public boolean isFrizzante() {
+  public Boolean isFrizzante() {
     return frizzante;
   }
 
-  public void setFrizzante(boolean frizzante) {
-    boolean oldFrizzante = this.frizzante;
+  public void setFrizzante(Boolean frizzante) {
+    Boolean oldFrizzante = this.frizzante;
     this.frizzante = frizzante;
     firePropertyChanged("frizzante", oldFrizzante, frizzante);
   }

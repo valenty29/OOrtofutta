@@ -22,7 +22,7 @@ public abstract class Prodotto extends ObservedModel implements PropertyChangeLi
     prodottoCommon = new ProdottoCommon();
   }
   
-  protected Prodotto(int id, String nome, float prezzo, boolean sfuso, CatProdotto catProdotto) {
+  protected Prodotto(Integer id, String nome, Float prezzo, Boolean sfuso, CatProdotto catProdotto) {
     prodottoCommon = new ProdottoCommon(id, nome, prezzo, sfuso, catProdotto);
   }
   

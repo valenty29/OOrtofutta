@@ -9,7 +9,7 @@ public class CarnePesce extends Prodotto {
      carnePesceSpecifico = new CarnePesceSpecifico();
   }
 
-  public CarnePesce(int id, String nome, float prezzo, boolean sfuso, CatProdotto catProdotto, TipoCarnePesce tipoCP, boolean daAllevamento, String animale, boolean confezionato) {
+  public CarnePesce(Integer id, String nome, Float prezzo, Boolean sfuso, CatProdotto catProdotto, TipoCarnePesce tipoCP, Boolean daAllevamento, String animale, Boolean confezionato) {
     super(id, nome, prezzo, sfuso, catProdotto);
     carnePesceSpecifico = new CarnePesceSpecifico(tipoCP, daAllevamento, animale, confezionato);
   }

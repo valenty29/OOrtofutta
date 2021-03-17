@@ -1,4 +1,8 @@
-package it.unina.studenti.oortof.models;
+package it.unina.studenti.oortof.dao;
+
+import it.unina.studenti.oortof.models.Cliente;
+import it.unina.studenti.oortof.models.Genere;
+import it.unina.studenti.oortof.models.RaccoltaPunti;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

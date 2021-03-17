@@ -2,25 +2,25 @@ package it.unina.studenti.oortof.models;
 
 public class UovoSpecifico extends ProdottoSpecifico {
 
-  private int tipoAllevamento;
+  private Integer tipoAllevamento;
   private String codAllevamento;
   private CatPeso catPeso;
   
   public UovoSpecifico() {
   }
 
-  public UovoSpecifico(int tipoAllevamento, String codAllevamento, CatPeso catPeso) {
+  public UovoSpecifico(Integer tipoAllevamento, String codAllevamento, CatPeso catPeso) {
     this.tipoAllevamento = tipoAllevamento;
     this.codAllevamento = codAllevamento;
     this.catPeso = catPeso;
   }
 
-  public int getTipoAllevamento() {
+  public Integer getTipoAllevamento() {
     return tipoAllevamento;
   }
 
-  public void setTipoAllevamento(int tipoAllevamento) {
-    int oldTipoAllevamento = this.tipoAllevamento;
+  public void setTipoAllevamento(Integer tipoAllevamento) {
+    Integer oldTipoAllevamento = this.tipoAllevamento;
     this.tipoAllevamento = tipoAllevamento;
     firePropertyChanged("tipoAllevamento", oldTipoAllevamento, tipoAllevamento);
   }

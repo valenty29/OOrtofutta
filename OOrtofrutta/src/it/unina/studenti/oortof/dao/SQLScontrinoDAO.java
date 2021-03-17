@@ -1,4 +1,4 @@
-package it.unina.studenti.oortof.models;
+package it.unina.studenti.oortof.dao;
 
 public class SQLScontrinoDAO {
     private DBContext context;

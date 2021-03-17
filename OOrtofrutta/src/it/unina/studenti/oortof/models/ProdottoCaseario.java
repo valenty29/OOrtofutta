@@ -9,7 +9,7 @@ public class ProdottoCaseario extends Prodotto {
     prodottoCasearioSpecifico = new ProdottoCasearioSpecifico();
   }
   
-  public ProdottoCaseario(int id, String nome, float prezzo, boolean sfuso, CatProdotto catProdotto, String tipoLatte, String stabilimento, int stagionatura) {
+  public ProdottoCaseario(Integer id, String nome, Float prezzo, Boolean sfuso, CatProdotto catProdotto, String tipoLatte, String stabilimento, Integer stagionatura) {
     super(id, nome, prezzo, sfuso, catProdotto);
     prodottoCasearioSpecifico = new ProdottoCasearioSpecifico(tipoLatte, stabilimento, stagionatura);
   }
