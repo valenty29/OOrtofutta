@@ -1,67 +1,68 @@
 package it.unina.studenti.oortof.models;
 
 public class FarinaceoSpecifico extends ProdottoSpecifico {
-
-  private Boolean glutine;
-  private String tipoFarina;
-  private Boolean fresco;
-  private Boolean surgelato;
   
+  public static final int GLUTINE = 0;     //Boolean
+  public static final int TIPO_FARINA = 1; //TipoFarina
+  public static final int FRESCO = 2;      //Boolean
+  public static final int SURGELATO = 3;   //Boolean
+
   public FarinaceoSpecifico() {
   }
 
-  public FarinaceoSpecifico(Boolean glutine, String tipoFarina, Boolean fresco, Boolean surgelato) {
-    this.glutine = glutine;
-    this.tipoFarina = tipoFarina;
-    this.fresco = fresco;
-    this.surgelato = surgelato;
+  public FarinaceoSpecifico(boolean glutine, String tipoFarina, boolean fresco, boolean surgelato) {
+    this();
+    setValue(GLUTINE, glutine);
+    setValue(TIPO_FARINA, tipoFarina);
+    setValue(FRESCO, fresco);
+    setValue(SURGELATO, surgelato);
   }
 
-  public Boolean isGlutine() {
-    return glutine;
+  public boolean isGlutine() {
+    return getBoolean(GLUTINE);
   }
 
-  public void setGlutine(Boolean glutine) {
-    Boolean oldGlutine = this.glutine;
-    this.glutine = glutine;
+  public void setGlutine(boolean glutine) {
+    boolean oldGlutine = isGlutine();
+    setValue(GLUTINE, glutine);
     firePropertyChanged("glutine", oldGlutine, glutine);
   }
 
   public String getTipoFarina() {
-    return tipoFarina;
+    return getString(TIPO_FARINA);
   }
 
   public void setTipoFarina(String tipoFarina) {
-    String oldTipoFarina = this.tipoFarina;
-    this.tipoFarina = tipoFarina;
+    String oldTipoFarina = getTipoFarina();
+    setValue(TIPO_FARINA, tipoFarina);
     firePropertyChanged("tipoFarina", oldTipoFarina, tipoFarina);
   }
 
-  public Boolean isFresco() {
-    return fresco;
+  public boolean isFresco() {
+    return getBoolean(FRESCO);
   }
 
-  public void setFresco(Boolean fresco) {
-    Boolean oldFresco = this.fresco;
-    this.fresco = fresco;
+  public void setFresco(boolean fresco) {
+    boolean oldFresco = isFresco();
+    setValue(FRESCO, fresco);
     firePropertyChanged("fresco", oldFresco, fresco);
   }
 
-  public Boolean isSurgelato() {
-    return surgelato;
+  public boolean isSurgelato() {
+    return getBoolean(SURGELATO);
   }
 
-  public void setSurgelato(Boolean surgelato) {
-    Boolean oldSurgelato = this.surgelato;
-    this.surgelato = surgelato;
+  public void setSurgelato(boolean surgelato) {
+    boolean oldSurgelato = isSurgelato();
+    setValue(SURGELATO, surgelato);
     firePropertyChanged("surgelato", oldSurgelato, surgelato);
   }
   
   public void copyTo(ProdottoSpecifico farinaceoSpecifico) {
-    ((FarinaceoSpecifico)farinaceoSpecifico).setGlutine(glutine);
-    ((FarinaceoSpecifico)farinaceoSpecifico).setTipoFarina(tipoFarina);
-    ((FarinaceoSpecifico)farinaceoSpecifico).setFresco(fresco);
-    ((FarinaceoSpecifico)farinaceoSpecifico).setSurgelato(surgelato);
+    ((FarinaceoSpecifico)farinaceoSpecifico).setGlutine(isGlutine());
+    ((FarinaceoSpecifico)farinaceoSpecifico).setTipoFarina(getTipoFarina());
+    ((FarinaceoSpecifico)farinaceoSpecifico).setFresco(isFresco());
+    ((FarinaceoSpecifico)farinaceoSpecifico).setSurgelato(isSurgelato());
   }
 
 }

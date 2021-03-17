@@ -2,30 +2,31 @@ package it.unina.studenti.oortof.models;
 
 public class Farinaceo extends Prodotto {
   
-  private FarinaceoSpecifico farinaceoSpecifico;
-  
   public Farinaceo() {
-    farinaceoSpecifico = new FarinaceoSpecifico();
+    super();
+    setProdottoSpecifico(new FarinaceoSpecifico());
+    prodottoCommon.setValue(ProdottoCommon.FARINACEO, Boolean.TRUE);
   }
 
-  public Farinaceo(Integer id, String nome, Float prezzo, Boolean sfuso, CatProdotto catProdotto, Boolean glutine, String tipoFarina, Boolean fresco, Boolean surgelato) {
-    super(id, nome, prezzo, sfuso, catProdotto);
-    farinaceoSpecifico = new FarinaceoSpecifico(glutine, tipoFarina, fresco, surgelato);
+  public Farinaceo(int id, String nome, float prezzo, boolean sfuso, boolean glutine, String tipoFarina, boolean fresco, boolean surgelato) {
+    super(id, nome, prezzo, sfuso);
+    setProdottoSpecifico(new FarinaceoSpecifico(glutine, tipoFarina, fresco, surgelato));
+    prodottoCommon.setValue(ProdottoCommon.CONSERVA, Boolean.TRUE);
   }
   
   public void setFarinaceoSpecifico(FarinaceoSpecifico farinaceoSpecifico) {
-    FarinaceoSpecifico oldFarinaceoSpecifico = this.farinaceoSpecifico;
-    this.farinaceoSpecifico = farinaceoSpecifico;
+    FarinaceoSpecifico oldFarinaceoSpecifico = (FarinaceoSpecifico)getProdottoSpecifico();
+    setProdottoSpecifico(farinaceoSpecifico);
     firePropertyChanged("farinaceoSpecifico", oldFarinaceoSpecifico, farinaceoSpecifico);
   }
   
   public FarinaceoSpecifico getFarinaceoSpecifico() {
-    return farinaceoSpecifico;
+    return (FarinaceoSpecifico)getProdottoSpecifico();
   }
 
   public void copyTo(Farinaceo farinaceo) {
     super.copyTo(farinaceo);
-    farinaceoSpecifico.copyTo(farinaceo.getFarinaceoSpecifico());
+    getProdottoSpecifico().copyTo(farinaceo.getFarinaceoSpecifico());
   }
 
 }

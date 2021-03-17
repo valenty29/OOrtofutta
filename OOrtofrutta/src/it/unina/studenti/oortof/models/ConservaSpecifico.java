@@ -2,26 +2,28 @@ package it.unina.studenti.oortof.models;
 
 public class ConservaSpecifico extends ProdottoSpecifico {
 
-  private TipoConservazione tipoConservazione;
+  public static final int TIPO_CONSERVAZIONE = 0;  //TipoConservazione
 
   public ConservaSpecifico() {
+    attributes = new Object [1];
   }
 
   public ConservaSpecifico(TipoConservazione tipoConservazione) {
-    this.tipoConservazione = tipoConservazione;
+    this();
+    setValue(TIPO_CONSERVAZIONE, tipoConservazione);
   }
   
   public void setTipoConservazione(TipoConservazione tipoConservazione) {
-    TipoConservazione oldTipoConservazione = this.tipoConservazione;
-    this.tipoConservazione = tipoConservazione;
+    TipoConservazione oldTipoConservazione = getTipoConservazione();
+    setValue(TIPO_CONSERVAZIONE, tipoConservazione);
     firePropertyChanged("tipoConservazione", oldTipoConservazione, tipoConservazione);
   }
 
   public TipoConservazione getTipoConservazione() {
-    return tipoConservazione;
+    return TipoConservazione.valueOf(getString(TIPO_CONSERVAZIONE));
   }
 
   public void copyTo(ProdottoSpecifico conservaSpecifico) {
-    ((ConservaSpecifico)conservaSpecifico).setTipoConservazione(tipoConservazione);
+    ((ConservaSpecifico)conservaSpecifico).setTipoConservazione(getTipoConservazione());
   }
 }

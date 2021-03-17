@@ -6,9 +6,12 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import it.unina.studenti.oortof.dao.DBContext;
-import it.unina.studenti.oortof.dao.SQLProductDAO;
-import it.unina.studenti.oortof.models.*;
+import it.unina.studenti.oortof.models.ApplicationCounter;
+import it.unina.studenti.oortof.models.ApplicationStatus;
+import it.unina.studenti.oortof.models.BibitaSpecifico;
+import it.unina.studenti.oortof.models.Prodotto;
+import it.unina.studenti.oortof.models.ProdottoCommon;
+import it.unina.studenti.oortof.models.ProdottoSpecifico;
 
 import javax.swing.JTabbedPane;
 import javax.swing.JButton;
@@ -94,15 +97,16 @@ public class PrincipaleFrame extends JFrame {
               try {
 System.err.println("THREAD START");
                 Thread.sleep(1000);
-                // T E S T
-                ProdottoCommon prodottoCommon = new ProdottoCommon(1, "ao", 1.0f, true, CatProdotto.Bibita);
+                // T E S T che non funziona perchè è cambiato tutto
+                Prodotto p = new Prodotto(1, "si", 20, Boolean.FALSE);
+                ProdottoCommon prodottoCommon = new ProdottoCommon();
                 ProdottoSpecifico[] prodottiSpecifici = new ProdottoSpecifico[8];
                 ProdottoSpecifico ps = new BibitaSpecifico();
                 for (int i = 0; i < 8; i++) {
                   prodottiSpecifici[i] = ps;
                 }
-                ((ProdottiPanel)frame.prodottiTabbed.getComponent(0)).setModel(prodottoCommon, prodottiSpecifici);
-                Thread.sleep(2000);
+                ((ProdottiPanel)frame.prodottiTabbed.getComponent(0)).setModel(p);
+                Thread.sleep(15000);
 System.err.println("BINGO");
                 prodottoCommon.setNome("Pippo");
                 prodottoCommon.setId(12345678);

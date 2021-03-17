@@ -4,7 +4,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 
-public abstract class Prodotto extends ObservedModel implements PropertyChangeListener {
+public class Prodotto extends ObservedModel implements PropertyChangeListener {
 
   public static final int ALTRO_INDEX = 0;
   public static final int BIBITA_INDEX = 1;
@@ -15,15 +15,15 @@ public abstract class Prodotto extends ObservedModel implements PropertyChangeLi
   public static final int PRODOTTO_CASEARIO_INDEX = 6;
   public static final int UOVO_INDEX = 7;
 
-  private ProdottoCommon prodottoCommon;
-  private ProdottoSpecifico prodottoSpecifico;
+  protected ProdottoCommon prodottoCommon;
+  protected ProdottoSpecifico[] prodottiSpecifici;
 
   protected Prodotto() {
     prodottoCommon = new ProdottoCommon();
   }
   
-  protected Prodotto(Integer id, String nome, Float prezzo, Boolean sfuso, CatProdotto catProdotto) {
-    prodottoCommon = new ProdottoCommon(id, nome, prezzo, sfuso, catProdotto);
+  protected Prodotto(int id, String nome, float prezzo, boolean sfuso) {
+    prodottoCommon = new ProdottoCommon(id, nome, prezzo, sfuso);
   }
   
   public void setProdottoCommon(ProdottoCommon prodottoCommon) {
@@ -35,11 +35,40 @@ public abstract class Prodotto extends ObservedModel implements PropertyChangeLi
   }
 
   public void setProdottoSpecifico(ProdottoSpecifico prodottoSpecifico) {
-    this.prodottoSpecifico = prodottoSpecifico;
+    if (prodottoSpecifico instanceof AltroSpecifico) {
+      prodottiSpecifici[ALTRO_INDEX] = prodottoSpecifico;
+    }
+    else if (prodottoSpecifico instanceof BibitaSpecifico) {
+      prodottiSpecifici[BIBITA_INDEX] = prodottoSpecifico;
+    }
+    else if (prodottoSpecifico instanceof CarnePesceSpecifico) {
+      prodottiSpecifici[CARNE_PESCE_INDEX] = prodottoSpecifico;
+    }
+    else if (prodottoSpecifico instanceof ConservaSpecifico) {
+      prodottiSpecifici[CONSERVA_INDEX] = prodottoSpecifico;
+    }
+    else if (prodottoSpecifico instanceof FarinaceoSpecifico) {
+      prodottiSpecifici[FARINACEO_INDEX] = prodottoSpecifico;
+    }
+    else if (prodottoSpecifico instanceof FruttaVerduraSpecifico) {
+      prodottiSpecifici[FRUTTA_VERDURA_INDEX] = prodottoSpecifico;
+    }
+    else if (prodottoSpecifico instanceof ProdottoCasearioSpecifico) {
+      prodottiSpecifici[PRODOTTO_CASEARIO_INDEX] = prodottoSpecifico;
+    }
+    else if (prodottoSpecifico instanceof UovoSpecifico) {
+      prodottiSpecifici[UOVO_INDEX] = prodottoSpecifico;
+    }
   }
+
   
   public ProdottoSpecifico getProdottoSpecifico() {
-    return prodottoSpecifico;
+    for (ProdottoSpecifico prodottoSpecifico : prodottiSpecifici) {
+      if (prodottoSpecifico != null) {
+        return prodottoSpecifico;
+      }
+    }
+    return null;
   }
 
 
