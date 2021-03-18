@@ -33,6 +33,9 @@ public class Lotto extends ObservedModel {
   
   public void setId(Integer id) {
     Integer oldId = getId();
+    if (equals(oldId, id)) {
+      return;
+    }
     setValue(ID, id);
     firePropertyChanged("id", oldId, id);
   }
@@ -43,19 +46,25 @@ public class Lotto extends ObservedModel {
 
   public void setCodLotto(String codLotto) {
     String oldCodLotto = getCodLotto();
+    if (equals(oldCodLotto, codLotto)) {
+      return;
+    }
     setValue(COD_LOTTO, codLotto);
     firePropertyChanged("colLotto", oldCodLotto, codLotto);
   }
 
-//  public Date getScadenza() {
-//    return scadenza;
-//  }
-//
-//  public void setScadenza(Date scadenza) {
-//    Date oldScadenza = this.scadenza;
-//    this.scadenza = scadenza;
-//    firePropertyChanged("scadenza", oldScadenza, scadenza);
-//  }
+  public Date getScadenza() {
+    return getDate(SCADENZA);
+  }
+
+  public void setScadenza(Date scadenza) {
+    Date oldScadenza = getScadenza();
+    if (equals(oldScadenza, scadenza)) {
+      return;
+    }
+    setValue(SCADENZA, scadenza);
+    firePropertyChanged("scadenza", oldScadenza, scadenza);
+  }
 
   public Float getDisponibilita() {
     return getFloat(DISPONIBILITA);
@@ -63,19 +72,25 @@ public class Lotto extends ObservedModel {
 
   public void setDisponibilita(Float disponibilita) {
     Float oldDisponibilita = getDisponibilita();
+    if (equals(oldDisponibilita, disponibilita)) {
+      return;
+    }
     setValue(DISPONIBILITA, disponibilita);
     firePropertyChanged("disponibilita", oldDisponibilita, disponibilita);
   }
 
-//  public Date getDataProduzione() {
-//    return dataProduzione;
-//  }
-//
-//  public void setDataProduzione(Date dataProduzione) {
-//    Date oldDataProduzione = this.dataProduzione;
-//    this.dataProduzione = dataProduzione;
-//    firePropertyChanged("dataProduzione", oldDataProduzione, dataProduzione);
-//  }
+  public Date getDataProduzione() {
+    return getDate(DATA_PRODUZIONE);
+  }
+
+  public void setDataProduzione(Date dataProduzione) {
+    Date oldDataProduzione = getDataProduzione();
+    if (equals(oldDataProduzione, dataProduzione)) {
+      return;
+    }
+    setValue(DATA_PRODUZIONE, dataProduzione);
+    firePropertyChanged("dataProduzione", oldDataProduzione, dataProduzione);
+  }
 
   public String getCodPaeseOrigine() {
     return getString(COD_PAESE_ORIGINE);
@@ -83,6 +98,9 @@ public class Lotto extends ObservedModel {
 
   public void setCodPaeseOrigine(String codPaeseOrigine) {
     String oldCodPaeseOrigine = getCodPaeseOrigine();
+    if (equals(oldCodPaeseOrigine, codPaeseOrigine)) {
+      return;
+    }
     setValue(COD_PAESE_ORIGINE, codPaeseOrigine);
     firePropertyChanged("codPaeseOrigine", oldCodPaeseOrigine, codPaeseOrigine);
   }
@@ -94,9 +112,9 @@ public class Lotto extends ObservedModel {
   public void copyTo(Lotto lotto) {
     lotto.setId(getId());
     lotto.setCodLotto(getCodLotto());
- //   lotto.setValue(SCADENZA, );
+    lotto.setScadenza(getScadenza());
     lotto.setDisponibilita(getDisponibilita());
- //   lotto.setValue(DATA_PRODUZIONE, );
+    lotto.setDataProduzione(getDataProduzione());;
     lotto.setCodPaeseOrigine(getCodPaeseOrigine());
   }
   

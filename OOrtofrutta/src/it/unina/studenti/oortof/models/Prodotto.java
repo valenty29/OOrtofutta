@@ -15,11 +15,10 @@ public class Prodotto extends ObservedModel implements PropertyChangeListener {
   public static final int PRODOTTO_CASEARIO_INDEX = 6;
   public static final int UOVO_INDEX = 7;
 
-  protected ProdottoCommon prodottoCommon;
+  protected ProdottoCommon prodottoCommon = new ProdottoCommon();
   protected ProdottoSpecifico[] prodottiSpecifici = new ProdottoSpecifico[8];
 
   public Prodotto() {
-    prodottoCommon = new ProdottoCommon();
     prodottiSpecifici[ALTRO_INDEX] = new AltroSpecifico();
     prodottiSpecifici[BIBITA_INDEX] = new BibitaSpecifico();
     prodottiSpecifici[CARNE_PESCE_INDEX] = new CarnePesceSpecifico();
@@ -40,7 +39,10 @@ public class Prodotto extends ObservedModel implements PropertyChangeListener {
   }
   
   protected Prodotto(Integer id, String nome, Float prezzo, Boolean sfuso) {
-    prodottoCommon = new ProdottoCommon(id, nome, prezzo, sfuso);
+    prodottoCommon.setId(id);
+    prodottoCommon.setNome(nome);
+    prodottoCommon.setPrezzo(prezzo);
+    prodottoCommon.setSfuso(sfuso);
     prodottoCommon.addPropertyChangeListener(this);
   }
   

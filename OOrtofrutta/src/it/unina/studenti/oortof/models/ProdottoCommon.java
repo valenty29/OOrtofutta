@@ -43,15 +43,15 @@ public class ProdottoCommon extends ObservedModel implements PropertyChangeListe
   }
   
   public Integer getId() {
-    return (Integer)attributes[ID];
+    return getInteger(ID);
   }
   
   public void setId(Integer id) {
-    if (equals(id, attributes[ID])) {
+    Integer oldId = getId();
+    if (equals(oldId, id)) {
       return;
     }
-    Integer oldId = (Integer)attributes[ID];
-    attributes[ID] = id;
+    setValue(ID, id);
     firePropertyChanged("id", oldId, id);
   }
   
@@ -64,10 +64,10 @@ public class ProdottoCommon extends ObservedModel implements PropertyChangeListe
   }
 
   public void setAltro(Boolean altro) {
-    if (equals(altro, attributes[ALTRO])) {
+    Boolean oldAltro = getAltro();
+    if (equals(oldAltro, altro)) {
       return;
     }
-    Boolean oldAltro = getAltro();
     setValue(ALTRO, altro);
     firePropertyChanged("altro", oldAltro, altro);
   }
@@ -81,10 +81,10 @@ public class ProdottoCommon extends ObservedModel implements PropertyChangeListe
   }
 
   public void setBibita(Boolean bibita) {
-    if (equals(bibita, attributes[BIBITA])) {
+    Boolean oldBibita = getBibita();
+    if (equals(oldBibita, bibita)) {
       return;
     }
-    Boolean oldBibita = getBibita();
     setValue(BIBITA, bibita);
     firePropertyChanged("bibita", oldBibita, bibita);
   }
@@ -98,10 +98,10 @@ public class ProdottoCommon extends ObservedModel implements PropertyChangeListe
   }
 
   public void setCarnePesce(Boolean carnePesce) {
-    if (equals(carnePesce, attributes[CARNE_PESCE])) {
+    Boolean oldCarnePesce = getCarnePesce();
+    if (equals(oldCarnePesce, carnePesce)) {
       return;
     }
-    Boolean oldCarnePesce = getCarnePesce();
     setValue(CARNE_PESCE, carnePesce);
     firePropertyChanged("carnePesce", oldCarnePesce, carnePesce);
   }
@@ -115,10 +115,10 @@ public class ProdottoCommon extends ObservedModel implements PropertyChangeListe
   }
 
   public void setConserva(Boolean conserva) {
-    if (equals(conserva, attributes[CONSERVA])) {
+    Boolean oldConserva = getConserva();
+    if (equals(oldConserva, conserva)) {
       return;
     }
-    Boolean oldConserva = getConserva();
     setValue(CONSERVA, conserva);
     firePropertyChanged("conserva", oldConserva, conserva);
   }
@@ -132,10 +132,10 @@ public class ProdottoCommon extends ObservedModel implements PropertyChangeListe
   }
 
   public void setFarinaceo(Boolean farinaceo) {
-    if (equals(farinaceo, attributes[FARINACEO])) {
+    Boolean oldFarinaceo = getFarinaceo();
+    if (equals(oldFarinaceo, farinaceo)) {
       return;
     }
-    Boolean oldFarinaceo = getFarinaceo();
     setValue(FARINACEO, farinaceo);
     firePropertyChanged("farinaceo", oldFarinaceo, farinaceo);
   }
@@ -149,10 +149,10 @@ public class ProdottoCommon extends ObservedModel implements PropertyChangeListe
   }
 
   public void setFruttaVerdura(Boolean fruttaVerdura) {
-    if (equals(fruttaVerdura, attributes[FRUTTA_VERDURA])) {
+    Boolean oldFruttaVerdura = getFruttaVerdura();
+    if (equals(oldFruttaVerdura, fruttaVerdura)) {
       return;
     }
-    Boolean oldFruttaVerdura = getFruttaVerdura();
     setValue(FRUTTA_VERDURA, fruttaVerdura);
     firePropertyChanged("fruttaVerdura", oldFruttaVerdura, fruttaVerdura);
   }
@@ -166,10 +166,10 @@ public class ProdottoCommon extends ObservedModel implements PropertyChangeListe
   }
 
   public void setProdottoCaseario(Boolean prodottoCaseario) {
-    if (equals(prodottoCaseario, attributes[PRODOTTO_CASEARIO])) {
+    Boolean oldProdottoCaseario = getProdottoCaseario();
+    if (equals(oldProdottoCaseario, prodottoCaseario)) {
       return;
     }
-    Boolean oldProdottoCaseario = getProdottoCaseario();
     setValue(PRODOTTO_CASEARIO, prodottoCaseario);
     firePropertyChanged("prodottoCaseario", oldProdottoCaseario, prodottoCaseario);
   }
@@ -183,20 +183,23 @@ public class ProdottoCommon extends ObservedModel implements PropertyChangeListe
   }
 
   public void setUovo(Boolean uovo) {
-    if (equals(uovo, attributes[UOVO])) {
+    Boolean oldUovo = getUovo();
+    if (equals(oldUovo, uovo)) {
       return;
     }
-    Boolean oldUovo = getUovo();
     setValue(UOVO, uovo);
     firePropertyChanged("uovo", oldUovo, uovo);
   }
 
   public String getNome() {
-    return (String)attributes[NOME];
+    return getString(NOME);
   }
 
   public void setNome(String nome) {
-    String oldNome = (String)attributes[NOME];
+    String oldNome = getNome();
+    if (equals(oldNome, nome)) {
+      return;
+    }
     setValue(NOME, nome);
     firePropertyChanged("nome", oldNome, nome);
   }
@@ -207,6 +210,9 @@ public class ProdottoCommon extends ObservedModel implements PropertyChangeListe
 
   public void setPrezzo(Float prezzo) {
     Float oldPrezzo = getPrezzo();
+    if (equals(oldPrezzo, prezzo)) {
+      return;
+    }
     setValue(PREZZO, prezzo);
     firePropertyChanged("prezzo", oldPrezzo, prezzo);
   }
@@ -221,6 +227,9 @@ public class ProdottoCommon extends ObservedModel implements PropertyChangeListe
 
   public void setSfuso(Boolean sfuso) {
     Boolean oldSfuso = getSfuso();
+    if (equals(oldSfuso, sfuso)) {
+      return;
+    }
     setValue(SFUSO, sfuso);
     firePropertyChanged("sfuso", oldSfuso, sfuso);
   }

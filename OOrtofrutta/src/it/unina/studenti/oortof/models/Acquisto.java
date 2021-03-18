@@ -54,17 +54,6 @@ public class Acquisto extends ObservedModel implements PropertyChangeListener {
     firePropertyChanged("lotto", oldLotto, lotto);
   }
 
-  public Scontrino getScontrino() {
-    return scontrino;
-  }
-
-  public void setScontrino(Scontrino scontrino) {
-    Scontrino oldScontrino = this.scontrino;
-    this.scontrino = scontrino;
-    firePropertyChanged("scontrino", oldScontrino, scontrino);
-  }
-
-  
   public boolean equals(Object other) {
     if (!(other instanceof Acquisto)) {
       return false;

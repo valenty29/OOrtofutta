@@ -10,6 +10,7 @@ public class FarinaceoSpecifico extends ProdottoSpecifico {
   public static final int SURGELATO = 3;   //Boolean
 
   public FarinaceoSpecifico() {
+    attributes = new Object[4];
   }
 
   public FarinaceoSpecifico(boolean glutine, String tipoFarina, boolean fresco, boolean surgelato) {
@@ -25,7 +26,12 @@ public class FarinaceoSpecifico extends ProdottoSpecifico {
   }
   
   public Boolean getGlutine() {
-    return getBoolean(GLUTINE);
+    try {
+      return getBoolean(GLUTINE);
+    }
+    catch (Exception e) {
+      return null;
+    }
   }
 
   public void setGlutine(Boolean glutine) {
@@ -84,12 +90,12 @@ public class FarinaceoSpecifico extends ProdottoSpecifico {
     firePropertyChanged("surgelato", oldSurgelato, surgelato);
   }
   
-  public void copyTo(ProdottoSpecifico farinaceoSpecifico) {
-    ((FarinaceoSpecifico)farinaceoSpecifico).setGlutine(isGlutine());
-    ((FarinaceoSpecifico)farinaceoSpecifico).setTipoFarina(getTipoFarina());
-    ((FarinaceoSpecifico)farinaceoSpecifico).setFresco(isFresco());
-    ((FarinaceoSpecifico)farinaceoSpecifico).setSurgelato(isSurgelato());
-  }
+//  public void copyTo(ProdottoSpecifico farinaceoSpecifico) {
+//    ((FarinaceoSpecifico)farinaceoSpecifico).setGlutine(isGlutine());
+//    ((FarinaceoSpecifico)farinaceoSpecifico).setTipoFarina(getTipoFarina());
+//    ((FarinaceoSpecifico)farinaceoSpecifico).setFresco(isFresco());
+//    ((FarinaceoSpecifico)farinaceoSpecifico).setSurgelato(isSurgelato());
+//  }
 
   @Override
   public void propertyChange(PropertyChangeEvent evt) {

@@ -25,12 +25,17 @@ public class ConservaSpecifico extends ProdottoSpecifico {
   }
 
   public TipoConservazione getTipoConservazione() {
-    return TipoConservazione.valueOf(getString(TIPO_CONSERVAZIONE));
+    try {
+      return TipoConservazione.valueOf(getString(TIPO_CONSERVAZIONE));
+    }
+    catch (Exception e) {
+      return null;
+    }
   }
 
-  public void copyTo(ProdottoSpecifico conservaSpecifico) {
-    ((ConservaSpecifico)conservaSpecifico).setTipoConservazione(getTipoConservazione());
-  }
+//  public void copyTo(ProdottoSpecifico conservaSpecifico) {
+//    ((ConservaSpecifico)conservaSpecifico).setTipoConservazione(getTipoConservazione());
+//  }
 
   @Override
   public void propertyChange(PropertyChangeEvent evt) {

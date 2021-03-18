@@ -8,6 +8,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import it.unina.studenti.oortof.controllers.ApplicationController;
 import it.unina.studenti.oortof.dao.DBContext;
 import it.unina.studenti.oortof.dao.SQLProductDAO;
 import it.unina.studenti.oortof.models.ApplicationCounter;
@@ -67,26 +68,26 @@ public class PrincipaleFrame extends JFrame {
    * Launch the application.
    */
   public static void main(String[] args) {
+    ApplicationController.getInstance();
     EventQueue.invokeLater(new Runnable() {
       public void run() {
         try {
           UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel"); 
           PrincipaleFrame frame = new PrincipaleFrame();
           frame.setVisible(true);
+          Prodotto p = new Prodotto();
+          ((ProdottiPanel)frame.prodottiTabbed.getComponent(0)).setModel(p);
+          ApplicationController.getInstance().getSubController(0).setModel(p);
+
           new Thread() {
             public void run() {
               try {
 System.err.println("THREAD START");
-                Thread.sleep(1000);
-                // T E S T che non funziona perch� � cambiato tutto
-                Prodotto p = new Prodotto();
-                ((ProdottiPanel)frame.prodottiTabbed.getComponent(0)).setModel(p);
-                Thread.sleep(15000);
+                Thread.sleep(3000);
 System.err.println("BINGO");
                 p.getProdottoCommon().setPrezzo(12.30f);
                 p.getProdottoCommon().setNome("Pippo");
                 p.getProdottoCommon().setId(12345678);
-
                 p.getProdottoCommon().setSfuso(true);
 
                 DBContext dbContext = new DBContext("jdbc:postgresql:postgres", "Postgres", "Inb4Ext!");

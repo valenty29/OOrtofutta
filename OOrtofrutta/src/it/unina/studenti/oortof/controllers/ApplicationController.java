@@ -5,6 +5,7 @@ import java.beans.PropertyChangeListener;
 
 import it.unina.studenti.oortof.models.ApplicationCounter;
 import it.unina.studenti.oortof.models.ApplicationStatus;
+import it.unina.studenti.oortof.models.ObservedModel;
 
 public class ApplicationController implements Controller, PropertyChangeListener {
 
@@ -15,6 +16,14 @@ public class ApplicationController implements Controller, PropertyChangeListener
   private ApplicationController() {
     ApplicationStatus.getInstance().addPropertyChangeListener(this);
     ApplicationCounter.getInstance().addPropertyChangeListener(this);
+  }
+  
+  public static ApplicationController getInstance() {
+    return instance;
+  }
+  
+  public Controller getSubController(int index) {
+    return controllers[index];
   }
   
   public void insert() {
@@ -63,6 +72,11 @@ public class ApplicationController implements Controller, PropertyChangeListener
         delete();
       }    
     }
+  }
+
+  @Override
+  public void setModel(ObservedModel observedModel) {
+    throw new RuntimeException("Application controller lavora senza un modello");
   }
   
 }
