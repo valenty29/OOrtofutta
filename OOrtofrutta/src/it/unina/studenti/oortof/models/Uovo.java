@@ -11,7 +11,7 @@ public class Uovo extends Prodotto {
   public Uovo(int id, String nome, float prezzo, boolean sfuso, int tipoAllevamento, String codAllevamento, CatPeso catPeso) {
     super(id, nome, prezzo, sfuso);
     setProdottoSpecifico(new UovoSpecifico(tipoAllevamento, codAllevamento, catPeso));
-    prodottoCommon.setValue(ProdottoCommon.BIBITA, Boolean.TRUE);
+    prodottoCommon.setValue(ProdottoCommon.UOVO, Boolean.TRUE);
  }
   
   public void setUovoSpecifico(UovoSpecifico uovoSpecifico) {

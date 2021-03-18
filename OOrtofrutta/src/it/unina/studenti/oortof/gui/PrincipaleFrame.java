@@ -5,13 +5,12 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import it.unina.studenti.oortof.models.ApplicationCounter;
 import it.unina.studenti.oortof.models.ApplicationStatus;
-import it.unina.studenti.oortof.models.BibitaSpecifico;
 import it.unina.studenti.oortof.models.Prodotto;
-import it.unina.studenti.oortof.models.ProdottoCommon;
-import it.unina.studenti.oortof.models.ProdottoSpecifico;
 
 import javax.swing.JTabbedPane;
 import javax.swing.JButton;
@@ -34,7 +33,6 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.border.BevelBorder;
 import java.awt.Dimension;
-import java.util.List;
 import javax.swing.SwingConstants;
 
 public class PrincipaleFrame extends JFrame {
@@ -68,52 +66,24 @@ public class PrincipaleFrame extends JFrame {
   public static void main(String[] args) {
     EventQueue.invokeLater(new Runnable() {
       public void run() {
-
-
-        DBContext context = new DBContext("jdbc:postgresql:postgres", "postgres", "Inb4Ext!");
-        SQLProductDAO prodDao = new SQLProductDAO(context);
-        Bibita bib = new Bibita(9, "Blues", 0.1f, false, CatProdotto.Bibita, 0.0f, true, TipoBibita.SoftDrink);
-        Bibita bib2 = new Bibita();
-        Bibita bib3 = new Bibita();
-        bib3.getBibitaSpecifico().setFrizzante(true);
-        bib3.getProdottoCommon().setNome("Frizzi");
-        bib.copyTo(bib2);
-        bib2.getProdottoCommon().setNome("Bluessss");
-        bib2.getBibitaSpecifico().setGradazioneAlcolica(10f);
-        //prodDao.updateBibita(bib, bib2);
-        List<Bibita> bibo = prodDao.getBibita(bib3);
-        Farinaceo far = new Farinaceo(null, "Plumcake", 1f, false, CatProdotto.Farinaceo, true, "0", false, false);
-        prodDao.createFarinaceo(far);
-
-        System.out.println("a");
-
         try {
           UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel"); 
           PrincipaleFrame frame = new PrincipaleFrame();
           frame.setVisible(true);
-
           new Thread() {
             public void run() {
               try {
 System.err.println("THREAD START");
                 Thread.sleep(1000);
                 // T E S T che non funziona perchè è cambiato tutto
-                Prodotto p = new Prodotto(1, "si", 20, Boolean.FALSE);
-                ProdottoCommon prodottoCommon = new ProdottoCommon();
-                ProdottoSpecifico[] prodottiSpecifici = new ProdottoSpecifico[8];
-                ProdottoSpecifico ps = new BibitaSpecifico();
-                for (int i = 0; i < 8; i++) {
-                  prodottiSpecifici[i] = ps;
-                }
+                Prodotto p = new Prodotto();
                 ((ProdottiPanel)frame.prodottiTabbed.getComponent(0)).setModel(p);
                 Thread.sleep(15000);
 System.err.println("BINGO");
-                prodottoCommon.setNome("Pippo");
-                prodottoCommon.setId(12345678);
-                prodottoCommon.setPrezzo(12.30f);
-                prodottoCommon.setSfuso(true);
-
-
+                p.getProdottoCommon().setNome("Pippo");
+                p.getProdottoCommon().setId(12345678);
+                p.getProdottoCommon().setPrezzo(12.30f);
+                p.getProdottoCommon().setSfuso(true);
               }
               catch (Exception e) {
                 e.printStackTrace();
@@ -149,6 +119,13 @@ System.err.println("BINGO");
     ilTabbedPanel.add(clientiPanel);
     ilTabbedPanel.setTitleAt(2, "Clienti");
     
+    ilTabbedPanel.addChangeListener(new ChangeListener() {
+      @Override
+      public void stateChanged(ChangeEvent e) {
+        ApplicationStatus.getInstance().setActiveTab(ilTabbedPanel.getSelectedIndex());
+      }
+    });
+    
     toolBar.setFloatable(false);
     principalePanel.add(toolBar, BorderLayout.NORTH);
     
@@ -156,7 +133,7 @@ System.err.println("BINGO");
       private static final long serialVersionUID = 1L;
       @Override
       public void actionPerformed(ActionEvent e) {
-        ApplicationStatus.getInstance().setStatus(ApplicationStatus.NAVIGATION);
+        ApplicationStatus.getInstance().setAction(ApplicationStatus.ACTION_ROLLBACK);
       }
     };
     rollbackButton.setFocusable(false);
@@ -175,7 +152,7 @@ System.err.println("BINGO");
 
       @Override
       public void actionPerformed(ActionEvent e) {
-        ApplicationStatus.getInstance().setStatus(ApplicationStatus.INSERT);
+        ApplicationStatus.getInstance().setAction(ApplicationStatus.ACTION_INSERT);
       }
     };
     insertButton.setFocusable(false);
@@ -192,7 +169,7 @@ System.err.println("BINGO");
 
       @Override
       public void actionPerformed(ActionEvent e) {
-        ApplicationStatus.getInstance().setStatus(ApplicationStatus.UPDATE);
+        ApplicationStatus.getInstance().setAction(ApplicationStatus.ACTION_UPDATE);
       }
     };
     updateButton.setFocusable(false);
@@ -210,7 +187,7 @@ System.err.println("BINGO");
 
       @Override
       public void actionPerformed(ActionEvent e) {
-        ApplicationStatus.getInstance().setStatus(ApplicationStatus.SEARCH);
+        ApplicationStatus.getInstance().setAction(ApplicationStatus.ACTION_SEARCH);
       }
     };
     searchButton.setFocusable(false);
@@ -227,7 +204,7 @@ System.err.println("BINGO");
 
       @Override
       public void actionPerformed(ActionEvent e) {
-        ApplicationStatus.getInstance().setStatus(ApplicationStatus.NAVIGATION);
+        ApplicationStatus.getInstance().setAction(ApplicationStatus.ACTION_COMMIT);
       }
     };
     commitButton.setFocusable(false);
@@ -245,7 +222,7 @@ System.err.println("BINGO");
 
       @Override
       public void actionPerformed(ActionEvent e) {
-        System.err.println("delete");
+        ApplicationStatus.getInstance().setAction(ApplicationStatus.ACTION_DELETE);
       }
     };
     deleteButton.setFocusable(false);
@@ -307,10 +284,10 @@ System.err.println("BINGO");
   
   void applicationStatusChanged(PropertyChangeEvent evt) {
     switch (ApplicationStatus.getInstance().getStatus()) {
-    case ApplicationStatus.NAVIGATION: navigation(); break;
-    case ApplicationStatus.INSERT: insert(); break;
-    case ApplicationStatus.UPDATE: update(); break;
-    case ApplicationStatus.SEARCH: search(); break;
+    case ApplicationStatus.STATUS_NAVIGATION: navigation(); break;
+    case ApplicationStatus.STATUS_INSERT: insert(); break;
+    case ApplicationStatus.STATUS_UPDATE: update(); break;
+    case ApplicationStatus.STATUS_SEARCH: search(); break;
     }
   }
   

@@ -1,5 +1,7 @@
 package it.unina.studenti.oortof.models;
 
+import java.beans.PropertyChangeEvent;
+
 public class UovoSpecifico extends ProdottoSpecifico {
 
   public static final int TIPO_ALLEVAMENTO = 0; //Integer
@@ -21,8 +23,11 @@ public class UovoSpecifico extends ProdottoSpecifico {
     return getInteger(TIPO_ALLEVAMENTO);
   }
 
-  public void setTipoAllevamento(int tipoAllevamento) {
-    int oldTipoAllevamento = getInteger(TIPO_ALLEVAMENTO);
+  public void setTipoAllevamento(Integer tipoAllevamento) {
+    Integer oldTipoAllevamento = getTipoAllevamento();
+    if (equals(tipoAllevamento, oldTipoAllevamento)) {
+      return;
+    }
     setValue(TIPO_ALLEVAMENTO, tipoAllevamento);
     firePropertyChanged("tipoAllevamento", oldTipoAllevamento, tipoAllevamento);
   }
@@ -32,7 +37,10 @@ public class UovoSpecifico extends ProdottoSpecifico {
   }
 
   public void setCodAllevamento(String codAllevamento) {
-    String oldCodAllevamento = getString(COD_ALLEVAMENTO);
+    String oldCodAllevamento = getCodAllevamento();
+    if (equals(codAllevamento, oldCodAllevamento)) {
+      return;
+    }
     setValue(COD_ALLEVAMENTO, codAllevamento);
     firePropertyChanged("codAllevamento", oldCodAllevamento, codAllevamento);
   }
@@ -42,7 +50,10 @@ public class UovoSpecifico extends ProdottoSpecifico {
   }
 
   public void setCatPeso(CatPeso catPeso) {
-    CatPeso oldCatPeso = CatPeso.valueOf(getString(CAT_PESO));
+    CatPeso oldCatPeso = getCatPeso();
+    if (equals(catPeso, oldCatPeso)) {
+      return;
+    }
     setValue(CAT_PESO, catPeso);
     firePropertyChanged("catPeso", oldCatPeso, catPeso);
   }
@@ -51,6 +62,18 @@ public class UovoSpecifico extends ProdottoSpecifico {
     ((UovoSpecifico)uovoSpecifico).setTipoAllevamento(getInteger(TIPO_ALLEVAMENTO));
     ((UovoSpecifico)uovoSpecifico).setCodAllevamento(getString(COD_ALLEVAMENTO));
     ((UovoSpecifico)uovoSpecifico).setCatPeso(CatPeso.valueOf(getString(CAT_PESO)));
+  }
+
+  @Override
+  public void propertyChange(PropertyChangeEvent evt) {
+    firePropertyChanged(evt);    
+  }
+
+  @Override
+  public void clear() {
+    setTipoAllevamento(null);
+    setCodAllevamento(null);
+    setCatPeso(null);
   }
 
 }

@@ -1,5 +1,7 @@
 package it.unina.studenti.oortof.models;
 
+import java.beans.PropertyChangeEvent;
+
 public class BibitaSpecifico extends ProdottoSpecifico {
   
   public static final int GRADAZIONE_ALCOLICA = 0;   // Float
@@ -23,6 +25,9 @@ public class BibitaSpecifico extends ProdottoSpecifico {
   
   public void setGradazioneAlcolica(Float gradazioneAlcolica) {
     Float oldGradazioneAlcolica = getGradazioneAlcolica();
+    if (equals(gradazioneAlcolica, oldGradazioneAlcolica)) {
+      return;
+    }
     setValue(GRADAZIONE_ALCOLICA, gradazioneAlcolica);
     firePropertyChanged("gradazioneAlcolica", oldGradazioneAlcolica, gradazioneAlcolica);
   }
@@ -37,6 +42,9 @@ public class BibitaSpecifico extends ProdottoSpecifico {
 
   public void setFrizzante(Boolean frizzante) {
     Boolean oldFrizzante = getFrizzante();
+    if (equals(frizzante, oldFrizzante)) {
+      return;
+    }
     setValue(FRIZZANTE, frizzante);
     firePropertyChanged("frizzante", oldFrizzante, frizzante);
   }
@@ -52,6 +60,9 @@ public class BibitaSpecifico extends ProdottoSpecifico {
 
   public void setTipoBibita(TipoBibita tipoBibita) {
     TipoBibita oldTipoBibita = getTipoBibita();
+    if (equals(tipoBibita, oldTipoBibita)) {
+      return;
+    }
     setValue(TIPO_BIBITA, tipoBibita);
     firePropertyChanged("tipoBibita", oldTipoBibita, tipoBibita);
   }
@@ -60,6 +71,18 @@ public class BibitaSpecifico extends ProdottoSpecifico {
     ((BibitaSpecifico)bibitaSpecifico).setGradazioneAlcolica(getGradazioneAlcolica());
     ((BibitaSpecifico)bibitaSpecifico).setFrizzante(getFrizzante());
     ((BibitaSpecifico)bibitaSpecifico).setTipoBibita(getTipoBibita());
+  }
+
+  @Override
+  public void propertyChange(PropertyChangeEvent evt) {
+    firePropertyChanged(evt);    
+  }
+
+  @Override
+  public void clear() {
+    setGradazioneAlcolica(null);
+    setFrizzante(null);
+    setTipoBibita(null);
   }
   
 }

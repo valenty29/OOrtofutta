@@ -38,7 +38,7 @@ public class ProdottiTabbed extends JTabbedPane {
     else {
       setEnabledAt(1, true);
     }
-    if (evt.getOldValue().equals(ApplicationStatus.SEARCH) && evt.getNewValue().equals(ApplicationStatus.NAVIGATION) && ApplicationCounter.getInstance().getLimit() > 0) {
+    if (evt.getOldValue().equals(ApplicationStatus.STATUS_SEARCH) && evt.getNewValue().equals(ApplicationStatus.STATUS_NAVIGATION) && ApplicationCounter.getInstance().getLimit() > 0) {
       setSelectedIndex(1);
     }
   }

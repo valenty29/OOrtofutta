@@ -6,43 +6,63 @@ import java.beans.PropertyChangeListener;
 import it.unina.studenti.oortof.models.ApplicationCounter;
 import it.unina.studenti.oortof.models.ApplicationStatus;
 
-public class ApplicationController implements PropertyChangeListener {
+public class ApplicationController implements Controller, PropertyChangeListener {
 
   private static final ApplicationController instance = new ApplicationController();
+  
+  Controller[] controllers = {new ProdottiController(), new CarrelloController(), new ClientiController()};
   
   private ApplicationController() {
     ApplicationStatus.getInstance().addPropertyChangeListener(this);
     ApplicationCounter.getInstance().addPropertyChangeListener(this);
   }
   
-  private void navigation() {
+  public void insert() {
+    controllers[ApplicationStatus.getInstance().getActiveTab()].insert();
   }
 
-  private void insert() {
+  public void update() {
+    controllers[ApplicationStatus.getInstance().getActiveTab()].update();
   }
 
-  private void update() {
+  public void search() {
+    controllers[ApplicationStatus.getInstance().getActiveTab()].search();
   }
-
-  private void search() {
+  
+  public void rollback() {
+    controllers[ApplicationStatus.getInstance().getActiveTab()].rollback();
+  }
+  
+  public void commit() {
+    controllers[ApplicationStatus.getInstance().getActiveTab()].commit();
+  }
+  
+  public void delete() {
+    controllers[ApplicationStatus.getInstance().getActiveTab()].delete();
   }
 
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
-    if (evt.getPropertyName().equals("status")) {
-      if (ApplicationStatus.getInstance().isNavigation()) {
-        navigation();
+    if (evt.getPropertyName().equals("action")) {
+      if (ApplicationStatus.getInstance().getAction() == ApplicationStatus.ACTION_ROLLBACK) {
+        rollback();
       }
-      else if (ApplicationStatus.getInstance().isInsert()) {
+      else if (ApplicationStatus.getInstance().getAction() == ApplicationStatus.ACTION_INSERT) {
         insert();
       }
-      else if (ApplicationStatus.getInstance().isUpdate()) {
+      else if (ApplicationStatus.getInstance().getAction() == ApplicationStatus.ACTION_UPDATE) {
         update();
       }
-      else if (ApplicationStatus.getInstance().isSearch()) {
+      else if (ApplicationStatus.getInstance().getAction() == ApplicationStatus.ACTION_SEARCH) {
         search();
       }
+      else if (ApplicationStatus.getInstance().getAction() == ApplicationStatus.ACTION_COMMIT) {
+        commit();
+      }
+      else if (ApplicationStatus.getInstance().getAction() == ApplicationStatus.ACTION_DELETE) {
+        delete();
+      }    
     }
   }
-
+  
 }

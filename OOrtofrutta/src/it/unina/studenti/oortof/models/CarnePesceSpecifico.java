@@ -1,5 +1,7 @@
 package it.unina.studenti.oortof.models;
 
+import java.beans.PropertyChangeEvent;
+
 public class CarnePesceSpecifico extends ProdottoSpecifico{
   
   public static final int TIPO_CARNE_PESCE = 0; //TipoCarnePesce
@@ -31,16 +33,26 @@ public class CarnePesceSpecifico extends ProdottoSpecifico{
 
   public void setTipoCarnePesce(TipoCarnePesce tipoCarnePesce) {
     TipoCarnePesce oldTipoCarnePesce = getTipoCarnePesce();
+    if (equals(tipoCarnePesce, oldTipoCarnePesce)) {
+      return;
+    }
     setValue(TIPO_CARNE_PESCE, tipoCarnePesce);
     firePropertyChanged("tipoCarnePesce", oldTipoCarnePesce, tipoCarnePesce);
   }
 
   public boolean isDaAllevamento() {
+    return isBoolean(DA_ALLEVAMENTO);
+  }
+  
+  public Boolean getDaAllevamento() {
     return getBoolean(DA_ALLEVAMENTO);
   }
-
-  public void setDaAllevamento(boolean daAllevamento) {
-    boolean oldDaAllevamento = isDaAllevamento();
+  
+  public void setDaAllevamento(Boolean daAllevamento) {
+    Boolean oldDaAllevamento = getDaAllevamento();
+    if (equals(daAllevamento, oldDaAllevamento)) {
+      return;
+    }
     setValue(DA_ALLEVAMENTO, daAllevamento);
     firePropertyChanged("daAllevamento", oldDaAllevamento, daAllevamento);
   }
@@ -51,16 +63,26 @@ public class CarnePesceSpecifico extends ProdottoSpecifico{
 
   public void setAnimale(String animale) {
     String oldAnimale = getAnimale();
+    if (equals(animale, oldAnimale)) {
+      return;
+    }
     setValue(ANIMALE, animale);
     firePropertyChanged("animale", oldAnimale, animale);
   }
 
   public boolean isConfezionato() {
-    return getBoolean(CONFEZIONATO);
+    return isBoolean(CONFEZIONATO);
   }
 
-  public void setConfezionato(boolean confezionato) {
-    boolean oldConfezionato = isConfezionato();
+  public Boolean getConfezionato() {
+    return getBoolean(CONFEZIONATO);
+  }
+  
+  public void setConfezionato(Boolean confezionato) {
+    Boolean oldConfezionato = getConfezionato();
+    if (equals(confezionato, oldConfezionato)) {
+      return;
+    }
     setValue(CONFEZIONATO, confezionato);
     firePropertyChanged("confezionato", oldConfezionato, confezionato);
   }
@@ -70,5 +92,18 @@ public class CarnePesceSpecifico extends ProdottoSpecifico{
     ((CarnePesceSpecifico)carnePesceSpecifico).setDaAllevamento(isDaAllevamento());
     ((CarnePesceSpecifico)carnePesceSpecifico).setAnimale(getAnimale());
     ((CarnePesceSpecifico)carnePesceSpecifico).setConfezionato(isConfezionato());
+  }
+
+  @Override
+  public void propertyChange(PropertyChangeEvent evt) {
+    firePropertyChanged(evt);    
+  }
+
+  @Override
+  public void clear() {
+    setAnimale(null);
+    setConfezionato(null);
+    setDaAllevamento(null);
+    setTipoCarnePesce(null);
   }
 }

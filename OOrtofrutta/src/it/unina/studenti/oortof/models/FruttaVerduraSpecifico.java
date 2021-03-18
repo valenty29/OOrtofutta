@@ -1,5 +1,7 @@
 package it.unina.studenti.oortof.models;
 
+import java.beans.PropertyChangeEvent;
+
 public class FruttaVerduraSpecifico extends ProdottoSpecifico {
 
   public static final int TIPO_FRUTTA_VERDURA = 0; // TipoFruttaVerdura
@@ -21,7 +23,10 @@ public class FruttaVerduraSpecifico extends ProdottoSpecifico {
   }
 
   public void setTipoFruttaVerdura(TipoFruttaVerdura tipoFruttaVerdura) {
-    TipoFruttaVerdura oldTipoFruttaVerdura = TipoFruttaVerdura.valueOf(getString(TIPO_FRUTTA_VERDURA));
+    TipoFruttaVerdura oldTipoFruttaVerdura = getTipoFruttaVerdura();
+    if (equals(tipoFruttaVerdura, oldTipoFruttaVerdura)) {
+      return;
+    }
     setValue(TIPO_FRUTTA_VERDURA, tipoFruttaVerdura);
     firePropertyChanged("tipoFruttaVerdura", oldTipoFruttaVerdura, tipoFruttaVerdura);    
   }
@@ -36,6 +41,9 @@ public class FruttaVerduraSpecifico extends ProdottoSpecifico {
 
   public void setBio(Boolean bio) {
     Boolean oldBio = getBio();
+    if (equals(bio, oldBio)) {
+      return;
+    }
     setValue(BIO, bio);
     firePropertyChanged("bio", oldBio, bio);
   }
@@ -48,8 +56,11 @@ public class FruttaVerduraSpecifico extends ProdottoSpecifico {
     return getBoolean(SURGELATO);
   }
 
-  public void setSurgelato(boolean surgelato) {
-    boolean oldSurgelato = getSurgelato();
+  public void setSurgelato(Boolean surgelato) {
+    Boolean oldSurgelato = getSurgelato();
+    if (equals(surgelato, oldSurgelato)) {
+      return;
+    }
     setValue(SURGELATO, surgelato);
     firePropertyChanged("surgelato", oldSurgelato, surgelato);
   }
@@ -58,6 +69,18 @@ public class FruttaVerduraSpecifico extends ProdottoSpecifico {
     ((FruttaVerduraSpecifico)fruttaVerduraSpecifico).setTipoFruttaVerdura(getTipoFruttaVerdura());
     ((FruttaVerduraSpecifico)fruttaVerduraSpecifico).setBio(getBio());
     ((FruttaVerduraSpecifico)fruttaVerduraSpecifico).setSurgelato(getSurgelato());
+  }
+
+  @Override
+  public void propertyChange(PropertyChangeEvent evt) {
+    firePropertyChanged(evt);    
+  }
+
+  @Override
+  public void clear() {
+    setTipoFruttaVerdura(null);
+    setBio(null);
+    setSurgelato(null);
   }
   
 
