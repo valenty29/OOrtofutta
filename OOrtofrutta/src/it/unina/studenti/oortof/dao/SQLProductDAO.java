@@ -28,7 +28,6 @@ public class SQLProductDAO implements ProductDAO {
             createProds.setString(1, prodotto.getNome());
             createProds.setFloat(2, prodotto.getPrezzo());
             createProds.setBoolean(3, prodotto.isSfuso());
-            createProds.setObject(4, prodotto.getCatProdotto().name(), Types.OTHER);
 
             createProds.executeUpdate();
 
@@ -191,39 +190,7 @@ public class SQLProductDAO implements ProductDAO {
     //endregion
 
     //region READ
-    /*public List<Prodotto> getProducts(Prodotto prod)
-    {
-        try {
-            Connection conn = context.OpenConnection();
-            Statement stm = conn.createStatement();
-            String query = getProdottoFilters(Prodotto prod);
 
-            String sql = "SELECT * FROM PRODOTTO" + (query.equals("") ? ";" : " WHERE " + query + ";") ;
-            System.out.println(sql);
-            ResultSet rs = stm.executeQuery(sql);
-            List<Prodotto> list = new ArrayList();
-            while(rs.next())
-            {
-                int rsId = rs.getInt("id");
-                String rsNome = rs.getString("Nome");
-                float rsPrezzo = rs.getFloat("Prezzo");
-                boolean rsSfuso = rs.getBoolean("Sfuso");
-                CatProdotto rsCatProdotto = CatProdotto.valueOf(rs.getString("Tipo"));
-                Prodotto prod = new Prodotto(rsId, rsNome, rsPrezzo, rsSfuso, rsCatProdotto);
-                List<Lotto> lotti = getLotti(rsId, conn);
-                prod.getProdottoCommon().setLotti(lotti);
-                list.add(prod);
-            }
-
-
-            conn.close();
-            return list;
-        } catch (SQLException se)
-        {
-            //TODO
-            return null;
-        }
-    }*/
 
     private List<Lotto> getLotti(int id, Connection connection)
     {
@@ -259,41 +226,50 @@ public class SQLProductDAO implements ProductDAO {
             query += "CodProdotto = " + prodCom.getId();
             filterCount++;
         }
-        if (prodCom.getNome() != null)
+        if (prodCom.getString(ProdottoCommon.NOME) != null)
         {
             if (filterCount != 0)
                 query += " AND ";
             query += "Nome = '" + prodCom.getNome() + "'";
             filterCount++;
         }
-        /*if (prezzoFloor != null)
+
+        if (prodCom.getString(ProdottoCommon.PREZZO) != null)
         {
-            if (filterCount != 0)
+            if(filterCount != 0)
                 query += " AND ";
-            query += "Prezzo > " + prodCom.getPrezzo()prezzoFloor;
+            String prezzoFilter = prodCom.getString(ProdottoCommon.PREZZO);
+            String[] prezzoDestr = prezzoFilter.split(" ");
+
+            try {
+                float f1 = Float.parseFloat(prezzoDestr[0]);
+
+                try {
+                    float f2 = Float.parseFloat(prezzoDestr[1]);
+
+                    query += String.format("Prezzo BETWEEN %f AND %f", f1, f2);
+                }
+
+                catch (NumberFormatException nfef){
+                    String operator = prezzoDestr[1];
+
+                    query += String.format("Prezzo %s %f", operator, f1);
+                }
+
+            } catch (NumberFormatException nfe){
+                System.out.println("PASSATO VALORE INVALIDO A QUERY PREZZO");
+            }
             filterCount++;
         }
-        if(prezzoCeil != null)
-        {
-            if (filterCount != 0)
-                query += " AND ";
-            query += "Prezzo < " + prezzoCeil;
-            filterCount++;
-        }*/
-        if(prodCom.isSfuso() != null)
+
+        if(prodCom.getString(ProdottoCommon.SFUSO) != null)
         {
             if (filterCount != 0)
                 query += " AND ";
             query += "Sfuso = " + prodCom.isSfuso();
             filterCount++;
         }
-        if (prodCom.getCatProdotto() != null)
-        {
-            if (filterCount != 0)
-                query += " AND ";
-            query += "Tipo = '" + prodCom.getCatProdotto().name() + "'";
-            filterCount++;
-        }
+
         return query;
     }
 
@@ -305,28 +281,44 @@ public class SQLProductDAO implements ProductDAO {
             String productFilters = getProdottoFilters(bibita.getProdottoCommon());
             String query = "";
             int filterCount = 0;
-            if (bibSpec.getGradazioneAlcolica() != null) {
-                query += "GradazioneAlcolica > " + bibSpec.getGradazioneAlcolica();
+            if(bibSpec.getString (BibitaSpecifico.FRIZZANTE) != null)
+            {
+                query += "Frizzante = " + bibSpec.isFrizzante();
                 filterCount++;
             }
-            /*if(gradazioneAlcolicaCeil != null)
-            {
-                if (filterCount != 0)
-                    query += " AND ";
-                query += "GradazioneAlcolica < " + gradazioneAlcolicaCeil;
-                filterCount++;
-            }*/
-            if(bibSpec.isFrizzante() != null)
+            if (bibSpec.getString(BibitaSpecifico.GRADAZIONE_ALCOLICA) != null)
             {
                 if(filterCount != 0)
                     query += " AND ";
-                query += "Frizzante = " + bibSpec.isFrizzante();
+                String gradazioneFilter = bibSpec.getString(BibitaSpecifico.GRADAZIONE_ALCOLICA);
+                String[] gradazioneDestr = gradazioneFilter.split(" ");
+
+                try {
+                    float f1 = Float.parseFloat(gradazioneDestr[0]);
+
+                    try {
+                        float f2 = Float.parseFloat(gradazioneDestr[1]);
+
+                        query += String.format("GradazioneAlcolica BETWEEN %f AND %f", f1, f2);
+                    }
+
+                    catch (NumberFormatException nfef){
+                        String operator = gradazioneDestr[1];
+
+                        query += String.format("GradazioneAlcolica %s %f", operator, f1);
+                    }
+
+                } catch (NumberFormatException nfe){
+                    System.out.println("PASSATO VALORE INVALIDO A QUERY GRADAZIONE");
+                }
+                filterCount++;
             }
-            if(bibSpec.getTipoBibita() != null)
+            if(bibSpec.getString(BibitaSpecifico.TIPO_BIBITA) != null)
             {
                 if(filterCount != 0)
                     query += " AND ";
                 query += "TipoB = '" + bibSpec.getTipoBibita().name() + "'";
+                filterCount++;
             }
             if (!query.equals("") && !productFilters.equals(""))
             {
@@ -348,7 +340,7 @@ public class SQLProductDAO implements ProductDAO {
                 float rsGradazione = rs.getFloat("GradazioneAlcolica");
                 boolean rsFrizzante = rs.getBoolean("Frizzante");
                 TipoBibita rsTipoBibita = TipoBibita.valueOf(rs.getString("TipoB"));
-                Bibita bib = new Bibita(rsId, rsNome, rsPrezzo, rsSfuso, CatProdotto.Bibita, rsGradazione, rsFrizzante, rsTipoBibita );
+                Bibita bib = new Bibita(rsId, rsNome, rsPrezzo, rsSfuso, rsGradazione, rsFrizzante, rsTipoBibita );
                 bib.getProdottoCommon().setLotti(getLotti(rsId, conn));
                 list.add(bib);
             }
@@ -372,18 +364,18 @@ public class SQLProductDAO implements ProductDAO {
             String productFilters = getProdottoFilters(uovo.getProdottoCommon());
             String query = "";
             int filterCount = 0;
-            if (uovoSpecifico.getTipoAllevamento() != null) {
+            if (uovoSpecifico.getString(UovoSpecifico.TIPO_ALLEVAMENTO) != null) {
                 query += "TipoAllevamento = " + uovoSpecifico.getTipoAllevamento();
                 filterCount++;
             }
-            if(uovoSpecifico.getCodAllevamento() != null)
+            if(uovoSpecifico.getString(UovoSpecifico.COD_ALLEVAMENTO) != null)
             {
                 if (filterCount != 0)
                     query += " AND ";
                 query += "CodAllevamento = '" + uovoSpecifico.getCodAllevamento() + "'";
                 filterCount++;
             }
-            if(uovoSpecifico.getCatPeso() != null)
+            if(uovoSpecifico.getString(UovoSpecifico.CAT_PESO) != null)
             {
                 if(filterCount != 0)
                     query += " AND ";
@@ -409,7 +401,7 @@ public class SQLProductDAO implements ProductDAO {
                 int rsTipoAllevamento = rs.getInt("TipoAllevamento");
                 String rsCodAllevamento = rs.getString("CodAllevamento");
                 CatPeso rsCatPeso = CatPeso.valueOf(rs.getString("CatPeso"));
-                Uovo newUovo = new Uovo(rsId, rsNome, rsPrezzo, rsSfuso, CatProdotto.Uovo, rsTipoAllevamento, rsCodAllevamento, rsCatPeso);
+                Uovo newUovo = new Uovo(rsId, rsNome, rsPrezzo, rsSfuso, rsTipoAllevamento, rsCodAllevamento, rsCatPeso);
                 uovo.getProdottoCommon().setLotti(getLotti(rsId, conn));
                 list.add(newUovo);
             }
@@ -433,24 +425,24 @@ public class SQLProductDAO implements ProductDAO {
             String productFilters = getProdottoFilters(carnePesce.getProdottoCommon());
             String query = "";
             int filterCount = 0;
-            if (carnePesceSpecifico.getTipoCarnePesce() != null) {
+            if (carnePesceSpecifico.getString(CarnePesceSpecifico.TIPO_CARNE_PESCE) != null) {
                 query += "Tipo = '" + carnePesceSpecifico.getTipoCarnePesce().name() + "'";
                 filterCount++;
             }
-            if(carnePesceSpecifico.isDaAllevamento() != null)
+            if(carnePesceSpecifico.getString(CarnePesceSpecifico.DA_ALLEVAMENTO) != null)
             {
                 if (filterCount != 0)
                     query += " AND ";
                 query += "DaAllevamento = " + carnePesceSpecifico.isDaAllevamento();
                 filterCount++;
             }
-            if(carnePesceSpecifico.getAnimale() != null)
+            if(carnePesceSpecifico.getString(CarnePesceSpecifico.ANIMALE) != null)
             {
                 if(filterCount != 0)
                     query += " AND ";
                 query += "Animale = '" + carnePesceSpecifico.getAnimale() + "'";
             }
-            if(carnePesceSpecifico.isConfezionato() != null)
+            if(carnePesceSpecifico.getString(CarnePesceSpecifico.CONFEZIONATO) != null)
             {
                 if(filterCount != 0)
                     query += " AND ";
@@ -478,7 +470,7 @@ public class SQLProductDAO implements ProductDAO {
                 Boolean rsDaAllevamento = rs.getBoolean("DaAllevamento");
                 String rsAnimale = rs.getString("Animale");
                 Boolean rsConfezionato = rs.getBoolean("Confezionato");
-                CarnePesce newCarnePesce = new CarnePesce(rsId, rsNome, rsPrezzo, rsSfuso, CatProdotto.Carnepesce, rsTipoCP, rsDaAllevamento, rsAnimale, rsConfezionato);
+                CarnePesce newCarnePesce = new CarnePesce(rsId, rsNome, rsPrezzo, rsSfuso, rsTipoCP, rsDaAllevamento, rsAnimale, rsConfezionato);
                 carnePesce.getProdottoCommon().setLotti(getLotti(rsId, conn));
                 list.add(newCarnePesce);
 
@@ -501,24 +493,24 @@ public class SQLProductDAO implements ProductDAO {
             String productFilters = getProdottoFilters(farinaceo.getProdottoCommon());
             String query = "";
             int filterCount = 0;
-            if (farinaceoSpecifico.isGlutine() != null) {
+            if (farinaceoSpecifico.getString(FarinaceoSpecifico.GLUTINE) != null) {
                 query += "Glutine = " + farinaceoSpecifico.isGlutine();
                 filterCount++;
             }
-            if(farinaceoSpecifico.getTipoFarina() != null)
+            if(farinaceoSpecifico.getString(FarinaceoSpecifico.TIPO_FARINA) != null)
             {
                 if (filterCount != 0)
                     query += " AND ";
                 query += "TipoFarina = '" + farinaceoSpecifico.getTipoFarina() + "'";
                 filterCount++;
             }
-            if(farinaceoSpecifico.isFresco() != null)
+            if(farinaceoSpecifico.getString(FarinaceoSpecifico.FRESCO) != null)
             {
                 if(filterCount != 0)
                     query += " AND ";
                 query += "Fresco = " + farinaceoSpecifico.isFresco();
             }
-            if(farinaceoSpecifico.isSurgelato() != null)
+            if(farinaceoSpecifico.getString(FarinaceoSpecifico.SURGELATO) != null)
             {
                 if(filterCount != 0)
                     query += " AND ";
@@ -545,7 +537,7 @@ public class SQLProductDAO implements ProductDAO {
                 String rsTipoFarina = rs.getString("TipoFarina");
                 Boolean rsFresco = rs.getBoolean("Fresco");
                 Boolean rsSurgelato = rs.getBoolean("Surgelato");
-                Farinaceo newFarinaceo = new Farinaceo(rsId, rsNome, rsPrezzo, rsSfuso, CatProdotto.Farinaceo, rsGlutine, rsTipoFarina, rsFresco, rsSurgelato);
+                Farinaceo newFarinaceo = new Farinaceo(rsId, rsNome, rsPrezzo, rsSfuso, rsGlutine, rsTipoFarina, rsFresco, rsSurgelato);
                 farinaceo.getProdottoCommon().setLotti(getLotti(rsId, conn));
                 list.add(newFarinaceo);
             }
@@ -572,13 +564,13 @@ public class SQLProductDAO implements ProductDAO {
                 query += "Tipo = '" + fruttaVerduraSpecifico.getTipoFruttaVerdura().name() + "'";
                 filterCount++;
             }
-            if(fruttaVerduraSpecifico.isBio() != null)
+            if(fruttaVerduraSpecifico.getString(FruttaVerduraSpecifico.BIO) != null)
             {
                 if(filterCount != 0)
                     query += " AND ";
                 query += "Bio = " + fruttaVerduraSpecifico.isBio();
             }
-            if(fruttaVerduraSpecifico.isSurgelato() != null)
+            if(fruttaVerduraSpecifico.getString(FruttaVerduraSpecifico.SURGELATO) != null)
             {
                 if(filterCount != 0)
                     query += " AND ";
@@ -604,7 +596,7 @@ public class SQLProductDAO implements ProductDAO {
                 TipoFruttaVerdura rsTipoFV = TipoFruttaVerdura.valueOf(rs.getString("Tipo"));
                 Boolean rsBio = rs.getBoolean("Bio");
                 Boolean rsSurgelato = rs.getBoolean("Surgelato");
-                FruttaVerdura newFruttaVerdura = new FruttaVerdura(rsId, rsNome, rsPrezzo, rsSfuso, CatProdotto.Fruttaverdura, rsTipoFV, rsBio, rsSurgelato);
+                FruttaVerdura newFruttaVerdura = new FruttaVerdura(rsId, rsNome, rsPrezzo, rsSfuso, rsTipoFV, rsBio, rsSurgelato);
                 fruttaVerdura.getProdottoCommon().setLotti(getLotti(rsId, conn));
                 list.add(newFruttaVerdura);
             }
@@ -625,7 +617,7 @@ public class SQLProductDAO implements ProductDAO {
             Statement stm = conn.createStatement();
             String productFilters = getProdottoFilters(conserva.getProdottoCommon());
             String query = "";
-            if(conservaSpecifico.getTipoConservazione() != null)
+            if(conservaSpecifico.getString(ConservaSpecifico.TIPO_CONSERVAZIONE) != null)
             {
                 query += "TipoConservazione = '" +conservaSpecifico.getTipoConservazione() + "'";
             }
@@ -648,7 +640,7 @@ public class SQLProductDAO implements ProductDAO {
                 boolean rsSfuso = rs.getBoolean("Sfuso");
                 float rsPrezzo = rs.getFloat("Prezzo");
                 TipoConservazione rsTipoC= TipoConservazione.valueOf(rs.getString("TipoConservazione"));
-                Conserva newConserva = new Conserva(rsId, rsNome, rsPrezzo, rsSfuso, CatProdotto.Conserva, rsTipoC);
+                Conserva newConserva = new Conserva(rsId, rsNome, rsPrezzo, rsSfuso,  rsTipoC);
                 conserva.getProdottoCommon().setLotti(getLotti(rsId, conn));
                 list.add(newConserva);
             }
@@ -670,18 +662,18 @@ public class SQLProductDAO implements ProductDAO {
             String productFilters = getProdottoFilters(prodottoCaseario.getProdottoCommon());
             String query = "";
             int filterCount = 0;
-            if(prodCasSpecifico.getTipoLatte() != null)
+            if(prodCasSpecifico.getString(ProdottoCasearioSpecifico.TIPO_LATTE) != null)
             {
                 query += "TipoLatte = " + prodCasSpecifico.getTipoLatte();
                 filterCount++;
             }
-            if(prodCasSpecifico.getStabilimento() != null)
+            if(prodCasSpecifico.getString(ProdottoCasearioSpecifico.STABILIMENTO)!= null)
             {
                 if(filterCount != 0)
                     query += " AND ";
                 query += "Stabilimento = " + prodCasSpecifico.getStabilimento();
             }
-            if(prodCasSpecifico.getStagionatura() != null)
+            if(prodCasSpecifico.getString(ProdottoCasearioSpecifico.STAGIONATURA) != null)
             {
                 if(filterCount != 0)
                     query += " AND ";
@@ -694,7 +686,7 @@ public class SQLProductDAO implements ProductDAO {
             } else {
                 query = productFilters + query;
             }
-            String sql = "SELECT * FROM PRODOTTO INNER JOIN PRODOTTOCASEAREO ON PRODOTTO.id = PRODOTTOCASEAREO.idProdotto" + (query.equals("") ? ";" : " WHERE " + query + ";");
+            String sql = "SELECT * FROM PRODOTTO INNER JOIN PRODOTTOCASEARIO ON PRODOTTO.id = PRODOTTOCASEARIO.idProdotto" + (query.equals("") ? ";" : " WHERE " + query + ";");
             System.out.println(sql);
             ResultSet rs = stm.executeQuery(sql);
             List<ProdottoCaseario> list = new ArrayList();
@@ -708,7 +700,7 @@ public class SQLProductDAO implements ProductDAO {
                 String rsStabilimento = rs.getString("Stabilimento");
                 int rsStagionatura = rs.getInt("Stagionatura");
 
-                ProdottoCaseario newProdottoCaseario = new ProdottoCaseario(rsId, rsNome, rsPrezzo, rsSfuso, CatProdotto.Prodottocaseario, rsTipoLatte, rsStabilimento, rsStagionatura);
+                ProdottoCaseario newProdottoCaseario = new ProdottoCaseario(rsId, rsNome, rsPrezzo, rsSfuso, rsTipoLatte, rsStabilimento, rsStagionatura);
                 //List<LottoCaseareo> lottCas = getLottiCaseari()  TODO
                 list.add(newProdottoCaseario);
 
@@ -721,6 +713,8 @@ public class SQLProductDAO implements ProductDAO {
             return null;
         }
     }
+
+
     //endregion
 
     //region DELETE

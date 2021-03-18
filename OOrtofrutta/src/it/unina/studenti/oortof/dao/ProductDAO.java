@@ -2,7 +2,6 @@ package it.unina.studenti.oortof.dao;
 
 import java.util.List;
 
-import it.unina.studenti.oortof.models.CatProdotto;
 import it.unina.studenti.oortof.models.Prodotto;
 
 public interface ProductDAO {

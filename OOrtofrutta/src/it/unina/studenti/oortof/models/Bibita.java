@@ -8,7 +8,7 @@ public class Bibita extends Prodotto {
     prodottoCommon.setValue(ProdottoCommon.BIBITA, Boolean.TRUE);
   }
 
-  public Bibita(int id, String nome, float prezzo, boolean sfuso, float gradazioneAlcolica, boolean frizzante, TipoBibita tipoBibita) {
+  public Bibita(Integer id, String nome, Float prezzo, Boolean sfuso, Float gradazioneAlcolica, Boolean frizzante, TipoBibita tipoBibita) {
     super(id, nome, prezzo, sfuso);
     setProdottoSpecifico(new BibitaSpecifico(gradazioneAlcolica, frizzante, tipoBibita));
     prodottoCommon.setValue(ProdottoCommon.BIBITA, Boolean.TRUE);
