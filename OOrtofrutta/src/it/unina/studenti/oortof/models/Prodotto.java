@@ -16,11 +16,10 @@ public class Prodotto extends ObservedModel implements PropertyChangeListener {
   public static final int UOVO_INDEX = 7;
 
   protected ProdottoCommon prodottoCommon;
-  protected ProdottoSpecifico[] prodottiSpecifici;
+  protected ProdottoSpecifico[] prodottiSpecifici = new ProdottoSpecifico[8];
 
   public Prodotto() {
     prodottoCommon = new ProdottoCommon();
-    prodottiSpecifici = new ProdottoSpecifico[8];
     prodottiSpecifici[ALTRO_INDEX] = new AltroSpecifico();
     prodottiSpecifici[BIBITA_INDEX] = new BibitaSpecifico();
     prodottiSpecifici[CARNE_PESCE_INDEX] = new CarnePesceSpecifico();

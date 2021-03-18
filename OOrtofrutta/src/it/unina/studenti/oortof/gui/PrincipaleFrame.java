@@ -81,7 +81,7 @@ System.err.println("THREAD START");
                 // T E S T che non funziona perch� � cambiato tutto
                 Prodotto p = new Prodotto();
                 ((ProdottiPanel)frame.prodottiTabbed.getComponent(0)).setModel(p);
-                Thread.sleep(5000);
+                Thread.sleep(15000);
 System.err.println("BINGO");
                 p.getProdottoCommon().setPrezzo(12.30f);
                 p.getProdottoCommon().setNome("Pippo");
@@ -93,7 +93,7 @@ System.err.println("BINGO");
                 SQLProductDAO prodDao = new SQLProductDAO(dbContext);
 
                 Bibita bib = new Bibita(9, null, null, null, null, null, null);
-                //prodDao.getBibita(bib);
+                prodDao.getBibita(bib);
                 System.out.println("a");
               }
               catch (Exception e) {

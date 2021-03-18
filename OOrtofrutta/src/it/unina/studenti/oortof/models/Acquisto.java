@@ -75,4 +75,10 @@ public class Acquisto extends ObservedModel implements PropertyChangeListener {
     return getLotto().equals(((Acquisto)other).getLotto()) && getQuantita() == ((Acquisto)other).getQuantita();
   }
 
+  @Override
+  public void propertyChange(PropertyChangeEvent evt) {
+    firePropertyChanged(evt);
+    
+  }
+
 }
