@@ -40,7 +40,7 @@ public class Prodotto extends ObservedModel implements PropertyChangeListener {
     prodottiSpecifici[UOVO_INDEX].addPropertyChangeListener(this);
   }
   
-  protected Prodotto(int id, String nome, float prezzo, boolean sfuso) {
+  protected Prodotto(Integer id, String nome, Float prezzo, Boolean sfuso) {
     prodottoCommon = new ProdottoCommon(id, nome, prezzo, sfuso);
     prodottoCommon.addPropertyChangeListener(this);
   }

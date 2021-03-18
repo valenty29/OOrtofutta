@@ -8,8 +8,11 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import it.unina.studenti.oortof.dao.DBContext;
+import it.unina.studenti.oortof.dao.SQLProductDAO;
 import it.unina.studenti.oortof.models.ApplicationCounter;
 import it.unina.studenti.oortof.models.ApplicationStatus;
+import it.unina.studenti.oortof.models.Bibita;
 import it.unina.studenti.oortof.models.Prodotto;
 
 import javax.swing.JTabbedPane;
@@ -75,15 +78,23 @@ public class PrincipaleFrame extends JFrame {
               try {
 System.err.println("THREAD START");
                 Thread.sleep(1000);
-                // T E S T che non funziona perchè è cambiato tutto
+                // T E S T che non funziona perchï¿½ ï¿½ cambiato tutto
                 Prodotto p = new Prodotto();
                 ((ProdottiPanel)frame.prodottiTabbed.getComponent(0)).setModel(p);
-                Thread.sleep(15000);
+                Thread.sleep(5000);
 System.err.println("BINGO");
+                p.getProdottoCommon().setPrezzo(12.30f);
                 p.getProdottoCommon().setNome("Pippo");
                 p.getProdottoCommon().setId(12345678);
-                p.getProdottoCommon().setPrezzo(12.30f);
+
                 p.getProdottoCommon().setSfuso(true);
+
+                DBContext dbContext = new DBContext("jdbc:postgresql:postgres", "Postgres", "Inb4Ext!");
+                SQLProductDAO prodDao = new SQLProductDAO(dbContext);
+
+                Bibita bib = new Bibita(9, null, null, null, null, null, null);
+                //prodDao.getBibita(bib);
+                System.out.println("a");
               }
               catch (Exception e) {
                 e.printStackTrace();
