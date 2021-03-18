@@ -267,7 +267,6 @@ public class ProdottoCommon extends ObservedModel implements PropertyChangeListe
     int toRemoveIndex = ((List<Lotto>)attributes[LOTTI]).indexOf(lotto);
     if (toRemoveIndex >= 0) {
       removeLotto(toRemoveIndex);
-      lotto.removePropertyChangeListener(this);
     }
   }
   

@@ -4,96 +4,100 @@ import java.util.Date;
 
 
 public class Lotto extends ObservedModel {
-  private int id;
-  private String codLotto;
-  private Date scadenza;
-  private float disponibilita;
-  private Date dataProduzione;
-  private String codPaeseOrigine;
+  
+  public static final int ID = 0;                 //Integer
+  public static final int COD_LOTTO = 1;          //String
+  public static final int SCADENZA = 2;           //Date
+  public static final int DISPONIBILITA = 3;      //Float
+  public static final int DATA_PRODUZIONE = 4;    //Date
+  public static final int COD_PAESE_ORIGINE = 5;  //String
+
   
   public Lotto() {
+    attributes = new Object[6];
   }
 
-  public Lotto(int id, String codLotto, Date scadenza, float disponibilita, Date dataProduzione, String codPaeseOrigine) {
-    this.id = id;
-    this.codLotto = codLotto;
-    this.scadenza = scadenza;
-    this.disponibilita = disponibilita;
-    this.dataProduzione = dataProduzione;
-    this.codPaeseOrigine = codPaeseOrigine;
+  public Lotto(Integer id, String codLotto, Date scadenza, Float disponibilita, Date dataProduzione, String codPaeseOrigine) {
+    this();
+    setValue(ID, id);
+    setValue(COD_LOTTO, codLotto);
+    setValue(SCADENZA, scadenza);
+    setValue(DISPONIBILITA, disponibilita);
+    setValue(DATA_PRODUZIONE, dataProduzione);
+    setValue(COD_PAESE_ORIGINE, codPaeseOrigine);
   }
 
-  public int getId() {
-    return id;
+  public Integer getId() {
+    return getInteger(ID);
   }
   
-  public void setId(int id) {
-    int oldId = this.id;
-    this.id = id;
+  public void setId(Integer id) {
+    Integer oldId = getId();
+    setValue(ID, id);
     firePropertyChanged("id", oldId, id);
   }
   
   public String getCodLotto() {
-    return codLotto;
+    return getString(COD_LOTTO);
   }
 
   public void setCodLotto(String codLotto) {
-    String oldCodLotto = this.codLotto;
-    this.codLotto = codLotto;
+    String oldCodLotto = getCodLotto();
+    setValue(COD_LOTTO, codLotto);
     firePropertyChanged("colLotto", oldCodLotto, codLotto);
   }
 
-  public Date getScadenza() {
-    return scadenza;
+//  public Date getScadenza() {
+//    return scadenza;
+//  }
+//
+//  public void setScadenza(Date scadenza) {
+//    Date oldScadenza = this.scadenza;
+//    this.scadenza = scadenza;
+//    firePropertyChanged("scadenza", oldScadenza, scadenza);
+//  }
+
+  public Float getDisponibilita() {
+    return getFloat(DISPONIBILITA);
   }
 
-  public void setScadenza(Date scadenza) {
-    Date oldScadenza = this.scadenza;
-    this.scadenza = scadenza;
-    firePropertyChanged("scadenza", oldScadenza, scadenza);
-  }
-
-  public float getDisponibilita() {
-    return disponibilita;
-  }
-
-  public void setDisponibilita(float disponibilita) {
-    float oldDisponibilita = this.disponibilita;
-    this.disponibilita = disponibilita;
+  public void setDisponibilita(Float disponibilita) {
+    Float oldDisponibilita = getDisponibilita();
+    setValue(DISPONIBILITA, disponibilita);
     firePropertyChanged("disponibilita", oldDisponibilita, disponibilita);
   }
 
-  public Date getDataProduzione() {
-    return dataProduzione;
-  }
-
-  public void setDataProduzione(Date dataProduzione) {
-    Date oldDataProduzione = this.dataProduzione;
-    this.dataProduzione = dataProduzione;
-    firePropertyChanged("dataProduzione", oldDataProduzione, dataProduzione);
-  }
+//  public Date getDataProduzione() {
+//    return dataProduzione;
+//  }
+//
+//  public void setDataProduzione(Date dataProduzione) {
+//    Date oldDataProduzione = this.dataProduzione;
+//    this.dataProduzione = dataProduzione;
+//    firePropertyChanged("dataProduzione", oldDataProduzione, dataProduzione);
+//  }
 
   public String getCodPaeseOrigine() {
-    return codPaeseOrigine;
+    return getString(COD_PAESE_ORIGINE);
   }
 
   public void setCodPaeseOrigine(String codPaeseOrigine) {
-    String oldCodPaeseOrigine = this.codPaeseOrigine;
-    this.codPaeseOrigine = codPaeseOrigine;
+    String oldCodPaeseOrigine = getCodPaeseOrigine();
+    setValue(COD_PAESE_ORIGINE, codPaeseOrigine);
     firePropertyChanged("codPaeseOrigine", oldCodPaeseOrigine, codPaeseOrigine);
   }
   
   public String toString() {
-    return codLotto;
+    return getCodLotto();
   }
   
   public void copyTo(Lotto lotto) {
-    lotto.id = id;
-    lotto.codLotto = codLotto;
-    lotto.scadenza = scadenza;
-    lotto.disponibilita = disponibilita;
-    lotto.dataProduzione = dataProduzione;
-    lotto.codPaeseOrigine = codPaeseOrigine;
+    lotto.setId(getId());
+    lotto.setCodLotto(getCodLotto());
+ //   lotto.setValue(SCADENZA, );
+    lotto.setDisponibilita(getDisponibilita());
+ //   lotto.setValue(DATA_PRODUZIONE, );
+    lotto.setCodPaeseOrigine(getCodPaeseOrigine());
   }
   
   public boolean equals(Object other) {
@@ -103,10 +107,10 @@ public class Lotto extends ObservedModel {
     if (this == other) {
       return true;
     }
-    if (id > 0 && ((Lotto)other).id > 0) {
-      return id == ((Lotto)other).id;
+    if (getId() > 0 && ((Lotto)other).getId() > 0) {
+      return getId() == ((Lotto)other).getId();
     }
-    return codLotto.equals(((Lotto)other).codLotto);
+    return getCodLotto().equals(((Lotto)other).getCodLotto());
   }
 
 }

@@ -60,6 +60,8 @@ public abstract class ObservedModel {
     }
   }
   
+  //Aggiungere gestione tipo Date
+  
   public void removePropertyChangeListener(PropertyChangeListener l) {
     listeners.remove(l);
   }
