@@ -8,6 +8,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import it.unina.studenti.oortof.controllers.ApplicationController;
 import it.unina.studenti.oortof.dao.DBContext;
 import it.unina.studenti.oortof.dao.SQLClienteDAO;
 import it.unina.studenti.oortof.dao.SQLProductDAO;
@@ -69,60 +70,26 @@ public class PrincipaleFrame extends JFrame {
    * Launch the application.
    */
   public static void main(String[] args) {
+    ApplicationController.getInstance();
     EventQueue.invokeLater(new Runnable() {
       public void run() {
         try {
           UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel"); 
           PrincipaleFrame frame = new PrincipaleFrame();
           frame.setVisible(true);
+          Prodotto p = new Prodotto();
+          ((ProdottiPanel)frame.prodottiTabbed.getComponent(0)).setModel(p);
+          ApplicationController.getInstance().getSubController(0).setModel(p);
+
           new Thread() {
             public void run() {
               try {
 System.err.println("THREAD START");
-                Thread.sleep(1000);
-                // T E S T che non funziona perch� � cambiato tutto
-
-                DBContext dbContext = new DBContext("jdbc:postgresql:postgres", "postgres", "Inb4Ext!");
-                /*SQLProductDAO prodDao = new SQLProductDAO(dbContext);
-
-                Bibita bib = new Bibita(9, null, null, null, null, null, null);
-                prodDao.getBibita(bib);*/
-
-                SQLClienteDAO clienteDAO = new SQLClienteDAO(dbContext);
-
-                //RaccoltaPunti puntis = new RaccoltaPunti(null, null, null, null, null, null, null, null, null);
-                LocalDate testDate = LocalDate.of(2000, 3, 20);
-
-                RaccoltaPunti raccolta = new RaccoltaPunti();
-                raccolta.setValue(RaccoltaPunti.PRODOTTO_CASEARIO, "150 250");
-                Cliente template = new Cliente(22, null, null, null, null, null, null, null, raccolta);
-
-
-                //Cliente test2 = clienteDAO.createCliente(template);
-                List<Cliente> clients = clienteDAO.getClienti(template);
-
-                Cliente ao = new Cliente();
-
-                Cliente ao2 = clients.stream().findFirst().get();
-
-                ao2.copyTo(ao);
-
-                ao2.setCognome("Ciccissaa");
-
-
-                clienteDAO.updateCliente(ao, ao2);
-
-
-                System.out.println("a");
-
-                Prodotto p = new Prodotto();
-                ((ProdottiPanel)frame.prodottiTabbed.getComponent(0)).setModel(p);
-                Thread.sleep(5000);
+                Thread.sleep(3000);
 System.err.println("BINGO");
 
                 p.getProdottoCommon().setNome("Pippo");
                 p.getProdottoCommon().setId(12345678);
-                p.getProdottoCommon().setPrezzo(12.30f);
                 p.getProdottoCommon().setSfuso(true);
 
                 new Thread() {
@@ -142,6 +109,12 @@ System.err.println("BINGO");
                   }
                 }.start();
 
+                DBContext dbContext = new DBContext("jdbc:postgresql:postgres", "Postgres", "Inb4Ext!");
+                SQLProductDAO prodDao = new SQLProductDAO(dbContext);
+
+                Bibita bib = new Bibita(9, null, null, null, null, null, null);
+                prodDao.getBibita(bib);
+                System.out.println("a");
               }
               catch (Exception e) {
                 e.printStackTrace();

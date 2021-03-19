@@ -5,6 +5,7 @@ import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -58,37 +59,28 @@ public class Cliente extends ObservedModel implements PropertyChangeListener{
     return getInteger(ID);
   }
   
-  public void setId(int id) {
-    if (equals(id, attributes[ID])) {
-      return;
-    }
-    Integer oldId = (Integer)attributes[ID];
+  public void setId(Integer id) {
+    Integer oldId = getId();
     setValue(ID, id);
     firePropertyChanged("id", oldId, id);
   }
   
   public String getCF() {
-    return (String)attributes[CF];
+    return getString(CF);
   }
 
   public void setCF(String cf) {
-   if(equals(cf, attributes[CF])){
-     return;
-   }
-   String oldCF = (String)attributes[CF];
-   setValue(CF, cf);
-   firePropertyChanged("cf", oldCF, cf);
+    String oldCF = getCF();
+    setValue(CF, cf);
+    firePropertyChanged("cf", oldCF, cf);    
   }
 
   public String getNome() {
-    return (String)attributes[NOME];
+    return getString(NOME);
   }
 
   public void setNome(String nome) {
-    if(equals(nome, attributes[NOME])){
-      return;
-    }
-    String oldNome = (String)attributes[NOME];
+    String oldNome = getNome();
     setValue(NOME, nome);
     firePropertyChanged("nome", oldNome, nome);
   }
@@ -133,31 +125,35 @@ public class Cliente extends ObservedModel implements PropertyChangeListener{
   }
 
   public Genere getGenere() {
-    return Genere.valueOf(getString(GENERE));
+    return Genere.valueOf(getString(Cliente.GENERE));
   }
 
   public void setGenere(Genere genere) {
-    if(equals(genere, attributes[GENERE])){
-      return;
-    }
-    Genere oldGenere = (Genere)attributes[GENERE];
+    Genere oldGenere = getGenere();
     setValue(GENERE, genere);
     firePropertyChanged("genere", oldGenere, genere);
   }
 
   public String getEmail() {
-    return (String)attributes[EMAIL];
+    return getString(EMAIL);
   }
 
   public void setEmail(String email) {
-    if(equals(email, attributes[EMAIL])){
-      return;
-    }
-    String oldEmail = (String)attributes[EMAIL];
-    attributes[EMAIL] = email;
+    String oldEmail = getEmail();
+    setValue(EMAIL, email);
     firePropertyChanged("email", oldEmail, email);
   }
 
+  public Integer getTotalePunti() {
+    return getInteger(TOTALE_PUNTI);
+  }
+
+  public void setTotalePunti(Integer totalePunti) {
+    Integer oldTotalePunti = getTotalePunti();
+    setValue(TOTALE_PUNTI, totalePunti);
+    firePropertyChanged("totalePunti", oldTotalePunti, totalePunti);
+  }
+  
   public List<Scontrino> getScontrini() {
     return (List<Scontrino>)attributes[SCONTRINI];
   }
@@ -169,20 +165,20 @@ public class Cliente extends ObservedModel implements PropertyChangeListener{
     for (Scontrino scontrino : scontrini) {
       scontrino.addPropertyChangeListener(this);
     }
-    List<Lotto> oldScontrini  = (List<Lotto>)attributes[SCONTRINI];
+    List<Scontrino> oldScontrini = (List<Scontrino>)attributes[SCONTRINI];
     attributes[SCONTRINI] = scontrini;
     firePropertyChanged("scontrini", oldScontrini, scontrini);
   }
   
-  public void addScontrino(Scontrino scontrino) {
-    ( (List<Scontrino>)attributes[SCONTRINI]).add(scontrino);
-    firePropertyChanged("scontrino", null, scontrino);
+  public void addLotto(Scontrino scontrino) {
+    ((List<Scontrino>)attributes[SCONTRINI]).add(scontrino);
+    firePropertyChanged("scontrini", null, scontrino);
     scontrino.addPropertyChangeListener(this);
   }
 
-  public void addScontrino(int index, Scontrino scontrino) {
-    ( (List<Scontrino>)attributes[SCONTRINI]).add(index, scontrino);
-    firePropertyChanged("scontrino", index, scontrino);
+  public void addLotto(int index, Scontrino scontrino) {
+    ((List<Scontrino>)attributes[SCONTRINI]).add(index, scontrino);
+    firePropertyChanged("scontrini", index, scontrino);
     scontrino.addPropertyChangeListener(this);
   }
   
@@ -193,7 +189,7 @@ public class Cliente extends ObservedModel implements PropertyChangeListener{
   public void removeScontrino(int index) {
     Scontrino removedScontrino = ((List<Scontrino>)attributes[SCONTRINI]).remove(index);
     removedScontrino.removePropertyChangeListener(this);
-    firePropertyChanged("scontrino", removedScontrino, index);
+    firePropertyChanged("scontrini", removedScontrino, index);
   }
   
   public void removeScontrino(Scontrino scontrino) {
@@ -202,12 +198,26 @@ public class Cliente extends ObservedModel implements PropertyChangeListener{
       removeScontrino(toRemoveIndex);
     }
   }
+  
+  public void clearScontrini() {
+    if (((List<Scontrino>)attributes[SCONTRINI]).size() == 0) {
+      return;
+    }
+    List<Scontrino> oldScontrini = new ArrayList<Scontrino>(((List<Scontrino>)attributes[SCONTRINI]));
+    ((List<Scontrino>)attributes[SCONTRINI]).clear();
+    firePropertyChanged("scontrini", oldScontrini, ((List<Scontrino>)attributes[SCONTRINI]));
+  }
+  
   public int getScontriniSize() {
     return ((List<Scontrino>)attributes[SCONTRINI]).size();
   }
   
   public String toString() {
-    return attributes[COGNOME] + " " + attributes[NOME];
+    StringBuilder sb = new StringBuilder("");
+    sb.append(getCognome());
+    sb.append(" ");
+    sb.append(getNome());
+    return sb.toString();
   }
   
   public boolean equals(Object other) {
@@ -217,11 +227,10 @@ public class Cliente extends ObservedModel implements PropertyChangeListener{
     if (this == other) {
       return true;
     }
-    if ( (Integer)attributes[ID] > 0 &&  (Integer)((Cliente)other).attributes[ID] > 0) {
-      return (Integer)attributes[ID] == (Integer)((Cliente)other).attributes[ID];
+    if (getId() > 0 && ((Cliente)other).getId() > 0) {
+      return getId() == ((Cliente)other).getId();
     }
-
-    return attributes[CF].equals(((Cliente)other).attributes[CF] );
+    return getCF().equals(((Cliente)other).getCF());
   }
 
   public void copyTo(Cliente cliente) {

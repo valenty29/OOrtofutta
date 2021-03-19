@@ -159,5 +159,3 @@ public class RaccoltaPunti extends ObservedModel implements PropertyChangeListen
     firePropertyChanged(evt);
   }
 }
-
-

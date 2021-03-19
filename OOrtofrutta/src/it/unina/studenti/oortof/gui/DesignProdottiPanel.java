@@ -14,9 +14,13 @@ import javax.swing.JRadioButton;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import java.awt.SystemColor;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 public abstract class DesignProdottiPanel extends JPanel {
 

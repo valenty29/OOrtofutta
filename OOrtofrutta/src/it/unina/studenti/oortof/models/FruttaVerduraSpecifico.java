@@ -19,7 +19,12 @@ public class FruttaVerduraSpecifico extends ProdottoSpecifico {
   }
 
   public TipoFruttaVerdura getTipoFruttaVerdura() {
-    return TipoFruttaVerdura.valueOf(getString(TIPO_FRUTTA_VERDURA));
+    try {
+      return TipoFruttaVerdura.valueOf(getString(TIPO_FRUTTA_VERDURA));
+    }
+    catch (Exception e) {
+      return null;
+    }
   }
 
   public void setTipoFruttaVerdura(TipoFruttaVerdura tipoFruttaVerdura) {
@@ -65,11 +70,11 @@ public class FruttaVerduraSpecifico extends ProdottoSpecifico {
     firePropertyChanged("surgelato", oldSurgelato, surgelato);
   }
 
-  public void copyTo(ProdottoSpecifico fruttaVerduraSpecifico) {
-    ((FruttaVerduraSpecifico)fruttaVerduraSpecifico).setTipoFruttaVerdura(getTipoFruttaVerdura());
-    ((FruttaVerduraSpecifico)fruttaVerduraSpecifico).setBio(getBio());
-    ((FruttaVerduraSpecifico)fruttaVerduraSpecifico).setSurgelato(getSurgelato());
-  }
+//  public void copyTo(ProdottoSpecifico fruttaVerduraSpecifico) {
+//    ((FruttaVerduraSpecifico)fruttaVerduraSpecifico).setTipoFruttaVerdura(getTipoFruttaVerdura());
+//    ((FruttaVerduraSpecifico)fruttaVerduraSpecifico).setBio(getBio());
+//    ((FruttaVerduraSpecifico)fruttaVerduraSpecifico).setSurgelato(getSurgelato());
+//  }
 
   @Override
   public void propertyChange(PropertyChangeEvent evt) {

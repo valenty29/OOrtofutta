@@ -12,15 +12,16 @@ import java.beans.PropertyChangeListener;
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.JCheckBox;
 
 import it.unina.studenti.oortof.models.ApplicationCounter;
 import it.unina.studenti.oortof.models.ApplicationStatus;
 import it.unina.studenti.oortof.models.Prodotto;
 import it.unina.studenti.oortof.models.ProdottoCommon;
-import it.unina.studenti.oortof.models.ProdottoSpecifico;
 
-public class ProdottiPanel extends DesignProdottiPanel {
+public class ProdottiPanel extends DesignProdottiPanel implements DocumentListener, ActionListener {
 
   private static final long serialVersionUID = 1L;
   
@@ -100,7 +101,8 @@ public class ProdottiPanel extends DesignProdottiPanel {
     farinaceiCheckbox.addActionListener(checkBoxActionListener);   
     conserveCheckbox.addActionListener(checkBoxActionListener);    
     uovaCheckbox.addActionListener(checkBoxActionListener);         
-    altriTipoCheckbox.addActionListener(checkBoxActionListener);    
+    altriTipoCheckbox.addActionListener(checkBoxActionListener);   
+    listenGuiField();
   }
   
   public void setModel(Prodotto prodotto) {
@@ -134,6 +136,26 @@ public class ProdottiPanel extends DesignProdottiPanel {
       }
     }
   }
+  
+  void listenGuiField() {
+    listenGuiField(this);
+  }
+  
+  void listenGuiField(Container container) {
+    for (int i = 0; i < container.getComponentCount(); i++) {
+      Component c = container.getComponent(i);
+      if (c instanceof JTextField) {
+        ((JTextField)c).getDocument().addDocumentListener(this);
+      }
+      else if (c instanceof AbstractButton) {
+        ((AbstractButton)c).addActionListener(this);
+      }
+      else if (c instanceof Container) {
+        listenGuiField((Container)c);
+      }
+    }
+  }
+  
   
   void groupCheckBox(boolean group) {
     if (group) {
@@ -197,11 +219,47 @@ public class ProdottiPanel extends DesignProdottiPanel {
     modelToView();
   }
   
+  boolean modelToViewRunning = false;
   
- void modelToView() {
-    nomeTextField.setText(prodotto.getProdottoCommon().getNome());
-    codiceProdottoTextField.setValue(prodotto.getProdottoCommon().getId());
-    prezzoTextField.setValue(prodotto.getProdottoCommon().getPrezzo());
+  void modelToView() {
+    modelToViewRunning = true;
+    nomeTextField.setText(prodotto.getProdottoCommon().getString(ProdottoCommon.NOME));
+    codiceProdottoTextField.setText(prodotto.getProdottoCommon().getString(ProdottoCommon.ID));
+    prezzoTextField.setText(prodotto.getProdottoCommon().getString(ProdottoCommon.PREZZO));
     sfusoCheckBox.setSelected(prodotto.getProdottoCommon().isSfuso());
+    modelToViewRunning = false;
   }
+ 
+  void viewToModel() {
+    if (modelToViewRunning) {
+      return;
+    }
+    prodotto.getProdottoCommon().setValue(ProdottoCommon.NOME, nomeTextField.getText());
+    prodotto.getProdottoCommon().setValue(ProdottoCommon.ID, codiceProdottoTextField.getText());
+    prodotto.getProdottoCommon().setValue(ProdottoCommon.PREZZO, prezzoTextField.getText());
+    prodotto.getProdottoCommon().setValue(ProdottoCommon.SFUSO, sfusoCheckBox.isSelected());
+  }
+ 
+ 
+
+  @Override
+  public void actionPerformed(ActionEvent e) {
+    viewToModel();
+  }
+  
+  @Override
+  public void insertUpdate(DocumentEvent e) {
+    viewToModel();
+  }
+  
+  @Override
+  public void removeUpdate(DocumentEvent e) {
+    viewToModel();
+  }
+  
+  @Override
+  public void changedUpdate(DocumentEvent e) {
+    viewToModel();
+  }
+
 }

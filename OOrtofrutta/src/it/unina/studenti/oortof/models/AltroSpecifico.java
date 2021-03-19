@@ -7,8 +7,8 @@ public class AltroSpecifico extends ProdottoSpecifico {
   public AltroSpecifico() {   
   }
   
-  public void copyTo(ProdottoSpecifico altroSpecifico) {
-  }
+//  public void copyTo(ProdottoSpecifico altroSpecifico) {
+//  }
 
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
