@@ -70,4 +70,9 @@ public class Acquisto extends ObservedModel implements PropertyChangeListener {
     
   }
 
+  public void copyTo(Acquisto acquisto) {
+    acquisto.setQuantita(getQuantita());
+    acquisto.setPrezzo(getPrezzo());
+    acquisto.setLotto(getLotto());
+  }
 }

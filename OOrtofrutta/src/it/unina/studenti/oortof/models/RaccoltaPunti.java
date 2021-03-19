@@ -1,125 +1,161 @@
 package it.unina.studenti.oortof.models;
 
-public class RaccoltaPunti extends ObservedModel{
-  
-  public static final int ID = 0;                //Integer
-  public static final int ALTRO = 1;             //Integer 
-  public static final int BIBITA = 2;            //Integer 
-  public static final int CARNE_PESCE = 3;       //Integer 
-  public static final int CONSERVA = 4;          //Integer 
-  public static final int FARINACEO = 5;         //Integer 
-  public static final int FRUTTA_VERDURA = 6;    //Integer 
-  public static final int PRODOTTO_CASEARIO = 7; //Integer
-  public static final int UOVO = 8;              //Integer
-  
-  public RaccoltaPunti() {
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+
+public class RaccoltaPunti extends ObservedModel implements PropertyChangeListener {
+
+
+  public static final int ID = 0;
+  public static final int FRUTTA_VERDURA = 1;
+  public static final int PRODOTTO_CASEARIO = 2;
+  public static final int FARINACEO = 3;
+  public static final int UOVO = 4;
+  public static final int CARNE_PESCE = 5;
+  public static final int BIBITA = 6;
+  public static final int CONSERVA = 7;
+  public static final int ALTRO = 8;
+
+  public RaccoltaPunti(){
     attributes = new Object[9];
   }
 
-  public RaccoltaPunti(Integer id, Integer altro, Integer bibita, Integer carnePesce, Integer conserva, Integer farinaceo, Integer fruttaVerdura, Integer prodottoCaseario, Integer uovo) {
+  public RaccoltaPunti(Integer id, Float fruttaVerdura, Float prodottoCaseario, Float farinaceo, Float uovo, Float carnePesce, Float bibita, Float conserva, Float altro) {
     this();
     setValue(ID, id);
-    setValue(ALTRO, altro);
-    setValue(BIBITA, bibita);
-    setValue(CARNE_PESCE, carnePesce);
-    setValue(CONSERVA, conserva);
-    setValue(FARINACEO, farinaceo);
     setValue(FRUTTA_VERDURA, fruttaVerdura);
     setValue(PRODOTTO_CASEARIO, prodottoCaseario);
+    setValue(FARINACEO, farinaceo);
     setValue(UOVO, uovo);
+    setValue(CARNE_PESCE, carnePesce);
+    setValue(BIBITA, bibita);
+    setValue(CONSERVA, conserva);
+    setValue(ALTRO, altro);
   }
 
   public Integer getId() {
-    return getInteger(ID);
+    return (Integer)attributes[ID];
   }
 
-  public void setId(Integer id) {
-    Integer oldId = getId();
-    setValue(ID, id);
-    firePropertyChanged("id", oldId, getId());
+  public void setId(int id) {
+    if (equals(id, attributes[ID])) {
+      return;
+    }
+    Integer oldId = (Integer)attributes[ID];
+    attributes[ID] = id;
+    firePropertyChanged("id", oldId, id);
   }
 
-  public Integer getFruttaVerdura() {
-    return getInteger(FRUTTA_VERDURA);
+  public Float getFruttaVerdura() {
+    return (Float)attributes[FRUTTA_VERDURA];
   }
 
-  public void setFruttaVerdura(Integer fruttaVerdura) {
-    Integer oldFruttaVerdura = getFruttaVerdura();
-    setValue(FRUTTA_VERDURA, fruttaVerdura);
-    firePropertyChanged("fruttaVerdura", oldFruttaVerdura, getFruttaVerdura());
+  public void setFruttaVerdura(int fruttaVerdura) {
+    if (equals(fruttaVerdura, attributes[FRUTTA_VERDURA])) {
+      return;
+    }
+    Float oldFruttaVerdura = (Float)attributes[FRUTTA_VERDURA];
+    attributes[FRUTTA_VERDURA] = fruttaVerdura;
+    firePropertyChanged("fruttaVerdura",oldFruttaVerdura, fruttaVerdura);
   }
 
-  public Integer getProdottoCaseario() {
-    return getInteger(PRODOTTO_CASEARIO);
+  public Float getProdottoCaseario() {
+    return (Float)attributes[PRODOTTO_CASEARIO];
   }
 
-  public void setProdottoCaseario(Integer prodottoCaseario) {
-    Integer oldProdottoCaseario = getProdottoCaseario();
-    setValue(PRODOTTO_CASEARIO, prodottoCaseario);
-    firePropertyChanged("prodottoCaseario", oldProdottoCaseario, getProdottoCaseario());
+  public void setProdottoCaseario(int prodottoCaseario) {
+    if (equals(prodottoCaseario, attributes[PRODOTTO_CASEARIO])) {
+      return;
+    }
+    Float oldProdottoCaseario = (Float)attributes[PRODOTTO_CASEARIO];
+    attributes[PRODOTTO_CASEARIO] = prodottoCaseario;
+    firePropertyChanged("prodottoCaseario", oldProdottoCaseario, prodottoCaseario);
   }
 
-  public Integer getFarinaceo() {
-    return getInteger(FARINACEO);
+  public Float getFarinaceo() {
+    return (Float)attributes[FARINACEO];
   }
 
-  public void setFarinaceo(Integer farinaceo) {
-    Integer oldFarinaceo = getFarinaceo();
-    setValue(FARINACEO, farinaceo);
-    firePropertyChanged("farinaceo", oldFarinaceo, getFarinaceo());
+  public void setFarinaceo(int farinaceo) {
+    if (equals(farinaceo, attributes[FARINACEO])) {
+      return;
+    }
+    Float oldFarinaceo = (Float)attributes[FARINACEO];
+    attributes[FARINACEO] = farinaceo;
+    firePropertyChanged("farinaceo", oldFarinaceo, farinaceo);
   }
 
-  public Integer getUovo() {
-    return getInteger(UOVO);
+  public Float getUovo() {
+    return (Float)attributes[UOVO];
   }
 
-  public void setUovo(Integer uovo) {
-    Integer oldUovo = getUovo();
-    setValue(UOVO, uovo);
-    firePropertyChanged("uovo", oldUovo, getUovo());
+  public void setUovo(int uovo) {
+    if (equals(uovo, attributes[UOVO])) {
+      return;
+    }
+    Float oldUovo = (Float)attributes[UOVO];
+    attributes[UOVO] = uovo;
+    firePropertyChanged("uovo", oldUovo, uovo);
   }
 
-  public Integer getCarnePesce() {
-    return getInteger(CARNE_PESCE);
+  public Float getCarnePesce() { return (Float)attributes[CARNE_PESCE];
   }
 
-  public void setCarnePesce(Integer carnePesce) {
-    Integer oldCarnePesce = getCarnePesce();
-    setValue(CARNE_PESCE, carnePesce);
-    firePropertyChanged("carnePesce", oldCarnePesce, getCarnePesce());
+  public void setCarnePesce(int carnePesce) {
+    if (equals(carnePesce, attributes[CARNE_PESCE])) {
+      return;
+    }
+    Float oldCarnePesce = (Float)attributes[CARNE_PESCE];
+    attributes[CARNE_PESCE] = carnePesce;
+    firePropertyChanged("carnePesce", oldCarnePesce, carnePesce);
   }
 
-  public Integer getBibita() {
-    return getInteger(BIBITA);
+  public Float getBibita() {
+    return (Float)attributes[BIBITA];
   }
 
-  public void setBibita(Integer bibita) {
-    Integer oldBibita = getBibita();
-    setValue(BIBITA, bibita);
-    firePropertyChanged("bibita", oldBibita, getBibita());
+  public void setBibita(int bibita) {
+    if (equals(bibita, attributes[BIBITA])) {
+      return;
+    }
+    Float oldBibita = (Float)attributes[BIBITA];
+    attributes[BIBITA] = bibita;
+    firePropertyChanged("bibita", oldBibita, bibita);
   }
 
-  public Integer getConserva() {
-    return getInteger(CONSERVA);
+  public Float getConserva() {
+    return (Float)attributes[CONSERVA];
   }
 
-  public void setConserva(Integer conserva) {
-    Integer oldConserva = getConserva();
-    setValue(CONSERVA, conserva);
-    firePropertyChanged("conserva", oldConserva, getConserva());
+  public void setConserva(int conserva) {
+    if (equals(conserva, attributes[CONSERVA])) {
+      return;
+    }
+    Float oldConserva = (Float)attributes[CONSERVA];
+    attributes[CONSERVA] = conserva;
+    firePropertyChanged("conserva", oldConserva, conserva);
   }
 
-  public Integer getAltro() {
-    return getInteger(ALTRO);
+  public Float getAltro() {
+    return (Float)attributes[ALTRO];
   }
 
-  public void setAltro(Integer altro) {
-    Integer oldAltro = getAltro();
-    setValue(ALTRO, altro);
-    firePropertyChanged("altro", oldAltro, getAltro());
+  public void setAltro(int altro) {
+    if (equals(altro, attributes[ALTRO])) {
+      return;
+    }
+    Float oldAltro = (Float)attributes[ALTRO];
+    attributes[ALTRO] = altro;
+    firePropertyChanged("altro", oldAltro, altro);
+  }
+  
+  public Float getTotale() {
+    return (Float)attributes[FRUTTA_VERDURA] + (Float)attributes[PRODOTTO_CASEARIO] + (Float)attributes[FARINACEO] + (Float)attributes[UOVO] + (Float)attributes[CARNE_PESCE] + (Float)attributes[BIBITA] + (Float)attributes[CONSERVA] + (Float)attributes[ALTRO];
   }
 
-  public Integer getTotale() {
-    return getFruttaVerdura() + getProdottoCaseario() + getFarinaceo() + getAltro() + getCarnePesce() + getBibita() + getConserva() + getAltro();
+  @Override
+  public void propertyChange(PropertyChangeEvent evt) {
+    firePropertyChanged(evt);
   }
 }

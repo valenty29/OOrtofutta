@@ -10,6 +10,7 @@ import javax.swing.event.ChangeListener;
 
 import it.unina.studenti.oortof.controllers.ApplicationController;
 import it.unina.studenti.oortof.dao.DBContext;
+import it.unina.studenti.oortof.dao.SQLClienteDAO;
 import it.unina.studenti.oortof.dao.SQLProductDAO;
 import it.unina.studenti.oortof.models.ApplicationCounter;
 import it.unina.studenti.oortof.models.ApplicationStatus;
@@ -38,6 +39,10 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.border.BevelBorder;
 import java.awt.Dimension;
+import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import javax.swing.SwingConstants;
 
 public class PrincipaleFrame extends JFrame {
@@ -88,6 +93,23 @@ System.err.println("THREAD START");
 System.err.println("BINGO");
                 Bibita bibita = new Bibita(1, "Pippo", 12.30f, true, 0.0f, true, TipoBibita.Acqua);
                 bibita.copyTo(p);
+
+                new Thread() {
+                  public void run() {
+                    try {
+
+                      Thread.sleep(5000);
+
+
+
+
+
+                    }
+                    catch (Exception e) {
+                      e.printStackTrace();
+                    }
+                  }
+                }.start();
 
                 DBContext dbContext = new DBContext("jdbc:postgresql:postgres", "Postgres", "Inb4Ext!");
                 SQLProductDAO prodDao = new SQLProductDAO(dbContext);

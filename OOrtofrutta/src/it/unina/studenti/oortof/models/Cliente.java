@@ -2,28 +2,33 @@ package it.unina.studenti.oortof.models;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class Cliente extends ObservedModel implements PropertyChangeListener{
-  
-  public static final int ID = 0;            //Integer
-  public static final int CF = 1;            //String
-  public static final int NOME = 2;          //String
-  public static final int COGNOME = 3;       //String
-  public static final int DATA_NASCITA = 4;  //Date
-  public static final int LUOGO_NASCITA = 5; //String
-  public static final int GENERE = 6;        //Genere
-  public static final int EMAIL = 7;         //String
-  public static final int TOTALE_PUNTI = 8;  //String
-  public static final int SCONTRINI = 9;     //String
-  
-  private Cliente() {
-    attributes = new Object[10];
+
+
+  public static final int ID = 0;   // Float
+  public static final int CF = 1;             // Boolean
+  public static final int NOME = 2;           // TipoBibita
+  public static final int COGNOME = 3;
+  public static final int DATA_NASCITA = 4;
+  public static final int LUOGO_NASCITA = 5;
+  public static final int GENERE = 6;
+  public static final int EMAIL = 7;
+  public static final int RACCOLTA_PUNTI = 9;
+  public static final int SCONTRINI = 10;
+
+  public Cliente(){
+    attributes = new Object[11];
+    attributes[SCONTRINI] = new ArrayList<Scontrino>();
   }
-  
-  public Cliente(int id, String cf, String nome, String cognome, Date dataNascita, String luogoNascita, Genere genere, String email, Integer totalePunti, List<Scontrino> scontrini) {
+
+  public Cliente(Integer id, String cf, String nome, String cognome, LocalDate dataNascita, String luogoNascita, Genere genere, String email, RaccoltaPunti raccoltaPunti) {
     this();
     setValue(ID, id);
     setValue(CF, cf);
@@ -33,8 +38,21 @@ public class Cliente extends ObservedModel implements PropertyChangeListener{
     setValue(LUOGO_NASCITA, luogoNascita);
     setValue(GENERE, genere);
     setValue(EMAIL, email);
-    setValue(TOTALE_PUNTI, totalePunti);
-    setValue(SCONTRINI, scontrini);
+    setValue(RACCOLTA_PUNTI, raccoltaPunti);
+  }
+
+  public RaccoltaPunti getRaccoltaPunti() {
+    return (RaccoltaPunti)attributes[RACCOLTA_PUNTI];
+  }
+
+  public void setRaccoltaPunti(RaccoltaPunti raccoltaPunti) {
+
+    if (equals(raccoltaPunti, attributes[RACCOLTA_PUNTI])) {
+      return;
+    }
+    RaccoltaPunti oldRaccoltaPunti = (RaccoltaPunti)attributes[RACCOLTA_PUNTI];
+    attributes[RACCOLTA_PUNTI] = raccoltaPunti;
+    firePropertyChanged("raccoltaPunti", oldRaccoltaPunti, raccoltaPunti);
   }
 
   public Integer getId() {
@@ -68,32 +86,41 @@ public class Cliente extends ObservedModel implements PropertyChangeListener{
   }
 
   public String getCognome() {
-    return getString(COGNOME);
+    return (String)attributes[COGNOME];
   }
 
   public void setCognome(String cognome) {
-    String oldCognome = getCognome();
-    setValue(COGNOME,cognome);
+    if(equals(cognome, attributes[COGNOME])){
+      return;
+    }
+    String oldCognome = (String)attributes[COGNOME];
+    setValue(COGNOME, cognome);
     firePropertyChanged("cognome", oldCognome, cognome);
   }
 
-//  public Date getDataNascita() {
-//    return dataNascita;
-//  }
-//
-//  public void setDataNascita(Date dataNascita) {
-//    Date oldDataNascita = this.dataNascita;
-//    this.dataNascita = dataNascita;
-//    firePropertyChanged("dataNascita", oldDataNascita, dataNascita);
-//  }
+  public LocalDate getDataNascita() {
+    return LocalDate.parse((String)attributes[DATA_NASCITA]);
+  }
+
+  public void setDataNascita(LocalDate dataNascita) {
+    if(equals(dataNascita, attributes[DATA_NASCITA])){
+      return;
+    }
+    LocalDate oldData = (LocalDate)attributes[DATA_NASCITA];
+    setValue(DATA_NASCITA, dataNascita);
+    firePropertyChanged("dataNascita", oldData, dataNascita);
+  }
 
   public String getLuogoNascita() {
-    return getString(LUOGO_NASCITA);
+    return (String)attributes[LUOGO_NASCITA];
   }
 
   public void setLuogoNascita(String luogoNascita) {
-    String oldLuogoNascita = getLuogoNascita();
-    setValue(LUOGO_NASCITA, luogoNascita);
+    if(equals(luogoNascita, attributes[LUOGO_NASCITA])){
+      return;
+    }
+    String oldLuogoNascita = (String)attributes[LUOGO_NASCITA];
+    attributes[LUOGO_NASCITA] = luogoNascita;
     firePropertyChanged("luogoNascita", oldLuogoNascita, luogoNascita);
   }
 
@@ -115,16 +142,6 @@ public class Cliente extends ObservedModel implements PropertyChangeListener{
     String oldEmail = getEmail();
     setValue(EMAIL, email);
     firePropertyChanged("email", oldEmail, email);
-  }
-
-  public Integer getTotalePunti() {
-    return getInteger(TOTALE_PUNTI);
-  }
-
-  public void setTotalePunti(Integer totalePunti) {
-    Integer oldTotalePunti = getTotalePunti();
-    setValue(TOTALE_PUNTI, totalePunti);
-    firePropertyChanged("totalePunti", oldTotalePunti, totalePunti);
   }
   
   public List<Scontrino> getScontrini() {
@@ -204,6 +221,24 @@ public class Cliente extends ObservedModel implements PropertyChangeListener{
       return getId() == ((Cliente)other).getId();
     }
     return getCF().equals(((Cliente)other).getCF());
+  }
+
+  public void copyTo(Cliente cliente) {
+    cliente.setId(getId());
+    cliente.setCF(getCF());
+    cliente.setNome(getNome());
+    cliente.setCognome(getCognome());
+    cliente.setDataNascita(getDataNascita());
+    cliente.setLuogoNascita(getLuogoNascita());
+    cliente.setGenere(getGenere());
+    cliente.setEmail(getEmail());
+    cliente.setRaccoltaPunti(getRaccoltaPunti());
+    cliente.getScontrini().clear();
+    for (Scontrino scontrino: ((List<Scontrino>)attributes[SCONTRINI])) {
+      Scontrino newScontrino = new Scontrino();
+      scontrino.copyTo(newScontrino);
+      ((List<Scontrino>)attributes[SCONTRINI]).add(newScontrino);
+    }
   }
 
   @Override

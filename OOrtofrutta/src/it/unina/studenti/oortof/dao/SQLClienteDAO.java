@@ -1,16 +1,13 @@
 package it.unina.studenti.oortof.dao;
 
-import it.unina.studenti.oortof.models.Cliente;
-import it.unina.studenti.oortof.models.Genere;
-import it.unina.studenti.oortof.models.RaccoltaPunti;
+import it.unina.studenti.oortof.models.*;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 public class SQLClienteDAO {
     private DBContext context;
@@ -20,73 +17,163 @@ public class SQLClienteDAO {
         this.context = context;
     }
 
-    public List<Cliente> getClienti(Integer id, String cf, String nome, String cognome, Date dataNascita, String luogoNascita, Genere genere, String email, Integer totalePunti)
+    private String getRaccoltaPuntiFilters(RaccoltaPunti raccoltaPunti){
+        String query = "";
+        if(raccoltaPunti == null) {
+            return query;
+        }
+
+        int filterCount = 0;
+
+        if (raccoltaPunti.getString(RaccoltaPunti.FRUTTA_VERDURA) != null)
+        {
+            String puntiFilter = raccoltaPunti.getString(RaccoltaPunti.FRUTTA_VERDURA);
+            query += String.format("PuntiFruttaVerdura %s", DAOHelpers.getFloatQueryField(puntiFilter));
+            filterCount++;
+        }
+
+        if (raccoltaPunti.getString(RaccoltaPunti.PRODOTTO_CASEARIO) != null)
+        {
+            if (filterCount != 0){
+                query += " AND ";
+            }
+            String puntiFilter = raccoltaPunti.getString(RaccoltaPunti.PRODOTTO_CASEARIO);
+            query += String.format("PuntiProdottoCaseario %s", DAOHelpers.getFloatQueryField(puntiFilter));
+            filterCount++;
+        }
+
+        if (raccoltaPunti.getString(RaccoltaPunti.FARINACEO) != null)
+        {
+            if (filterCount != 0){
+                query += " AND ";
+            }
+            String puntiFilter = raccoltaPunti.getString(RaccoltaPunti.FARINACEO);
+            query += String.format("PuntiFarinaceo %s", DAOHelpers.getFloatQueryField(puntiFilter));
+            filterCount++;
+        }
+
+        if (raccoltaPunti.getString(RaccoltaPunti.UOVO) != null)
+        {
+            if (filterCount != 0){
+                query += " AND ";
+            }
+            String puntiFilter = raccoltaPunti.getString(RaccoltaPunti.UOVO);
+            query += String.format("PuntiUovo %s", DAOHelpers.getFloatQueryField(puntiFilter));
+            filterCount++;
+        }
+
+        if (raccoltaPunti.getString(RaccoltaPunti.CARNE_PESCE) != null)
+        {
+            if (filterCount != 0){
+                query += " AND ";
+            }
+            String puntiFilter = raccoltaPunti.getString(RaccoltaPunti.CARNE_PESCE);
+            query += String.format("PuntiCarnePesce %s", DAOHelpers.getFloatQueryField(puntiFilter));
+            filterCount++;
+        }
+
+        if (raccoltaPunti.getString(RaccoltaPunti.BIBITA) != null)
+        {
+            if (filterCount != 0){
+                query += " AND ";
+            }
+            String puntiFilter = raccoltaPunti.getString(RaccoltaPunti.BIBITA);
+            query += String.format("PuntiBibita %s", DAOHelpers.getFloatQueryField(puntiFilter));
+            filterCount++;
+        }
+
+        if (raccoltaPunti.getString(RaccoltaPunti.CONSERVA) != null)
+        {
+            if (filterCount != 0){
+                query += " AND ";
+            }
+            String puntiFilter = raccoltaPunti.getString(RaccoltaPunti.CONSERVA);
+            query += String.format("PuntiConserva %s", DAOHelpers.getFloatQueryField(puntiFilter));
+            filterCount++;
+        }
+
+        if (raccoltaPunti.getString(RaccoltaPunti.ALTRO) != null)
+        {
+            if (filterCount != 0){
+                query += " AND ";
+            }
+            String puntiFilter = raccoltaPunti.getString(RaccoltaPunti.ALTRO);
+            query += String.format("PuntiAltro %s", DAOHelpers.getFloatQueryField(puntiFilter));
+            filterCount++;
+        }
+
+        return query;
+    }
+
+    public List<Cliente> getClienti(Cliente clienteTemplate)
     {
+
         try {
             Connection conn = context.OpenConnection();
             Statement stm = conn.createStatement();
+            String raccoltaPuntiFilters = getRaccoltaPuntiFilters(clienteTemplate.getRaccoltaPunti());
 
             String query = "";
             int filterCount = 0;
-            if (id != null) {
-                query += "idC = " + id;
+            if (clienteTemplate.getString(Cliente.ID) != null) {
+                query += String.format("C.id = %d", clienteTemplate.getId());
                 filterCount++;
             }
-            if (cf != null)
+            if (clienteTemplate.getString(Cliente.CF) != null)
             {
                 if (filterCount != 0)
                     query += " AND ";
-                query += "CF = " + cf;
+                query += String.format("CF = '%s'", clienteTemplate.getCF());
                 filterCount++;
             }
-            if (nome != null)
+            if (clienteTemplate.getString(Cliente.NOME) != null)
             {
                 if (filterCount != 0)
                     query += " AND ";
-                query += "Nome = " + nome;
+                query += String.format("Nome = '%s'", clienteTemplate.getNome());
                 filterCount++;
             }
-            if(cognome != null)
+            if(clienteTemplate.getString(Cliente.COGNOME) != null)
             {
                 if (filterCount != 0)
                     query += " AND ";
-                query += "Cognome = " + cognome;
+                query += String.format("Cognome = '%s'", clienteTemplate.getCognome());
                 filterCount++;
             }
-            if(dataNascita != null)
+            if(clienteTemplate.getString(Cliente.DATA_NASCITA) != null)
             {
                 if (filterCount != 0)
                     query += " AND ";
-                query += "DataNascita = " + dataNascita;
+                query += String.format("DataNascita = '%s'", clienteTemplate.getDataNascita());
                 filterCount++;
             }
-            if (luogoNascita != null)
+            if (clienteTemplate.getString(Cliente.LUOGO_NASCITA) != null)
             {
                 if (filterCount != 0)
                     query += " AND ";
-                query += "LuogoNascita = " + luogoNascita;
+                query += String.format("LuogoNascita = '%s'", clienteTemplate.getLuogoNascita());
                 filterCount++;
             }
-            if (genere != null)
+            if (clienteTemplate.getString(Cliente.GENERE) != null)
             {
                 if (filterCount != 0)
                     query += " AND ";
-                query += "Genere = '" + genere.name() + "'";
+                query += String.format("Genere = '%s'", clienteTemplate.getGenere());
                 filterCount++;
             }
-            if (email != null)
+            if (clienteTemplate.getString(Cliente.EMAIL) != null)
             {
                 if (filterCount != 0)
                     query += " AND ";
-                query += "Email = " + email;
+                query += String.format("Email = '%s'", clienteTemplate.getEmail());
                 filterCount++;
             }
-            if (totalePunti != null)
+
+            if (!query.equals("") && !raccoltaPuntiFilters.equals(""))
             {
-                if (filterCount != 0)
-                    query += " AND ";
-                query += "TotalePunti = " + totalePunti;
-                filterCount++;
+                query = raccoltaPuntiFilters + " AND " + query;
+            } else {
+                query = raccoltaPuntiFilters + query;
             }
 
             String sql = "SELECT C.id AS idC, R.id as idR, * FROM CLIENTE C INNER JOIN RACCOLTAPUNTI R ON R.idCliente = C.id" + (query.equals("") ? ";" : " WHERE " + query + ";") ;
@@ -99,24 +186,23 @@ public class SQLClienteDAO {
                 String rsCf = rs.getString("cf");
                 String rsNome = rs.getString("Nome");
                 String rsCognome = rs.getString("Cognome");
-                Date rsData = rs.getDate("DataNascita");
+                LocalDate rsData = rs.getDate("DataNascita").toLocalDate();
                 String rsLuogo = rs.getString("LuogoNascita");
-                Genere rsGenere = Genere.valueOf(rs.getString("Sesso"));
+                Genere rsGenere = Genere.valueOf(rs.getString("Genere"));
                 String rsEmail = rs.getString("Email");
-                int rsTotalePunti = rs.getInt("TotalePunti");
 
                 int rsidR = rs.getInt("idR");
-                int rsFruttaVerdura = rs.getInt("puntifruttaVerdura");
-                int rsProdottoCaseario = rs.getInt("puntiprodottoCaseario");
-                int rsFarinaceo = rs.getInt("puntifarinaceo");
-                int rsUovo = rs.getInt("puntiuovo");
-                int rsCarnePesce = rs.getInt("punticarnePesce");
-                int rsBibita = rs.getInt("puntibibita");
-                int rsConserva = rs.getInt("punticonserva");
-                int rsAltro = rs.getInt("puntialtro");
+                float rsFruttaVerdura = rs.getFloat("puntifruttaVerdura");
+                float rsProdottoCaseario = rs.getFloat("puntiprodottoCaseario");
+                float rsFarinaceo = rs.getInt("puntifarinaceo");
+                float rsUovo = rs.getInt("puntiuovo");
+                float rsCarnePesce = rs.getInt("punticarnePesce");
+                float rsBibita = rs.getInt("puntibibita");
+                float rsConserva = rs.getInt("punticonserva");
+                float rsAltro = rs.getInt("puntialtro");
 
                 RaccoltaPunti raccoltaPunti = new RaccoltaPunti(rsidR, rsFruttaVerdura, rsProdottoCaseario, rsFarinaceo, rsUovo, rsCarnePesce, rsBibita, rsConserva, rsAltro);
-                Cliente cliente = new Cliente(rsIdC, rsCf, rsNome, rsCognome, rsData, rsLuogo, rsGenere, rsEmail, rsTotalePunti, raccoltaPunti);
+                Cliente cliente = new Cliente(rsIdC, rsCf, rsNome, rsCognome, rsData, rsLuogo, rsGenere, rsEmail, raccoltaPunti);
 
                 list.add(cliente);
             }
@@ -131,19 +217,134 @@ public class SQLClienteDAO {
         }
     }
 
-    public void updateCliente(Cliente cliente)
+    public void updateCliente(Cliente oldCliente, Cliente newCliente)
     {
+        if (oldCliente.getId() != newCliente.getId())
+        {
+            throw new RuntimeException("Gli id sono diversi");
+        }
 
+        String updateQuery = "";
+        int counter = 0;
+        if (oldCliente.getNome() != newCliente.getNome())
+        {
+            updateQuery += String.format("SET Nome = '%s'", newCliente.getNome());
+            counter++;
+        }
+        if (oldCliente.getCognome() != newCliente.getCognome())
+        {
+            if (counter != 0)
+            {
+                updateQuery += ",";
+            }
+            updateQuery += String.format("SET Cognome = '%s'", newCliente.getCognome());
+            counter++;
+        }
+        if (!oldCliente.getDataNascita().equals(newCliente.getDataNascita()))
+        {
+            if (counter != 0)
+            {
+                updateQuery += ",";
+            }
+            //TODO da verificare
+            updateQuery += String.format("SET DataNascita = '%s'", newCliente.getDataNascita());
+            counter++;
+        }
+        if (oldCliente.getLuogoNascita() != newCliente.getLuogoNascita())
+        {
+            if (counter != 0)
+            {
+                updateQuery += ",";
+            }
+            updateQuery += String.format("SET LuogoNascita = '%s'", newCliente.getLuogoNascita());
+            counter++;
+        }
+        if (oldCliente.getGenere() != newCliente.getGenere())
+        {
+            if (counter != 0)
+            {
+                updateQuery += ",";
+            }
+            updateQuery += String.format("SET Genere = '%s'", newCliente.getGenere());
+            counter++;
+        }
+        if (oldCliente.getEmail() != oldCliente.getEmail())
+        {
+            if (counter != 0)
+            {
+                updateQuery += ",";
+            }
+            updateQuery += String.format("SET Email = '%s'", newCliente.getEmail());
+            counter++;
+        }
+
+
+
+        String sql = "UPDATE CLIENTE " + updateQuery + " WHERE id = " + newCliente.getId();
+
+        if(updateQuery != "") {
+            try {
+                Connection conn = context.OpenConnection();
+                Statement stm = conn.createStatement();
+                stm.executeUpdate(sql);
+            } catch (SQLException e) {
+                return;
+            }
+        }
     }
 
     public void deleteCliente(Cliente cliente)
     {
+        String sql = "DELETE FROM CLIENTE WHERE id = " + cliente.getId() + ";";
 
+        try {
+            Connection conn = context.OpenConnection();
+            Statement stm = conn.createStatement();
+            stm.execute(sql);
+            conn.close();
+        } catch (SQLException se)
+        {
+            System.out.println(se);
+            return;
+        }
     }
 
-    public void createCliente(Cliente cliente)
+    public Cliente createCliente(Cliente cliente)
     {
+        String sql = "INSERT INTO CLIENTE (Nome, Cognome, DataNascita, LuogoNascita, Genere, Email) VALUES (?, ?, ?, ?, ?, ?)";
+        try {
+            Connection conn = context.OpenConnection();
+            PreparedStatement createCliente = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            createCliente.setString(1, cliente.getNome());
+            createCliente.setString(2, cliente.getCognome());
+            createCliente.setDate(3, java.sql.Date.valueOf(cliente.getDataNascita()));
+            createCliente.setString(4, cliente.getLuogoNascita());
+            createCliente.setObject(5, cliente.getGenere(), Types.OTHER);
+            createCliente.setString(6, cliente.getEmail());
+            createCliente.executeUpdate();
 
+            try {
+                int id;
+                ResultSet generatedKeys = createCliente.getGeneratedKeys();
+                if (generatedKeys.next())
+                {
+                    id = Math.toIntExact(generatedKeys.getLong(1));
+
+                    Optional<Cliente> finalCliente = getClienti(new Cliente(id, null, null, null, null, null, null, null, null)).stream().findFirst();
+                    if (!finalCliente.isPresent()){
+                        throw new SQLException();
+                    }
+                    return finalCliente.get();
+                }
+                throw new SQLException();
+            } catch (SQLException e)
+            {
+                throw new RuntimeException(e);
+            }
+        } catch (SQLException e) {
+            // TODO
+            throw new RuntimeException();
+        }
     }
 
 }
