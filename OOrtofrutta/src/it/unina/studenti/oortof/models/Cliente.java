@@ -143,16 +143,6 @@ public class Cliente extends ObservedModel implements PropertyChangeListener{
     setValue(EMAIL, email);
     firePropertyChanged("email", oldEmail, email);
   }
-
-  public Integer getTotalePunti() {
-    return getInteger(TOTALE_PUNTI);
-  }
-
-  public void setTotalePunti(Integer totalePunti) {
-    Integer oldTotalePunti = getTotalePunti();
-    setValue(TOTALE_PUNTI, totalePunti);
-    firePropertyChanged("totalePunti", oldTotalePunti, totalePunti);
-  }
   
   public List<Scontrino> getScontrini() {
     return (List<Scontrino>)attributes[SCONTRINI];

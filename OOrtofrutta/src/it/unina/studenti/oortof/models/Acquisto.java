@@ -74,6 +74,5 @@ public class Acquisto extends ObservedModel implements PropertyChangeListener {
     acquisto.setQuantita(getQuantita());
     acquisto.setPrezzo(getPrezzo());
     acquisto.setLotto(getLotto());
-    acquisto.setScontrino(getScontrino());
   }
 }
