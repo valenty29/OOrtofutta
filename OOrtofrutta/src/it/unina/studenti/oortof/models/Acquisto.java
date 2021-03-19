@@ -1,12 +1,18 @@
 package it.unina.studenti.oortof.models;
 
 
+import java.util.List;
+
 public class Acquisto extends ObservedModel {
   private float quantita;
   private float prezzo;
   private Lotto lotto;
   private Scontrino scontrino;
-  
+
+  public Acquisto() {
+
+  }
+
   public Acquisto(float quantita, float prezzo, Lotto lotto, Scontrino scontrino) {
     this.quantita = quantita;
     this.prezzo = prezzo;
@@ -52,6 +58,13 @@ public class Acquisto extends ObservedModel {
     Scontrino oldScontrino = this.scontrino;
     this.scontrino = scontrino;
     firePropertyChanged("scontrino", oldScontrino, scontrino);
+  }
+
+  public void copyTo(Acquisto acquisto) {
+    acquisto.setQuantita(getQuantita());
+    acquisto.setPrezzo(getPrezzo());
+    acquisto.setLotto(getLotto());
+    acquisto.setScontrino(getScontrino());
   }
 
   
