@@ -15,6 +15,7 @@ import it.unina.studenti.oortof.models.ApplicationCounter;
 import it.unina.studenti.oortof.models.ApplicationStatus;
 import it.unina.studenti.oortof.models.Bibita;
 import it.unina.studenti.oortof.models.Prodotto;
+import it.unina.studenti.oortof.models.TipoBibita;
 
 import javax.swing.JTabbedPane;
 import javax.swing.JButton;
@@ -85,10 +86,8 @@ public class PrincipaleFrame extends JFrame {
 System.err.println("THREAD START");
                 Thread.sleep(3000);
 System.err.println("BINGO");
-                p.getProdottoCommon().setPrezzo(12.30f);
-                p.getProdottoCommon().setNome("Pippo");
-                p.getProdottoCommon().setId(12345678);
-                p.getProdottoCommon().setSfuso(true);
+                Bibita bibita = new Bibita(1, "Pippo", 12.30f, true, 0.0f, true, TipoBibita.Acqua);
+                bibita.copyTo(p);
 
                 DBContext dbContext = new DBContext("jdbc:postgresql:postgres", "Postgres", "Inb4Ext!");
                 SQLProductDAO prodDao = new SQLProductDAO(dbContext);
