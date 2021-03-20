@@ -87,12 +87,12 @@ public class CarnePesceSpecifico extends ProdottoSpecifico{
     firePropertyChanged("confezionato", oldConfezionato, confezionato);
   }
   
-//  public void copyTo(ProdottoSpecifico carnePesceSpecifico) {
-//    ((CarnePesceSpecifico)carnePesceSpecifico).setTipoCarnePesce(getTipoCarnePesce());
-//    ((CarnePesceSpecifico)carnePesceSpecifico).setDaAllevamento(isDaAllevamento());
-//    ((CarnePesceSpecifico)carnePesceSpecifico).setAnimale(getAnimale());
-//    ((CarnePesceSpecifico)carnePesceSpecifico).setConfezionato(isConfezionato());
-//  }
+  public void copyTo(ObservedModel carnePesceSpecifico) {
+    ((CarnePesceSpecifico)carnePesceSpecifico).setTipoCarnePesce(getTipoCarnePesce());
+    ((CarnePesceSpecifico)carnePesceSpecifico).setDaAllevamento(isDaAllevamento());
+    ((CarnePesceSpecifico)carnePesceSpecifico).setAnimale(getAnimale());
+    ((CarnePesceSpecifico)carnePesceSpecifico).setConfezionato(isConfezionato());
+  }
 
   @Override
   public void propertyChange(PropertyChangeEvent evt) {

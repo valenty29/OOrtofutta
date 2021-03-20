@@ -63,11 +63,11 @@ public class UovoSpecifico extends ProdottoSpecifico {
     firePropertyChanged("catPeso", oldCatPeso, catPeso);
   }
 
-//  public void copyTo(ProdottoSpecifico uovoSpecifico) {
-//    ((UovoSpecifico)uovoSpecifico).setTipoAllevamento(getInteger(TIPO_ALLEVAMENTO));
-//    ((UovoSpecifico)uovoSpecifico).setCodAllevamento(getString(COD_ALLEVAMENTO));
-//    ((UovoSpecifico)uovoSpecifico).setCatPeso(CatPeso.valueOf(getString(CAT_PESO)));
-//  }
+  public void copyTo(ObservedModel uovoSpecifico) {
+    ((UovoSpecifico)uovoSpecifico).setTipoAllevamento(getInteger(TIPO_ALLEVAMENTO));
+    ((UovoSpecifico)uovoSpecifico).setCodAllevamento(getString(COD_ALLEVAMENTO));
+    ((UovoSpecifico)uovoSpecifico).setCatPeso(CatPeso.valueOf(getString(CAT_PESO)));
+  }
 
   @Override
   public void propertyChange(PropertyChangeEvent evt) {

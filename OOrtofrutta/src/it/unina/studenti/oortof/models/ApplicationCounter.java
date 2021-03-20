@@ -54,5 +54,10 @@ public class ApplicationCounter extends ObservedModel {
     }
     return sb.toString();
   }
+
+  @Override
+  public void copyTo(ObservedModel other) {
+    throw new RuntimeException("ApplicationCounter.copyTo forbidden. It is a singleton.");
+  }
   
 }

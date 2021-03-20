@@ -33,9 +33,9 @@ public class ConservaSpecifico extends ProdottoSpecifico {
     }
   }
 
-//  public void copyTo(ProdottoSpecifico conservaSpecifico) {
-//    ((ConservaSpecifico)conservaSpecifico).setTipoConservazione(getTipoConservazione());
-//  }
+  public void copyTo(ObservedModel conservaSpecifico) {
+    ((ConservaSpecifico)conservaSpecifico).setTipoConservazione(getTipoConservazione());
+  }
 
   @Override
   public void propertyChange(PropertyChangeEvent evt) {

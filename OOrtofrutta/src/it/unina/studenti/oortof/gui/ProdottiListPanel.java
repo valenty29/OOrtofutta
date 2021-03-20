@@ -5,7 +5,7 @@ import javax.swing.JScrollPane;
 import java.awt.BorderLayout;
 import javax.swing.JTable;
 
-import it.unina.studenti.oortof.models.ObservableList;
+import it.unina.studenti.oortof.models.ObservedList;
 import it.unina.studenti.oortof.models.Prodotto;
 
 public class ProdottiListPanel extends JPanel {
@@ -21,7 +21,7 @@ public class ProdottiListPanel extends JPanel {
     scrollPane.setViewportView(table);
   }
   
-  public void setModel(Prodotto p, ObservableList<Prodotto> prodottoList) {
+  public void setModel(Prodotto p, ObservedList prodottoList) {
 	  
   }
 

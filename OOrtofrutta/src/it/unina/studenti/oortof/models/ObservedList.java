@@ -8,9 +8,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-public class ObservedList extends ObservedModel implements List<ObservedModel>, PropertyChangeListener {
+public class ObservedList<E extends ObservedModel> extends ObservedModel implements List<E>, PropertyChangeListener {
 
-  List<ObservedModel> list = new ArrayList<ObservedModel>();
+  List<E> list = new ArrayList<E>();
   String name;
   
   public ObservedList(String name) {
@@ -33,7 +33,7 @@ public class ObservedList extends ObservedModel implements List<ObservedModel>, 
   }
 
   @Override
-  public Iterator<ObservedModel> iterator() {
+  public Iterator<E> iterator() {
     return list.iterator();
   }
 
@@ -48,7 +48,7 @@ public class ObservedList extends ObservedModel implements List<ObservedModel>, 
   }
 
   @Override
-  public boolean add(ObservedModel e) {
+  public boolean add(E e) {
     boolean added = list.add(e);
     if (added) {
       firePropertyChanged(name, null, e);
@@ -73,12 +73,12 @@ public class ObservedList extends ObservedModel implements List<ObservedModel>, 
   }
 
   @Override
-  public boolean addAll(Collection<? extends ObservedModel> c) {
+  public boolean addAll(Collection<? extends E> c) {
     throw new RuntimeException("containsAll not implemented yet");
   }
 
   @Override
-  public boolean addAll(int index, Collection<? extends ObservedModel> c) {
+  public boolean addAll(int index, Collection<? extends E> c) {
     throw new RuntimeException("containsAll not implemented yet");
   }
 
@@ -103,13 +103,13 @@ public class ObservedList extends ObservedModel implements List<ObservedModel>, 
   }
 
   @Override
-  public ObservedModel get(int index) {
+  public E get(int index) {
     return list.get(index);
   }
 
   @Override
-  public ObservedModel set(int index, ObservedModel element) {
-    ObservedModel old = list.set(index, element);
+  public E set(int index, E element) {
+    E old = list.set(index, element);
     if (old != element) {
       firePropertyChanged(name, index, element);
     }
@@ -117,15 +117,15 @@ public class ObservedList extends ObservedModel implements List<ObservedModel>, 
   }
 
   @Override
-  public void add(int index, ObservedModel element) {
+  public void add(int index, E element) {
     list.add(index, element);
     firePropertyChanged(name, index, element);
     element.addPropertyChangeListener(this);
   }
 
   @Override
-  public ObservedModel remove(int index) {
-    ObservedModel om = list.remove(index);
+  public E remove(int index) {
+    E om = list.remove(index);
     if (om != null) {
       om.removePropertyChangeListener(this);
       firePropertyChanged(name, om, index);
@@ -144,17 +144,17 @@ public class ObservedList extends ObservedModel implements List<ObservedModel>, 
   }
 
   @Override
-  public ListIterator<ObservedModel> listIterator() {
+  public ListIterator<E> listIterator() {
     return list.listIterator();
   }
 
   @Override
-  public ListIterator<ObservedModel> listIterator(int index) {
+  public ListIterator<E> listIterator(int index) {
     return list.listIterator(index);
   }
 
   @Override
-  public List<ObservedModel> subList(int fromIndex, int toIndex) {
+  public List<E> subList(int fromIndex, int toIndex) {
     return list.subList(fromIndex, toIndex);
   }
 
@@ -162,7 +162,7 @@ public class ObservedList extends ObservedModel implements List<ObservedModel>, 
   public void copyTo(ObservedModel other) {
     for (int i = 0; i < list.size(); i++) {
       ObservedModel om1 = list.get(i);
-      ObservedModel om2 = ((ObservedList)other).get(i);
+      ObservedModel om2 = i < ((ObservedList)other).size() ? ((ObservedList)other).get(i) : null;
       if (om1 != null && om2 != null) {
         om1.copyTo(om2);
       }
@@ -178,7 +178,12 @@ public class ObservedList extends ObservedModel implements List<ObservedModel>, 
           throw new RuntimeException("Exception creating class " + om1.getClass().getName());
         }
         om1.copyTo(newOm);
-        ((ObservedList)other).set(i, newOm);
+        if (i < ((ObservedList)other).size()) {
+          ((ObservedList)other).set(i, newOm);
+        }
+        else {
+          ((ObservedList)other).add(i, newOm);
+        }
       }    
     }
   }

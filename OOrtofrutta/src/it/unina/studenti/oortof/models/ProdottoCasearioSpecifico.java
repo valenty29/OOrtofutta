@@ -58,11 +58,11 @@ public class ProdottoCasearioSpecifico extends ProdottoSpecifico {
     firePropertyChanged("stagionatura", oldStagionatura, stagionatura);
   }
 
-//  public void copyTo(ProdottoSpecifico prodottoCasearioSpecifico) {
-//    ((ProdottoCasearioSpecifico)prodottoCasearioSpecifico).setTipoLatte(getString(TIPO_LATTE));
-//    ((ProdottoCasearioSpecifico)prodottoCasearioSpecifico).setStabilimento(getString(STABILIMENTO));
-//    ((ProdottoCasearioSpecifico)prodottoCasearioSpecifico).setStagionatura(getInteger(STAGIONATURA));
-//  }
+  public void copyTo(ObservedModel prodottoCasearioSpecifico) {
+    ((ProdottoCasearioSpecifico)prodottoCasearioSpecifico).setTipoLatte(getString(TIPO_LATTE));
+    ((ProdottoCasearioSpecifico)prodottoCasearioSpecifico).setStabilimento(getString(STABILIMENTO));
+    ((ProdottoCasearioSpecifico)prodottoCasearioSpecifico).setStagionatura(getInteger(STAGIONATURA));
+  }
 
   @Override
   public void propertyChange(PropertyChangeEvent evt) {

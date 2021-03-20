@@ -10,10 +10,16 @@ public class LottoCaseario extends Lotto {
   
   public LottoCaseario() {
     super();
+    Object[] superAttributes = attributes;
+    attributes = new Object[7];
+    System.arraycopy(superAttributes, 0, attributes, 0, 6);
   }
 
   public LottoCaseario(int id, String codLotto, Date scadenza, Float disponibilita, Date dataProduzione, String codPaeseOrigine, Date dataMungitura) {
     super(id, codLotto, scadenza, disponibilita, dataProduzione, codPaeseOrigine);
+    Object[] superAttributes = attributes;
+    attributes = new Object[7];
+    System.arraycopy(superAttributes, 0, attributes, 0, 6);
     setValue(DATA_MUNGITURA, dataMungitura);
   }
 
@@ -30,8 +36,8 @@ public class LottoCaseario extends Lotto {
     firePropertyChanged("dataMungitura", oldDataMungitura, dataMungitura);
   }
   
-//  public void copyTo(Lotto lotto) {
-//    super.copyTo(lotto);
-//    ((LottoCaseario)lotto).dataMungitura = dataMungitura;
-//  }
+  public void copyTo(Lotto lotto) {
+    super.copyTo(lotto);
+    ((LottoCaseario)lotto).setDataMungitura(getDataMungitura());
+  }
 }

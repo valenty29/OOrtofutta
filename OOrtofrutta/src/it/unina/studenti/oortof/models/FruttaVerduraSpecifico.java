@@ -70,11 +70,11 @@ public class FruttaVerduraSpecifico extends ProdottoSpecifico {
     firePropertyChanged("surgelato", oldSurgelato, surgelato);
   }
 
-//  public void copyTo(ProdottoSpecifico fruttaVerduraSpecifico) {
-//    ((FruttaVerduraSpecifico)fruttaVerduraSpecifico).setTipoFruttaVerdura(getTipoFruttaVerdura());
-//    ((FruttaVerduraSpecifico)fruttaVerduraSpecifico).setBio(getBio());
-//    ((FruttaVerduraSpecifico)fruttaVerduraSpecifico).setSurgelato(getSurgelato());
-//  }
+  public void copyTo(ObservedModel fruttaVerduraSpecifico) {
+    ((FruttaVerduraSpecifico)fruttaVerduraSpecifico).setTipoFruttaVerdura(getTipoFruttaVerdura());
+    ((FruttaVerduraSpecifico)fruttaVerduraSpecifico).setBio(getBio());
+    ((FruttaVerduraSpecifico)fruttaVerduraSpecifico).setSurgelato(getSurgelato());
+  }
 
   @Override
   public void propertyChange(PropertyChangeEvent evt) {

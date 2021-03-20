@@ -2,6 +2,7 @@ package it.unina.studenti.oortof.models;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,8 +22,10 @@ public abstract class ObservedModel {
     return sample;
   }
   
+  static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+  
   public void setValue(int index, Object value) {
-    attributes[index] = value == null || value instanceof ObservedModel || value instanceof List ? value : value.toString();
+    attributes[index] = value == null || value instanceof ObservedModel || value instanceof ObservedList ? value : value instanceof Date ? sdf.format((Date)value) : value.toString();
   }
   
   public Boolean getBoolean(int index) {
@@ -53,7 +56,7 @@ public abstract class ObservedModel {
   
   public Date getDate(int index) {
     try {
-      return new Date(Date.parse((String)attributes[index]));
+      return sdf.parse((String)attributes[index]);
     }
     catch (Exception e) {
       return null;
@@ -65,7 +68,7 @@ public abstract class ObservedModel {
   }
   
   public void addPropertyChangeListener(PropertyChangeListener l) {
-    if (!listeners.contains(l)) {
+    if (l != null && !listeners.contains(l)) {
       listeners.add(l);
     }
   }
@@ -87,41 +90,12 @@ public abstract class ObservedModel {
   }
   
   protected static boolean equals(Object a, Object b) {
+    if (a instanceof ObservedModel) {
+      return a == b;
+    }
     return a == null && b == null || a != null && a.equals(b);
   }
 
+  public abstract void copyTo(ObservedModel other);
 
-  public void copyTo(ObservedModel other) {
-    for (int i = 0; i < attributes.length; i++) {
-      if (attributes[i] == null || attributes[i] instanceof String) {
-        other.attributes[i] = attributes[i];
-      }
-      else if (attributes[i] instanceof ObservedModel) {
-        if (other.attributes[i] == null) {
-          try {
-            other.attributes[i] = (ObservedModel)attributes[i].getClass().newInstance();
-          }
-          catch (Exception e) {
-            throw new RuntimeException("Exception creating ObservedModel class", e);
-          }
-        }
-        ((ObservedModel)attributes[i]).copyTo((ObservedModel)other.attributes[i]);
-      }
-      else {
-        List<ObservedModel> myList = (List<ObservedModel>)attributes[i];
-        List<ObservedModel> otherList = (List<ObservedModel>)other.attributes[i];
-        otherList.clear();
-        for (ObservedModel om : myList) {
-          try {
-            ObservedModel newOm = om.getClass().newInstance();
-            om.copyTo(newOm);
-            otherList.add(newOm);
-          }
-          catch (Exception e) {
-            throw new RuntimeException("Exception creating ObservedModel class", e);
-          }
-        }
-      }
-    }
-  }
 }

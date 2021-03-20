@@ -23,10 +23,10 @@ public class Cliente extends ObservedModel implements PropertyChangeListener{
   public static final int RACCOLTA_PUNTI = 9;
   public static final int SCONTRINI = 10;
 
-  public Cliente(){
+  public Cliente() {
     attributes = new Object[11];
     setRaccoltaPunti(new RaccoltaPunti());
-    attributes[SCONTRINI] = new ArrayList<Scontrino>();
+    attributes[SCONTRINI] = new ObservedList<Scontrino>("scontrini");
   }
 
   public Cliente(Integer id, String cf, String nome, String cognome, LocalDate dataNascita, String luogoNascita, Genere genere, String email, RaccoltaPunti raccoltaPunti) {
@@ -42,26 +42,15 @@ public class Cliente extends ObservedModel implements PropertyChangeListener{
     setValue(RACCOLTA_PUNTI, raccoltaPunti);
   }
 
-  public RaccoltaPunti getRaccoltaPunti() {
-    return (RaccoltaPunti)attributes[RACCOLTA_PUNTI];
-  }
-
-  public void setRaccoltaPunti(RaccoltaPunti raccoltaPunti) {
-
-    if (equals(raccoltaPunti, attributes[RACCOLTA_PUNTI])) {
-      return;
-    }
-    RaccoltaPunti oldRaccoltaPunti = (RaccoltaPunti)attributes[RACCOLTA_PUNTI];
-    attributes[RACCOLTA_PUNTI] = raccoltaPunti;
-    firePropertyChanged("raccoltaPunti", oldRaccoltaPunti, raccoltaPunti);
-  }
-
   public Integer getId() {
     return getInteger(ID);
   }
   
   public void setId(Integer id) {
     Integer oldId = getId();
+    if (equals(oldId, id)) {
+      return;
+    }
     setValue(ID, id);
     firePropertyChanged("id", oldId, id);
   }
@@ -72,6 +61,9 @@ public class Cliente extends ObservedModel implements PropertyChangeListener{
 
   public void setCF(String cf) {
     String oldCF = getCF();
+    if (equals(oldCF, cf)) {
+      return;
+    }
     setValue(CF, cf);
     firePropertyChanged("cf", oldCF, cf);    
   }
@@ -82,6 +74,9 @@ public class Cliente extends ObservedModel implements PropertyChangeListener{
 
   public void setNome(String nome) {
     String oldNome = getNome();
+    if (equals(oldNome, nome)) {
+      return;
+    }
     setValue(NOME, nome);
     firePropertyChanged("nome", oldNome, nome);
   }
@@ -91,55 +86,54 @@ public class Cliente extends ObservedModel implements PropertyChangeListener{
   }
 
   public void setCognome(String cognome) {
-    if(equals(cognome, attributes[COGNOME])){
+    String oldCognome = getCognome();
+    if(equals(oldCognome, cognome)){
       return;
     }
-    String oldCognome = (String)attributes[COGNOME];
     setValue(COGNOME, cognome);
     firePropertyChanged("cognome", oldCognome, cognome);
   }
 
-  public LocalDate getDataNascita() {
-	  try {
-		  return LocalDate.parse((String)attributes[DATA_NASCITA]);
-	  } catch (Exception e) {
-		  return null;
-	  }
-  }
+  public Date getDataNascita() {
+    return getDate(DATA_NASCITA);
+  } 
 
-  public void setDataNascita(LocalDate dataNascita) {
-    if(equals(dataNascita, attributes[DATA_NASCITA])){
+  public void setDataNascita(Date dataNascita) {
+    Date oldDataNascita = getDataNascita();
+    if (equals(oldDataNascita, dataNascita)){
       return;
     }
-    LocalDate oldData = (LocalDate)attributes[DATA_NASCITA];
     setValue(DATA_NASCITA, dataNascita);
-    firePropertyChanged("dataNascita", oldData, dataNascita);
+    firePropertyChanged("dataNascita", oldDataNascita, dataNascita);
   }
 
   public String getLuogoNascita() {
-    return (String)attributes[LUOGO_NASCITA];
+    return getString(LUOGO_NASCITA);
   }
 
   public void setLuogoNascita(String luogoNascita) {
-    if(equals(luogoNascita, attributes[LUOGO_NASCITA])){
+    String oldLuogoNascita = getLuogoNascita();
+    if (equals(oldLuogoNascita, luogoNascita)) {
       return;
     }
-    String oldLuogoNascita = (String)attributes[LUOGO_NASCITA];
-    attributes[LUOGO_NASCITA] = luogoNascita;
+    setValue(LUOGO_NASCITA, luogoNascita);
     firePropertyChanged("luogoNascita", oldLuogoNascita, luogoNascita);
   }
 
   public Genere getGenere() {
-	try {
-		return Genere.valueOf(getString(Cliente.GENERE));
-	} catch (Exception e) {
-		return null;
-	}
-    
+    try {
+      return Genere.valueOf(getString(Cliente.GENERE));
+    }
+    catch (Exception e) {
+      return null;
+    }
   }
 
   public void setGenere(Genere genere) {
     Genere oldGenere = getGenere();
+    if (equals(oldGenere, genere)) {
+      return;
+    }
     setValue(GENERE, genere);
     firePropertyChanged("genere", oldGenere, genere);
   }
@@ -150,68 +144,81 @@ public class Cliente extends ObservedModel implements PropertyChangeListener{
 
   public void setEmail(String email) {
     String oldEmail = getEmail();
+    if (equals(oldEmail, email)) {
+      return;
+    }
     setValue(EMAIL, email);
     firePropertyChanged("email", oldEmail, email);
   }
   
-  public List<Scontrino> getScontrini() {
-    return (List<Scontrino>)attributes[SCONTRINI];
+  public RaccoltaPunti getRaccoltaPunti() {
+    return (RaccoltaPunti)attributes[RACCOLTA_PUNTI];
   }
 
-  public void setScontrini(List<Scontrino> scontrini) {
+  public void setRaccoltaPunti(RaccoltaPunti raccoltaPunti) {
+    RaccoltaPunti oldRaccoltaPunti = getRaccoltaPunti();
+    if (equals(oldRaccoltaPunti, raccoltaPunti)) {
+      return;
+    }
+    oldRaccoltaPunti.removePropertyChangeListener(this);
+    setValue(RACCOLTA_PUNTI, raccoltaPunti);
+    raccoltaPunti.addPropertyChangeListener(this);
+    firePropertyChanged("raccoltaPunti", oldRaccoltaPunti, raccoltaPunti);
+  }
+
+  @SuppressWarnings("unchecked")
+  public ObservedList<Scontrino> getScontrini() {
+    return (ObservedList<Scontrino>)attributes[SCONTRINI];
+  }
+
+  @SuppressWarnings("unchecked")
+  public void setScontrini(ObservedList<Scontrino> scontrini) {
     if (scontrini == attributes[SCONTRINI]) {
       return;
     }
-    for (Scontrino scontrino : scontrini) {
-      scontrino.addPropertyChangeListener(this);
-    }
-    List<Scontrino> oldScontrini = (List<Scontrino>)attributes[SCONTRINI];
+    ObservedList<Scontrino> oldScontrini = (ObservedList<Scontrino>)attributes[SCONTRINI];
+    oldScontrini.removePropertyChangeListener(this);
     attributes[SCONTRINI] = scontrini;
+    scontrini.addPropertyChangeListener(this);
     firePropertyChanged("scontrini", oldScontrini, scontrini);
   }
+
   
-  public void addLotto(Scontrino scontrino) {
-    ((List<Scontrino>)attributes[SCONTRINI]).add(scontrino);
-    firePropertyChanged("scontrini", null, scontrino);
-    scontrino.addPropertyChangeListener(this);
+  @SuppressWarnings("unchecked")
+  public void addScontrino(Scontrino scontrino) {
+    ((ObservedList<Scontrino>)attributes[SCONTRINI]).add(scontrino);
   }
 
-  public void addLotto(int index, Scontrino scontrino) {
-    ((List<Scontrino>)attributes[SCONTRINI]).add(index, scontrino);
-    firePropertyChanged("scontrini", index, scontrino);
-    scontrino.addPropertyChangeListener(this);
+  @SuppressWarnings("unchecked")
+  public void addScontrino(int index, Scontrino scontrino) {
+    ((ObservedList<Scontrino>)attributes[SCONTRINI]).add(index, scontrino);
   }
   
+  @SuppressWarnings("unchecked")
   public Scontrino getScontrinoAt(int index) {
-    return ((List<Scontrino>)attributes[SCONTRINI]).get(index);
+    return ((ObservedList<Scontrino>)attributes[SCONTRINI]).get(index);
   }
   
+  @SuppressWarnings("unchecked")
   public void removeScontrino(int index) {
-    Scontrino removedScontrino = ((List<Scontrino>)attributes[SCONTRINI]).remove(index);
-    removedScontrino.removePropertyChangeListener(this);
-    firePropertyChanged("scontrini", removedScontrino, index);
+    ((ObservedList<Scontrino>)attributes[SCONTRINI]).remove(index);
   }
   
+  @SuppressWarnings("unchecked")
   public void removeScontrino(Scontrino scontrino) {
-    int toRemoveIndex = ((List<Scontrino>)attributes[SCONTRINI]).indexOf(scontrino);
-    if (toRemoveIndex >= 0) {
-      removeScontrino(toRemoveIndex);
-    }
+    ((ObservedList<Scontrino>)attributes[SCONTRINI]).remove(scontrino);
   }
   
+  @SuppressWarnings("unchecked")
   public void clearScontrini() {
-    if (((List<Scontrino>)attributes[SCONTRINI]).size() == 0) {
-      return;
-    }
-    List<Scontrino> oldScontrini = new ArrayList<Scontrino>(((List<Scontrino>)attributes[SCONTRINI]));
-    ((List<Scontrino>)attributes[SCONTRINI]).clear();
-    firePropertyChanged("scontrini", oldScontrini, ((List<Scontrino>)attributes[SCONTRINI]));
+    ((ObservedList<Scontrino>)attributes[SCONTRINI]).clear();
   }
   
+  @SuppressWarnings("unchecked")
   public int getScontriniSize() {
-    return ((List<Scontrino>)attributes[SCONTRINI]).size();
+    return ((ObservedList<Scontrino>)attributes[SCONTRINI]).size();
   }
-  
+
   public String toString() {
     StringBuilder sb = new StringBuilder("");
     sb.append(getCognome());
@@ -233,22 +240,18 @@ public class Cliente extends ObservedModel implements PropertyChangeListener{
     return getCF().equals(((Cliente)other).getCF());
   }
 
-  public void copyTo(Cliente cliente) {
-    cliente.setId(getId());
-    cliente.setCF(getCF());
-    cliente.setNome(getNome());
-    cliente.setCognome(getCognome());
-    cliente.setDataNascita(getDataNascita());
-    cliente.setLuogoNascita(getLuogoNascita());
-    cliente.setGenere(getGenere());
-    cliente.setEmail(getEmail());
-    cliente.setRaccoltaPunti(getRaccoltaPunti());
-    cliente.getScontrini().clear();
-    for (Scontrino scontrino: ((List<Scontrino>)attributes[SCONTRINI])) {
-      Scontrino newScontrino = new Scontrino();
-      scontrino.copyTo(newScontrino);
-      ((List<Scontrino>)attributes[SCONTRINI]).add(newScontrino);
-    }
+  @SuppressWarnings("unchecked")
+  public void copyTo(ObservedModel cliente) {
+    ((Cliente)cliente).setId(getId());
+    ((Cliente)cliente).setCF(getCF());
+    ((Cliente)cliente).setNome(getNome());
+    ((Cliente)cliente).setCognome(getCognome());
+    ((Cliente)cliente).setDataNascita(getDataNascita());
+    ((Cliente)cliente).setLuogoNascita(getLuogoNascita());
+    ((Cliente)cliente).setGenere(getGenere());
+    ((Cliente)cliente).setEmail(getEmail());
+    ((Cliente)cliente).setRaccoltaPunti(getRaccoltaPunti());
+    ((ObservedList<Scontrino>)attributes[SCONTRINI]).copyTo(((Cliente)cliente).getScontrini());
   }
 
   @Override

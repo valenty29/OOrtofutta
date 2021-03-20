@@ -57,8 +57,8 @@ public class ClientiListTableModel extends AbstractTableModel {
 		return columnNames[col];
 	}
 	
-	public void setModel(ObservableList<Cliente> listCliente) {
-	    this.clienti = listCliente;
+	public void setModel(ObservedList listCliente) {
+	    //this.clienti = listCliente;
 	    
 	    PropertyChangeListener dataModelListener = new PropertyChangeListener() {
 	      @Override
@@ -66,7 +66,7 @@ public class ClientiListTableModel extends AbstractTableModel {
 	        dataChanged((List<Cliente>)evt.getNewValue());
 	      }
 	    };
-	    listCliente.addObserver(dataModelListener);
+	    //listCliente.addObserver(dataModelListener);
 	  }
 	
 	private void dataChanged(List<Cliente> newLista) {

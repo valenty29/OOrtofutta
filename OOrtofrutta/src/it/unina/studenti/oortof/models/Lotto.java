@@ -109,13 +109,13 @@ public class Lotto extends ObservedModel {
     return getCodLotto();
   }
   
-  public void copyTo(Lotto lotto) {
-    lotto.setId(getId());
-    lotto.setCodLotto(getCodLotto());
-    lotto.setScadenza(getScadenza());
-    lotto.setDisponibilita(getDisponibilita());
-    lotto.setDataProduzione(getDataProduzione());;
-    lotto.setCodPaeseOrigine(getCodPaeseOrigine());
+  public void copyTo(ObservedModel lotto) {
+    ((Lotto)lotto).setId(getId());
+    ((Lotto)lotto).setCodLotto(getCodLotto());
+    ((Lotto)lotto).setScadenza(getScadenza());
+    ((Lotto)lotto).setDisponibilita(getDisponibilita());
+    ((Lotto)lotto).setDataProduzione(getDataProduzione());;
+    ((Lotto)lotto).setCodPaeseOrigine(getCodPaeseOrigine());
   }
   
   public boolean equals(Object other) {

@@ -3,10 +3,9 @@ package it.unina.studenti.oortof.controllers;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import it.unina.studenti.oortof.dao.DBContext;
 import it.unina.studenti.oortof.models.ApplicationCounter;
 import it.unina.studenti.oortof.models.ApplicationStatus;
-import it.unina.studenti.oortof.models.ObservableList;
+import it.unina.studenti.oortof.models.ObservedList;
 import it.unina.studenti.oortof.models.ObservedModel;
 
 public class ApplicationController implements Controller, PropertyChangeListener {
@@ -16,10 +15,9 @@ public class ApplicationController implements Controller, PropertyChangeListener
   Controller[] controllers = new Controller[3];
   
   private void initControllers() {
-	  DBContext dbContext = new DBContext("jdbc:postgresql:postgres", "postgres", "Inb4Ext!");
-	  controllers[0] = new ProdottiController(dbContext);
+	  controllers[0] = new ProdottiController();
 	  controllers[1] = new CarrelloController();
-	  controllers[2] = new ClientiController(dbContext);
+	  controllers[2] = new ClientiController();
   }
   
   private ApplicationController() {
@@ -85,7 +83,7 @@ public class ApplicationController implements Controller, PropertyChangeListener
   }
 
   @Override
-  public void setModel(ObservedModel observedModel, ObservableList observableList) {
+  public void setModel(ObservedModel observedModel, ObservedList observedList) {
     throw new RuntimeException("Application controller lavora senza un modello");
   }
   
