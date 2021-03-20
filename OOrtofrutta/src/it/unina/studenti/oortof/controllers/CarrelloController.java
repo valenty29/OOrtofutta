@@ -1,5 +1,6 @@
 package it.unina.studenti.oortof.controllers;
 
+import it.unina.studenti.oortof.models.ObservableList;
 import it.unina.studenti.oortof.models.ObservedModel;
 
 public class CarrelloController implements Controller {
@@ -41,7 +42,7 @@ public class CarrelloController implements Controller {
   }
 
   @Override
-  public void setModel(ObservedModel observedModel) {
+  public void setModel(ObservedModel observedModel, ObservableList observedList) {
     // TODO Auto-generated method stub
     
   }

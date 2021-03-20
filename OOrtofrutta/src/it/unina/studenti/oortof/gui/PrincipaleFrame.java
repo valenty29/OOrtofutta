@@ -59,7 +59,7 @@ public class PrincipaleFrame extends JFrame {
   JTabbedPane ilTabbedPanel = new JTabbedPane(JTabbedPane.TOP);
   ProdottiTabbed prodottiTabbed = new ProdottiTabbed();
   CarrelloPanel carrelloPanel = new CarrelloPanel();
-  ClientiPanel clientiPanel = new ClientiPanel();
+  ClientiTabbed clientiTabbed = new ClientiTabbed();
 
   JPanel statusBar = new JPanel();
   JLabel counterLabel = new JLabel("");
@@ -78,9 +78,18 @@ public class PrincipaleFrame extends JFrame {
           PrincipaleFrame frame = new PrincipaleFrame();
           frame.setVisible(true);
           Prodotto p = new Prodotto();
+          ObservableList<Prodotto> prodottoList = new ObservableList<Prodotto>("prodottoList");
           ((ProdottiPanel)frame.prodottiTabbed.getComponent(0)).setModel(p);
-          ApplicationController.getInstance().getSubController(0).setModel(p);
-
+          ((ProdottiListPanel)frame.prodottiTabbed.getComponent(1)).setModel(p, prodottoList);
+          ApplicationController.getInstance().getSubController(0).setModel(p, prodottoList);
+          
+          Cliente c = new Cliente();
+          ObservableList<Cliente> clienteList = new ObservableList<Cliente>("clienteList");
+          ((ClientiPanel)frame.clientiTabbed.getComponent(0)).setModel(c);
+          ((ClientiListPanel)frame.clientiTabbed.getComponent(1)).setModel(c, clienteList);
+          ApplicationController.getInstance().getSubController(2).setModel(c, clienteList);
+          
+          
           new Thread() {
             public void run() {
               try {
@@ -98,9 +107,9 @@ System.err.println("BINGO");
 
                       Thread.sleep(5000);
 
+                      
 
-
-
+                      		
 
                     }
                     catch (Exception e) {
@@ -147,7 +156,7 @@ System.err.println("BINGO");
     ilTabbedPanel.add(carrelloPanel);
     ilTabbedPanel.setTitleAt(1, "Carrello");
     
-    ilTabbedPanel.add(clientiPanel);
+    ilTabbedPanel.add(clientiTabbed);
     ilTabbedPanel.setTitleAt(2, "Clienti");
     
     ilTabbedPanel.addChangeListener(new ChangeListener() {

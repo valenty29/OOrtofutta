@@ -25,6 +25,7 @@ public class Cliente extends ObservedModel implements PropertyChangeListener{
 
   public Cliente(){
     attributes = new Object[11];
+    setRaccoltaPunti(new RaccoltaPunti());
     attributes[SCONTRINI] = new ArrayList<Scontrino>();
   }
 
@@ -99,7 +100,11 @@ public class Cliente extends ObservedModel implements PropertyChangeListener{
   }
 
   public LocalDate getDataNascita() {
-    return LocalDate.parse((String)attributes[DATA_NASCITA]);
+	  try {
+		  return LocalDate.parse((String)attributes[DATA_NASCITA]);
+	  } catch (Exception e) {
+		  return null;
+	  }
   }
 
   public void setDataNascita(LocalDate dataNascita) {
@@ -125,7 +130,12 @@ public class Cliente extends ObservedModel implements PropertyChangeListener{
   }
 
   public Genere getGenere() {
-    return Genere.valueOf(getString(Cliente.GENERE));
+	try {
+		return Genere.valueOf(getString(Cliente.GENERE));
+	} catch (Exception e) {
+		return null;
+	}
+    
   }
 
   public void setGenere(Genere genere) {
@@ -244,6 +254,19 @@ public class Cliente extends ObservedModel implements PropertyChangeListener{
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
     firePropertyChanged(evt);
+  }
+  
+  public void clear() {
+	  getRaccoltaPunti().clear();
+	  clearScontrini();
+	  setCF(null);
+	  setCognome(null);
+	  setDataNascita(null);
+	  setEmail(null);
+	  setGenere(null);
+	  setNome(null);
+	  setId(null);
+	  setLuogoNascita(null);
   }
 }
 
