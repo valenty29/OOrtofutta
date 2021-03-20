@@ -16,10 +16,19 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.JCheckBox;
 
+import it.unina.studenti.oortof.models.AltroSpecifico;
 import it.unina.studenti.oortof.models.ApplicationCounter;
 import it.unina.studenti.oortof.models.ApplicationStatus;
+import it.unina.studenti.oortof.models.BibitaSpecifico;
+import it.unina.studenti.oortof.models.CarnePesceSpecifico;
+import it.unina.studenti.oortof.models.ConservaSpecifico;
+import it.unina.studenti.oortof.models.FarinaceoSpecifico;
+import it.unina.studenti.oortof.models.FruttaVerduraSpecifico;
 import it.unina.studenti.oortof.models.Prodotto;
+import it.unina.studenti.oortof.models.ProdottoCasearioSpecifico;
 import it.unina.studenti.oortof.models.ProdottoCommon;
+import it.unina.studenti.oortof.models.ProdottoSpecifico;
+import it.unina.studenti.oortof.models.UovoSpecifico;
 
 public class ProdottiPanel extends DesignProdottiPanel implements DocumentListener, ActionListener {
 
@@ -114,10 +123,6 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
       }
     };
     prodotto.addPropertyChangeListener(dataModelListener);
-  }
-  
-  public Prodotto getViewModel() {
-    return null;
   }
   
   void setEnabledColor(boolean enabled, Color color) {
@@ -227,9 +232,16 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     codiceProdottoTextField.setText(prodotto.getProdottoCommon().getString(ProdottoCommon.ID));
     prezzoTextField.setText(prodotto.getProdottoCommon().getString(ProdottoCommon.PREZZO));
     sfusoCheckBox.setSelected(prodotto.getProdottoCommon().isSfuso());
+    fruttaVerduraCheckbox.setSelected(prodotto.getProdottoCommon().isFruttaVerdura());
+    prodottiCaseariCheckbox.setSelected(prodotto.getProdottoCommon().isProdottoCaseario());
+    uovaCheckbox.setSelected(prodotto.getProdottoCommon().isUovo());
+    bibiteCheckbox.setSelected(prodotto.getProdottoCommon().isBibita());
+    conserveCheckbox.setSelected(prodotto.getProdottoCommon().isConserva());
+    farinaceiCheckbox.setSelected(prodotto.getProdottoCommon().isFarinaceo());
+    carnePesceCheckbox.setSelected(prodotto.getProdottoCommon().isCarnePesce());
+    altriTipoCheckbox.setSelected(prodotto.getProdottoCommon().isAltro());
     modelToViewRunning = false;
-  }
- 
+  } 
   void viewToModel() {
     if (modelToViewRunning) {
       return;

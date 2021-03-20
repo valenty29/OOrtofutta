@@ -12,7 +12,11 @@ import it.unina.studenti.oortof.controllers.ApplicationController;
 import it.unina.studenti.oortof.dao.DBContext;
 import it.unina.studenti.oortof.dao.SQLClienteDAO;
 import it.unina.studenti.oortof.dao.SQLProductDAO;
-import it.unina.studenti.oortof.models.*;
+import it.unina.studenti.oortof.models.ApplicationCounter;
+import it.unina.studenti.oortof.models.ApplicationStatus;
+import it.unina.studenti.oortof.models.Bibita;
+import it.unina.studenti.oortof.models.Prodotto;
+import it.unina.studenti.oortof.models.TipoBibita;
 
 import javax.swing.JTabbedPane;
 import javax.swing.JButton;
@@ -96,10 +100,8 @@ public class PrincipaleFrame extends JFrame {
 System.err.println("THREAD START");
                 Thread.sleep(3000);
 System.err.println("BINGO");
-
-                p.getProdottoCommon().setNome("Pippo");
-                p.getProdottoCommon().setId(12345678);
-                p.getProdottoCommon().setSfuso(true);
+                Bibita bibita = new Bibita(1, "Pippo", 12.30f, true, 0.0f, true, TipoBibita.Acqua);
+                bibita.copyTo(p);
 
                 new Thread() {
                   public void run() {

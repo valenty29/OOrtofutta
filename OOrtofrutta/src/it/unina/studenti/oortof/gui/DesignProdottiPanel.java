@@ -32,7 +32,7 @@ public abstract class DesignProdottiPanel extends JPanel {
   protected JTextField stabilimentoTextField;
   protected JTextField tipoLatteTextField;
   protected JTextField tipoFarinaTextField;
-  protected JTextField textField;
+  protected JTextField animaleTextField;
   protected JTextField gradazioneAlcolicaTextField;
   protected JCheckBox sfusoCheckBox = new JCheckBox("Sfuso");
   protected JTabbedPane caratteristicheSpecificheTabbed = new JTabbedPane(JTabbedPane.TOP);
@@ -578,15 +578,15 @@ public abstract class DesignProdottiPanel extends JPanel {
     gbc_animaleLabel.gridy = 0;
     carnePescePanel.add(animaleLabel, gbc_animaleLabel);
     
-    textField = new JTextField();
-    textField.setEnabled(false);
-    GridBagConstraints gbc_textField = new GridBagConstraints();
-    gbc_textField.insets = new Insets(0, 0, 5, 0);
-    gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-    gbc_textField.gridx = 2;
-    gbc_textField.gridy = 0;
-    carnePescePanel.add(textField, gbc_textField);
-    textField.setColumns(10);
+    animaleTextField = new JTextField();
+    animaleTextField.setEnabled(false);
+    GridBagConstraints gbc_animaleTextField = new GridBagConstraints();
+    gbc_animaleTextField.insets = new Insets(0, 0, 5, 0);
+    gbc_animaleTextField.fill = GridBagConstraints.HORIZONTAL;
+    gbc_animaleTextField.gridx = 2;
+    gbc_animaleTextField.gridy = 0;
+    carnePescePanel.add(animaleTextField, gbc_animaleTextField);
+    animaleTextField.setColumns(10);
     
     pesceRadioButton.setEnabled(false);
     GridBagConstraints gbc_pesceRadioButton = new GridBagConstraints();
