@@ -16,11 +16,35 @@ public class SQLProductDAO implements ProductDAO {
     {
         this.context = context;
     }
+    
+    
 
     //region CREATE
-    //lasciare come parametro la classe o inserire gli attributi di prodotto come parametro?
-    public long createProductCommon(ProdottoCommon prodotto){
+    
+    public void createProduct(Prodotto prodotto) {
+    	if (prodotto instanceof Bibita) {
+    		createBibita((Bibita)prodotto);
+    	} else if (prodotto instanceof FruttaVerdura) {
+    		createFruttaVerdura((FruttaVerdura)prodotto);
+    	} else if (prodotto instanceof ProdottoCaseario) {
+    		createProdottoCaseario((ProdottoCaseario)prodotto);
+    	} else if (prodotto instanceof Uovo) {
+    		createUovo((Uovo)prodotto);
+    	} else if (prodotto instanceof CarnePesce) {
+    		createCarnePesce((CarnePesce)prodotto);
+    	} else if (prodotto instanceof Conserva) {
+    		createConserva((Conserva)prodotto);
+    	} else if (prodotto instanceof Farinaceo) {
+    		createFarinaceo((Farinaceo)prodotto);
+    	} else if (prodotto instanceof Altro) {
+    		createProductCommon(prodotto.getProdottoCommon());
+    	}
+    }
+    
+    private long createProductCommon(ProdottoCommon prodotto){
         long prodId = -1;
+        String tipo = "";
+        
         String sql = "INSERT INTO PRODOTTO (Nome, Prezzo, Sfuso, Tipo) VALUES (?, ?, ?, ?)";
         try {
             Connection conn = context.OpenConnection();
@@ -28,9 +52,11 @@ public class SQLProductDAO implements ProductDAO {
             createProds.setString(1, prodotto.getNome());
             createProds.setFloat(2, prodotto.getPrezzo());
             createProds.setBoolean(3, prodotto.isSfuso());
-
+            
             createProds.executeUpdate();
 
+            
+            
 
             try {
                 ResultSet generatedKeys = createProds.getGeneratedKeys();
@@ -52,7 +78,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    public void createBibita(Bibita bibita){
+    private void createBibita(Bibita bibita){
         long id = createProductCommon(bibita.getProdottoCommon());
         String sql = "INSERT INTO BIBITA (IdProdotto, GradazioneAlcolica, Frizzante, TipoB) VALUES (?, ?, ?, ?)";
         try {
@@ -71,7 +97,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    public void createUovo(Uovo uovo){
+    private void createUovo(Uovo uovo){
         long id = createProductCommon(uovo.getProdottoCommon());
         String sql = "INSERT INTO UOVO (IdProdotto, TipoAllevamento, CodAllevamento, CatPeso) VALUES (?, ?, ?, ?)";
         try {
@@ -90,7 +116,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    public void createCarnePesce(CarnePesce carnePesce){
+    private void createCarnePesce(CarnePesce carnePesce){
         long id = createProductCommon(carnePesce.getProdottoCommon());
         String sql = "INSERT INTO CARNEPESCE (IdProdotto, TipoCP, DaAllevamento, Animale, Confezionato) VALUES (?, ?, ?, ?, ?)";
         try {
@@ -110,7 +136,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    public void createFruttaVerdura(FruttaVerdura fruttaVerdura){
+    private void createFruttaVerdura(FruttaVerdura fruttaVerdura){
         long id = createProductCommon(fruttaVerdura.getProdottoCommon());
         String sql = "INSERT INTO FRUTTAVERDURA (IdProdotto, TipoFV, Bio, Surgelato) VALUES (?, ?, ?, ?, ?)";
         try {
@@ -129,7 +155,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    public void createProdottoCaseario(ProdottoCaseario prodottoCaseario){
+    private void createProdottoCaseario(ProdottoCaseario prodottoCaseario){
         long id = createProductCommon(prodottoCaseario.getProdottoCommon());
         String sql = "INSERT INTO PRODOTTOCASEARIO (IdProdotto, TipoLatte, Stabilimento, Stagionatura) VALUES (?, ?, ?, ?)";
         try {
@@ -148,7 +174,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    public void createFarinaceo(Farinaceo farinaceo){
+    private void createFarinaceo(Farinaceo farinaceo){
         long id = createProductCommon(farinaceo.getProdottoCommon());
         String sql = "INSERT INTO FARINACEO (IdProdotto, Glutine, TipoFarina, Fresco, Surgelato) VALUES (?, ?, ?, ?, ?)";
         try {
@@ -169,7 +195,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    public void createConserva(Conserva conserva){
+    private void createConserva(Conserva conserva){
         long id = createProductCommon(conserva.getProdottoCommon());
         String sql = "INSERT INTO CONSERVA (IdProdotto, Glutine, TipoFarina, Fresco, Surgelato) VALUES (?, ?, ?, ?, ?)";
         try {
@@ -191,89 +217,32 @@ public class SQLProductDAO implements ProductDAO {
 
     //region READ
 
+    
 
-    private List<Lotto> getLotti(int id, Connection connection)
-    {
-        List<Lotto> lotti = new ArrayList<>();
-        String sql = "SELECT * FROM LOTTO WHERE CodProdotto = " + id + ";";
-        try {
-            Statement stm = connection.createStatement();
-            ResultSet rs = stm.executeQuery(sql);
-            while(rs.next())
-            {
-                int rsId = rs.getInt("id");
-                String rsCodLotto = rs.getString("CodLotto");
-                Date rsScadenza = rs.getDate("Scadenza");
-                float rsDisponibilita = rs.getFloat("Disponibilita");
-                Date rsDataProduzione = rs.getDate("DataProduzione");
-                String rsCodPaeseOrigine = rs.getString("CodPaeseOrigine");
-                Lotto lotto = new Lotto(rsId, rsCodLotto, rsScadenza, rsDisponibilita, rsDataProduzione, rsCodPaeseOrigine);
-                lotti.add(lotto);
-            }
-            return lotti;
-        } catch (SQLException e)
-        {
-            throw new RuntimeException(e);
-        }
-
+    public List<Prodotto> getProduct(Prodotto prodotto) {
+    	List<Prodotto> prodotti;
+    	if (prodotto instanceof Bibita) {
+    		prodotti = (List<Prodotto>)(List<?>)getBibita((Bibita)prodotto);
+    	} else if (prodotto instanceof FruttaVerdura) {
+    		prodotti = (List<Prodotto>)(List<?>)getFruttaVerdura((FruttaVerdura)prodotto);
+    	} else if (prodotto instanceof ProdottoCaseario) {
+    		prodotti = (List<Prodotto>)(List<?>)getProdottoCaseario((ProdottoCaseario)prodotto);
+    	} else if (prodotto instanceof Uovo) {
+    		prodotti = (List<Prodotto>)(List<?>)getUovo((Uovo)prodotto);
+    	} else if (prodotto instanceof CarnePesce) {
+    		prodotti = (List<Prodotto>)(List<?>)getCarnePesce((CarnePesce)prodotto);
+    	} else if (prodotto instanceof Conserva) {
+    		prodotti = (List<Prodotto>)(List<?>)getConserva((Conserva)prodotto);
+    	} else if (prodotto instanceof Farinaceo) {
+    		prodotti = (List<Prodotto>)(List<?>)getFarinaceo((Farinaceo)prodotto);
+    	} else {
+    		// TODO
+    		prodotti = new ArrayList<>();
+    	}
+    	return prodotti;
     }
 
-    private String getProdottoFilters(ProdottoCommon prodCom) {
-
-        String query = "";
-        int filterCount = 0;
-        if (prodCom.getId() != null) {
-            query += "CodProdotto = " + prodCom.getId();
-            filterCount++;
-        }
-        if (prodCom.getString(ProdottoCommon.NOME) != null)
-        {
-            if (filterCount != 0)
-                query += " AND ";
-            query += "Nome = '" + prodCom.getNome() + "'";
-            filterCount++;
-        }
-
-        if (prodCom.getString(ProdottoCommon.PREZZO) != null)
-        {
-            if(filterCount != 0)
-                query += " AND ";
-            String prezzoFilter = prodCom.getString(ProdottoCommon.PREZZO);
-            String[] prezzoDestr = prezzoFilter.split(" ");
-
-            try {
-                float f1 = Float.parseFloat(prezzoDestr[0]);
-
-                try {
-                    float f2 = Float.parseFloat(prezzoDestr[1]);
-
-                    query += String.format("Prezzo BETWEEN %f AND %f", f1, f2);
-                }
-
-                catch (NumberFormatException nfef){
-                    String operator = prezzoDestr[1];
-
-                    query += String.format("Prezzo %s %f", operator, f1);
-                }
-
-            } catch (NumberFormatException nfe){
-                System.out.println("PASSATO VALORE INVALIDO A QUERY PREZZO");
-            }
-            filterCount++;
-        }
-
-        if(prodCom.getString(ProdottoCommon.SFUSO) != null)
-        {
-            if (filterCount != 0)
-                query += " AND ";
-            query += "Sfuso = " + prodCom.isSfuso();
-            filterCount++;
-        }
-
-        return query;
-    }
-
-    public List<Bibita> getBibita(Bibita bibita)  {
+    private List<Bibita> getBibita(Bibita bibita)  {
         BibitaSpecifico bibSpec = bibita.getBibitaSpecifico();
         try {
             Connection conn = context.OpenConnection();
@@ -353,7 +322,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    public List<Uovo> getUovo(Uovo uovo)
+    private List<Uovo> getUovo(Uovo uovo)
     {
 
         UovoSpecifico uovoSpecifico = uovo.getUovoSpecifico();
@@ -414,7 +383,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    public List<CarnePesce> getCarnepesce(CarnePesce carnePesce)
+    private List<CarnePesce> getCarnePesce(CarnePesce carnePesce)
     {
 
             CarnePesceSpecifico carnePesceSpecifico = carnePesce.getCarnePesceSpecifico();
@@ -484,7 +453,7 @@ public class SQLProductDAO implements ProductDAO {
     }
 
 
-    public List<Farinaceo> getFarinaceo(Farinaceo farinaceo)
+    private List<Farinaceo> getFarinaceo(Farinaceo farinaceo)
     {
         FarinaceoSpecifico farinaceoSpecifico = farinaceo.getFarinaceoSpecifico();
         try {
@@ -550,7 +519,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    public List<FruttaVerdura> getFruttaVerdura(FruttaVerdura fruttaVerdura)
+    private List<FruttaVerdura> getFruttaVerdura(FruttaVerdura fruttaVerdura)
     {
         FruttaVerduraSpecifico fruttaVerduraSpecifico = fruttaVerdura.getFruttaVerduraSpecifico();
         try {
@@ -608,7 +577,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    public List<Conserva> getConserva(Conserva conserva)
+    private List<Conserva> getConserva(Conserva conserva)
     {
 
         ConservaSpecifico conservaSpecifico = conserva.getConservaSpecifico();
@@ -652,7 +621,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    public List<ProdottoCaseario> getProdottoCaseario(ProdottoCaseario prodottoCaseario)
+    private List<ProdottoCaseario> getProdottoCaseario(ProdottoCaseario prodottoCaseario)
     {
 
         ProdottoCasearioSpecifico prodCasSpecifico = prodottoCaseario.getProdottoCasearioSpecifico();
@@ -713,6 +682,87 @@ public class SQLProductDAO implements ProductDAO {
             return null;
         }
     }
+    
+    private List<Lotto> getLotti(int id, Connection connection)
+    {
+        List<Lotto> lotti = new ArrayList<>();
+        String sql = "SELECT * FROM LOTTO WHERE CodProdotto = " + id + ";";
+        try {
+            Statement stm = connection.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            while(rs.next())
+            {
+                int rsId = rs.getInt("id");
+                String rsCodLotto = rs.getString("CodLotto");
+                Date rsScadenza = rs.getDate("Scadenza");
+                float rsDisponibilita = rs.getFloat("Disponibilita");
+                Date rsDataProduzione = rs.getDate("DataProduzione");
+                String rsCodPaeseOrigine = rs.getString("CodPaeseOrigine");
+                Lotto lotto = new Lotto(rsId, rsCodLotto, rsScadenza, rsDisponibilita, rsDataProduzione, rsCodPaeseOrigine);
+                lotti.add(lotto);
+            }
+            return lotti;
+        } catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    private String getProdottoFilters(ProdottoCommon prodCom) {
+
+        String query = "";
+        int filterCount = 0;
+        if (prodCom.getId() != null) {
+            query += "Id = " + prodCom.getId();
+            filterCount++;
+        }
+        if (prodCom.getString(ProdottoCommon.NOME) != null)
+        {
+            if (filterCount != 0)
+                query += " AND ";
+            query += "Nome = '" + prodCom.getNome() + "'";
+            filterCount++;
+        }
+
+        if (prodCom.getString(ProdottoCommon.PREZZO) != null)
+        {
+            if(filterCount != 0)
+                query += " AND ";
+            String prezzoFilter = prodCom.getString(ProdottoCommon.PREZZO);
+            String[] prezzoDestr = prezzoFilter.split(" ");
+
+            try {
+                float f1 = Float.parseFloat(prezzoDestr[0]);
+
+                try {
+                    float f2 = Float.parseFloat(prezzoDestr[1]);
+
+                    query += String.format("Prezzo BETWEEN %f AND %f", f1, f2);
+                }
+
+                catch (NumberFormatException nfef){
+                    String operator = prezzoDestr[1];
+
+                    query += String.format("Prezzo %s %f", operator, f1);
+                }
+
+            } catch (NumberFormatException nfe){
+                System.out.println("PASSATO VALORE INVALIDO A QUERY PREZZO");
+            }
+            filterCount++;
+        }
+
+        if(prodCom.getString(ProdottoCommon.SFUSO) != null)
+        {
+            if (filterCount != 0)
+                query += " AND ";
+            query += "Sfuso = " + prodCom.isSfuso();
+            filterCount++;
+        }
+
+        return query;
+    }
 
 
     //endregion
@@ -738,8 +788,28 @@ public class SQLProductDAO implements ProductDAO {
     //endregion
 
     //region UPDATE
+    
+    public void updateProducts(Prodotto oldProdotto, Prodotto newProdotto) {
+    	if (oldProdotto instanceof Bibita && newProdotto instanceof Bibita) {
+    		updateBibita((Bibita)oldProdotto, (Bibita)newProdotto);
+    	} else if (oldProdotto instanceof FruttaVerdura && newProdotto instanceof FruttaVerdura) {
+    		updateFruttaVerdura((FruttaVerdura)oldProdotto, (FruttaVerdura)newProdotto);
+    	} else if (oldProdotto instanceof ProdottoCaseario && newProdotto instanceof ProdottoCaseario) {
+    		updateProdottoCaseario((ProdottoCaseario)oldProdotto, (ProdottoCaseario)newProdotto);
+    	} else if (oldProdotto instanceof Uovo && newProdotto instanceof Uovo) {
+    		updateUovo((Uovo)oldProdotto, (Uovo)newProdotto);
+    	} else if (oldProdotto instanceof CarnePesce && newProdotto instanceof CarnePesce) {
+    		updateCarnePesce((CarnePesce)oldProdotto, (CarnePesce)newProdotto);
+    	} else if (oldProdotto instanceof Conserva && newProdotto instanceof Conserva) {
+    		updateConserva((Conserva)oldProdotto, (Conserva)newProdotto);
+    	} else if (oldProdotto instanceof Farinaceo && newProdotto instanceof Farinaceo) {
+    		updateFarinaceo((Farinaceo)oldProdotto, (Farinaceo)newProdotto);
+    	} else if (oldProdotto instanceof Altro  && newProdotto instanceof Altro) {
+    		updateProductsCommon(oldProdotto.getProdottoCommon(), newProdotto.getProdottoCommon());
+    	}
+    }
 
-    public void updateProducts(ProdottoCommon oldProdotto, ProdottoCommon newProdotto) {
+    public void updateProductsCommon(ProdottoCommon oldProdotto, ProdottoCommon newProdotto) {
 
         if (oldProdotto.getId() != newProdotto.getId())
         {
@@ -782,8 +852,8 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    public void updateBibita(Bibita oldBibita, Bibita newBibita) {
-        updateProducts(oldBibita.getProdottoCommon(), newBibita.getProdottoCommon());
+    private void updateBibita(Bibita oldBibita, Bibita newBibita) {
+        updateProductsCommon(oldBibita.getProdottoCommon(), newBibita.getProdottoCommon());
 
         String updateQuery = "";
         int counter = 0;
@@ -821,8 +891,8 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    public void updateUovo(Uovo oldUovo, Uovo newUovo) {
-        updateProducts(oldUovo.getProdottoCommon(), newUovo.getProdottoCommon());
+    private void updateUovo(Uovo oldUovo, Uovo newUovo) {
+        updateProductsCommon(oldUovo.getProdottoCommon(), newUovo.getProdottoCommon());
 
         String updateQuery = "";
         int counter = 0;
@@ -860,8 +930,8 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    public void updateFarinaceo(Farinaceo oldFarinaceo, Farinaceo newFarinaceo) {
-        updateProducts(oldFarinaceo.getProdottoCommon(), newFarinaceo.getProdottoCommon());
+    private void updateFarinaceo(Farinaceo oldFarinaceo, Farinaceo newFarinaceo) {
+        updateProductsCommon(oldFarinaceo.getProdottoCommon(), newFarinaceo.getProdottoCommon());
 
         String updateQuery = "";
         int counter = 0;
@@ -907,8 +977,8 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    public void updateCarnePesce(CarnePesce oldCarnePesce, CarnePesce newCarnePesce) {
-        updateProducts(oldCarnePesce.getProdottoCommon(), newCarnePesce.getProdottoCommon());
+    private void updateCarnePesce(CarnePesce oldCarnePesce, CarnePesce newCarnePesce) {
+        updateProductsCommon(oldCarnePesce.getProdottoCommon(), newCarnePesce.getProdottoCommon());
 
         String updateQuery = "";
         int counter = 0;
@@ -954,8 +1024,8 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    public void updateFruttaVerdura(FruttaVerdura oldFruttaVerdura, FruttaVerdura newFruttaVerdura) {
-        updateProducts(oldFruttaVerdura.getProdottoCommon(), newFruttaVerdura.getProdottoCommon());
+    private void updateFruttaVerdura(FruttaVerdura oldFruttaVerdura, FruttaVerdura newFruttaVerdura) {
+        updateProductsCommon(oldFruttaVerdura.getProdottoCommon(), newFruttaVerdura.getProdottoCommon());
 
         String updateQuery = "";
         int counter = 0;
@@ -993,8 +1063,8 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    public void updateConserva(Conserva oldConserva, Conserva newConserva) {
-        updateProducts(oldConserva.getProdottoCommon(), newConserva.getProdottoCommon());
+    private void updateConserva(Conserva oldConserva, Conserva newConserva) {
+        updateProductsCommon(oldConserva.getProdottoCommon(), newConserva.getProdottoCommon());
 
         String updateQuery = "";
         int counter = 0;
@@ -1017,8 +1087,8 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    public void updateProdottoCaseario(ProdottoCaseario oldProdottoCaseario, ProdottoCaseario newProdottoCaseario) {
-        updateProducts(oldProdottoCaseario.getProdottoCommon(), newProdottoCaseario.getProdottoCommon());
+    private void updateProdottoCaseario(ProdottoCaseario oldProdottoCaseario, ProdottoCaseario newProdottoCaseario) {
+        updateProductsCommon(oldProdottoCaseario.getProdottoCommon(), newProdottoCaseario.getProdottoCommon());
 
         String updateQuery = "";
         int counter = 0;

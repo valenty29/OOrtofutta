@@ -31,9 +31,6 @@ public class ClientiListPanel extends JPanel {
     
     table = new JTable(new ClientiListTableModel());
     scrollPane.setViewportView(table);
-    
-    
-    
   }
   
   

@@ -50,8 +50,25 @@ public class ClientiController implements Controller {
 
 	  @Override
 	  public void commit() {
-		List<Cliente> clienti = sqlClienteDAO.getClienti(cliente);
-		ListHelpers.makeCopy(clienti, listCliente);
+		switch (ApplicationStatus.getInstance().getStatus()) {
+			case ApplicationStatus.STATUS_INSERT: {
+				cliente = sqlClienteDAO.createCliente(cliente);
+				break;
+			}
+				
+			case ApplicationStatus.STATUS_UPDATE: {
+				sqlClienteDAO.updateCliente(oldCliente, cliente);
+				break;
+			}	
+				
+			case ApplicationStatus.STATUS_SEARCH: {
+				List<Cliente> clienti = sqlClienteDAO.getClienti(cliente);
+				ListHelpers.makeCopy(clienti, listCliente);
+				break;
+			}
+			
+		}
+		
 	    ApplicationStatus.getInstance().setStatus(ApplicationStatus.STATUS_NAVIGATION
 	    );
 	  }

@@ -17,6 +17,7 @@ import javax.swing.event.DocumentListener;
 import it.unina.studenti.oortof.models.ApplicationCounter;
 import it.unina.studenti.oortof.models.ApplicationStatus;
 import it.unina.studenti.oortof.models.Cliente;
+import it.unina.studenti.oortof.models.Genere;
 import it.unina.studenti.oortof.models.Prodotto;
 import it.unina.studenti.oortof.models.ProdottoCommon;
 import it.unina.studenti.oortof.models.RaccoltaPunti;
@@ -162,6 +163,14 @@ public class ClientiPanel extends DesignClientiPanel implements DocumentListener
 	    cliente.setValue(Cliente.DATA_NASCITA, dataNascitaTextField.getText().isBlank() || dataNascitaTextField.getText().isEmpty() ? null : dataNascitaTextField.getText());
 	    cliente.setValue(Cliente.LUOGO_NASCITA, luogoNascitaTextField.getText().isBlank() || luogoNascitaTextField.getText().isEmpty() ? null : luogoNascitaTextField.getText());
 	    
+	    if (mRadioButton.isSelected()) {
+	    	cliente.setValue(Cliente.GENERE, Genere.M);
+	    } else if (fRadioButton.isSelected()) {
+	    	cliente.setValue(Cliente.GENERE, Genere.F);
+	    } else {
+	    	cliente.setValue(Cliente.GENERE, null);
+	    }
+	    //cliente.setValue(Cliente.GENERE, mRadioButton.isSelected() ? 'M' : (fRadioButton.isSelected() ? 'F' : null));
 	    cliente.getRaccoltaPunti().setValue(RaccoltaPunti.BIBITA, puntiBibitaTextField.getText().isBlank() || puntiBibitaTextField.getText().isEmpty() ? null : puntiBibitaTextField.getText());
 	    cliente.getRaccoltaPunti().setValue(RaccoltaPunti.ALTRO, puntiAltroTextField.getText().isBlank() || puntiAltroTextField.getText().isEmpty() ? null : puntiAltroTextField.getText());
 	    cliente.getRaccoltaPunti().setValue(RaccoltaPunti.FARINACEO, puntiFarinaceoTextField.getText().isBlank() || puntiFarinaceoTextField.getText().isEmpty() ? null : puntiFarinaceoTextField.getText());
