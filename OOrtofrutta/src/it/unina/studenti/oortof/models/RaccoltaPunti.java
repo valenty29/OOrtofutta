@@ -38,12 +38,12 @@ public class RaccoltaPunti extends ObservedModel implements PropertyChangeListen
     return (Integer)attributes[ID];
   }
 
-  public void setId(int id) {
+  public void setId(Integer id) {
     if (equals(id, attributes[ID])) {
       return;
     }
     Integer oldId = (Integer)attributes[ID];
-    attributes[ID] = id;
+    setValue(ID, id);
     firePropertyChanged("id", oldId, id);
   }
 
@@ -51,12 +51,12 @@ public class RaccoltaPunti extends ObservedModel implements PropertyChangeListen
     return (Float)attributes[FRUTTA_VERDURA];
   }
 
-  public void setFruttaVerdura(int fruttaVerdura) {
+  public void setFruttaVerdura(Float fruttaVerdura) {
     if (equals(fruttaVerdura, attributes[FRUTTA_VERDURA])) {
       return;
     }
     Float oldFruttaVerdura = (Float)attributes[FRUTTA_VERDURA];
-    attributes[FRUTTA_VERDURA] = fruttaVerdura;
+    setValue(FRUTTA_VERDURA, fruttaVerdura);
     firePropertyChanged("fruttaVerdura",oldFruttaVerdura, fruttaVerdura);
   }
 
@@ -64,12 +64,12 @@ public class RaccoltaPunti extends ObservedModel implements PropertyChangeListen
     return (Float)attributes[PRODOTTO_CASEARIO];
   }
 
-  public void setProdottoCaseario(int prodottoCaseario) {
+  public void setProdottoCaseario(Float  prodottoCaseario) {
     if (equals(prodottoCaseario, attributes[PRODOTTO_CASEARIO])) {
       return;
     }
     Float oldProdottoCaseario = (Float)attributes[PRODOTTO_CASEARIO];
-    attributes[PRODOTTO_CASEARIO] = prodottoCaseario;
+    setValue(PRODOTTO_CASEARIO, prodottoCaseario);
     firePropertyChanged("prodottoCaseario", oldProdottoCaseario, prodottoCaseario);
   }
 
@@ -77,12 +77,12 @@ public class RaccoltaPunti extends ObservedModel implements PropertyChangeListen
     return (Float)attributes[FARINACEO];
   }
 
-  public void setFarinaceo(int farinaceo) {
+  public void setFarinaceo(Float farinaceo) {
     if (equals(farinaceo, attributes[FARINACEO])) {
       return;
     }
     Float oldFarinaceo = (Float)attributes[FARINACEO];
-    attributes[FARINACEO] = farinaceo;
+    setValue(FARINACEO, farinaceo);
     firePropertyChanged("farinaceo", oldFarinaceo, farinaceo);
   }
 
@@ -90,24 +90,24 @@ public class RaccoltaPunti extends ObservedModel implements PropertyChangeListen
     return (Float)attributes[UOVO];
   }
 
-  public void setUovo(int uovo) {
+  public void setUovo(Float uovo) {
     if (equals(uovo, attributes[UOVO])) {
       return;
     }
     Float oldUovo = (Float)attributes[UOVO];
-    attributes[UOVO] = uovo;
+    setValue(UOVO, uovo);
     firePropertyChanged("uovo", oldUovo, uovo);
   }
 
   public Float getCarnePesce() { return (Float)attributes[CARNE_PESCE];
   }
 
-  public void setCarnePesce(int carnePesce) {
+  public void setCarnePesce(Float carnePesce) {
     if (equals(carnePesce, attributes[CARNE_PESCE])) {
       return;
     }
     Float oldCarnePesce = (Float)attributes[CARNE_PESCE];
-    attributes[CARNE_PESCE] = carnePesce;
+    setValue(CARNE_PESCE, carnePesce);
     firePropertyChanged("carnePesce", oldCarnePesce, carnePesce);
   }
 
@@ -115,12 +115,12 @@ public class RaccoltaPunti extends ObservedModel implements PropertyChangeListen
     return (Float)attributes[BIBITA];
   }
 
-  public void setBibita(int bibita) {
+  public void setBibita(Float bibita) {
     if (equals(bibita, attributes[BIBITA])) {
       return;
     }
     Float oldBibita = (Float)attributes[BIBITA];
-    attributes[BIBITA] = bibita;
+    setValue(BIBITA, bibita);
     firePropertyChanged("bibita", oldBibita, bibita);
   }
 
@@ -128,12 +128,12 @@ public class RaccoltaPunti extends ObservedModel implements PropertyChangeListen
     return (Float)attributes[CONSERVA];
   }
 
-  public void setConserva(int conserva) {
+  public void setConserva(Float conserva) {
     if (equals(conserva, attributes[CONSERVA])) {
       return;
     }
     Float oldConserva = (Float)attributes[CONSERVA];
-    attributes[CONSERVA] = conserva;
+    setValue(CONSERVA, conserva);
     firePropertyChanged("conserva", oldConserva, conserva);
   }
 
@@ -141,12 +141,12 @@ public class RaccoltaPunti extends ObservedModel implements PropertyChangeListen
     return (Float)attributes[ALTRO];
   }
 
-  public void setAltro(int altro) {
+  public void setAltro(Float altro) {
     if (equals(altro, attributes[ALTRO])) {
       return;
     }
     Float oldAltro = (Float)attributes[ALTRO];
-    attributes[ALTRO] = altro;
+    setValue(ALTRO, altro);
     firePropertyChanged("altro", oldAltro, altro);
   }
   
@@ -157,5 +157,17 @@ public class RaccoltaPunti extends ObservedModel implements PropertyChangeListen
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
     firePropertyChanged(evt);
+  }
+  
+  public void clear() {
+	  setId(null);
+	  setFarinaceo(null);
+	  setFruttaVerdura(null);
+	  setAltro(null);
+	  setConserva(null);
+	  setBibita(null);
+	  setCarnePesce(null);
+	  setProdottoCaseario(null);
+	  setUovo(null);
   }
 }
