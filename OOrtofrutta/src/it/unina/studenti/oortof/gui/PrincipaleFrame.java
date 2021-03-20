@@ -15,6 +15,8 @@ import it.unina.studenti.oortof.dao.SQLProductDAO;
 import it.unina.studenti.oortof.models.ApplicationCounter;
 import it.unina.studenti.oortof.models.ApplicationStatus;
 import it.unina.studenti.oortof.models.Bibita;
+import it.unina.studenti.oortof.models.Cliente;
+import it.unina.studenti.oortof.models.ObservedList;
 import it.unina.studenti.oortof.models.Prodotto;
 import it.unina.studenti.oortof.models.TipoBibita;
 
@@ -82,13 +84,13 @@ public class PrincipaleFrame extends JFrame {
           PrincipaleFrame frame = new PrincipaleFrame();
           frame.setVisible(true);
           Prodotto p = new Prodotto();
-          ObservableList<Prodotto> prodottoList = new ObservableList<Prodotto>("prodottoList");
+          ObservedList prodottoList = new ObservedList("prodotto");
           ((ProdottiPanel)frame.prodottiTabbed.getComponent(0)).setModel(p);
           ((ProdottiListPanel)frame.prodottiTabbed.getComponent(1)).setModel(p, prodottoList);
           ApplicationController.getInstance().getSubController(0).setModel(p, prodottoList);
           
           Cliente c = new Cliente();
-          ObservableList<Cliente> clienteList = new ObservableList<Cliente>("clienteList");
+          ObservedList clienteList = new ObservedList("cliente");
           ((ClientiPanel)frame.clientiTabbed.getComponent(0)).setModel(c);
           ((ClientiListPanel)frame.clientiTabbed.getComponent(1)).setModel(c, clienteList);
           ApplicationController.getInstance().getSubController(2).setModel(c, clienteList);
@@ -124,7 +126,7 @@ System.err.println("BINGO");
                 SQLProductDAO prodDao = new SQLProductDAO(dbContext);
 
                 Bibita bib = new Bibita(9, null, null, null, null, null, null);
-                prodDao.getBibita(bib);
+                
                 System.out.println("a");
               }
               catch (Exception e) {

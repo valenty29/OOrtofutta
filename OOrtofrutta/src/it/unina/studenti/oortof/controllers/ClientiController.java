@@ -8,13 +8,13 @@ import it.unina.studenti.oortof.dao.ListHelpers;
 import it.unina.studenti.oortof.dao.SQLClienteDAO;
 import it.unina.studenti.oortof.models.ApplicationStatus;
 import it.unina.studenti.oortof.models.Cliente;
-import it.unina.studenti.oortof.models.ObservableList;
+import it.unina.studenti.oortof.models.ObservedList;
 import it.unina.studenti.oortof.models.ObservedModel;
 import it.unina.studenti.oortof.models.Prodotto;
 
 public class ClientiController implements Controller {
 	private Cliente cliente;
-	private List<Cliente> listCliente;
+	private ObservedList listCliente;
 	private Cliente oldCliente = new Cliente();
 	private SQLClienteDAO sqlClienteDAO;
 	
@@ -63,7 +63,10 @@ public class ClientiController implements Controller {
 				
 			case ApplicationStatus.STATUS_SEARCH: {
 				List<Cliente> clienti = sqlClienteDAO.getClienti(cliente);
-				ListHelpers.makeCopy(clienti, listCliente);
+				listCliente.clear();
+				for (Cliente cliente: clienti) {
+					listCliente.add(cliente);
+				}
 				break;
 			}
 			
@@ -78,8 +81,8 @@ public class ClientiController implements Controller {
 	  }
 
 	  @Override
-	  public void setModel(ObservedModel observedModel, ObservableList observedList) {
-		  listCliente = (List)observedList;
+	  public void setModel(ObservedModel observedModel, ObservedList observedList) {
+		  listCliente = observedList;
 		  cliente = (Cliente)observedModel;
 	  }
 

@@ -10,16 +10,14 @@ import java.util.List;
 import javax.swing.JTable;
 
 import it.unina.studenti.oortof.models.Cliente;
-import it.unina.studenti.oortof.models.ClientiListTableModel;
-import it.unina.studenti.oortof.models.ObservableList;
+
+import it.unina.studenti.oortof.models.ObservedList;
 
 public class ClientiListPanel extends JPanel {
   private static final long serialVersionUID = 1L;
   private JTable table;
   
   Cliente cliente;
-  ObservableList<Cliente> listCliente;
- 
   
   public ClientiListPanel() {
 	  
@@ -34,26 +32,15 @@ public class ClientiListPanel extends JPanel {
   }
   
   
-  public void setModel(Cliente cliente, ObservableList<Cliente> listCliente) {
+  public void setModel(Cliente cliente, ObservedList listCliente) {
 	    this.cliente = cliente;
-	    this.listCliente = listCliente;
 	    ClientiListTableModel model = (ClientiListTableModel)table.getModel();
 	    model.setModel(listCliente);
-	    
 	  }
   
-  private void dataModelChanged(PropertyChangeEvent evt) {
-	 // modelToView();
-  }
+
   
   boolean modelToViewRunning = false;
   
-  private void modelToView() {
-	  /*modelToViewRunning = true;
-	  for(Cliente cliente: listCliente) {
-		  table.add(new JLabel(cliente.getNome()));
-	  }
-	  modelToViewRunning = false;*/
-  }
-
+  
 }

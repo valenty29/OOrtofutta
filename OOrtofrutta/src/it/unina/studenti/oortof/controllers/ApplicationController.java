@@ -6,7 +6,7 @@ import java.beans.PropertyChangeListener;
 import it.unina.studenti.oortof.dao.DBContext;
 import it.unina.studenti.oortof.models.ApplicationCounter;
 import it.unina.studenti.oortof.models.ApplicationStatus;
-import it.unina.studenti.oortof.models.ObservableList;
+import it.unina.studenti.oortof.models.ObservedList;
 import it.unina.studenti.oortof.models.ObservedModel;
 
 public class ApplicationController implements Controller, PropertyChangeListener {
@@ -85,7 +85,7 @@ public class ApplicationController implements Controller, PropertyChangeListener
   }
 
   @Override
-  public void setModel(ObservedModel observedModel, ObservableList observableList) {
+  public void setModel(ObservedModel observedModel, ObservedList observableList) {
     throw new RuntimeException("Application controller lavora senza un modello");
   }
   

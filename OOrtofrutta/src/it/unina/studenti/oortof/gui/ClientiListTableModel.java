@@ -1,4 +1,4 @@
-package it.unina.studenti.oortof.models;
+package it.unina.studenti.oortof.gui;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -8,17 +8,19 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import it.unina.studenti.oortof.dao.ListHelpers;
+import it.unina.studenti.oortof.models.Cliente;
+import it.unina.studenti.oortof.models.ObservedList;
 
 public class ClientiListTableModel extends AbstractTableModel {
 	
 	private String[] columnNames = {"Nome", "Cognome", "CF", "eMail", "Data di nascita", "Luogo di nascita", "Genere"};
-	private List<Cliente> clienti = new ArrayList<Cliente>();
+	private ObservedList clienteList = new ObservedList("clienti");
 	
 	
 	@Override
 	public int getRowCount() {
 		// TODO Auto-generated method stub
-		return clienti.size();
+		return clienteList.size();
 	}
 
 	@Override
@@ -30,7 +32,7 @@ public class ClientiListTableModel extends AbstractTableModel {
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		// TODO Auto-generated method stub
-		Cliente cliente = clienti.get(rowIndex);
+		Cliente cliente = (Cliente)clienteList.get(rowIndex);
 		String value = "";
 		switch (columnIndex) {
 			case 0: value = cliente.getNome();
@@ -57,19 +59,19 @@ public class ClientiListTableModel extends AbstractTableModel {
 		return columnNames[col];
 	}
 	
-	public void setModel(ObservableList<Cliente> listCliente) {
-	    this.clienti = listCliente;
+	public void setModel(ObservedList clienteList) {
+	    this.clienteList = clienteList;
 	    
 	    PropertyChangeListener dataModelListener = new PropertyChangeListener() {
 	      @Override
 	      public void propertyChange(PropertyChangeEvent evt) {
-	        dataChanged((List<Cliente>)evt.getNewValue());
+	        dataChanged();
 	      }
 	    };
-	    listCliente.addObserver(dataModelListener);
+	    clienteList.addPropertyChangeListener(dataModelListener);
 	  }
 	
-	private void dataChanged(List<Cliente> newLista) {
+	private void dataChanged() {
 		fireTableDataChanged();
 	}
 
