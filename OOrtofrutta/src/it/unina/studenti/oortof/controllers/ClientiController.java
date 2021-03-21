@@ -79,7 +79,7 @@ public class ClientiController implements Controller {
 
 	  @Override
 	  public void setModel(ObservedModel observedModel, ObservedList observedList) {
-		  listCliente = (List)observedList;
+		  listCliente = observedList;
 		  cliente = (Cliente)observedModel;
 	  }
 
