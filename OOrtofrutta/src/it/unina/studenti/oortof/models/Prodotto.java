@@ -2,8 +2,6 @@ package it.unina.studenti.oortof.models;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class Prodotto extends ObservedModel implements PropertyChangeListener {
@@ -17,6 +15,17 @@ public class Prodotto extends ObservedModel implements PropertyChangeListener {
   public static final int PRODOTTO_CASEARIO_INDEX = 6;
   public static final int UOVO_INDEX = 7;
 
+  public static final String ALTRO = "Altro";
+  public static final String BIBITA = "Bibita";
+  public static final String CARNE_PESCE = "Carnepesce";
+  public static final String CONSERVA = "Conserva";
+  public static final String FARINACEO = "Farinaceo";
+  public static final String FRUTTA_VERDURA = "Fruttaverdura";
+  public static final String PRODOTTO_CASEARIO = "Prodottocaseario";
+  public static final String UOVO = "Uovo";
+  
+  public static final String[] TIPI = new String[] {ALTRO, BIBITA, CARNE_PESCE, CONSERVA, FARINACEO, FRUTTA_VERDURA, PRODOTTO_CASEARIO, UOVO};
+  
   public static final int PRODOTTO_COMMON = 0;        // Float
   public static final int PRODOTTI_SPECIFICI = 1;     // Boolean
 
@@ -114,10 +123,12 @@ public class Prodotto extends ObservedModel implements PropertyChangeListener {
     return prodottiSpecifici.get(index);
   }
   
+  @SuppressWarnings("unchecked")
   public ObservedList<ProdottoSpecifico> getProdottiSpecifici() {
     return (ObservedList<ProdottoSpecifico>)attributes[PRODOTTI_SPECIFICI];
   }
 
+  @SuppressWarnings("unchecked")
   public void replaceProdottoSpecifico(int index, ProdottoSpecifico prodottoSpecifico) {
     if (((ObservedList<ProdottoSpecifico>)attributes[PRODOTTI_SPECIFICI]).get(index) == prodottoSpecifico) {
       return;

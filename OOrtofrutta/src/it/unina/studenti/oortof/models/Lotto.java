@@ -19,7 +19,7 @@ public class Lotto extends ObservedModel {
     attributes = new Object[7];
   }
 
-  public Lotto(Integer id, String codLotto, Date scadenza, Float disponibilita, Date dataProduzione, String codPaeseOrigine) {
+  public Lotto(Integer id, String codLotto, Date scadenza, Float disponibilita, Date dataProduzione, String codPaeseOrigine, Date dataMungitura) {
     this();
     setValue(ID, id);
     setValue(COD_LOTTO, codLotto);
@@ -27,6 +27,7 @@ public class Lotto extends ObservedModel {
     setValue(DISPONIBILITA, disponibilita);
     setValue(DATA_PRODUZIONE, dataProduzione);
     setValue(COD_PAESE_ORIGINE, codPaeseOrigine);
+    setValue(DATA_MUNGITURA, dataMungitura);
   }
 
   public Integer getId() {

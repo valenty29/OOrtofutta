@@ -8,6 +8,7 @@ public class Acquisto extends ObservedModel implements PropertyChangeListener {
   public static final int QUANTITA = 0;  //Float
   public static final int PREZZO = 1;    //Float
   public static final int LOTTO = 2;     //Lotto
+  public static final int TIPO_PRODOTTO = 3; //Lotto
   
   public Acquisto() {
     attributes = new Object[3];
@@ -26,7 +27,10 @@ public class Acquisto extends ObservedModel implements PropertyChangeListener {
   }
 
   public void setQuantita(Float quantita) {
-    float oldQuantita = getQuantita();
+    Float oldQuantita = getQuantita();
+    if (equals(oldQuantita, quantita)) {
+      return;
+    }
     setValue(QUANTITA, quantita);
     firePropertyChanged("quantita", oldQuantita, quantita);
   }
@@ -36,9 +40,25 @@ public class Acquisto extends ObservedModel implements PropertyChangeListener {
   }
 
   public void setPrezzo(Float prezzo) {
-    float oldPrezzo = getPrezzo();
+    Float oldPrezzo = getPrezzo();
+    if (equals(oldPrezzo, prezzo)) {
+      return;
+    }
     setValue(PREZZO, prezzo);
     firePropertyChanged("prezzo", oldPrezzo, prezzo);
+  }
+
+  public String getTipoProdotto() {
+    return getString(TIPO_PRODOTTO);
+  }
+
+  public void setTipoProdotto(String tipoProdotto) {
+    String oldTipoProdotto = getTipoProdotto();
+    if (equals(oldTipoProdotto, tipoProdotto)) {
+      return;
+    }
+    setValue(TIPO_PRODOTTO, tipoProdotto);
+    firePropertyChanged("tipoProdotto", oldTipoProdotto, tipoProdotto);
   }
 
   public Lotto getLotto() {
@@ -69,12 +89,12 @@ public class Acquisto extends ObservedModel implements PropertyChangeListener {
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
     firePropertyChanged(evt);
-    
   }
 
   public void copyTo(ObservedModel acquisto) {
     ((Acquisto)acquisto).setQuantita(getQuantita());
     ((Acquisto)acquisto).setPrezzo(getPrezzo());
     ((Acquisto)acquisto).setLotto(getLotto());
+    ((Acquisto)acquisto).setTipoProdotto(getTipoProdotto());
   }
 }
