@@ -12,9 +12,9 @@ public class SQLProductDAO implements ProductDAO {
 
     private DBContext context;
 
-    public SQLProductDAO(DBContext context)
+    public SQLProductDAO()
     {
-        this.context = context;
+        context = new DBContext();
     }
     
     

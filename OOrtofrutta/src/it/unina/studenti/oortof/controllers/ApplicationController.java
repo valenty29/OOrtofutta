@@ -16,10 +16,9 @@ public class ApplicationController implements Controller, PropertyChangeListener
   Controller[] controllers = new Controller[3];
   
   private void initControllers() {
-	  DBContext dbContext = new DBContext();
-	  controllers[0] = new ProdottiController(dbContext);
+	  controllers[0] = new ProdottiController();
 	  controllers[1] = new CarrelloController();
-	  controllers[2] = new ClientiController(dbContext);
+	  controllers[2] = new ClientiController();
   }
   
   private ApplicationController() {

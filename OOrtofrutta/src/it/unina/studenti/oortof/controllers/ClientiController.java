@@ -18,8 +18,8 @@ public class ClientiController implements Controller {
 	private Cliente oldCliente = new Cliente();
 	private SQLClienteDAO sqlClienteDAO;
 	
-	public ClientiController(DBContext dbContext) {
-		sqlClienteDAO = new SQLClienteDAO(dbContext);
+	public ClientiController() {
+		sqlClienteDAO = new SQLClienteDAO();
 	}
 	
 	@Override
