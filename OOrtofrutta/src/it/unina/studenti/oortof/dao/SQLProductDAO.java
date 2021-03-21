@@ -753,7 +753,7 @@ public class SQLProductDAO implements ProductDAO {
     private ObservedList<Lotto> getLotti(int id, Connection connection)
     {
         ObservedList<Lotto> lotti = new ObservedList<Lotto>("lotto");
-        String sql = "SELECT * FROM LOTTO WHERE CodProdotto = " + id + ";";
+        String sql = "SELECT * FROM LOTTO WHERE IdProdotto = " + id + ";";
         try {
             Statement stm = connection.createStatement();
             ResultSet rs = stm.executeQuery(sql);
