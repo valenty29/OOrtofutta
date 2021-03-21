@@ -22,7 +22,7 @@ public abstract class ObservedModel {
     return sample;
   }
   
-  static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+  static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
   
   public void setValue(int index, Object value) {
     attributes[index] = value == null || value instanceof ObservedModel || value instanceof ObservedList ? value : value instanceof Date ? sdf.format((Date)value) : value.toString();

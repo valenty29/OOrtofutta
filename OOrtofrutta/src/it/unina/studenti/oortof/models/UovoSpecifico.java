@@ -64,9 +64,9 @@ public class UovoSpecifico extends ProdottoSpecifico {
   }
 
   public void copyTo(ObservedModel uovoSpecifico) {
-    ((UovoSpecifico)uovoSpecifico).setTipoAllevamento(getInteger(TIPO_ALLEVAMENTO));
-    ((UovoSpecifico)uovoSpecifico).setCodAllevamento(getString(COD_ALLEVAMENTO));
-    ((UovoSpecifico)uovoSpecifico).setCatPeso(CatPeso.valueOf(getString(CAT_PESO)));
+    ((UovoSpecifico)uovoSpecifico).setTipoAllevamento(getTipoAllevamento());
+    ((UovoSpecifico)uovoSpecifico).setCodAllevamento(getCodAllevamento());
+    ((UovoSpecifico)uovoSpecifico).setCatPeso(getCatPeso());
   }
 
   @Override

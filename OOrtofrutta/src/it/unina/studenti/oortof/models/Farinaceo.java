@@ -4,6 +4,7 @@ public class Farinaceo extends Prodotto {
   
   public Farinaceo() {
     super();
+    replaceProdottoSpecifico(FARINACEO_INDEX, new FarinaceoSpecifico());
     prodottoCommon.setValue(ProdottoCommon.FARINACEO, Boolean.TRUE);
   }
 

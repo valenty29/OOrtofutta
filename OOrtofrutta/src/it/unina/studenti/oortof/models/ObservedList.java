@@ -52,7 +52,9 @@ public class ObservedList<E extends ObservedModel> extends ObservedModel impleme
     boolean added = list.add(e);
     if (added) {
       firePropertyChanged(name, null, e);
-      e.addPropertyChangeListener(this);
+      if (e != null) {
+        e.addPropertyChangeListener(this);
+      }
     }
     return added;
   }
@@ -185,6 +187,9 @@ public class ObservedList<E extends ObservedModel> extends ObservedModel impleme
           ((ObservedList)other).add(i, newOm);
         }
       }    
+    }
+    for (int i = list.size(); i < ((ObservedList)other).size(); i++) {
+      ((ObservedList)other).remove(i);
     }
   }
 

@@ -5,6 +5,7 @@ public class ProdottoCaseario extends Prodotto {
   
   public ProdottoCaseario() {
     super();
+    replaceProdottoSpecifico(PRODOTTO_CASEARIO_INDEX, new ProdottoCasearioSpecifico());
     prodottoCommon.setValue(ProdottoCommon.PRODOTTO_CASEARIO, Boolean.TRUE);
   }
   

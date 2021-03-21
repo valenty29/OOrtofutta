@@ -5,6 +5,7 @@ public class CarnePesce extends Prodotto {
   
    public CarnePesce() {
      super();
+     replaceProdottoSpecifico(CARNE_PESCE_INDEX, new CarnePesceSpecifico());
      prodottoCommon.setValue(ProdottoCommon.CARNE_PESCE, Boolean.TRUE);
   }
 

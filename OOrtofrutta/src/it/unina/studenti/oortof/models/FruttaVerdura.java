@@ -5,6 +5,7 @@ public class FruttaVerdura extends Prodotto {
   
   public FruttaVerdura() {
     super();
+    replaceProdottoSpecifico(FRUTTA_VERDURA_INDEX, new FruttaVerduraSpecifico());
     prodottoCommon.setValue(ProdottoCommon.FRUTTA_VERDURA, Boolean.TRUE);
   }
 

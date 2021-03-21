@@ -5,6 +5,7 @@ public class Altro extends Prodotto {
   
 public Altro() {
   super();
+  replaceProdottoSpecifico(ALTRO_INDEX, new AltroSpecifico());
   prodottoCommon.setValue(ProdottoCommon.ALTRO, Boolean.TRUE);
 }
 

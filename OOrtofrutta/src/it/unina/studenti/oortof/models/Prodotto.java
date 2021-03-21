@@ -21,7 +21,7 @@ public class Prodotto extends ObservedModel implements PropertyChangeListener {
   public static final int PRODOTTI_SPECIFICI = 1;     // Boolean
 
   protected ProdottoCommon prodottoCommon = new ProdottoCommon();
-  protected List<ProdottoSpecifico> prodottiSpecifici = new ArrayList<ProdottoSpecifico>();
+  protected ObservedList<ProdottoSpecifico> prodottiSpecifici = new ObservedList<ProdottoSpecifico>("prodottiSpecifici");
 
   public Prodotto() {
     attributes = new Object[2];
@@ -114,19 +114,19 @@ public class Prodotto extends ObservedModel implements PropertyChangeListener {
     return prodottiSpecifici.get(index);
   }
   
-  public List<ProdottoSpecifico> getProdottiSpecifici() {
-    return (List<ProdottoSpecifico>)attributes[PRODOTTI_SPECIFICI];
+  public ObservedList<ProdottoSpecifico> getProdottiSpecifici() {
+    return (ObservedList<ProdottoSpecifico>)attributes[PRODOTTI_SPECIFICI];
   }
 
   public void replaceProdottoSpecifico(int index, ProdottoSpecifico prodottoSpecifico) {
-    if (((List<ProdottoSpecifico>)attributes[PRODOTTI_SPECIFICI]).get(index) == prodottoSpecifico) {
+    if (((ObservedList<ProdottoSpecifico>)attributes[PRODOTTI_SPECIFICI]).get(index) == prodottoSpecifico) {
       return;
     }
-    ProdottoSpecifico old = ((List<ProdottoSpecifico>)attributes[PRODOTTI_SPECIFICI]).get(index);
+    ProdottoSpecifico old = ((ObservedList<ProdottoSpecifico>)attributes[PRODOTTI_SPECIFICI]).get(index);
     if (old != null) {
       old.removePropertyChangeListener(this);
     }
-    ((List<ProdottoSpecifico>)attributes[PRODOTTI_SPECIFICI]).set(index, prodottoSpecifico);
+    ((ObservedList<ProdottoSpecifico>)attributes[PRODOTTI_SPECIFICI]).set(index, prodottoSpecifico);
     firePropertyChanged("prodottiSpecifici", index, prodottoSpecifico);
     prodottoSpecifico.addPropertyChangeListener(this);
   }
@@ -135,14 +135,12 @@ public class Prodotto extends ObservedModel implements PropertyChangeListener {
     return prodottoCommon.getNome();
   }
   
-  public void copyTo(Prodotto prodotto) {
-    getProdottoCommon().copyTo(prodotto.getProdottoCommon());
-  }
-  
   public void clear() {
     prodottoCommon.clear();
     for (ProdottoSpecifico ps : prodottiSpecifici) {
-      ps.clear();
+      if (ps != null) {
+        ps.clear();
+      }
     }
   }
   
@@ -181,20 +179,29 @@ public class Prodotto extends ObservedModel implements PropertyChangeListener {
   @Override
   public void copyTo(ObservedModel prodotto) {
     prodottoCommon.copyTo(((Prodotto)prodotto).getProdottoCommon());
-    for (int i = 0; i < prodottiSpecifici.size(); i++) {
-      ProdottoSpecifico ps1 = (ProdottoSpecifico)prodottiSpecifici.get(i);
-      ProdottoSpecifico ps2 = (ProdottoSpecifico)((Prodotto)prodotto).prodottiSpecifici.get(i);
-      if (ps1 != null && ps2 != null) {
-        ps1.copyTo(ps2);
+    boolean subclass1 = getClass().getSuperclass().equals(Prodotto.class);
+    boolean subclass2 = prodotto.getClass().getSuperclass().equals(Prodotto.class);
+    if (subclass1 == subclass2) {
+      prodottiSpecifici.copyTo(((Prodotto)prodotto).getProdottiSpecifici());
+    }
+    else {
+      for (int i = ALTRO_INDEX; i <= UOVO_INDEX; i++) {
+        ProdottoSpecifico ps1 = getProdottoSpecificoAt(i);
+        ProdottoSpecifico ps2 = ((Prodotto)prodotto).getProdottoSpecificoAt(i);
+        if (subclass1) {
+          if (ps1 == null) {
+            ps2.clear();
+          }
+          else {
+            ps1.copyTo(ps2);
+          }
+        }
+        else {
+          if (ps2 != null) {
+            ps1.copyTo(ps2);
+          }
+        }
       }
-      else if (ps1 == null && ps2 != null) {
-        ((Prodotto)prodotto).replaceProdottoSpecifico(i, null);
-      }
-      else if (ps1 != null && ps2 == null) {
-        ProdottoSpecifico newPs = newByIndex(i);
-        ps1.copyTo(newPs);
-        ((Prodotto)prodotto).replaceProdottoSpecifico(i, newPs);
-      }    
     }
   }
 }

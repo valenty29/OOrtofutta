@@ -4,6 +4,7 @@ public class Conserva extends Prodotto {
 
   public Conserva() {
     super();
+    replaceProdottoSpecifico(CONSERVA_INDEX, new ConservaSpecifico());
     prodottoCommon.setValue(ProdottoCommon.CONSERVA, Boolean.TRUE);
   }
   

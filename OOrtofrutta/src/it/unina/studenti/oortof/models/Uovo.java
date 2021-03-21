@@ -4,6 +4,7 @@ public class Uovo extends Prodotto {
   
   public Uovo() {
     super();
+    replaceProdottoSpecifico(UOVO_INDEX, new UovoSpecifico());
     prodottoCommon.setValue(ProdottoCommon.UOVO, Boolean.TRUE);
   }
 

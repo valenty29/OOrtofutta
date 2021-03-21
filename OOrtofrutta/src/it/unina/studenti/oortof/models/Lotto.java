@@ -11,10 +11,12 @@ public class Lotto extends ObservedModel {
   public static final int DISPONIBILITA = 3;      //Float
   public static final int DATA_PRODUZIONE = 4;    //Date
   public static final int COD_PAESE_ORIGINE = 5;  //String
+  public static final int DATA_MUNGITURA = 6;  //Date
+
 
   
   public Lotto() {
-    attributes = new Object[6];
+    attributes = new Object[7];
   }
 
   public Lotto(Integer id, String codLotto, Date scadenza, Float disponibilita, Date dataProduzione, String codPaeseOrigine) {
@@ -109,6 +111,19 @@ public class Lotto extends ObservedModel {
     return getCodLotto();
   }
   
+  public Date getDataMungitura() {
+    return getDate(DATA_MUNGITURA);
+  }
+  
+  public void setDataMungitura(Date dataMungitura) {
+    Date oldDataMungitura = getDataMungitura();
+    if (equals(oldDataMungitura, dataMungitura)) {
+      return;
+    }
+    setValue(DATA_MUNGITURA, dataMungitura);
+    firePropertyChanged("dataMungitura", oldDataMungitura, dataMungitura);
+  }
+  
   public void copyTo(ObservedModel lotto) {
     ((Lotto)lotto).setId(getId());
     ((Lotto)lotto).setCodLotto(getCodLotto());
@@ -116,6 +131,7 @@ public class Lotto extends ObservedModel {
     ((Lotto)lotto).setDisponibilita(getDisponibilita());
     ((Lotto)lotto).setDataProduzione(getDataProduzione());;
     ((Lotto)lotto).setCodPaeseOrigine(getCodPaeseOrigine());
+    ((Lotto)lotto).setDataMungitura(getDataMungitura());
   }
   
   public boolean equals(Object other) {

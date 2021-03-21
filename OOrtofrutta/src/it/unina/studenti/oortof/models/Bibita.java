@@ -4,6 +4,7 @@ public class Bibita extends Prodotto {
   
   public Bibita() {
     super();
+    replaceProdottoSpecifico(BIBITA_INDEX, new BibitaSpecifico());
     prodottoCommon.setValue(ProdottoCommon.BIBITA, Boolean.TRUE);
   }
 
