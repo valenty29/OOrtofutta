@@ -29,7 +29,7 @@ public class Cliente extends ObservedModel implements PropertyChangeListener{
     attributes[SCONTRINI] = new ObservedList<Scontrino>("scontrini");
   }
 
-  public Cliente(Integer id, String cf, String nome, String cognome, LocalDate dataNascita, String luogoNascita, Genere genere, String email, RaccoltaPunti raccoltaPunti) {
+  public Cliente(Integer id, String cf, String nome, String cognome, Date dataNascita, String luogoNascita, Genere genere, String email, RaccoltaPunti raccoltaPunti) {
     this();
     setValue(ID, id);
     setValue(CF, cf);
@@ -160,9 +160,12 @@ public class Cliente extends ObservedModel implements PropertyChangeListener{
     if (equals(oldRaccoltaPunti, raccoltaPunti)) {
       return;
     }
-    oldRaccoltaPunti.removePropertyChangeListener(this);
+    if (oldRaccoltaPunti != null) {
+    	oldRaccoltaPunti.removePropertyChangeListener(this);
+    }
+    
     setValue(RACCOLTA_PUNTI, raccoltaPunti);
-    raccoltaPunti.addPropertyChangeListener(this);
+    //raccoltaPunti.addPropertyChangeListener(this);
     firePropertyChanged("raccoltaPunti", oldRaccoltaPunti, raccoltaPunti);
   }
 

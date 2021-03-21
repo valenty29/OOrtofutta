@@ -219,30 +219,31 @@ public class SQLProductDAO implements ProductDAO {
 
     
 
-    public List<Prodotto> getProduct(Prodotto prodotto) {
-    	List<Prodotto> prodotti;
+    @SuppressWarnings("unchecked")
+	public ObservedList<Prodotto> getProduct(Prodotto prodotto) {
+    	ObservedList<Prodotto> prodotti;
     	if (prodotto instanceof Bibita) {
-    		prodotti = (List<Prodotto>)(List<?>)getBibita((Bibita)prodotto);
+    		prodotti = (ObservedList<Prodotto>)(ObservedList<?>)getBibita((Bibita)prodotto);
     	} else if (prodotto instanceof FruttaVerdura) {
-    		prodotti = (List<Prodotto>)(List<?>)getFruttaVerdura((FruttaVerdura)prodotto);
+    		prodotti = (ObservedList<Prodotto>)(ObservedList<?>)getFruttaVerdura((FruttaVerdura)prodotto);
     	} else if (prodotto instanceof ProdottoCaseario) {
-    		prodotti = (List<Prodotto>)(List<?>)getProdottoCaseario((ProdottoCaseario)prodotto);
+    		prodotti = (ObservedList<Prodotto>)(ObservedList<?>)getProdottoCaseario((ProdottoCaseario)prodotto);
     	} else if (prodotto instanceof Uovo) {
-    		prodotti = (List<Prodotto>)(List<?>)getUovo((Uovo)prodotto);
+    		prodotti = (ObservedList<Prodotto>)(ObservedList<?>)getUovo((Uovo)prodotto);
     	} else if (prodotto instanceof CarnePesce) {
-    		prodotti = (List<Prodotto>)(List<?>)getCarnePesce((CarnePesce)prodotto);
+    		prodotti = (ObservedList<Prodotto>)(ObservedList<?>)getCarnePesce((CarnePesce)prodotto);
     	} else if (prodotto instanceof Conserva) {
-    		prodotti = (List<Prodotto>)(List<?>)getConserva((Conserva)prodotto);
+    		prodotti = (ObservedList<Prodotto>)(ObservedList<?>)getConserva((Conserva)prodotto);
     	} else if (prodotto instanceof Farinaceo) {
-    		prodotti = (List<Prodotto>)(List<?>)getFarinaceo((Farinaceo)prodotto);
+    		prodotti = (ObservedList<Prodotto>)(ObservedList<?>)getFarinaceo((Farinaceo)prodotto);
     	} else {
     		// TODO
-    		prodotti = new ArrayList<>();
+    		prodotti = new ObservedList<>("generico");
     	}
     	return prodotti;
     }
 
-    private List<Bibita> getBibita(Bibita bibita)  {
+    private ObservedList<Bibita> getBibita(Bibita bibita)  {
         BibitaSpecifico bibSpec = bibita.getBibitaSpecifico();
         try {
             Connection conn = context.OpenConnection();
@@ -299,7 +300,7 @@ public class SQLProductDAO implements ProductDAO {
             String sql = "SELECT * FROM PRODOTTO INNER JOIN BIBITA ON PRODOTTO.id = BIBITA.idProdotto" + (query.equals("") ? ";" : " WHERE " + query + ";");
             System.out.println(sql);
             ResultSet rs = stm.executeQuery(sql);
-            List<Bibita> list = new ArrayList();
+            ObservedList<Bibita> list = new ObservedList<Bibita>("bibita");
             while(rs.next())
             {
                 int rsId = rs.getInt("Id");
@@ -322,7 +323,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    private List<Uovo> getUovo(Uovo uovo)
+    private ObservedList<Uovo> getUovo(Uovo uovo)
     {
 
         UovoSpecifico uovoSpecifico = uovo.getUovoSpecifico();
@@ -360,7 +361,7 @@ public class SQLProductDAO implements ProductDAO {
             String sql = "SELECT * FROM PRODOTTO INNER JOIN UOVO ON PRODOTTO.id = UOVO.idProdotto" + (query.equals("") ? ";" : " WHERE " + query + ";");
             System.out.println(sql);
             ResultSet rs = stm.executeQuery(sql);
-            List<Uovo> list = new ArrayList();
+            ObservedList<Uovo> list = new ObservedList<Uovo>("uovo");
             while(rs.next())
             {
                 int rsId = rs.getInt("Id");
@@ -383,7 +384,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    private List<CarnePesce> getCarnePesce(CarnePesce carnePesce)
+    private ObservedList<CarnePesce> getCarnePesce(CarnePesce carnePesce)
     {
 
             CarnePesceSpecifico carnePesceSpecifico = carnePesce.getCarnePesceSpecifico();
@@ -427,7 +428,7 @@ public class SQLProductDAO implements ProductDAO {
             String sql = "SELECT * FROM PRODOTTO INNER JOIN CARNEPESCE ON PRODOTTO.id = CARNEPESCE.idProdotto" + (query.equals("") ? ";" : " WHERE " + query + ";");
             System.out.println(sql);
             ResultSet rs = stm.executeQuery(sql);
-            List<CarnePesce> list = new ArrayList();
+            ObservedList<CarnePesce> list = new ObservedList<CarnePesce>("carnePesce");
             while(rs.next())
             {
                 int rsId = rs.getInt("Id");
@@ -453,7 +454,7 @@ public class SQLProductDAO implements ProductDAO {
     }
 
 
-    private List<Farinaceo> getFarinaceo(Farinaceo farinaceo)
+    private ObservedList<Farinaceo> getFarinaceo(Farinaceo farinaceo)
     {
         FarinaceoSpecifico farinaceoSpecifico = farinaceo.getFarinaceoSpecifico();
         try {
@@ -495,7 +496,7 @@ public class SQLProductDAO implements ProductDAO {
             String sql = "SELECT * FROM PRODOTTO INNER JOIN FARINACEO ON PRODOTTO.id = FARINACEO.idProdotto" + (query.equals("") ? ";" : " WHERE " + query + ";");
             System.out.println(sql);
             ResultSet rs = stm.executeQuery(sql);
-            List<Farinaceo> list = new ArrayList();
+            ObservedList<Farinaceo> list = new ObservedList<Farinaceo>("farinaceo");
             while(rs.next())
             {
                 int rsId = rs.getInt("Id");
@@ -519,7 +520,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    private List<FruttaVerdura> getFruttaVerdura(FruttaVerdura fruttaVerdura)
+    private ObservedList<FruttaVerdura> getFruttaVerdura(FruttaVerdura fruttaVerdura)
     {
         FruttaVerduraSpecifico fruttaVerduraSpecifico = fruttaVerdura.getFruttaVerduraSpecifico();
         try {
@@ -555,7 +556,7 @@ public class SQLProductDAO implements ProductDAO {
             String sql = "SELECT * FROM PRODOTTO INNER JOIN FRUTTAVERDURA ON PRODOTTO.id = FRUTTAVERDURA.idProdotto" + (query.equals("") ? ";" : " WHERE " + query + ";");
             System.out.println(sql);
             ResultSet rs = stm.executeQuery(sql);
-            List<FruttaVerdura> list = new ArrayList();
+            ObservedList<FruttaVerdura> list = new ObservedList<FruttaVerdura>("fruttaVerdura");
             while(rs.next())
             {
                 int rsId = rs.getInt("Id");
@@ -577,7 +578,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    private List<Conserva> getConserva(Conserva conserva)
+    private ObservedList<Conserva> getConserva(Conserva conserva)
     {
 
         ConservaSpecifico conservaSpecifico = conserva.getConservaSpecifico();
@@ -601,7 +602,7 @@ public class SQLProductDAO implements ProductDAO {
             String sql = "SELECT * FROM PRODOTTO INNER JOIN CONSERVA ON PRODOTTO.id = CONSERVA.idProdotto" + (query.equals("") ? ";" : " WHERE " + query + ";");
             System.out.println(sql);
             ResultSet rs = stm.executeQuery(sql);
-            List<Conserva> list = new ArrayList();
+            ObservedList<Conserva> list = new ObservedList<Conserva>("conserva");
             while(rs.next())
             {
                 int rsId = rs.getInt("Id");
@@ -621,7 +622,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    private List<ProdottoCaseario> getProdottoCaseario(ProdottoCaseario prodottoCaseario)
+    private ObservedList<ProdottoCaseario> getProdottoCaseario(ProdottoCaseario prodottoCaseario)
     {
 
         ProdottoCasearioSpecifico prodCasSpecifico = prodottoCaseario.getProdottoCasearioSpecifico();
@@ -658,7 +659,7 @@ public class SQLProductDAO implements ProductDAO {
             String sql = "SELECT * FROM PRODOTTO INNER JOIN PRODOTTOCASEARIO ON PRODOTTO.id = PRODOTTOCASEARIO.idProdotto" + (query.equals("") ? ";" : " WHERE " + query + ";");
             System.out.println(sql);
             ResultSet rs = stm.executeQuery(sql);
-            List<ProdottoCaseario> list = new ArrayList();
+            ObservedList<ProdottoCaseario> list = new ObservedList<ProdottoCaseario>("prodottoCasearioList");
             while(rs.next())
             {
                 int rsId = rs.getInt("Id");
@@ -683,9 +684,9 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
     
-    private List<Lotto> getLotti(int id, Connection connection)
+    private ObservedList<Lotto> getLotti(int id, Connection connection)
     {
-        List<Lotto> lotti = new ArrayList<>();
+        ObservedList<Lotto> lotti = new ObservedList<Lotto>("lotto");
         String sql = "SELECT * FROM LOTTO WHERE CodProdotto = " + id + ";";
         try {
             Statement stm = connection.createStatement();

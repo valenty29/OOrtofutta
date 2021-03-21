@@ -1,5 +1,6 @@
 package it.unina.studenti.oortof.controllers;
 
+import it.unina.studenti.oortof.dao.DBContext;
 import it.unina.studenti.oortof.dao.SQLProductDAO;
 import it.unina.studenti.oortof.models.ApplicationStatus;
 import it.unina.studenti.oortof.models.ObservedList;
@@ -12,7 +13,13 @@ public class ProdottiController implements Controller {
   private Prodotto oldProdotto = new Prodotto();
   private ObservedList prodotti = new ObservedList("prodotti");
   
-  SQLProductDAO sqlProductDao = new SQLProductDAO();
+  private SQLProductDAO sqlProductDao;
+  
+  public ProdottiController(DBContext dbContext) {
+	  sqlProductDao = new SQLProductDAO(dbContext);
+  }
+  
+  
   
   @Override
   public void rollback() {

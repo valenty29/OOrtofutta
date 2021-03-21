@@ -7,21 +7,21 @@ import java.util.Date;
 public class Scontrino extends ObservedModel implements PropertyChangeListener{
 
   public static final int ID = 0;
-  public static final int CLIENTE = 1;
+  //public static final int CLIENTE = 1;
   public static final int DATA_ORARIO = 2;
   public static final int PREZZO_TOTALE = 3;
   public static final int ACQUISTI = 4;
 
   public Scontrino() {
     attributes = new Object[5];
-    setCliente(new Cliente());
+    //setCliente(new Cliente());
     attributes[ACQUISTI] = new ObservedList<Acquisto>("acquisti");
   }
 
-  public Scontrino(int id, Cliente cliente, Date dataOrario, Float prezzoTotale, ObservedList<Acquisto> acquisti) {
+  public Scontrino(int id, Date dataOrario, Float prezzoTotale, ObservedList<Acquisto> acquisti) {
     this();
     setValue(ID, id);
-    setValue(CLIENTE, cliente);
+    //setValue(CLIENTE, cliente);
     setValue(DATA_ORARIO, dataOrario);
     setValue(PREZZO_TOTALE, prezzoTotale);
     setValue(ACQUISTI, acquisti);
@@ -40,7 +40,7 @@ public class Scontrino extends ObservedModel implements PropertyChangeListener{
     firePropertyChanged("id", oldId, id);
   }
 
-  public Cliente getCliente() {
+  /*public Cliente getCliente() {
     return (Cliente)attributes[CLIENTE];
   }
 
@@ -49,11 +49,14 @@ public class Scontrino extends ObservedModel implements PropertyChangeListener{
     if (equals(oldCliente, cliente)) {
       return;
     }
-    oldCliente.removePropertyChangeListener(this);
+    if (oldCliente != null) {
+    	oldCliente.removePropertyChangeListener(this);
+    }
+    
     setValue(CLIENTE, cliente);
     cliente.addPropertyChangeListener(this);
     firePropertyChanged("cliente", oldCliente, cliente);
-  }
+  }*/
 
   public Date getDataOrario() {
     return getDate(DATA_ORARIO);
@@ -136,7 +139,7 @@ public class Scontrino extends ObservedModel implements PropertyChangeListener{
   @SuppressWarnings("unchecked")
   public void copyTo(ObservedModel scontrino) {
     ((Scontrino)scontrino).setId(getId());
-    if (getCliente() != null && ((Scontrino)scontrino).getCliente() != null) {
+    /*if (getCliente() != null && ((Scontrino)scontrino).getCliente() != null) {
       getCliente().copyTo(((Scontrino)scontrino).getCliente());
     }
     else if (getCliente() == null && ((Scontrino)scontrino).getCliente() != null) {
@@ -147,7 +150,7 @@ public class Scontrino extends ObservedModel implements PropertyChangeListener{
       Cliente newCliente = new Cliente();
       getCliente().copyTo(newCliente);
       ((Scontrino)scontrino).setCliente(newCliente);
-    }
+    }*/
     ((Scontrino)scontrino).setDataOrario(getDataOrario());
     ((Scontrino)scontrino).setPrezzoTotale(getPrezzoTotale());
     ((ObservedList<Acquisto>)attributes[ACQUISTI]).copyTo(((Scontrino)scontrino).getAcquisti());

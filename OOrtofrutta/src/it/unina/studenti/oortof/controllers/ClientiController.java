@@ -62,18 +62,15 @@ public class ClientiController implements Controller {
 			}	
 				
 			case ApplicationStatus.STATUS_SEARCH: {
-				List<Cliente> clienti = sqlClienteDAO.getClienti(cliente);
+				ObservedList<Cliente> clienti = sqlClienteDAO.getClienti(cliente);
 				listCliente.clear();
-				for (Cliente cliente: clienti) {
-					listCliente.add(cliente);
-				}
+				clienti.copyTo(listCliente);
 				break;
 			}
 			
 		}
-		
-	    ApplicationStatus.getInstance().setStatus(ApplicationStatus.STATUS_NAVIGATION
-	    );
+		ApplicationStatus.getInstance().setAction(ApplicationStatus.ACTION_NONE);
+	    ApplicationStatus.getInstance().setStatus(ApplicationStatus.STATUS_NAVIGATION);
 	  }
 
 	  @Override

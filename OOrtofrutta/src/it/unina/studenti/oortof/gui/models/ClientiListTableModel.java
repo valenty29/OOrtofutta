@@ -1,4 +1,4 @@
-package it.unina.studenti.oortof.gui;
+package it.unina.studenti.oortof.gui.models;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -15,6 +15,8 @@ public class ClientiListTableModel extends AbstractTableModel {
 	
 	private String[] columnNames = {"Nome", "Cognome", "CF", "eMail", "Data di nascita", "Luogo di nascita", "Genere"};
 	private ObservedList clienteList = new ObservedList("clienti");
+	private Cliente cliente;
+	
 	
 	
 	@Override
@@ -47,7 +49,7 @@ public class ClientiListTableModel extends AbstractTableModel {
 			break;
 			case 5: value = cliente.getLuogoNascita().toString();
 			break;
-			case 6: value = cliente.getNome();
+			case 6: value = cliente.getGenere().toString();
 			break;
 		}
 		
@@ -59,9 +61,9 @@ public class ClientiListTableModel extends AbstractTableModel {
 		return columnNames[col];
 	}
 	
-	public void setModel(ObservedList clienteList) {
+	public void setModel(Cliente cliente, ObservedList clienteList) {
 	    this.clienteList = clienteList;
-	    
+	    this.cliente = cliente;
 	    PropertyChangeListener dataModelListener = new PropertyChangeListener() {
 	      @Override
 	      public void propertyChange(PropertyChangeEvent evt) {
@@ -74,5 +76,6 @@ public class ClientiListTableModel extends AbstractTableModel {
 	private void dataChanged() {
 		fireTableDataChanged();
 	}
+	
 
 }

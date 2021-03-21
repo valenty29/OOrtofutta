@@ -8,7 +8,10 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 import javax.swing.JTable;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
+import it.unina.studenti.oortof.gui.models.ClientiListTableModel;
 import it.unina.studenti.oortof.models.Cliente;
 
 import it.unina.studenti.oortof.models.ObservedList;
@@ -18,7 +21,7 @@ public class ClientiListPanel extends JPanel {
   private JTable table;
   
   Cliente cliente;
-  
+  ObservedList listCliente;
   public ClientiListPanel() {
 	  
 	  
@@ -33,14 +36,15 @@ public class ClientiListPanel extends JPanel {
   
   
   public void setModel(Cliente cliente, ObservedList listCliente) {
-	    this.cliente = cliente;
 	    ClientiListTableModel model = (ClientiListTableModel)table.getModel();
-	    model.setModel(listCliente);
+	    model.setModel(cliente, listCliente);
+	    table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+	        public void valueChanged(ListSelectionEvent event) {
+	            // do some actions here, for example
+	            // print first column value from selected row
+	        	cliente.getScontrini().clear();
+	        	listCliente.get(table.getSelectedRow()).copyTo(cliente);
+	        }
+	    });
 	  }
-  
-
-  
-  boolean modelToViewRunning = false;
-  
-  
 }

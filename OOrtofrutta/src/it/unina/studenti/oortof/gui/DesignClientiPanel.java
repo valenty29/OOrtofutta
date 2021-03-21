@@ -4,6 +4,8 @@ import javax.swing.JPanel;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.SystemColor;
+
 import javax.swing.border.TitledBorder;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
@@ -16,6 +18,7 @@ import javax.swing.JTable;
 import java.awt.Dimension;
 import javax.swing.JSeparator;
 import javax.swing.Box;
+import javax.swing.JScrollPane;
 
 @SuppressWarnings("serial")
 public abstract class DesignClientiPanel extends JPanel {
@@ -42,6 +45,7 @@ public abstract class DesignClientiPanel extends JPanel {
   protected JTextField puntiUovoTextField;
   protected JTextField puntiAltroTextField;
   protected JTextField puntiTotaliTextField;
+  private JScrollPane scrollPane;
   
   public DesignClientiPanel() {
 	  
@@ -381,14 +385,25 @@ public abstract class DesignClientiPanel extends JPanel {
     gbc_scontriniPanel.gridy = 2;
     add(scontriniPanel, gbc_scontriniPanel);
     GridBagLayout gbl_scontriniPanel = new GridBagLayout();
+    gbl_scontriniPanel.rowWeights = new double[]{0.0, 1.0};
+    gbl_scontriniPanel.columnWeights = new double[]{1.0, 0.0};
     scontriniPanel.setLayout(gbl_scontriniPanel);
     
+    
+    
+    scrollPane = new JScrollPane();
+    GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+    gbc_scrollPane.insets = new Insets(0, 0, 0, 5);
+    gbc_scrollPane.fill = GridBagConstraints.BOTH;
+    gbc_scrollPane.gridx = 0;
+    gbc_scrollPane.gridy = 1;
+    scontriniPanel.add(scrollPane, gbc_scrollPane);
+    
     scontriniTable = new JTable();
-    GridBagConstraints gbc_scontriniTable = new GridBagConstraints();
-    gbc_scontriniTable.anchor = GridBagConstraints.NORTHWEST;
-    gbc_scontriniTable.gridx = 1;
-    gbc_scontriniTable.gridy = 0;
-    scontriniPanel.add(scontriniTable, gbc_scontriniTable);
+    scontriniTable.setBackground(SystemColor.control);
+    scontriniTable.getTableHeader().setOpaque(true);
+    scontriniTable.getTableHeader().setBackground(SystemColor.control);
+    scrollPane.setViewportView(scontriniTable);
     
     JPanel acquistiPanel = new JPanel();
     acquistiPanel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Acquisti", TitledBorder.LEADING, TitledBorder.TOP, null, null));

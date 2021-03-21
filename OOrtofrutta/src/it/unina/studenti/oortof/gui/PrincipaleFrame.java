@@ -15,6 +15,7 @@ import it.unina.studenti.oortof.dao.SQLProductDAO;
 import it.unina.studenti.oortof.models.ApplicationCounter;
 import it.unina.studenti.oortof.models.ApplicationStatus;
 import it.unina.studenti.oortof.models.Bibita;
+import it.unina.studenti.oortof.models.Cliente;
 import it.unina.studenti.oortof.models.Lotto;
 import it.unina.studenti.oortof.models.ObservedList;
 import it.unina.studenti.oortof.models.Prodotto;
@@ -89,11 +90,11 @@ public class PrincipaleFrame extends JFrame {
           ((ProdottiListPanel)frame.prodottiTabbed.getComponent(1)).setModel(p, prodottoList);
           ApplicationController.getInstance().getSubController(0).setModel(p, prodottoList);
           
-//          Cliente c = new Cliente();
-//          ObservableList<Cliente> clienteList = new ObservableList<Cliente>("clienteList");
-//          ((ClientiPanel)frame.clientiTabbed.getComponent(0)).setModel(c);
-//          ((ClientiListPanel)frame.clientiTabbed.getComponent(1)).setModel(c, clienteList);
-//          ApplicationController.getInstance().getSubController(2).setModel(c, clienteList);
+          Cliente c = new Cliente();
+          ObservedList<Cliente> clienteList = new ObservedList<Cliente>("clienteList");
+          ((ClientiPanel)frame.clientiTabbed.getComponent(0)).setModel(c);
+          ((ClientiListPanel)frame.clientiTabbed.getComponent(1)).setModel(c, clienteList);
+          ApplicationController.getInstance().getSubController(2).setModel(c, clienteList);
           
           
           new Thread() {
@@ -126,11 +127,6 @@ System.err.println("BINGO");
                     }
                   }
                 }.start();
-
-                DBContext dbContext = new DBContext("jdbc:postgresql:postgres", "Postgres", "Inb4Ext!");
-                SQLProductDAO prodDao = new SQLProductDAO(dbContext);
-
-                Bibita bib = new Bibita(9, null, null, null, null, null, null);
                 
                 System.out.println("a");
               }

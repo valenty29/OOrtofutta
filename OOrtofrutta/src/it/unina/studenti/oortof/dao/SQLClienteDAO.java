@@ -4,6 +4,7 @@ import it.unina.studenti.oortof.models.*;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -105,7 +106,7 @@ public class SQLClienteDAO {
         return query;
     }
 
-    public List<Cliente> getClienti(Cliente clienteTemplate)
+    public ObservedList<Cliente> getClienti(Cliente clienteTemplate)
     {
 
         try {
@@ -179,14 +180,14 @@ public class SQLClienteDAO {
             String sql = "SELECT C.id AS idC, R.id as idR, * FROM CLIENTE C INNER JOIN RACCOLTAPUNTI R ON R.idCliente = C.id" + (query.equals("") ? ";" : " WHERE " + query + ";") ;
             System.out.println(sql);
             ResultSet rs = stm.executeQuery(sql);
-            List<Cliente> list = new ArrayList();
+            ObservedList<Cliente> list = new ObservedList<Cliente>("cliente");
             while(rs.next())
             {
                 int rsIdC = rs.getInt("idC");
                 String rsCf = rs.getString("cf");
                 String rsNome = rs.getString("Nome");
                 String rsCognome = rs.getString("Cognome");
-                LocalDate rsData = rs.getDate("DataNascita").toLocalDate();
+                Date rsData = new Date(rs.getDate("DataNascita").getTime());
                 String rsLuogo = rs.getString("LuogoNascita");
                 Genere rsGenere = Genere.valueOf(rs.getString("Genere"));
                 String rsEmail = rs.getString("Email");
@@ -203,8 +204,37 @@ public class SQLClienteDAO {
 
                 RaccoltaPunti raccoltaPunti = new RaccoltaPunti(rsidR, rsFruttaVerdura, rsProdottoCaseario, rsFarinaceo, rsUovo, rsCarnePesce, rsBibita, rsConserva, rsAltro);
                 Cliente cliente = new Cliente(rsIdC, rsCf, rsNome, rsCognome, rsData, rsLuogo, rsGenere, rsEmail, raccoltaPunti);
-
+                cliente.setScontrini(getScontrini(cliente));
                 list.add(cliente);
+            }
+
+
+            conn.close();
+            return list;
+        } catch (SQLException se)
+        {
+            //TODO
+            return null;
+        }
+    }
+    
+    private ObservedList<Scontrino> getScontrini(Cliente cliente) {
+    	try {
+            Connection conn = context.OpenConnection();
+            Statement stm = conn.createStatement();
+            String sql = "SELECT * FROM SCONTRINO WHERE IdCliente = " + cliente.getId() +";";
+            ResultSet rs = stm.executeQuery(sql);
+            ObservedList<Scontrino> list = new ObservedList<Scontrino>("scontrino");
+            while(rs.next())
+            {
+            	int rsId = rs.getInt("id");
+                Date rsDataOrario =  new Date(rs.getTimestamp("DataOrario").getTime());
+                float rsPrezzoTotale = rs.getFloat("PrezzoTotale");
+                //TODO
+                ObservedList<Acquisto> acquisti = new ObservedList<Acquisto>("acquisti");
+                Scontrino scontrino = new Scontrino(rsId, rsDataOrario, rsPrezzoTotale, acquisti);
+                
+                list.add(scontrino);
             }
 
 
@@ -317,7 +347,8 @@ public class SQLClienteDAO {
             PreparedStatement createCliente = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             createCliente.setString(1, cliente.getNome());
             createCliente.setString(2, cliente.getCognome());
-            createCliente.setDate(3, java.sql.Date.valueOf(cliente.getDataNascita()));
+       
+            createCliente.setDate(3, new java.sql.Date(cliente.getDataNascita().getTime()));
             createCliente.setString(4, cliente.getLuogoNascita());
             createCliente.setObject(5, cliente.getGenere(), Types.OTHER);
             createCliente.setString(6, cliente.getEmail());

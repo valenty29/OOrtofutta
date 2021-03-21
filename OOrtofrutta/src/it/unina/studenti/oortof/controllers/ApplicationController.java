@@ -3,6 +3,7 @@ package it.unina.studenti.oortof.controllers;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import it.unina.studenti.oortof.dao.DBContext;
 import it.unina.studenti.oortof.models.ApplicationCounter;
 import it.unina.studenti.oortof.models.ApplicationStatus;
 import it.unina.studenti.oortof.models.ObservedList;
@@ -15,9 +16,10 @@ public class ApplicationController implements Controller, PropertyChangeListener
   Controller[] controllers = new Controller[3];
   
   private void initControllers() {
-	  controllers[0] = new ProdottiController();
+	  DBContext dbContext = new DBContext();
+	  controllers[0] = new ProdottiController(dbContext);
 	  controllers[1] = new CarrelloController();
-	  controllers[2] = new ClientiController();
+	  controllers[2] = new ClientiController(dbContext);
   }
   
   private ApplicationController() {

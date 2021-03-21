@@ -12,25 +12,22 @@ public class DBContext {
     private String url;
     private String username;
     private String password;
-    public DBContext(String url, String username, String password)
+    public DBContext()
     {
-        this.url = url;
-        this.username = username;
-        this.password = password;
+    	Properties props = new Properties();
+        try (InputStream is = getClass().getResourceAsStream("resources/properties/db.properties")) {
+          props.load(is);
+        }
+        catch (IOException e) {
+          throw new RuntimeException("Exception loading db.properties");
+        }
+        url = props.getProperty("dburl");
+        username = props.getProperty("dbuser");
+        password = props.getProperty("dbpasswd");
     }
 
     public Connection OpenConnection() throws SQLException {
         try {
-          Properties props = new Properties();
-          try (InputStream is = getClass().getResourceAsStream("resources/properties/db.properties")) {
-            props.load(is);
-          }
-          catch (IOException e) {
-            throw new RuntimeException("Exception loading db.properties");
-          }
-          String url = props.getProperty("dburl");
-          String username = props.getProperty("dbuser");
-          String password = props.getProperty("dbpasswd");
             Connection conn = DriverManager.getConnection(url, username, password);
             return conn;
         } catch (SQLException e)

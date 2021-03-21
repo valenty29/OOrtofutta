@@ -35,7 +35,7 @@ public class RaccoltaPunti extends ObservedModel implements PropertyChangeListen
   }
 
   public Integer getId() {
-    return (Integer)attributes[ID];
+    return getInteger(ID);
   }
 
   public void setId(Integer id) {
@@ -48,7 +48,7 @@ public class RaccoltaPunti extends ObservedModel implements PropertyChangeListen
   }
 
   public Float getFruttaVerdura() {
-    return (Float)attributes[FRUTTA_VERDURA];
+    return getFloat(FRUTTA_VERDURA);
   }
 
   public void setFruttaVerdura(Float fruttaVerdura) {
@@ -61,7 +61,7 @@ public class RaccoltaPunti extends ObservedModel implements PropertyChangeListen
   }
 
   public Float getProdottoCaseario() {
-    return (Float)attributes[PRODOTTO_CASEARIO];
+    return getFloat(PRODOTTO_CASEARIO);
   }
 
   public void setProdottoCaseario(Float prodottoCaseario) {
@@ -74,7 +74,7 @@ public class RaccoltaPunti extends ObservedModel implements PropertyChangeListen
   }
 
   public Float getFarinaceo() {
-    return (Float)attributes[FARINACEO];
+    return getFloat(FARINACEO);
   }
 
   public void setFarinaceo(Float farinaceo) {
@@ -87,7 +87,7 @@ public class RaccoltaPunti extends ObservedModel implements PropertyChangeListen
   }
 
   public Float getUovo() {
-    return (Float)attributes[UOVO];
+    return getFloat(UOVO);
   }
 
   public void setUovo(Float uovo) {
@@ -100,7 +100,7 @@ public class RaccoltaPunti extends ObservedModel implements PropertyChangeListen
   }
 
   public Float getCarnePesce() { 
-    return (Float)attributes[CARNE_PESCE];
+    return getFloat(CARNE_PESCE);
   }
 
   public void setCarnePesce(Float carnePesce) {
@@ -113,7 +113,7 @@ public class RaccoltaPunti extends ObservedModel implements PropertyChangeListen
   }
 
   public Float getBibita() {
-    return (Float)attributes[BIBITA];
+    return getFloat(BIBITA);
   }
 
   public void setBibita(Float bibita) {
@@ -126,7 +126,7 @@ public class RaccoltaPunti extends ObservedModel implements PropertyChangeListen
   }
 
   public Float getConserva() {
-    return (Float)attributes[CONSERVA];
+    return getFloat(CONSERVA);
   }
 
   public void setConserva(Float conserva) {
@@ -139,7 +139,7 @@ public class RaccoltaPunti extends ObservedModel implements PropertyChangeListen
   }
 
   public Float getAltro() {
-    return (Float)attributes[ALTRO];
+    return getFloat(ALTRO);
   }
 
   public void setAltro(Float altro) {
@@ -152,7 +152,7 @@ public class RaccoltaPunti extends ObservedModel implements PropertyChangeListen
   }
   
   public Float getTotale() {
-    return (Float)attributes[FRUTTA_VERDURA] + (Float)attributes[PRODOTTO_CASEARIO] + (Float)attributes[FARINACEO] + (Float)attributes[UOVO] + (Float)attributes[CARNE_PESCE] + (Float)attributes[BIBITA] + (Float)attributes[CONSERVA] + (Float)attributes[ALTRO];
+    return getFloat(FRUTTA_VERDURA) + getFloat(PRODOTTO_CASEARIO) + getFloat(FARINACEO) + getFloat(UOVO) + getFloat(CARNE_PESCE) + getFloat(BIBITA) + getFloat(CONSERVA) + getFloat(ALTRO);
   }
 
   @Override

@@ -13,7 +13,10 @@ import javax.swing.AbstractButton;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
+import it.unina.studenti.oortof.gui.models.ScontriniTableModel;
 import it.unina.studenti.oortof.models.ApplicationCounter;
 import it.unina.studenti.oortof.models.ApplicationStatus;
 import it.unina.studenti.oortof.models.Cliente;
@@ -39,6 +42,8 @@ public class ClientiPanel extends DesignClientiPanel implements DocumentListener
 	    });
 	    
 	    listenGuiField();
+	    
+	    scontriniTable.setModel(new ScontriniTableModel());
 	  }
 
 	
@@ -52,6 +57,17 @@ public class ClientiPanel extends DesignClientiPanel implements DocumentListener
 	      }
 	    };
 	    cliente.addPropertyChangeListener(dataModelListener);
+	    
+	    ScontriniTableModel model = (ScontriniTableModel)scontriniTable.getModel();
+	    
+	    model.setModel(cliente.getScontrini());
+	    /*scontriniTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+	        public void valueChanged(ListSelectionEvent event) {
+	            // do some actions here, for example
+	            // print first column value from selected row
+	        	listCliente.get(table.getSelectedRow()).copyTo(cliente);
+	        }
+	    });*/
 	  }
 	
 	void setEnabledColor(boolean enabled, Color color) {
@@ -111,6 +127,7 @@ public class ClientiPanel extends DesignClientiPanel implements DocumentListener
 	  void search() {
 	    setEnabledColor(infoClientePanel, true, Color.yellow);
 	    setEnabledColor(puntiPanel, true, Color.yellow);
+	    (new Cliente()).copyTo(cliente);
 	  }
 	    
 	  void applicationStatusChanged(PropertyChangeEvent evt) {
@@ -136,6 +153,18 @@ public class ClientiPanel extends DesignClientiPanel implements DocumentListener
 	    eMailTextField.setText(cliente.getString(Cliente.EMAIL));
 	    dataNascitaTextField.setText(cliente.getString(Cliente.DATA_NASCITA));
 	    luogoNascitaTextField.setText(cliente.getString(Cliente.LUOGO_NASCITA));
+	    
+	    if(cliente.getGenere() == Genere.M) {
+	    	mRadioButton.setSelected(true);
+	    	fRadioButton.setSelected(false);
+	    } else if (cliente.getGenere() == Genere.F){
+	    	fRadioButton.setSelected(true);
+	    	mRadioButton.setSelected(false);
+	    } else {
+	    	fRadioButton.setSelected(false);
+	    	mRadioButton.setSelected(false);
+	    }
+	    
 	    
 	    puntiFruttaVerduraTextField.setText(cliente.getRaccoltaPunti().getString(RaccoltaPunti.FRUTTA_VERDURA));
 	    puntiCarnePesceTextField.setText(cliente.getRaccoltaPunti().getString(RaccoltaPunti.CARNE_PESCE));
