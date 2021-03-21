@@ -16,8 +16,6 @@ public class SQLProductDAO implements ProductDAO {
     {
         context = new DBContext();
     }
-    
-    
 
     //region CREATE
     
@@ -44,6 +42,10 @@ public class SQLProductDAO implements ProductDAO {
     private long createProductCommon(ProdottoCommon prodotto){
         long prodId = -1;
         String tipo = "";
+        
+       
+       
+        
         
         String sql = "INSERT INTO PRODOTTO (Nome, Prezzo, Sfuso, Tipo) VALUES (?, ?, ?, ?)";
         try {
@@ -311,7 +313,7 @@ public class SQLProductDAO implements ProductDAO {
                 boolean rsFrizzante = rs.getBoolean("Frizzante");
                 TipoBibita rsTipoBibita = TipoBibita.valueOf(rs.getString("TipoB"));
                 Bibita bib = new Bibita(rsId, rsNome, rsPrezzo, rsSfuso, rsGradazione, rsFrizzante, rsTipoBibita );
-                //bib.getProdottoCommon().setLotti(getLotti(rsId, conn));
+                bib.getProdottoCommon().setLotti(getLotti(rsId, conn));
                 list.add(bib);
             }
             conn.close();
@@ -372,7 +374,7 @@ public class SQLProductDAO implements ProductDAO {
                 String rsCodAllevamento = rs.getString("CodAllevamento");
                 CatPeso rsCatPeso = CatPeso.valueOf(rs.getString("CatPeso"));
                 Uovo newUovo = new Uovo(rsId, rsNome, rsPrezzo, rsSfuso, rsTipoAllevamento, rsCodAllevamento, rsCatPeso);
-                //uovo.getProdottoCommon().setLotti(getLotti(rsId, conn));
+                uovo.getProdottoCommon().setLotti(getLotti(rsId, conn));
                 list.add(newUovo);
             }
 
@@ -441,7 +443,7 @@ public class SQLProductDAO implements ProductDAO {
                 String rsAnimale = rs.getString("Animale");
                 Boolean rsConfezionato = rs.getBoolean("Confezionato");
                 CarnePesce newCarnePesce = new CarnePesce(rsId, rsNome, rsPrezzo, rsSfuso, rsTipoCP, rsDaAllevamento, rsAnimale, rsConfezionato);
-                //carnePesce.getProdottoCommon().setLotti(getLotti(rsId, conn));
+                carnePesce.getProdottoCommon().setLotti(getLotti(rsId, conn));
                 list.add(newCarnePesce);
 
             }
@@ -508,7 +510,7 @@ public class SQLProductDAO implements ProductDAO {
                 Boolean rsFresco = rs.getBoolean("Fresco");
                 Boolean rsSurgelato = rs.getBoolean("Surgelato");
                 Farinaceo newFarinaceo = new Farinaceo(rsId, rsNome, rsPrezzo, rsSfuso, rsGlutine, rsTipoFarina, rsFresco, rsSurgelato);
-                //farinaceo.getProdottoCommon().setLotti(getLotti(rsId, conn));
+                farinaceo.getProdottoCommon().setLotti(getLotti(rsId, conn));
                 list.add(newFarinaceo);
             }
 
@@ -567,7 +569,7 @@ public class SQLProductDAO implements ProductDAO {
                 Boolean rsBio = rs.getBoolean("Bio");
                 Boolean rsSurgelato = rs.getBoolean("Surgelato");
                 FruttaVerdura newFruttaVerdura = new FruttaVerdura(rsId, rsNome, rsPrezzo, rsSfuso, rsTipoFV, rsBio, rsSurgelato);
-                //fruttaVerdura.getProdottoCommon().setLotti(getLotti(rsId, conn));
+                fruttaVerdura.getProdottoCommon().setLotti(getLotti(rsId, conn));
                 list.add(newFruttaVerdura);
             }
             conn.close();
@@ -611,7 +613,7 @@ public class SQLProductDAO implements ProductDAO {
                 float rsPrezzo = rs.getFloat("Prezzo");
                 TipoConservazione rsTipoC= TipoConservazione.valueOf(rs.getString("TipoConservazione"));
                 Conserva newConserva = new Conserva(rsId, rsNome, rsPrezzo, rsSfuso,  rsTipoC);
-                //conserva.getProdottoCommon().setLotti(getLotti(rsId, conn));
+                conserva.getProdottoCommon().setLotti(getLotti(rsId, conn));
                 list.add(newConserva);
             }
             conn.close();

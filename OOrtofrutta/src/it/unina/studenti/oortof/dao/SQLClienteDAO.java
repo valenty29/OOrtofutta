@@ -203,7 +203,8 @@ public class SQLClienteDAO {
                 float rsAltro = rs.getInt("puntialtro");
 
                 RaccoltaPunti raccoltaPunti = new RaccoltaPunti(rsidR, rsFruttaVerdura, rsProdottoCaseario, rsFarinaceo, rsUovo, rsCarnePesce, rsBibita, rsConserva, rsAltro);
-                Cliente cliente = new Cliente(rsIdC, rsCf, rsNome, rsCognome, rsData, rsLuogo, rsGenere, rsEmail, raccoltaPunti);
+                Cliente cliente = new Cliente(rsIdC, rsCf, rsNome, rsCognome, rsData, rsLuogo, rsGenere, rsEmail);
+                cliente.setRaccoltaPunti(raccoltaPunti);
                 cliente.setScontrini(getScontrini(cliente));
                 list.add(cliente);
             }
@@ -361,7 +362,7 @@ public class SQLClienteDAO {
                 {
                     id = Math.toIntExact(generatedKeys.getLong(1));
 
-                    Optional<Cliente> finalCliente = getClienti(new Cliente(id, null, null, null, null, null, null, null, null)).stream().findFirst();
+                    Optional<Cliente> finalCliente = getClienti(new Cliente(id, null, null, null, null, null, null, null)).stream().findFirst();
                     if (!finalCliente.isPresent()){
                         throw new SQLException();
                     }

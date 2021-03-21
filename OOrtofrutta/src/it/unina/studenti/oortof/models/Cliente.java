@@ -29,7 +29,7 @@ public class Cliente extends ObservedModel implements PropertyChangeListener{
     attributes[SCONTRINI] = new ObservedList<Scontrino>("scontrini");
   }
 
-  public Cliente(Integer id, String cf, String nome, String cognome, Date dataNascita, String luogoNascita, Genere genere, String email, RaccoltaPunti raccoltaPunti) {
+  public Cliente(Integer id, String cf, String nome, String cognome, Date dataNascita, String luogoNascita, Genere genere, String email) {
     this();
     setValue(ID, id);
     setValue(CF, cf);
@@ -39,7 +39,6 @@ public class Cliente extends ObservedModel implements PropertyChangeListener{
     setValue(LUOGO_NASCITA, luogoNascita);
     setValue(GENERE, genere);
     setValue(EMAIL, email);
-    setValue(RACCOLTA_PUNTI, raccoltaPunti);
   }
 
   public Integer getId() {
@@ -165,7 +164,7 @@ public class Cliente extends ObservedModel implements PropertyChangeListener{
     }
     
     setValue(RACCOLTA_PUNTI, raccoltaPunti);
-    //raccoltaPunti.addPropertyChangeListener(this);
+    raccoltaPunti.addPropertyChangeListener(this);
     firePropertyChanged("raccoltaPunti", oldRaccoltaPunti, raccoltaPunti);
   }
 
@@ -237,10 +236,12 @@ public class Cliente extends ObservedModel implements PropertyChangeListener{
     if (this == other) {
       return true;
     }
-    if (getId() > 0 && ((Cliente)other).getId() > 0) {
-      return getId() == ((Cliente)other).getId();
+    
+    if (equals(getId(), ((Cliente)other).getId())) {
+      return true;
     }
-    return getCF().equals(((Cliente)other).getCF());
+    
+    return equals(getCF(), ((Cliente)other).getCF());
   }
 
   @SuppressWarnings("unchecked")
