@@ -19,32 +19,90 @@ public class SQLProductDAO implements ProductDAO {
 
     //region CREATE
     
-    public void createProduct(Prodotto prodotto) {
-    	if (prodotto instanceof Bibita) {
-    		createBibita((Bibita)prodotto);
-    	} else if (prodotto instanceof FruttaVerdura) {
-    		createFruttaVerdura((FruttaVerdura)prodotto);
-    	} else if (prodotto instanceof ProdottoCaseario) {
-    		createProdottoCaseario((ProdottoCaseario)prodotto);
-    	} else if (prodotto instanceof Uovo) {
-    		createUovo((Uovo)prodotto);
-    	} else if (prodotto instanceof CarnePesce) {
-    		createCarnePesce((CarnePesce)prodotto);
-    	} else if (prodotto instanceof Conserva) {
-    		createConserva((Conserva)prodotto);
-    	} else if (prodotto instanceof Farinaceo) {
-    		createFarinaceo((Farinaceo)prodotto);
-    	} else if (prodotto instanceof Altro) {
-    		createProductCommon(prodotto.getProdottoCommon());
-    	}
+    
+	
+    public void createLotti(ObservedList<Lotto> lotti, long id) {
+    	
+        String sql = "INSERT INTO LOTTO (CodLotto, IdProdotto, Scadenza, Disponibilita, DataProduzione, CodPaeseOrigine) VALUES (?, ?, ?, ?, ?, ?)";
+        try {
+            Connection conn = context.OpenConnection();
+            PreparedStatement createLotto = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            for(Lotto lotto: lotti) {
+            	createLotto.setString(1, lotto.getCodLotto());
+                createLotto.setLong(2, id);
+                createLotto.setDate(3, new java.sql.Date(lotto.getScadenza().getTime()));
+                createLotto.setFloat(4, lotto.getDisponibilita());
+                createLotto.setDate(5, new java.sql.Date(lotto.getDataProduzione().getTime()));
+                createLotto.setString(6, lotto.getCodPaeseOrigine());
+                createLotto.addBatch();
+            }
+            createLotto.executeBatch();
+            
+            ResultSet rs = createLotto.getGeneratedKeys();
+            int counter = 0;
+            while(rs.next()) {
+            	int idLotto = Math.toIntExact(rs.getLong(1));
+            	lotti.get(counter).setId(idLotto);
+            	counter++;
+            }
+            
+            conn.close();
+        } catch (SQLException e) {
+            // TODO
+            return;
+        }
     }
     
-    private long createProductCommon(ProdottoCommon prodotto){
-        long prodId = -1;
-        String tipo = "";
-        
-       
-       
+    public void createProduct(Prodotto prodotto) {
+    	int id = -1;
+    	if (prodotto instanceof Bibita) {
+    		id = createBibita((Bibita)prodotto);
+    	} else if (prodotto instanceof FruttaVerdura) {
+    		id = createFruttaVerdura((FruttaVerdura)prodotto);
+    	} else if (prodotto instanceof ProdottoCaseario) {
+    		id = createProdottoCaseario((ProdottoCaseario)prodotto);
+    	} else if (prodotto instanceof Uovo) {
+    		id = createUovo((Uovo)prodotto);
+    	} else if (prodotto instanceof CarnePesce) {
+    		id = createCarnePesce((CarnePesce)prodotto);
+    	} else if (prodotto instanceof Conserva) {
+    		id = createConserva((Conserva)prodotto);
+    	} else if (prodotto instanceof Farinaceo) {
+    		id = createFarinaceo((Farinaceo)prodotto);
+    	} else if (prodotto instanceof Altro) {
+    		id = createProductCommon(prodotto.getProdottoCommon());
+    	}
+    	
+    	prodotto.getProdottoCommon().setId(id);
+    }
+    
+    private String getTipo(ProdottoCommon prodotto) {
+    	String tipo = "";
+    	
+    	if(prodotto.isAltro()) {
+    		tipo = Prodotto.ALTRO;
+    	} else if (prodotto.isBibita()) {
+    		tipo = Prodotto.BIBITA;
+    	} else if (prodotto.isCarnePesce()) {
+    		tipo = Prodotto.CARNE_PESCE;
+    	} else if (prodotto.isConserva()) {
+    		tipo = Prodotto.CONSERVA;
+    	} else if (prodotto.isFarinaceo()) {
+    		tipo = Prodotto.FARINACEO;
+    	} else if (prodotto.isFruttaVerdura()) {
+    		tipo = Prodotto.FRUTTA_VERDURA;
+    	} else if (prodotto.isProdottoCaseario()) {
+    		tipo = Prodotto.PRODOTTO_CASEARIO;
+    	} else if (prodotto.isUovo()) {
+    		tipo = Prodotto.UOVO;
+    	}
+    	return tipo;
+    }
+    
+    @SuppressWarnings("unchecked")
+	private int createProductCommon(ProdottoCommon prodotto){
+        int prodId = -1;
+        String tipo = getTipo(prodotto);
         
         
         String sql = "INSERT INTO PRODOTTO (Nome, Prezzo, Sfuso, Tipo) VALUES (?, ?, ?, ?)";
@@ -54,23 +112,22 @@ public class SQLProductDAO implements ProductDAO {
             createProds.setString(1, prodotto.getNome());
             createProds.setFloat(2, prodotto.getPrezzo());
             createProds.setBoolean(3, prodotto.isSfuso());
-            
+            createProds.setObject(4, tipo, Types.OTHER);
             createProds.executeUpdate();
-
-            
-            
 
             try {
                 ResultSet generatedKeys = createProds.getGeneratedKeys();
                 if (generatedKeys.next())
                 {
-                    prodId = generatedKeys.getLong(1);
+                    prodId = Math.toIntExact(generatedKeys.getLong(1));
+                 	   createLotti(prodotto.getLotti(), prodId);
+                    
                 }
-            } catch (SQLException e)
+            } catch (Exception e)
             {
                 throw new RuntimeException(e);
             }
-
+            
             conn.close();
 
             return prodId;
@@ -80,8 +137,8 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    private void createBibita(Bibita bibita){
-        long id = createProductCommon(bibita.getProdottoCommon());
+    private int createBibita(Bibita bibita){
+        int id = createProductCommon(bibita.getProdottoCommon());
         String sql = "INSERT INTO BIBITA (IdProdotto, GradazioneAlcolica, Frizzante, TipoB) VALUES (?, ?, ?, ?)";
         try {
             Connection conn = context.OpenConnection();
@@ -93,14 +150,15 @@ public class SQLProductDAO implements ProductDAO {
 
             createBibs.executeUpdate();
             conn.close();
+            return id;
         } catch (SQLException e) {
             // TODO
-            return;
+            throw new RuntimeException(e);
         }
     }
 
-    private void createUovo(Uovo uovo){
-        long id = createProductCommon(uovo.getProdottoCommon());
+    private int createUovo(Uovo uovo){
+        int id = createProductCommon(uovo.getProdottoCommon());
         String sql = "INSERT INTO UOVO (IdProdotto, TipoAllevamento, CodAllevamento, CatPeso) VALUES (?, ?, ?, ?)";
         try {
             Connection conn = context.OpenConnection();
@@ -112,14 +170,15 @@ public class SQLProductDAO implements ProductDAO {
 
             createUovo.executeUpdate();
             conn.close();
+            return id;
         } catch (SQLException e) {
             // TODO
-            return;
+        	throw new RuntimeException(e);
         }
     }
 
-    private void createCarnePesce(CarnePesce carnePesce){
-        long id = createProductCommon(carnePesce.getProdottoCommon());
+    private int createCarnePesce(CarnePesce carnePesce){
+        int id = createProductCommon(carnePesce.getProdottoCommon());
         String sql = "INSERT INTO CARNEPESCE (IdProdotto, TipoCP, DaAllevamento, Animale, Confezionato) VALUES (?, ?, ?, ?, ?)";
         try {
             Connection conn = context.OpenConnection();
@@ -132,14 +191,15 @@ public class SQLProductDAO implements ProductDAO {
 
             createCarnePesce.executeUpdate();
             conn.close();
+            return id;
         } catch (SQLException e) {
             // TODO
-            return;
+        	throw new RuntimeException(e);
         }
     }
 
-    private void createFruttaVerdura(FruttaVerdura fruttaVerdura){
-        long id = createProductCommon(fruttaVerdura.getProdottoCommon());
+    private int createFruttaVerdura(FruttaVerdura fruttaVerdura){
+        int id = createProductCommon(fruttaVerdura.getProdottoCommon());
         String sql = "INSERT INTO FRUTTAVERDURA (IdProdotto, TipoFV, Bio, Surgelato) VALUES (?, ?, ?, ?, ?)";
         try {
             Connection conn = context.OpenConnection();
@@ -151,14 +211,15 @@ public class SQLProductDAO implements ProductDAO {
 
             createFruttaVerdura.executeUpdate();
             conn.close();
+            return id;
         } catch (SQLException e) {
             // TODO
-            return;
+        	throw new RuntimeException(e);
         }
     }
 
-    private void createProdottoCaseario(ProdottoCaseario prodottoCaseario){
-        long id = createProductCommon(prodottoCaseario.getProdottoCommon());
+    private int createProdottoCaseario(ProdottoCaseario prodottoCaseario){
+        int id = createProductCommon(prodottoCaseario.getProdottoCommon());
         String sql = "INSERT INTO PRODOTTOCASEARIO (IdProdotto, TipoLatte, Stabilimento, Stagionatura) VALUES (?, ?, ?, ?)";
         try {
             Connection conn = context.OpenConnection();
@@ -170,14 +231,15 @@ public class SQLProductDAO implements ProductDAO {
 
             createProdottoCaseario.executeUpdate();
             conn.close();
+            return id;
         } catch (SQLException e) {
             // TODO
-            return;
+        	throw new RuntimeException(e);
         }
     }
 
-    private void createFarinaceo(Farinaceo farinaceo){
-        long id = createProductCommon(farinaceo.getProdottoCommon());
+    private int createFarinaceo(Farinaceo farinaceo){
+        int id = createProductCommon(farinaceo.getProdottoCommon());
         String sql = "INSERT INTO FARINACEO (IdProdotto, Glutine, TipoFarina, Fresco, Surgelato) VALUES (?, ?, ?, ?, ?)";
         try {
             Connection conn = context.OpenConnection();
@@ -191,14 +253,15 @@ public class SQLProductDAO implements ProductDAO {
 
             createFarinaceo.executeUpdate();
             conn.close();
+            return id;
         } catch (SQLException e) {
             // TODO
-            return;
+        	throw new RuntimeException(e);
         }
     }
 
-    private void createConserva(Conserva conserva){
-        long id = createProductCommon(conserva.getProdottoCommon());
+    private int createConserva(Conserva conserva){
+        int id = createProductCommon(conserva.getProdottoCommon());
         String sql = "INSERT INTO CONSERVA (IdProdotto, Glutine, TipoFarina, Fresco, Surgelato) VALUES (?, ?, ?, ?, ?)";
         try {
             Connection conn = context.OpenConnection();
@@ -208,9 +271,10 @@ public class SQLProductDAO implements ProductDAO {
 
             createConserva.executeUpdate();
             conn.close();
+            return id;
         } catch (SQLException e) {
             // TODO
-            return;
+        	throw new RuntimeException(e);
         }
     }
 
@@ -701,7 +765,8 @@ public class SQLProductDAO implements ProductDAO {
                 float rsDisponibilita = rs.getFloat("Disponibilita");
                 Date rsDataProduzione = rs.getDate("DataProduzione");
                 String rsCodPaeseOrigine = rs.getString("CodPaeseOrigine");
-                Lotto lotto = new Lotto(rsId, rsCodLotto, rsScadenza, rsDisponibilita, rsDataProduzione, rsCodPaeseOrigine);
+                Date rsDataMungitura = rs.getDate("DataMungitura");
+                Lotto lotto = new Lotto(rsId, rsCodLotto, rsScadenza, rsDisponibilita, rsDataProduzione, rsCodPaeseOrigine, rsDataMungitura);
                 lotti.add(lotto);
             }
             return lotti;
@@ -811,13 +876,67 @@ public class SQLProductDAO implements ProductDAO {
     		updateProductsCommon(oldProdotto.getProdottoCommon(), newProdotto.getProdottoCommon());
     	}
     }
+    
+    public void updateLotti(ObservedList<Lotto> oldLotti, ObservedList<Lotto> newLotti, long id) {
+    	ObservedList<Lotto> lottiDaCreare = new ObservedList<Lotto>("lottiDaCreare");
+    	ObservedList<Lotto> lottiDaAggiornare = new ObservedList<Lotto>("lottiDaAggiornare");
+    	
+    	
+    	for(Lotto lotto: newLotti) {
+    		Optional<Lotto> optLotto = oldLotti.stream().filter(oldLotto -> oldLotto.getId() == lotto.getId()).findFirst(); 
+    		
+    		if (optLotto.isPresent()) {
+    			lottiDaAggiornare.add(lotto);
+    		} else {
+    			lottiDaCreare.add(lotto);
+    		}
+    	}
+    	
+    	
+    	
+    	createLotti(lottiDaCreare, id);
+    	
+    	if (lottiDaAggiornare.size() > 0) {
+    		String sql = "UPDATE LOTTO SET CodLotto = ?, Scadenza = ?, Disponibilita = ?, DataProduzione = ?, CodPaeseOrigine = ?, DataMungitura = ? WHERE id = ?";
+        	try {
+        		Connection conn = context.OpenConnection();
+        		PreparedStatement stm = conn.prepareStatement(sql);
+        		
+        		for(Lotto lottoDaAggiornare: lottiDaAggiornare) {
+            		stm.setString(1, lottoDaAggiornare.getCodLotto());
+            		stm.setDate(2, new java.sql.Date(lottoDaAggiornare.getScadenza().getTime()));
+            		stm.setFloat(3, lottoDaAggiornare.getDisponibilita());
+            		stm.setDate(4, new java.sql.Date(lottoDaAggiornare.getDataProduzione().getTime()));
+            		stm.setString(5, lottoDaAggiornare.getCodPaeseOrigine());
+            		if (lottoDaAggiornare.getDataMungitura() != null) {
+            			stm.setDate(6, new java.sql.Date(lottoDaAggiornare.getDataMungitura().getTime()));
+            		} else {
+            			stm.setNull(6, java.sql.Types.DATE);
+            		}
+            		stm.setLong(7, lottoDaAggiornare.getId());
+            		
+            		stm.addBatch();
+        		}
+        		stm.executeBatch();
+        		conn.close();
+        	} catch (Exception e) {
+        		throw new RuntimeException(e);
+        	}
+    	}
+    	
+    	
+    }
 
     public void updateProductsCommon(ProdottoCommon oldProdotto, ProdottoCommon newProdotto) {
 
+    	
+    	
         if (oldProdotto.getId() != newProdotto.getId())
         {
             throw new RuntimeException("Gli id sono diversi");
         }
+        
+        updateLotti(oldProdotto.getLotti(), newProdotto.getLotti(), newProdotto.getId());
 
         String updateQuery = "";
         int counter = 0;

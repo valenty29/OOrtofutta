@@ -14,7 +14,7 @@ import it.unina.studenti.oortof.models.Prodotto;
 
 public class ClientiController implements Controller {
 	private Cliente cliente;
-	private ObservedList listCliente;
+	private ObservedList<Cliente> listCliente;
 	private Cliente oldCliente = new Cliente();
 	private SQLClienteDAO sqlClienteDAO;
 	
@@ -52,29 +52,57 @@ public class ClientiController implements Controller {
 	  public void commit() {
 		switch (ApplicationStatus.getInstance().getStatus()) {
 			case ApplicationStatus.STATUS_INSERT: {
-				cliente = sqlClienteDAO.createCliente(cliente);
+				try {
+					Cliente newCliente = sqlClienteDAO.createCliente(cliente);
+					listCliente.add(newCliente);
+					newCliente.copyTo(cliente);
+					
+				} catch(Exception e) {
+					System.out.println(1);
+				}
+				
 				break;
 			}
 				
 			case ApplicationStatus.STATUS_UPDATE: {
-				sqlClienteDAO.updateCliente(oldCliente, cliente);
+				try {
+					sqlClienteDAO.updateCliente(oldCliente, cliente);
+					listCliente.remove(cliente);
+					listCliente.add(cliente);
+				} catch (Exception e) {
+					
+				}
+				
 				break;
 			}	
 				
 			case ApplicationStatus.STATUS_SEARCH: {
-				ObservedList<Cliente> clienti = sqlClienteDAO.getClienti(cliente);
-				listCliente.clear();
-				clienti.copyTo(listCliente);
+				try {
+					ObservedList<Cliente> clienti = sqlClienteDAO.getClienti(cliente);
+					listCliente.clear();
+					clienti.copyTo(listCliente);
+				} catch (Exception e) {
+					
+				}
+				
 				break;
 			}
 			
 		}
-		ApplicationStatus.getInstance().setAction(ApplicationStatus.ACTION_NONE);
+		
 	    ApplicationStatus.getInstance().setStatus(ApplicationStatus.STATUS_NAVIGATION);
 	  }
 
 	  @Override
 	  public void delete() {
+		  try {
+			  sqlClienteDAO.deleteCliente(cliente);
+			  listCliente.remove(cliente);
+			  cliente.clear();
+		  } catch(Exception e) {
+			  
+		  }
+		  ApplicationStatus.getInstance().setAction(ApplicationStatus.ACTION_NONE);
 	  }
 
 	  @Override

@@ -2,6 +2,7 @@ package it.unina.studenti.oortof.gui.models;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class ClientiListTableModel extends AbstractTableModel {
 	private String[] columnNames = {"Nome", "Cognome", "CF", "eMail", "Data di nascita", "Luogo di nascita", "Genere"};
 	private ObservedList clienteList = new ObservedList("clienti");
 	private Cliente cliente;
-	
+	private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 	
 	
 	@Override
@@ -45,7 +46,8 @@ public class ClientiListTableModel extends AbstractTableModel {
 			break;
 			case 3: value = cliente.getEmail();
 			break;
-			case 4: value = cliente.getDataNascita().toString();
+			case 4: 
+				value = formatter.format(cliente.getDataNascita());
 			break;
 			case 5: value = cliente.getLuogoNascita().toString();
 			break;

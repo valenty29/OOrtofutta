@@ -2,18 +2,18 @@ package it.unina.studenti.oortof.models;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Scontrino extends ObservedModel implements PropertyChangeListener{
 
   public static final int ID = 0;
-  //public static final int CLIENTE = 1;
-  public static final int DATA_ORARIO = 2;
-  public static final int PREZZO_TOTALE = 3;
-  public static final int ACQUISTI = 4;
+  public static final int DATA_ORARIO = 1;
+  public static final int PREZZO_TOTALE = 2;
+  public static final int ACQUISTI = 3;
 
   public Scontrino() {
-    attributes = new Object[5];
+    attributes = new Object[4];
     //setCliente(new Cliente());
     attributes[ACQUISTI] = new ObservedList<Acquisto>("acquisti");
   }
@@ -61,6 +61,7 @@ public class Scontrino extends ObservedModel implements PropertyChangeListener{
   public Date getDataOrario() {
     return getDate(DATA_ORARIO);
   }
+  
 
   public void setDataOrario(Date dataOrario) {
     Date oldDataOrario = getDataOrario();

@@ -214,8 +214,7 @@ public class SQLClienteDAO {
             return list;
         } catch (SQLException se)
         {
-            //TODO
-            return null;
+            throw new RuntimeException(se);
         }
     }
     
@@ -237,14 +236,11 @@ public class SQLClienteDAO {
                 
                 list.add(scontrino);
             }
-
-
             conn.close();
             return list;
         } catch (SQLException se)
         {
-            //TODO
-            return null;
+            throw new RuntimeException(se);
         }
     }
 
@@ -257,12 +253,12 @@ public class SQLClienteDAO {
 
         String updateQuery = "";
         int counter = 0;
-        if (oldCliente.getNome() != newCliente.getNome())
+        if (!oldCliente.getNome().equals(newCliente.getNome()))
         {
             updateQuery += String.format("SET Nome = '%s'", newCliente.getNome());
             counter++;
         }
-        if (oldCliente.getCognome() != newCliente.getCognome())
+        if (!oldCliente.getCognome().equals(newCliente.getCognome()))
         {
             if (counter != 0)
             {
@@ -281,7 +277,7 @@ public class SQLClienteDAO {
             updateQuery += String.format("SET DataNascita = '%s'", newCliente.getDataNascita());
             counter++;
         }
-        if (oldCliente.getLuogoNascita() != newCliente.getLuogoNascita())
+        if (!oldCliente.getLuogoNascita().equals(newCliente.getLuogoNascita()))
         {
             if (counter != 0)
             {
@@ -319,7 +315,7 @@ public class SQLClienteDAO {
                 Statement stm = conn.createStatement();
                 stm.executeUpdate(sql);
             } catch (SQLException e) {
-                return;
+                throw new RuntimeException(e);
             }
         }
     }
@@ -335,8 +331,7 @@ public class SQLClienteDAO {
             conn.close();
         } catch (SQLException se)
         {
-            System.out.println(se);
-            return;
+            throw new RuntimeException(se); 
         }
     }
 

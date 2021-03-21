@@ -43,7 +43,11 @@ public class ClientiListPanel extends JPanel {
 	            // do some actions here, for example
 	            // print first column value from selected row
 	        	cliente.getScontrini().clear();
-	        	listCliente.get(table.getSelectedRow()).copyTo(cliente);
+	        	int index = table.getSelectedRow();
+	        	if (index != -1) {
+	        		listCliente.get(index).copyTo(cliente);
+	        	}
+	        	
 	        }
 	    });
 	  }

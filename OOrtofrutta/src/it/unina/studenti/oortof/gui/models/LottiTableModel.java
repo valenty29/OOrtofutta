@@ -8,7 +8,6 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import it.unina.studenti.oortof.models.Lotto;
-import it.unina.studenti.oortof.models.LottoCaseario;
 
 public class LottiTableModel extends AbstractTableModel {
   
@@ -69,7 +68,6 @@ public class LottiTableModel extends AbstractTableModel {
       case 2: return toString(lotto.getDisponibilita());
       case 3: return dateToString(lotto.getDataProduzione());
       case 4: return toString(lotto.getCodPaeseOrigine());
-      case 5: return dateToString(lotto instanceof LottoCaseario ? ((LottoCaseario)lotto).getDataMungitura() : null);
     }
     return null;
   }
