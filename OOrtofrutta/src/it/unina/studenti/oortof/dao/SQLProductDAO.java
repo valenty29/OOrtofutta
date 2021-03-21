@@ -287,29 +287,70 @@ public class SQLProductDAO implements ProductDAO {
 
     @SuppressWarnings("unchecked")
 	public ObservedList<Prodotto> getProduct(Prodotto prodotto) {
-    	ObservedList<Prodotto> prodotti;
-    	if (prodotto instanceof Bibita) {
-    		prodotti = (ObservedList<Prodotto>)(ObservedList<?>)getBibita((Bibita)prodotto);
-    	} else if (prodotto instanceof FruttaVerdura) {
-    		prodotti = (ObservedList<Prodotto>)(ObservedList<?>)getFruttaVerdura((FruttaVerdura)prodotto);
-    	} else if (prodotto instanceof ProdottoCaseario) {
-    		prodotti = (ObservedList<Prodotto>)(ObservedList<?>)getProdottoCaseario((ProdottoCaseario)prodotto);
-    	} else if (prodotto instanceof Uovo) {
-    		prodotti = (ObservedList<Prodotto>)(ObservedList<?>)getUovo((Uovo)prodotto);
-    	} else if (prodotto instanceof CarnePesce) {
-    		prodotti = (ObservedList<Prodotto>)(ObservedList<?>)getCarnePesce((CarnePesce)prodotto);
-    	} else if (prodotto instanceof Conserva) {
-    		prodotti = (ObservedList<Prodotto>)(ObservedList<?>)getConserva((Conserva)prodotto);
-    	} else if (prodotto instanceof Farinaceo) {
-    		prodotti = (ObservedList<Prodotto>)(ObservedList<?>)getFarinaceo((Farinaceo)prodotto);
-    	} else {
-    		// TODO
-    		prodotti = new ObservedList<>("generico");
+    	ObservedList<Prodotto> prodotti = new ObservedList<Prodotto>("prodotti");
+    	boolean allNull = true;
+    	
+    	allNull = prodotto.getProdottoCommon().getBibita() == null;
+    	allNull &= prodotto.getProdottoCommon().getConserva() == null;
+    	allNull &= prodotto.getProdottoCommon().getAltro() == null;
+    	allNull &= prodotto.getProdottoCommon().getCarnePesce() == null;
+    	allNull &= prodotto.getProdottoCommon().getFarinaceo() == null;
+    	allNull &= prodotto.getProdottoCommon().getProdottoCaseario() == null;
+    	allNull &= prodotto.getProdottoCommon().getUovo() == null;
+    	allNull &= prodotto.getProdottoCommon().getFruttaVerdura() == null;
+    	
+    	if ( allNull ||  prodotto.getProdottoCommon().isBibita()) {
+    		ObservedList<Bibita> prods = getBibita(prodotto);
+    		for(Bibita bib: prods) {
+    			prodotti.add(bib);
+    		}
+    	} 
+    	if (allNull || prodotto.getProdottoCommon().isConserva()) {
+    		ObservedList<Conserva> prods = getConserva(prodotto);
+    		for(Conserva cons: prods) {
+    			prodotti.add(cons);
+    		}
+    	}
+    	if (allNull || prodotto.getProdottoCommon().isCarnePesce()) {
+    		ObservedList<CarnePesce> prods = getCarnePesce(prodotto);
+    		for(CarnePesce carnePesce: prods) {
+    			prodotti.add(carnePesce);
+    		}
+    	}
+    	if (allNull || prodotto.getProdottoCommon().isFruttaVerdura()) {
+    		ObservedList<FruttaVerdura> prods = getFruttaVerdura(prodotto);
+    		for(FruttaVerdura fruttaVerdura: prods) {
+    			prodotti.add(fruttaVerdura);
+    		}
+    	}
+    	 if (allNull || prodotto.getProdottoCommon().isFarinaceo()) {
+    		ObservedList<Farinaceo> prods = getFarinaceo(prodotto);
+    		for(Farinaceo farinaceo: prods) {
+    			prodotti.add(farinaceo);
+    		}
+    	 }
+    	if (allNull || prodotto.getProdottoCommon().isProdottoCaseario()) {
+    		ObservedList<ProdottoCaseario> prods = getProdottoCaseario(prodotto);
+    		for(ProdottoCaseario prodottoCaseario: prods) {
+    			prodotti.add(prodottoCaseario);
+    		}
+    	} 
+    	if (allNull || prodotto.getProdottoCommon().isUovo()) {
+    		ObservedList<Uovo> prods = getUovo(prodotto);
+    		for(Uovo uovo: prods) {
+    			prodotti.add(uovo);
+    		}
+    	} 
+    	if (allNull || prodotto.getProdottoCommon().isAltro()) {
+    		/*ObservedList<Altro> prods = getAltro(prodotto);
+    		for (Altro altro: prods) {
+    			prodotti.add(altro);
+    		}*/
     	}
     	return prodotti;
     }
 
-    private ObservedList<Bibita> getBibita(Bibita bibita)  {
+    private ObservedList<Bibita> getBibita(Prodotto bibita)  {
         BibitaSpecifico bibSpec = bibita.getBibitaSpecifico();
         try {
             Connection conn = context.OpenConnection();
@@ -389,7 +430,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    private ObservedList<Uovo> getUovo(Uovo uovo)
+    private ObservedList<Uovo> getUovo(Prodotto uovo)
     {
 
         UovoSpecifico uovoSpecifico = uovo.getUovoSpecifico();
@@ -450,7 +491,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    private ObservedList<CarnePesce> getCarnePesce(CarnePesce carnePesce)
+    private ObservedList<CarnePesce> getCarnePesce(Prodotto carnePesce)
     {
 
             CarnePesceSpecifico carnePesceSpecifico = carnePesce.getCarnePesceSpecifico();
@@ -520,7 +561,7 @@ public class SQLProductDAO implements ProductDAO {
     }
 
 
-    private ObservedList<Farinaceo> getFarinaceo(Farinaceo farinaceo)
+    private ObservedList<Farinaceo> getFarinaceo(Prodotto farinaceo)
     {
         FarinaceoSpecifico farinaceoSpecifico = farinaceo.getFarinaceoSpecifico();
         try {
@@ -586,7 +627,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    private ObservedList<FruttaVerdura> getFruttaVerdura(FruttaVerdura fruttaVerdura)
+    private ObservedList<FruttaVerdura> getFruttaVerdura(Prodotto fruttaVerdura)
     {
         FruttaVerduraSpecifico fruttaVerduraSpecifico = fruttaVerdura.getFruttaVerduraSpecifico();
         try {
@@ -644,7 +685,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    private ObservedList<Conserva> getConserva(Conserva conserva)
+    private ObservedList<Conserva> getConserva(Prodotto conserva)
     {
 
         ConservaSpecifico conservaSpecifico = conserva.getConservaSpecifico();
@@ -684,11 +725,11 @@ public class SQLProductDAO implements ProductDAO {
             return list;
         } catch (SQLException se)
         {
-            return null;
+            throw new RuntimeException(se);
         }
     }
 
-    private ObservedList<ProdottoCaseario> getProdottoCaseario(ProdottoCaseario prodottoCaseario)
+    private ObservedList<ProdottoCaseario> getProdottoCaseario(Prodotto prodottoCaseario)
     {
 
         ProdottoCasearioSpecifico prodCasSpecifico = prodottoCaseario.getProdottoCasearioSpecifico();
@@ -776,6 +817,7 @@ public class SQLProductDAO implements ProductDAO {
         }
 
     }
+    
 
     private String getProdottoFilters(ProdottoCommon prodCom) {
 
@@ -786,7 +828,7 @@ public class SQLProductDAO implements ProductDAO {
             filterCount++;
         }
        
-        if (prodCom.getString(ProdottoCommon.NOME) == null || prodCom.getString(ProdottoCommon.NOME).equals(""))
+        if (prodCom.getString(ProdottoCommon.NOME) != null && !prodCom.getString(ProdottoCommon.NOME).equals(""))
         {
             if (filterCount != 0)
                 query += " AND ";
