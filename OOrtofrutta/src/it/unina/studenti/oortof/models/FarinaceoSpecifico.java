@@ -90,12 +90,12 @@ public class FarinaceoSpecifico extends ProdottoSpecifico {
     firePropertyChanged("surgelato", oldSurgelato, surgelato);
   }
   
-//  public void copyTo(ProdottoSpecifico farinaceoSpecifico) {
-//    ((FarinaceoSpecifico)farinaceoSpecifico).setGlutine(isGlutine());
-//    ((FarinaceoSpecifico)farinaceoSpecifico).setTipoFarina(getTipoFarina());
-//    ((FarinaceoSpecifico)farinaceoSpecifico).setFresco(isFresco());
-//    ((FarinaceoSpecifico)farinaceoSpecifico).setSurgelato(isSurgelato());
-//  }
+  public void copyTo(ObservedModel farinaceoSpecifico) {
+    ((FarinaceoSpecifico)farinaceoSpecifico).setGlutine(isGlutine());
+    ((FarinaceoSpecifico)farinaceoSpecifico).setTipoFarina(getTipoFarina());
+    ((FarinaceoSpecifico)farinaceoSpecifico).setFresco(isFresco());
+    ((FarinaceoSpecifico)farinaceoSpecifico).setSurgelato(isSurgelato());
+  }
 
   @Override
   public void propertyChange(PropertyChangeEvent evt) {

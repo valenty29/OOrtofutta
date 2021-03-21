@@ -2,6 +2,8 @@ package it.unina.studenti.oortof.models;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Prodotto extends ObservedModel implements PropertyChangeListener {
@@ -15,30 +17,47 @@ public class Prodotto extends ObservedModel implements PropertyChangeListener {
   public static final int PRODOTTO_CASEARIO_INDEX = 6;
   public static final int UOVO_INDEX = 7;
 
+  public static final int PRODOTTO_COMMON = 0;        // Float
+  public static final int PRODOTTI_SPECIFICI = 1;     // Boolean
+
   protected ProdottoCommon prodottoCommon = new ProdottoCommon();
-  protected ProdottoSpecifico[] prodottiSpecifici = new ProdottoSpecifico[8];
+  protected List<ProdottoSpecifico> prodottiSpecifici = new ArrayList<ProdottoSpecifico>();
 
   public Prodotto() {
-    prodottiSpecifici[ALTRO_INDEX] = new AltroSpecifico();
-    prodottiSpecifici[BIBITA_INDEX] = new BibitaSpecifico();
-    prodottiSpecifici[CARNE_PESCE_INDEX] = new CarnePesceSpecifico();
-    prodottiSpecifici[CONSERVA_INDEX] = new ConservaSpecifico();
-    prodottiSpecifici[FARINACEO_INDEX] = new FarinaceoSpecifico();
-    prodottiSpecifici[FRUTTA_VERDURA_INDEX] = new FruttaVerduraSpecifico();
-    prodottiSpecifici[PRODOTTO_CASEARIO_INDEX] = new ProdottoCasearioSpecifico();
-    prodottiSpecifici[UOVO_INDEX] = new UovoSpecifico();
+    attributes = new Object[2];
+    attributes[PRODOTTO_COMMON] = prodottoCommon;
+    attributes[PRODOTTI_SPECIFICI] = prodottiSpecifici;
+    prodottiSpecifici.add(new AltroSpecifico());
+    prodottiSpecifici.add(new BibitaSpecifico());
+    prodottiSpecifici.add(new CarnePesceSpecifico());
+    prodottiSpecifici.add(new ConservaSpecifico());
+    prodottiSpecifici.add(new FarinaceoSpecifico());
+    prodottiSpecifici.add(new FruttaVerduraSpecifico());
+    prodottiSpecifici.add(new ProdottoCasearioSpecifico());
+    prodottiSpecifici.add(new UovoSpecifico());
     prodottoCommon.addPropertyChangeListener(this);
-    prodottiSpecifici[ALTRO_INDEX].addPropertyChangeListener(this);
-    prodottiSpecifici[BIBITA_INDEX].addPropertyChangeListener(this);
-    prodottiSpecifici[CARNE_PESCE_INDEX].addPropertyChangeListener(this);
-    prodottiSpecifici[CONSERVA_INDEX].addPropertyChangeListener(this);
-    prodottiSpecifici[FARINACEO_INDEX].addPropertyChangeListener(this);
-    prodottiSpecifici[FRUTTA_VERDURA_INDEX].addPropertyChangeListener(this);
-    prodottiSpecifici[PRODOTTO_CASEARIO_INDEX].addPropertyChangeListener(this);
-    prodottiSpecifici[UOVO_INDEX].addPropertyChangeListener(this);
+    prodottiSpecifici.get(ALTRO_INDEX).addPropertyChangeListener(this);
+    prodottiSpecifici.get(BIBITA_INDEX).addPropertyChangeListener(this);
+    prodottiSpecifici.get(CARNE_PESCE_INDEX).addPropertyChangeListener(this);
+    prodottiSpecifici.get(CONSERVA_INDEX).addPropertyChangeListener(this);
+    prodottiSpecifici.get(FARINACEO_INDEX).addPropertyChangeListener(this);
+    prodottiSpecifici.get(FRUTTA_VERDURA_INDEX).addPropertyChangeListener(this);
+    prodottiSpecifici.get(PRODOTTO_CASEARIO_INDEX).addPropertyChangeListener(this);
+    prodottiSpecifici.get(UOVO_INDEX).addPropertyChangeListener(this);
   }
   
   protected Prodotto(Integer id, String nome, Float prezzo, Boolean sfuso) {
+    attributes = new Object[2];
+    attributes[PRODOTTO_COMMON] = prodottoCommon;
+    attributes[PRODOTTI_SPECIFICI] = prodottiSpecifici;
+    prodottiSpecifici.add(null);   // Altro
+    prodottiSpecifici.add(null);   // Bibita
+    prodottiSpecifici.add(null);   // CarnePesce
+    prodottiSpecifici.add(null);   // Conserva
+    prodottiSpecifici.add(null);   // Farinaceo
+    prodottiSpecifici.add(null);   // FruttaVerdura
+    prodottiSpecifici.add(null);   // ProdottoCaseario
+    prodottiSpecifici.add(null);   // Uovo
     prodottoCommon.setId(id);
     prodottoCommon.setNome(nome);
     prodottoCommon.setPrezzo(prezzo);
@@ -46,43 +65,10 @@ public class Prodotto extends ObservedModel implements PropertyChangeListener {
     prodottoCommon.addPropertyChangeListener(this);
   }
   
-  public void setProdottoCommon(ProdottoCommon prodottoCommon) {
-    this.prodottoCommon = prodottoCommon;
-  }
-  
   public ProdottoCommon getProdottoCommon() {
     return prodottoCommon;
   }
 
-  public void setProdottoSpecifico(ProdottoSpecifico prodottoSpecifico) {
-    if (prodottoSpecifico instanceof AltroSpecifico) {
-      prodottiSpecifici[ALTRO_INDEX] = prodottoSpecifico;
-    }
-    else if (prodottoSpecifico instanceof BibitaSpecifico) {
-      prodottiSpecifici[BIBITA_INDEX] = prodottoSpecifico;
-    }
-    else if (prodottoSpecifico instanceof CarnePesceSpecifico) {
-      prodottiSpecifici[CARNE_PESCE_INDEX] = prodottoSpecifico;
-    }
-    else if (prodottoSpecifico instanceof ConservaSpecifico) {
-      prodottiSpecifici[CONSERVA_INDEX] = prodottoSpecifico;
-    }
-    else if (prodottoSpecifico instanceof FarinaceoSpecifico) {
-      prodottiSpecifici[FARINACEO_INDEX] = prodottoSpecifico;
-    }
-    else if (prodottoSpecifico instanceof FruttaVerduraSpecifico) {
-      prodottiSpecifici[FRUTTA_VERDURA_INDEX] = prodottoSpecifico;
-    }
-    else if (prodottoSpecifico instanceof ProdottoCasearioSpecifico) {
-      prodottiSpecifici[PRODOTTO_CASEARIO_INDEX] = prodottoSpecifico;
-    }
-    else if (prodottoSpecifico instanceof UovoSpecifico) {
-      prodottiSpecifici[UOVO_INDEX] = prodottoSpecifico;
-    }
-    prodottoSpecifico.addPropertyChangeListener(this);
-  }
-
-  
   public ProdottoSpecifico getProdottoSpecifico() {
     for (ProdottoSpecifico prodottoSpecifico : prodottiSpecifici) {
       if (prodottoSpecifico != null) {
@@ -91,7 +77,59 @@ public class Prodotto extends ObservedModel implements PropertyChangeListener {
     }
     return null;
   }
+  
+  public AltroSpecifico getAltroSpecifico() {
+    return (AltroSpecifico)getProdottoSpecificoAt(ALTRO_INDEX);
+  }
+  
+  public BibitaSpecifico getBibitaSpecifico() {
+    return (BibitaSpecifico)getProdottoSpecificoAt(BIBITA_INDEX);
+  }
+  
+  public CarnePesceSpecifico getCarnePesceSpecifico() {
+    return (CarnePesceSpecifico)getProdottoSpecificoAt(CARNE_PESCE_INDEX);
+  }
+  
+  public ConservaSpecifico getConservaSpecifico() {
+    return (ConservaSpecifico)getProdottoSpecificoAt(CONSERVA_INDEX);
+  }
+  
+  public FarinaceoSpecifico getFarinaceoSpecifico() {
+    return (FarinaceoSpecifico)getProdottoSpecificoAt(FARINACEO_INDEX);
+  }
+  
+  public FruttaVerduraSpecifico getFruttaVerduraSpecifico() {
+    return (FruttaVerduraSpecifico)getProdottoSpecificoAt(FRUTTA_VERDURA_INDEX);
+  }
+  
+  public ProdottoCasearioSpecifico getProdottoCasearioSpecifico() {
+    return (ProdottoCasearioSpecifico)getProdottoSpecificoAt(PRODOTTO_CASEARIO_INDEX);
+  }
+  
+  public UovoSpecifico getUovoSpecifico() {
+    return (UovoSpecifico)getProdottoSpecificoAt(UOVO_INDEX);
+  }
+  
+  public ProdottoSpecifico getProdottoSpecificoAt(int index) {
+    return prodottiSpecifici.get(index);
+  }
+  
+  public List<ProdottoSpecifico> getProdottiSpecifici() {
+    return (List<ProdottoSpecifico>)attributes[PRODOTTI_SPECIFICI];
+  }
 
+  public void replaceProdottoSpecifico(int index, ProdottoSpecifico prodottoSpecifico) {
+    if (((List<ProdottoSpecifico>)attributes[PRODOTTI_SPECIFICI]).get(index) == prodottoSpecifico) {
+      return;
+    }
+    ProdottoSpecifico old = ((List<ProdottoSpecifico>)attributes[PRODOTTI_SPECIFICI]).get(index);
+    if (old != null) {
+      old.removePropertyChangeListener(this);
+    }
+    ((List<ProdottoSpecifico>)attributes[PRODOTTI_SPECIFICI]).set(index, prodottoSpecifico);
+    firePropertyChanged("prodottiSpecifici", index, prodottoSpecifico);
+    prodottoSpecifico.addPropertyChangeListener(this);
+  }
 
   public String toString() {
     return prodottoCommon.getNome();
@@ -124,5 +162,39 @@ public class Prodotto extends ObservedModel implements PropertyChangeListener {
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
     firePropertyChanged(evt);
+  }
+  
+  ProdottoSpecifico newByIndex(int index) {
+    switch (index) {
+    case ALTRO_INDEX: return new AltroSpecifico();
+    case BIBITA_INDEX: return new BibitaSpecifico();
+    case CARNE_PESCE_INDEX: return new CarnePesceSpecifico();
+    case CONSERVA_INDEX: return new ConservaSpecifico();
+    case FARINACEO_INDEX: return new FarinaceoSpecifico();
+    case FRUTTA_VERDURA_INDEX: return new FruttaVerduraSpecifico();
+    case PRODOTTO_CASEARIO_INDEX: return new ProdottoCasearioSpecifico();
+    case UOVO_INDEX: return new UovoSpecifico();       
+    }
+    return null;
+  }
+
+  @Override
+  public void copyTo(ObservedModel prodotto) {
+    prodottoCommon.copyTo(((Prodotto)prodotto).getProdottoCommon());
+    for (int i = 0; i < prodottiSpecifici.size(); i++) {
+      ProdottoSpecifico ps1 = (ProdottoSpecifico)prodottiSpecifici.get(i);
+      ProdottoSpecifico ps2 = (ProdottoSpecifico)((Prodotto)prodotto).prodottiSpecifici.get(i);
+      if (ps1 != null && ps2 != null) {
+        ps1.copyTo(ps2);
+      }
+      else if (ps1 == null && ps2 != null) {
+        ((Prodotto)prodotto).replaceProdottoSpecifico(i, null);
+      }
+      else if (ps1 != null && ps2 == null) {
+        ProdottoSpecifico newPs = newByIndex(i);
+        ps1.copyTo(newPs);
+        ((Prodotto)prodotto).replaceProdottoSpecifico(i, newPs);
+      }    
+    }
   }
 }

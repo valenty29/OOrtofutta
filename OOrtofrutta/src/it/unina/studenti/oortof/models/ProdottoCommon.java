@@ -2,8 +2,6 @@ package it.unina.studenti.oortof.models;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ProdottoCommon extends ObservedModel implements PropertyChangeListener {
 
@@ -23,7 +21,7 @@ public class ProdottoCommon extends ObservedModel implements PropertyChangeListe
   
   public ProdottoCommon() {
     attributes = new Object[13];
-    attributes[LOTTI] = new ArrayList<Lotto>();
+    attributes[LOTTI] = new ObservedList<Lotto>("lotti");
   }
   
   protected ProdottoCommon(Integer id, String nome, Float prezzo, Boolean sfuso) {
@@ -234,75 +232,73 @@ public class ProdottoCommon extends ObservedModel implements PropertyChangeListe
     firePropertyChanged("sfuso", oldSfuso, sfuso);
   }
 
-  public List<Lotto> getLotti() {
-    return (List<Lotto>)attributes[LOTTI];
+  @SuppressWarnings("unchecked")
+  public ObservedList<Lotto> getLotti() {
+    return (ObservedList<Lotto>)attributes[LOTTI];
   }
 
-  public void setLotti(List<Lotto> lotti) {
+  @SuppressWarnings("unchecked")
+  public void setLotti(ObservedList<Lotto> lotti) {
     if (lotti == attributes[LOTTI]) {
       return;
     }
-    for (Lotto lotto : lotti) {
-      lotto.addPropertyChangeListener(this);
-    }
-    List<Lotto> oldLotti = (List<Lotto>)attributes[LOTTI];
+    ObservedList<Lotto> oldLotti = (ObservedList<Lotto>)attributes[LOTTI];
+    oldLotti.removePropertyChangeListener(this);
     attributes[LOTTI] = lotti;
-    firePropertyChanged("lotto", oldLotti, lotti);
+    lotti.addPropertyChangeListener(this);
+    firePropertyChanged("lotti", oldLotti, lotti);
   }
   
+  @SuppressWarnings("unchecked")
   public void addLotto(Lotto lotto) {
-    ((List<Lotto>)attributes[LOTTI]).add(lotto);
-    firePropertyChanged("lotto", null, lotto);
-    lotto.addPropertyChangeListener(this);
+    ((ObservedList<Lotto>)attributes[LOTTI]).add(lotto);
   }
 
+  @SuppressWarnings("unchecked")
   public void addLotto(int index, Lotto lotto) {
-    ((List<Lotto>)attributes[LOTTI]).add(index, lotto);
-    firePropertyChanged("lotto", index, lotto);
-    lotto.addPropertyChangeListener(this);
+    ((ObservedList<Lotto>)attributes[LOTTI]).add(index, lotto);
   }
   
+  @SuppressWarnings("unchecked")
   public Lotto getLottoAt(int index) {
-    return ((List<Lotto>)attributes[LOTTI]).get(index);
+    return ((ObservedList<Lotto>)attributes[LOTTI]).get(index);
   }
   
+  @SuppressWarnings("unchecked")
   public void removeLotto(int index) {
-    Lotto removedLotto = ((List<Lotto>)attributes[LOTTI]).remove(index);
-    removedLotto.removePropertyChangeListener(this);
-    firePropertyChanged("lotto", removedLotto, index);
+    ((ObservedList<Lotto>)attributes[LOTTI]).remove(index);
   }
   
+  @SuppressWarnings("unchecked")
   public void removeLotto(Lotto lotto) {
-    int toRemoveIndex = ((List<Lotto>)attributes[LOTTI]).indexOf(lotto);
-    if (toRemoveIndex >= 0) {
-      removeLotto(toRemoveIndex);
-    }
+    ((ObservedList<Lotto>)attributes[LOTTI]).remove(lotto);
   }
   
+  @SuppressWarnings("unchecked")
   public void clearLotti() {
-    if (((List<Lotto>)attributes[LOTTI]).size() == 0) {
-      return;
-    }
-    List<Lotto> oldLotti = new ArrayList<Lotto>(((List<Lotto>)attributes[LOTTI]));
-    ((List<Lotto>)attributes[LOTTI]).clear();
-    firePropertyChanged("lotto", oldLotti, ((List<Lotto>)attributes[LOTTI]));
+    ((ObservedList<Lotto>)attributes[LOTTI]).clear();
   }
   
+  @SuppressWarnings("unchecked")
   public int getLottiSize() {
-    return ((List<Lotto>)attributes[LOTTI]).size();
+    return ((ObservedList<Lotto>)attributes[LOTTI]).size();
   }
   
-  public void copyTo(ProdottoCommon prodottoCommon) {
-    prodottoCommon.setId(getId());
-    prodottoCommon.setNome(getNome());
-    prodottoCommon.setPrezzo(getPrezzo());
-    prodottoCommon.setSfuso(getSfuso());
-    prodottoCommon.getLotti().clear();
-    for (Lotto lotto : ((List<Lotto>)attributes[LOTTI])) {
-      Lotto newLotto = lotto instanceof LottoCaseario ? new LottoCaseario() : new Lotto();
-      lotto.copyTo(newLotto);
-      ((List<Lotto>)attributes[LOTTI]).add(newLotto);
-    }
+  @SuppressWarnings("unchecked")
+  public void copyTo(ObservedModel prodottoCommon) {
+    ((ProdottoCommon)prodottoCommon).setId(getId());
+    ((ProdottoCommon)prodottoCommon).setAltro(getAltro());
+    ((ProdottoCommon)prodottoCommon).setBibita(getBibita());
+    ((ProdottoCommon)prodottoCommon).setCarnePesce(getCarnePesce());
+    ((ProdottoCommon)prodottoCommon).setConserva(getConserva());
+    ((ProdottoCommon)prodottoCommon).setFarinaceo(getFarinaceo());
+    ((ProdottoCommon)prodottoCommon).setFruttaVerdura(getFruttaVerdura());
+    ((ProdottoCommon)prodottoCommon).setProdottoCaseario(getProdottoCaseario());
+    ((ProdottoCommon)prodottoCommon).setUovo(getUovo());
+    ((ProdottoCommon)prodottoCommon).setNome(getNome());
+    ((ProdottoCommon)prodottoCommon).setPrezzo(getPrezzo());
+    ((ProdottoCommon)prodottoCommon).setSfuso(getSfuso());
+    ((ObservedList<Lotto>)attributes[LOTTI]).copyTo(((ProdottoCommon)prodottoCommon).getLotti());
   }
   
   public void clear() {

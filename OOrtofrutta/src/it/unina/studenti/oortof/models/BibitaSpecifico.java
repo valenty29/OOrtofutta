@@ -67,11 +67,11 @@ public class BibitaSpecifico extends ProdottoSpecifico {
     firePropertyChanged("tipoBibita", oldTipoBibita, tipoBibita);
   }
   
-//  public void copyTo(ProdottoSpecifico bibitaSpecifico) {
-//    ((BibitaSpecifico)bibitaSpecifico).setGradazioneAlcolica(getGradazioneAlcolica());
-//    ((BibitaSpecifico)bibitaSpecifico).setFrizzante(getFrizzante());
-//    ((BibitaSpecifico)bibitaSpecifico).setTipoBibita(getTipoBibita());
-//  }
+  public void copyTo(ObservedModel bibitaSpecifico) {
+    ((BibitaSpecifico)bibitaSpecifico).setGradazioneAlcolica(getGradazioneAlcolica());
+    ((BibitaSpecifico)bibitaSpecifico).setFrizzante(getFrizzante());
+    ((BibitaSpecifico)bibitaSpecifico).setTipoBibita(getTipoBibita());
+  }
 
   @Override
   public void propertyChange(PropertyChangeEvent evt) {

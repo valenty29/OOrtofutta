@@ -12,15 +12,13 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JTabbedPane;
 import javax.swing.JRadioButton;
 import javax.swing.border.LineBorder;
+
+import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import java.awt.SystemColor;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 public abstract class DesignProdottiPanel extends JPanel {
 
@@ -62,13 +60,13 @@ public abstract class DesignProdottiPanel extends JPanel {
   protected JCheckBox frizzanteCheckBox = new JCheckBox("Frizzante");
   protected JRadioButton softDrinkRadioButton = new JRadioButton("Soft Drink");
   protected JRadioButton bibitaAltroRadioButton = new JRadioButton("Altro tipo");
-  JRadioButton categoriaSRadioButton = new JRadioButton("S");
-  JRadioButton categoriaMRadioButton = new JRadioButton("M");
-  JRadioButton categoriaLRadioButton = new JRadioButton("L");
-  JRadioButton categoriaXLRadioButton = new JRadioButton("XL");
-  JRadioButton carneRadioButton = new JRadioButton("Carne");
-  JRadioButton pesceRadioButton = new JRadioButton("Pesce");
-  protected JTable table;
+  protected JRadioButton categoriaSRadioButton = new JRadioButton("S");
+  protected JRadioButton categoriaMRadioButton = new JRadioButton("M");
+  protected JRadioButton categoriaLRadioButton = new JRadioButton("L");
+  protected JRadioButton categoriaXLRadioButton = new JRadioButton("XL");
+  protected JRadioButton carneRadioButton = new JRadioButton("Carne");
+  protected JRadioButton pesceRadioButton = new JRadioButton("Pesce");
+  protected JTable lottiTable;
 
   protected JCheckBox fruttaVerduraCheckbox = new JCheckBox("Frutta e Verdura");
   protected JCheckBox carnePesceCheckbox = new JCheckBox("Carne e pesce");
@@ -78,7 +76,9 @@ public abstract class DesignProdottiPanel extends JPanel {
   protected JCheckBox conserveCheckbox = new JCheckBox("Conserve");
   protected JCheckBox uovaCheckbox = new JCheckBox("Uova");
   protected JCheckBox altriTipoCheckbox = new JCheckBox("Altri tipi");
-  JCheckBox selvagginaCheckBox = new JCheckBox("Selvaggina");
+  protected JCheckBox daAllevamentoCheckBox = new JCheckBox("Da Allevamento");
+  protected JLabel lblNewLabel = new JLabel("Codice Allevamento");
+  protected JTextField codiceAllevamentoTextField = new JTextField();
 
   
   
@@ -86,6 +86,7 @@ public abstract class DesignProdottiPanel extends JPanel {
    * Create the panel.
    */
   public DesignProdottiPanel() {
+    codiceAllevamentoTextField.setColumns(10);
     GridBagLayout gridBagLayout = new GridBagLayout();
     gridBagLayout.columnWidths = new int[]{680, 0};
     gridBagLayout.rowHeights = new int[]{128, 157, 200, 0};
@@ -478,9 +479,9 @@ public abstract class DesignProdottiPanel extends JPanel {
     caratteristicheSpecificheTabbed.setEnabledAt(4, false);
     GridBagLayout gbl_uovaPanel = new GridBagLayout();
     gbl_uovaPanel.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
-    gbl_uovaPanel.rowHeights = new int[]{0, 0, 0};
+    gbl_uovaPanel.rowHeights = new int[]{0, 0, 0, 0};
     gbl_uovaPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-    gbl_uovaPanel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+    gbl_uovaPanel.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
     uovaPanel.setLayout(gbl_uovaPanel);
     
     JLabel tipoDiAllevamentoLabel = new JLabel("Tipo di allevamento");
@@ -518,38 +519,53 @@ public abstract class DesignProdottiPanel extends JPanel {
     gbc_tipo3RadioButton.gridy = 0;
     uovaPanel.add(tipo3RadioButton, gbc_tipo3RadioButton);
     
+    GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+    gbc_lblNewLabel.anchor = GridBagConstraints.EAST;
+    gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
+    gbc_lblNewLabel.gridx = 0;
+    gbc_lblNewLabel.gridy = 1;
+    uovaPanel.add(lblNewLabel, gbc_lblNewLabel);
+    
+    GridBagConstraints gbc_codiceAllevamentoTextField = new GridBagConstraints();
+    gbc_codiceAllevamentoTextField.fill = GridBagConstraints.HORIZONTAL;
+    gbc_codiceAllevamentoTextField.gridwidth = 4;
+    gbc_codiceAllevamentoTextField.insets = new Insets(0, 0, 5, 5);
+    gbc_codiceAllevamentoTextField.gridx = 1;
+    gbc_codiceAllevamentoTextField.gridy = 1;
+    uovaPanel.add(codiceAllevamentoTextField, gbc_codiceAllevamentoTextField);
+    
     JLabel categoriaDiPesoLabel = new JLabel("Categoria di peso");
     GridBagConstraints gbc_categoriaDiPesoLabel = new GridBagConstraints();
     gbc_categoriaDiPesoLabel.insets = new Insets(0, 0, 0, 5);
     gbc_categoriaDiPesoLabel.gridx = 0;
-    gbc_categoriaDiPesoLabel.gridy = 1;
+    gbc_categoriaDiPesoLabel.gridy = 2;
     uovaPanel.add(categoriaDiPesoLabel, gbc_categoriaDiPesoLabel);
     
     categoriaSRadioButton.setEnabled(false);
     GridBagConstraints gbc_categoriaSRadioButton = new GridBagConstraints();
     gbc_categoriaSRadioButton.insets = new Insets(0, 0, 0, 5);
     gbc_categoriaSRadioButton.gridx = 1;
-    gbc_categoriaSRadioButton.gridy = 1;
+    gbc_categoriaSRadioButton.gridy = 2;
     uovaPanel.add(categoriaSRadioButton, gbc_categoriaSRadioButton);
     
     categoriaMRadioButton.setEnabled(false);
     GridBagConstraints gbc_categoriaMRadioButton = new GridBagConstraints();
     gbc_categoriaMRadioButton.insets = new Insets(0, 0, 0, 5);
     gbc_categoriaMRadioButton.gridx = 2;
-    gbc_categoriaMRadioButton.gridy = 1;
+    gbc_categoriaMRadioButton.gridy = 2;
     uovaPanel.add(categoriaMRadioButton, gbc_categoriaMRadioButton);
     
     categoriaLRadioButton.setEnabled(false);
     GridBagConstraints gbc_categoriaLRadioButton = new GridBagConstraints();
     gbc_categoriaLRadioButton.insets = new Insets(0, 0, 0, 5);
     gbc_categoriaLRadioButton.gridx = 3;
-    gbc_categoriaLRadioButton.gridy = 1;
+    gbc_categoriaLRadioButton.gridy = 2;
     uovaPanel.add(categoriaLRadioButton, gbc_categoriaLRadioButton);
     
     categoriaXLRadioButton.setEnabled(false);
     GridBagConstraints gbc_categoriaXLRadioButton = new GridBagConstraints();
     gbc_categoriaXLRadioButton.gridx = 4;
-    gbc_categoriaXLRadioButton.gridy = 1;
+    gbc_categoriaXLRadioButton.gridy = 2;
     uovaPanel.add(categoriaXLRadioButton, gbc_categoriaXLRadioButton);
     
     JPanel carnePescePanel = new JPanel();
@@ -595,13 +611,13 @@ public abstract class DesignProdottiPanel extends JPanel {
     gbc_pesceRadioButton.gridy = 1;
     carnePescePanel.add(pesceRadioButton, gbc_pesceRadioButton);
     
-    selvagginaCheckBox.setEnabled(false);
-    GridBagConstraints gbc_selvagginaCheckBox = new GridBagConstraints();
-    gbc_selvagginaCheckBox.anchor = GridBagConstraints.WEST;
-    gbc_selvagginaCheckBox.insets = new Insets(0, 0, 5, 5);
-    gbc_selvagginaCheckBox.gridx = 1;
-    gbc_selvagginaCheckBox.gridy = 1;
-    carnePescePanel.add(selvagginaCheckBox, gbc_selvagginaCheckBox);
+    daAllevamentoCheckBox.setEnabled(false);
+    GridBagConstraints gbc_daAllevamentoCheckBox = new GridBagConstraints();
+    gbc_daAllevamentoCheckBox.anchor = GridBagConstraints.WEST;
+    gbc_daAllevamentoCheckBox.insets = new Insets(0, 0, 5, 5);
+    gbc_daAllevamentoCheckBox.gridx = 1;
+    gbc_daAllevamentoCheckBox.gridy = 1;
+    carnePescePanel.add(daAllevamentoCheckBox, gbc_daAllevamentoCheckBox);
     
     confezionatoCheckBox.setEnabled(false);
     GridBagConstraints gbc_confezionatoCheckBox = new GridBagConstraints();
@@ -705,12 +721,16 @@ public abstract class DesignProdottiPanel extends JPanel {
     gbc_lottiPanel.gridx = 0;
     gbc_lottiPanel.gridy = 2;
     add(lottiPanel, gbc_lottiPanel);
+    lottiPanel.setLayout(new BorderLayout(0, 0));
     
     JScrollPane scrollPane = new JScrollPane();
     lottiPanel.add(scrollPane);
     
-    table = new JTable();
-    scrollPane.add(table);
+    lottiTable = new JTable();
+    lottiTable.setBackground(SystemColor.control);
+    lottiTable.getTableHeader().setOpaque(true);
+    lottiTable.getTableHeader().setBackground(SystemColor.control);
+    scrollPane.setViewportView(lottiTable);
     
     ButtonGroup fruttaVerduraBG = new ButtonGroup();
     fruttaVerduraBG.add(fruttaRadioButton);

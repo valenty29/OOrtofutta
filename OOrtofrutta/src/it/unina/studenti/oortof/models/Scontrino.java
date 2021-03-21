@@ -2,17 +2,9 @@ package it.unina.studenti.oortof.models;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.time.LocalDate;
 import java.util.Date;
-import java.util.List;
 
 public class Scontrino extends ObservedModel implements PropertyChangeListener{
-
-  private int id;
-  private Cliente cliente;
-  private LocalDate dataOrario;
-  private float prezzoTotale;
-  private List<Acquisto> acquisti;
 
   public static final int ID = 0;
   public static final int CLIENTE = 1;
@@ -20,125 +12,149 @@ public class Scontrino extends ObservedModel implements PropertyChangeListener{
   public static final int PREZZO_TOTALE = 3;
   public static final int ACQUISTI = 4;
 
-  public Scontrino(){
-
+  public Scontrino() {
+    attributes = new Object[5];
+    setCliente(new Cliente());
+    attributes[ACQUISTI] = new ObservedList<Acquisto>("acquisti");
   }
 
-  public Scontrino(int id, Cliente cliente, LocalDate dataOrario, float prezzoTotale, List<Acquisto> acquisti) {
-    this.id = id;
-    this.cliente = cliente;
-    this.dataOrario = dataOrario;
-    this.prezzoTotale = prezzoTotale;
-    this.acquisti = acquisti;
+  public Scontrino(int id, Cliente cliente, Date dataOrario, Float prezzoTotale, ObservedList<Acquisto> acquisti) {
+    this();
+    setValue(ID, id);
+    setValue(CLIENTE, cliente);
+    setValue(DATA_ORARIO, dataOrario);
+    setValue(PREZZO_TOTALE, prezzoTotale);
+    setValue(ACQUISTI, acquisti);
   }
 
-  public int getId() {
-    return id;
+  public Integer getId() {
+    return getInteger(ID);
   }
 
-  public void setId(int id) {
-    int oldId = this.id;
-    this.id = id;
+  public void setId(Integer id) {
+    Integer oldId = getId();
+    if (equals(oldId, id)) {
+      return;
+    }
+    setValue(ID, id);
     firePropertyChanged("id", oldId, id);
   }
 
   public Cliente getCliente() {
-    return cliente;
+    return (Cliente)attributes[CLIENTE];
   }
 
   public void setCliente(Cliente cliente) {
-    Cliente oldCliente = this.cliente;
-    this.cliente = cliente;
+    Cliente oldCliente = getCliente();
+    if (equals(oldCliente, cliente)) {
+      return;
+    }
     oldCliente.removePropertyChangeListener(this);
+    setValue(CLIENTE, cliente);
+    cliente.addPropertyChangeListener(this);
     firePropertyChanged("cliente", oldCliente, cliente);
   }
 
-  public LocalDate getDataOrario() {
-    return dataOrario;
+  public Date getDataOrario() {
+    return getDate(DATA_ORARIO);
   }
 
-  public void setDataOrario(LocalDate dataOrario) {
-    LocalDate oldDataOrario = this.dataOrario;
-    this.dataOrario = dataOrario;
+  public void setDataOrario(Date dataOrario) {
+    Date oldDataOrario = getDataOrario();
+    if (equals(oldDataOrario, dataOrario)) {
+      return;
+    }
+    setValue(DATA_ORARIO, dataOrario);
     firePropertyChanged("dataOrario", oldDataOrario, dataOrario);
   }
 
-  public float getPrezzoTotale() {
-    return prezzoTotale;
+  public Float getPrezzoTotale() {
+    return getFloat(PREZZO_TOTALE);
   }
 
-  public void setPrezzoTotale(float prezzoTotale) {
-    float oldPrezzoTotale = this.prezzoTotale;
-    this.prezzoTotale = prezzoTotale;
+  public void setPrezzoTotale(Float prezzoTotale) {
+    Float oldPrezzoTotale = getPrezzoTotale();
+    if (equals(oldPrezzoTotale, prezzoTotale)) {
+      return;
+    }
+    setValue(PREZZO_TOTALE, prezzoTotale);
     firePropertyChanged("prezzoTotale", oldPrezzoTotale, prezzoTotale);
   }
   
-  public List<Acquisto> getAcquisti() {
-    return acquisti;
+  @SuppressWarnings("unchecked")
+  public ObservedList<Acquisto> getAcquisti() {
+    return (ObservedList<Acquisto>)attributes[ACQUISTI];
   }
 
-  public void setAcquisti(List<Acquisto> acquisti) {
-    for (Acquisto acquisto : acquisti) {
-      acquisto.addPropertyChangeListener(this);       
+
+  @SuppressWarnings("unchecked")
+  public void setAcquisti(ObservedList<Acquisto> acquisti) {
+    if (acquisti == attributes[ACQUISTI]) {
+      return;
     }
-    List<Acquisto> oldAcquisti = this.acquisti;
-    this.acquisti = acquisti;
+    ObservedList<Acquisto> oldAcquisti = (ObservedList<Acquisto>)attributes[ACQUISTI];
+    oldAcquisti.removePropertyChangeListener(this);
+    attributes[ACQUISTI] = acquisti;
+    acquisti.addPropertyChangeListener(this);
     firePropertyChanged("acquisti", oldAcquisti, acquisti);
   }
   
+  @SuppressWarnings("unchecked")
   public void addAcquisto(Acquisto acquisto) {
-    acquisti.add(acquisto);
-    firePropertyChanged("acquisti", null, acquisto);
-    acquisto.addPropertyChangeListener(this);
+    ((ObservedList<Acquisto>)attributes[ACQUISTI]).add(acquisto);
   }
 
+  @SuppressWarnings("unchecked")
   public void addAcquisto(int index, Acquisto acquisto) {
-    acquisti.add(index, acquisto);
-    firePropertyChanged("acquisti", index, acquisto);
-    acquisto.addPropertyChangeListener(this);
+    ((ObservedList<Acquisto>)attributes[ACQUISTI]).add(index, acquisto);
   }
   
+  @SuppressWarnings("unchecked")
   public Acquisto getAcquistoAt(int index) {
-    return acquisti.get(index);
+    return ((ObservedList<Acquisto>)attributes[ACQUISTI]).get(index);
   }
   
+  @SuppressWarnings("unchecked")
   public void removeAcquisto(int index) {
-    acquisti.remove(index);
-    Acquisto removedAcquisto = acquisti.remove(index);
-    removedAcquisto.removePropertyChangeListener(this);
-    firePropertyChanged("acquisti", removedAcquisto, index);
+    ((ObservedList<Acquisto>)attributes[ACQUISTI]).remove(index);
   }
   
+  @SuppressWarnings("unchecked")
   public void removeAcquisto(Acquisto acquisto) {
-    int toRemoveIndex = acquisti.indexOf(acquisto);
-    if (toRemoveIndex >= 0) {
-      removeAcquisto(toRemoveIndex);
-    }
+    ((ObservedList<Acquisto>)attributes[ACQUISTI]).remove(acquisto);
   }
   
-  public int getAcquistiSize() {
-    return acquisti.size();
+  @SuppressWarnings("unchecked")
+  public void clearAcquisti() {
+    ((ObservedList<Acquisto>)attributes[ACQUISTI]).clear();
   }
-
-  public void copyTo(Scontrino scontrino) {
-    scontrino.setId(getId());
-    scontrino.setCliente(getCliente());
-    scontrino.setDataOrario(getDataOrario());
-    scontrino.setPrezzoTotale(getPrezzoTotale());
-    scontrino.getAcquisti().clear();
-
-    for (Acquisto acquisto: ((List<Acquisto>)attributes[ACQUISTI])) {
-      Acquisto newAcquisto = new Acquisto();
-      acquisto.copyTo(newAcquisto);
-      ((List<Acquisto>)attributes[ACQUISTI]).add(newAcquisto);
+  
+  @SuppressWarnings("unchecked")
+  public int getAcquistiSize() {
+    return ((ObservedList<Acquisto>)attributes[ACQUISTI]).size();
+  }
+  @SuppressWarnings("unchecked")
+  public void copyTo(ObservedModel scontrino) {
+    ((Scontrino)scontrino).setId(getId());
+    if (getCliente() != null && ((Scontrino)scontrino).getCliente() != null) {
+      getCliente().copyTo(((Scontrino)scontrino).getCliente());
     }
+    else if (getCliente() == null && ((Scontrino)scontrino).getCliente() != null) {
+      ((Scontrino)scontrino).getCliente().removePropertyChangeListener((Scontrino)scontrino);
+      ((Scontrino)scontrino).setCliente(null);
+    }
+    else if (getCliente() != null && ((Scontrino)scontrino).getCliente() == null) {
+      Cliente newCliente = new Cliente();
+      getCliente().copyTo(newCliente);
+      ((Scontrino)scontrino).setCliente(newCliente);
+    }
+    ((Scontrino)scontrino).setDataOrario(getDataOrario());
+    ((Scontrino)scontrino).setPrezzoTotale(getPrezzoTotale());
+    ((ObservedList<Acquisto>)attributes[ACQUISTI]).copyTo(((Scontrino)scontrino).getAcquisti());
   }
 
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
-    
+    firePropertyChanged(evt);
   }
-
-  
-  
 }

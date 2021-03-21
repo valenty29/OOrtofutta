@@ -102,5 +102,10 @@ public class ApplicationStatus extends ObservedModel {
     return string;
   }
   
+  @Override
+  public void copyTo(ObservedModel other) {
+    throw new RuntimeException("ApplicationStatus.copyTo forbidden. It is a singleton.");
+  }
+  
   
 }
