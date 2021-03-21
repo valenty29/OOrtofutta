@@ -12,11 +12,9 @@ public class ProdottiController implements Controller {
   private Prodotto prodotto;
   private Prodotto oldProdotto = new Prodotto();
   private ObservedList prodotti = new ObservedList("prodotti");
-  
   private SQLProductDAO sqlProductDao;
-  
-  public ProdottiController(DBContext dbContext) {
-	  sqlProductDao = new SQLProductDAO(dbContext);
+  public ProdottiController() {
+	  sqlProductDao = new SQLProductDAO();
   }
   
   

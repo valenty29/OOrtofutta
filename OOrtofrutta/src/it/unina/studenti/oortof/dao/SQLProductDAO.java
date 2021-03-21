@@ -14,11 +14,7 @@ public class SQLProductDAO implements ProductDAO {
 
     public SQLProductDAO()
     {
-    }
-
-    public SQLProductDAO(DBContext context)
-    {
-        this.context = context;
+        context = new DBContext();
     }
     
     

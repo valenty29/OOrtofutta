@@ -19,6 +19,7 @@ public class ClientiController implements Controller {
 	private SQLClienteDAO sqlClienteDAO;
 	
 	public ClientiController() {
+		sqlClienteDAO = new SQLClienteDAO();
 	}
 	
 	@Override

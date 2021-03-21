@@ -13,9 +13,9 @@ import java.util.Optional;
 public class SQLClienteDAO {
     private DBContext context;
 
-    public SQLClienteDAO(DBContext context)
+    public SQLClienteDAO()
     {
-        this.context = context;
+        context = new DBContext();
     }
 
     private String getRaccoltaPuntiFilters(RaccoltaPunti raccoltaPunti){
