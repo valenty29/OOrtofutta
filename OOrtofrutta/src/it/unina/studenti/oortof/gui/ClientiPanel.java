@@ -115,8 +115,8 @@ public class ClientiPanel extends DesignClientiPanel implements DocumentListener
 	  void insert() {
 	    setEnabledColor(infoClientePanel, true, Color.white);
 	    setEnabledColor(puntiPanel, false, SystemColor.control);
-	    cliente.copyTo(oldCliente);
-	    cliente.clear();
+	    //cliente.copyTo(oldCliente);
+	    //cliente.clear();
 	  }
 
 	  void update() {

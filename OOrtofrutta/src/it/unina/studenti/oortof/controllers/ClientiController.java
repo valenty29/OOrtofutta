@@ -18,8 +18,7 @@ public class ClientiController implements Controller {
 	private Cliente oldCliente = new Cliente();
 	private SQLClienteDAO sqlClienteDAO;
 	
-	public ClientiController(DBContext dbContext) {
-		sqlClienteDAO = new SQLClienteDAO(dbContext);
+	public ClientiController() {
 	}
 	
 	@Override
@@ -79,7 +78,7 @@ public class ClientiController implements Controller {
 
 	  @Override
 	  public void setModel(ObservedModel observedModel, ObservedList observedList) {
-		  listCliente = observedList;
+		  listCliente = (List)observedList;
 		  cliente = (Cliente)observedModel;
 	  }
 
