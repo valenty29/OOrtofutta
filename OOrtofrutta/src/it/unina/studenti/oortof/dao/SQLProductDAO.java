@@ -785,7 +785,8 @@ public class SQLProductDAO implements ProductDAO {
             query += "Id = " + prodCom.getId();
             filterCount++;
         }
-        if (!prodCom.getString(ProdottoCommon.NOME).equals("") || prodCom.getString(ProdottoCommon.NOME) == null)
+       
+        if (prodCom.getString(ProdottoCommon.NOME) == null || prodCom.getString(ProdottoCommon.NOME).equals(""))
         {
             if (filterCount != 0)
                 query += " AND ";
