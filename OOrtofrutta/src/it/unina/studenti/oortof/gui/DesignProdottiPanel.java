@@ -16,6 +16,7 @@ import javax.swing.border.LineBorder;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.border.TitledBorder;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import java.awt.SystemColor;
@@ -80,6 +81,12 @@ public abstract class DesignProdottiPanel extends JPanel {
   protected JLabel lblNewLabel = new JLabel("Codice Allevamento");
   protected JTextField codiceAllevamentoTextField = new JTextField();
 
+  protected ButtonGroup fruttaVerduraBG = new ButtonGroup();
+  protected ButtonGroup conserveBG = new ButtonGroup();
+  protected ButtonGroup categoriaPesoBG = new ButtonGroup();
+  protected ButtonGroup tipoAllevamentoBG = new ButtonGroup();
+  protected ButtonGroup carnePesceBG = new ButtonGroup();
+  protected ButtonGroup bibitaBG = new ButtonGroup();
   
   
   /**
@@ -732,11 +739,9 @@ public abstract class DesignProdottiPanel extends JPanel {
     lottiTable.getTableHeader().setBackground(SystemColor.control);
     scrollPane.setViewportView(lottiTable);
     
-    ButtonGroup fruttaVerduraBG = new ButtonGroup();
     fruttaVerduraBG.add(fruttaRadioButton);
     fruttaVerduraBG.add(verduraRadioButton);
     
-    ButtonGroup conserveBG = new ButtonGroup();
     conserveBG.add(sottovuotoRadioButton);
     conserveBG.add(sottolioRadioButton);
     conserveBG.add(inZuccheriRadioButton);
@@ -745,23 +750,19 @@ public abstract class DesignProdottiPanel extends JPanel {
     conserveBG.add(sottosaleRadioButton);
     conserveBG.add(sottoSpiritoRadioButton);
     
-    ButtonGroup tipoAllevamentoBG = new ButtonGroup();
     tipoAllevamentoBG.add(tipo0RadioButton);
     tipoAllevamentoBG.add(tipo1RadioButton);
     tipoAllevamentoBG.add(tipo2RadioButton);
     tipoAllevamentoBG.add(tipo3RadioButton);
     
-    ButtonGroup categoriaPesoBG = new ButtonGroup();
     categoriaPesoBG.add(categoriaSRadioButton);
     categoriaPesoBG.add(categoriaMRadioButton);
     categoriaPesoBG.add(categoriaLRadioButton);
     categoriaPesoBG.add(categoriaXLRadioButton);
     
-    ButtonGroup carnePesceBG = new ButtonGroup();
     carnePesceBG.add(carneRadioButton);
     carnePesceBG.add(pesceRadioButton);
     
-    ButtonGroup bibitaBG = new ButtonGroup();
     bibitaBG.add(acquaRadioButton);
     bibitaBG.add(fermentatiRadioButton);
     bibitaBG.add(succhiDiFruttaRadioButton);

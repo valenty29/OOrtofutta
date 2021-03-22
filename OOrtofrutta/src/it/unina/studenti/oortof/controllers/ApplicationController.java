@@ -60,7 +60,10 @@ public class ApplicationController implements Controller, PropertyChangeListener
 
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
-    if (evt.getPropertyName().equals("action")) {
+    if (evt.getPropertyName().equals("counter")) {
+      controllers[ApplicationStatus.getInstance().getActiveTab()].listToDetail();
+    }
+    else if (evt.getPropertyName().equals("action")) {
       if (ApplicationStatus.getInstance().getAction() == ApplicationStatus.ACTION_ROLLBACK) {
         rollback();
       }
@@ -85,6 +88,12 @@ public class ApplicationController implements Controller, PropertyChangeListener
   @Override
   public void setModel(ObservedModel observedModel, ObservedList observedList) {
     throw new RuntimeException("Application controller lavora senza un modello");
+  }
+
+  @Override
+  public void listToDetail() {
+    // TODO Auto-generated method stub
+    
   }
   
 }

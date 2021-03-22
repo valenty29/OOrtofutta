@@ -31,14 +31,16 @@ public class ProdottiTabbed extends JTabbedPane {
   }
 
   void applicationStatusChanged(PropertyChangeEvent evt) {
-    if (!ApplicationStatus.getInstance().isNavigation() || ApplicationCounter.getInstance().getCounter() < 0) {
+    ApplicationStatus as = ApplicationStatus.getInstance();
+    ApplicationCounter ac = ApplicationCounter.getInstance();
+    if (!as.isNavigation() || ac.getCounter() < 0) {
       setSelectedIndex(0);
       setEnabledAt(1, false);
     }
     else {
       setEnabledAt(1, true);
     }
-    if (evt.getOldValue().equals(ApplicationStatus.STATUS_SEARCH) && evt.getNewValue().equals(ApplicationStatus.STATUS_NAVIGATION) && ApplicationCounter.getInstance().getLimit() > 0) {
+    if (evt.getOldValue().equals(ApplicationStatus.STATUS_SEARCH) && evt.getNewValue().equals(ApplicationStatus.STATUS_NAVIGATION) && as.getAction() == ApplicationStatus.ACTION_COMMIT && ac.getLimit() > 1) {
       setSelectedIndex(1);
     }
   }

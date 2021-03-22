@@ -47,4 +47,10 @@ public class CarrelloController implements Controller {
     
   }
 
+  @Override
+  public void listToDetail() {
+    // TODO Auto-generated method stub
+    
+  }
+
 }

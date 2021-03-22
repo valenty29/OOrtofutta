@@ -1,25 +1,23 @@
 package it.unina.studenti.oortof.controllers;
 
-import it.unina.studenti.oortof.dao.DBContext;
 import it.unina.studenti.oortof.dao.SQLProductDAO;
+import it.unina.studenti.oortof.models.ApplicationCounter;
 import it.unina.studenti.oortof.models.ApplicationStatus;
+import it.unina.studenti.oortof.models.Lotto;
 import it.unina.studenti.oortof.models.ObservedList;
-import it.unina.studenti.oortof.models.ObservedModel;
 import it.unina.studenti.oortof.models.Prodotto;
 
-public class ProdottiController implements Controller {
+public class ProdottiController implements Controller<Prodotto> {
   
-  private Prodotto prodotto;
   private Prodotto oldProdotto = new Prodotto();
-  private ObservedList prodotti = new ObservedList("prodotti");
+  private Prodotto prodotto;
+  private ObservedList<Prodotto> prodotti;
   
   private SQLProductDAO sqlProductDao;
   
   public ProdottiController() {
 	  sqlProductDao = new SQLProductDAO();
   }
-  
-  
   
   @Override
   public void rollback() {
@@ -31,12 +29,16 @@ public class ProdottiController implements Controller {
   public void insert() {
     prodotto.copyTo(oldProdotto);
     prodotto.clear();
+    Lotto lotto = new Lotto();
+    prodotto.getProdottoCommon().addLotto(lotto);
     ApplicationStatus.getInstance().setStatus(ApplicationStatus.STATUS_INSERT);
   }
 
   @Override
   public void update() {
     prodotto.copyTo(oldProdotto);
+    Lotto lotto = new Lotto();
+    prodotto.getProdottoCommon().addLotto(lotto);
     ApplicationStatus.getInstance().setStatus(ApplicationStatus.STATUS_UPDATE);
   }
 
@@ -54,6 +56,9 @@ public class ProdottiController implements Controller {
   }
   
   void commitSearch() {
+    ObservedList<Prodotto> ritorno = sqlProductDao.getProduct(prodotto);
+    ritorno.copyTo(prodotti);
+    ApplicationStatus.getInstance().setStatus(ApplicationStatus.STATUS_NAVIGATION);
   }
   
   @Override
@@ -64,15 +69,30 @@ public class ProdottiController implements Controller {
       case ApplicationStatus.STATUS_SEARCH: commitSearch(); break;
     }
   }
+  
+  
 
   @Override
   public void delete() {
   }
 
   @Override
-  public void setModel(ObservedModel prodotto, ObservedList prodotti) {
-    this.prodotto = (Prodotto)prodotto;
+  public void setModel(Prodotto prodotto, ObservedList<Prodotto> prodotti) {
+    this.prodotto = prodotto;
     this.prodotti = prodotti;
+  }
+
+
+
+  @Override
+  public void listToDetail() {
+    int index = ApplicationCounter.getInstance().getCounter();
+    if (index > 0) {
+      prodotti.get(index - 1).copyTo(prodotto);
+    }
+    else {
+      prodotto.clear();
+    }
   }
 
 }

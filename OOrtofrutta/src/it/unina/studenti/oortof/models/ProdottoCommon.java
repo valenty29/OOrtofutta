@@ -303,17 +303,17 @@ public class ProdottoCommon extends ObservedModel implements PropertyChangeListe
   
   public void clear() {
     setId(null);
-    setAltro(Boolean.FALSE);
-    setBibita(Boolean.FALSE);
-    setCarnePesce(Boolean.FALSE);
-    setConserva(Boolean.FALSE);
-    setFarinaceo(Boolean.FALSE);
-    setFruttaVerdura(Boolean.FALSE);
-    setProdottoCaseario(Boolean.FALSE);
-    setUovo(Boolean.FALSE);
+    setAltro(null);
+    setBibita(null);
+    setCarnePesce(null);
+    setConserva(null);
+    setFarinaceo(null);
+    setFruttaVerdura(null);
+    setProdottoCaseario(null);
+    setUovo(null);
     setNome(null);
     setPrezzo(null);
-    setSfuso(Boolean.FALSE);
+    setSfuso(null);
     clearLotti();
   }
 

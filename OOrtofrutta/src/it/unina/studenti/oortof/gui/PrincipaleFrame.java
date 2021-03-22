@@ -15,6 +15,7 @@ import it.unina.studenti.oortof.dao.SQLProductDAO;
 import it.unina.studenti.oortof.models.ApplicationCounter;
 import it.unina.studenti.oortof.models.ApplicationStatus;
 import it.unina.studenti.oortof.models.Bibita;
+import it.unina.studenti.oortof.models.BibitaSpecifico;
 import it.unina.studenti.oortof.models.Cliente;
 import it.unina.studenti.oortof.models.Lotto;
 import it.unina.studenti.oortof.models.ObservedList;
@@ -87,7 +88,7 @@ public class PrincipaleFrame extends JFrame {
           Prodotto p = new Prodotto();
           ObservedList prodottoList = new ObservedList("prodotti");
           ((ProdottiPanel)frame.prodottiTabbed.getComponent(0)).setModel(p);
-          ((ProdottiListPanel)frame.prodottiTabbed.getComponent(1)).setModel(p, prodottoList);
+          ((ProdottiListPanel)frame.prodottiTabbed.getComponent(1)).setModel(prodottoList);
           ApplicationController.getInstance().getSubController(0).setModel(p, prodottoList);
           
           Cliente c = new Cliente();
@@ -97,75 +98,22 @@ public class PrincipaleFrame extends JFrame {
           ApplicationController.getInstance().getSubController(2).setModel(c, clienteList);
           
           
+          
           new Thread() {
             public void run() {
               try {
 System.err.println("THREAD START");
                 Thread.sleep(3000);
 System.err.println("BINGO");
-
-				
-                Bibita bibita = new Bibita(1, "Pippo", 12.30f, false, 0.0f, true, TipoBibita.Acqua);
-                Lotto l1 = new Lotto(null, "11111111", new Date(), 2f, new Date(), "IT", null);
-                Lotto l2 = new Lotto(null, "22222222", new Date(), 4f, new Date(), "US", null);
-                Lotto l3 = new Lotto(null, "3333333", new Date(), 6f, new Date(), "EN", null);
-                Lotto l5 = new Lotto(null, "555555", new Date(), 10f, new Date(), "AS", null);
-                
-                Lotto l4 = new Lotto();
-                l1.copyTo(l4);
-                
-                
-                l4.setCodPaeseOrigine("FR");
-                
-                
-                
-                
-                
-                ObservedList<Lotto> lotti1 = new ObservedList<Lotto>("lotti");
-                ObservedList<Lotto> lotti2 = new ObservedList<Lotto>("lotti2");
-                
-                lotti1.add(l1);
-                lotti1.add(l2);
-                lotti1.add(l3);
-                
-                
-                lotti1.add(l5);
-                
-                
-              
-                SQLProductDAO dao = new SQLProductDAO();
-                
-                dao.createLotti(lotti1, 16);
-                
-                //dao.updateLotti(lotti1, lotti2, 16);
-                bibita.getProdottoCommon().setLotti(lotti1);
-                
-                dao.createProduct(bibita);
-                bibita.copyTo(p);
-                System.err.println();
-
-                new Thread() {
-                  public void run() {
-                    try {
-
-                    	
-                    	
-                    	
-                    	
-                      Thread.sleep(5000);
-
-                      
-
-                      		
-
-                    }
-                    catch (Exception e) {
-                      e.printStackTrace();
-                    }
-                  }
-                }.start();
-                
-                System.out.println("a");
+                Bibita bibita = new Bibita(1, "Pippo", 12.30f, true, 123.45f, true, TipoBibita.Fermentato);
+                Lotto l1 = new Lotto(1, "11111111", new Date(), 1.1f, new Date(), "ITA", null);
+                Lotto l2 = new Lotto(2, "22222222", new Date(), 1.1f, new Date(), "USA", null);
+                bibita.getProdottoCommon().addLotto(l1);
+                bibita.getProdottoCommon().addLotto(l2);
+                prodottoList.add(bibita);
+                Thread.sleep(2000);
+                ApplicationCounter.getInstance().setLimit(1);
+                ApplicationCounter.getInstance().setCounter(1);
               }
               catch (Exception e) {
                 e.printStackTrace();
@@ -362,6 +310,16 @@ System.err.println("BINGO");
         applicationStatusChanged(evt);
       }
     });
+    ApplicationCounter.getInstance().addPropertyChangeListener(new PropertyChangeListener() {
+      @Override
+      public void propertyChange(PropertyChangeEvent evt) {
+        applicationCounterChanged(evt);
+      }
+    });
+  }
+  
+  void applicationCounterChanged(PropertyChangeEvent evt) {
+    counterLabel.setText(ApplicationCounter.getInstance().toString());
   }
   
   void applicationStatusChanged(PropertyChangeEvent evt) {

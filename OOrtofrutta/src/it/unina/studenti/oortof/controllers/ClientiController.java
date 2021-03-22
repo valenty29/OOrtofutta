@@ -111,4 +111,10 @@ public class ClientiController implements Controller {
 		  cliente = (Cliente)observedModel;
 	  }
 
+    @Override
+    public void listToDetail() {
+      // TODO Auto-generated method stub
+      
+    }
+
 }
