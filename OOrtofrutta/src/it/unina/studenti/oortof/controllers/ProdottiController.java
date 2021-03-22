@@ -52,9 +52,14 @@ public class ProdottiController implements Controller<Prodotto> {
   }
 
   void commitInsert() {
+    sqlProductDao.createProduct(prodotto);
+    prodotti.add(prodotto);
+    ApplicationStatus.getInstance().setStatus(ApplicationStatus.STATUS_NAVIGATION);
   }
   
   void commitUpdate() {
+    sqlProductDao.updateProducts(oldProdotto, prodotto);
+    ApplicationStatus.getInstance().setStatus(ApplicationStatus.STATUS_NAVIGATION);
   }
   
   void commitSearch() {
@@ -83,6 +88,7 @@ public class ProdottiController implements Controller<Prodotto> {
     ArrayList<Prodotto> toDelete = new ArrayList<>();
     toDelete.add(prodotto);
     sqlProductDao.deleteProducts(toDelete);
+    prodotti.remove(prodotto);
   }
 
   @Override
