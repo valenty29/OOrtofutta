@@ -30,7 +30,7 @@ public class SQLProductDAO implements ProductDAO {
             
             for(Lotto lotto: lotti) {
             	
-            	if (lotto.getCodLotto() == null && !lotto.getCodLotto().equals("")) {
+            	if (lotto.getCodLotto() != null && !lotto.getCodLotto().equals("")) {
             		createLotto.setString(1, lotto.getCodLotto());
                     createLotto.setLong(2, id);
                     createLotto.setDate(3, new java.sql.Date(lotto.getScadenza().getTime()));
