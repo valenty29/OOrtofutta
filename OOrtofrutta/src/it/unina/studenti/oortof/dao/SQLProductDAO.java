@@ -27,14 +27,18 @@ public class SQLProductDAO implements ProductDAO {
         try {
             Connection conn = context.OpenConnection();
             PreparedStatement createLotto = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            
             for(Lotto lotto: lotti) {
-            	createLotto.setString(1, lotto.getCodLotto());
-                createLotto.setLong(2, id);
-                createLotto.setDate(3, new java.sql.Date(lotto.getScadenza().getTime()));
-                createLotto.setFloat(4, lotto.getDisponibilita());
-                createLotto.setDate(5, new java.sql.Date(lotto.getDataProduzione().getTime()));
-                createLotto.setString(6, lotto.getCodPaeseOrigine());
-                createLotto.addBatch();
+            	
+            	if (lotto.getCodLotto() == null && !lotto.getCodLotto().equals("")) {
+            		createLotto.setString(1, lotto.getCodLotto());
+                    createLotto.setLong(2, id);
+                    createLotto.setDate(3, new java.sql.Date(lotto.getScadenza().getTime()));
+                    createLotto.setFloat(4, lotto.getDisponibilita());
+                    createLotto.setDate(5, new java.sql.Date(lotto.getDataProduzione().getTime()));
+                    createLotto.setString(6, lotto.getCodPaeseOrigine());
+                    createLotto.addBatch();
+            	}	
             }
             createLotto.executeBatch();
             
