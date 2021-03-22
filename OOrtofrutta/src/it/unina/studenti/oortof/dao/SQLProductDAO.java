@@ -56,19 +56,19 @@ public class SQLProductDAO implements ProductDAO {
     public void createProduct(Prodotto prodotto) {
     	int id = -1;
     	if (prodotto.getProdottoCommon().isBibita()) {
-    		id = createBibita((Bibita)prodotto);
+    		id = createBibita(prodotto);
     	} else if (prodotto.getProdottoCommon().isFruttaVerdura()) {
-    		id = createFruttaVerdura((FruttaVerdura)prodotto);
+    		id = createFruttaVerdura(prodotto);
     	} else if (prodotto.getProdottoCommon().isProdottoCaseario()) {
-    		id = createProdottoCaseario((ProdottoCaseario)prodotto);
+    		id = createProdottoCaseario(prodotto);
     	} else if (prodotto.getProdottoCommon().isUovo()) {
-    		id = createUovo((Uovo)prodotto);
+    		id = createUovo(prodotto);
     	} else if (prodotto.getProdottoCommon().isCarnePesce()) {
-    		id = createCarnePesce((CarnePesce)prodotto);
+    		id = createCarnePesce(prodotto);
     	} else if (prodotto.getProdottoCommon().isConserva()) {
-    		id = createConserva((Conserva)prodotto);
+    		id = createConserva(prodotto);
     	} else if (prodotto.getProdottoCommon().isFarinaceo()) {
-    		id = createFarinaceo((Farinaceo)prodotto);
+    		id = createFarinaceo(prodotto);
     	} else if (prodotto.getProdottoCommon().isAltro()) {
     		id = createProductCommon(prodotto.getProdottoCommon());
     	}
@@ -137,7 +137,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    private int createBibita(Bibita bibita){
+    private int createBibita(Prodotto bibita){
         int id = createProductCommon(bibita.getProdottoCommon());
         String sql = "INSERT INTO BIBITA (IdProdotto, GradazioneAlcolica, Frizzante, TipoB) VALUES (?, ?, ?, ?)";
         try {
@@ -157,7 +157,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    private int createUovo(Uovo uovo){
+    private int createUovo(Prodotto uovo){
         int id = createProductCommon(uovo.getProdottoCommon());
         String sql = "INSERT INTO UOVO (IdProdotto, TipoAllevamento, CodAllevamento, CatPeso) VALUES (?, ?, ?, ?)";
         try {
@@ -177,7 +177,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    private int createCarnePesce(CarnePesce carnePesce){
+    private int createCarnePesce(Prodotto carnePesce){
         int id = createProductCommon(carnePesce.getProdottoCommon());
         String sql = "INSERT INTO CARNEPESCE (IdProdotto, TipoCP, DaAllevamento, Animale, Confezionato) VALUES (?, ?, ?, ?, ?)";
         try {
@@ -198,7 +198,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    private int createFruttaVerdura(FruttaVerdura fruttaVerdura){
+    private int createFruttaVerdura(Prodotto fruttaVerdura){
         int id = createProductCommon(fruttaVerdura.getProdottoCommon());
         String sql = "INSERT INTO FRUTTAVERDURA (IdProdotto, TipoFV, Bio, Surgelato) VALUES (?, ?, ?, ?, ?)";
         try {
@@ -218,7 +218,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    private int createProdottoCaseario(ProdottoCaseario prodottoCaseario){
+    private int createProdottoCaseario(Prodotto prodottoCaseario){
         int id = createProductCommon(prodottoCaseario.getProdottoCommon());
         String sql = "INSERT INTO PRODOTTOCASEARIO (IdProdotto, TipoLatte, Stabilimento, Stagionatura) VALUES (?, ?, ?, ?)";
         try {
@@ -238,7 +238,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    private int createFarinaceo(Farinaceo farinaceo){
+    private int createFarinaceo(Prodotto farinaceo){
         int id = createProductCommon(farinaceo.getProdottoCommon());
         String sql = "INSERT INTO FARINACEO (IdProdotto, Glutine, TipoFarina, Fresco, Surgelato) VALUES (?, ?, ?, ?, ?)";
         try {
@@ -260,7 +260,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    private int createConserva(Conserva conserva){
+    private int createConserva(Prodotto conserva){
         int id = createProductCommon(conserva.getProdottoCommon());
         String sql = "INSERT INTO CONSERVA (IdProdotto, Glutine, TipoFarina, Fresco, Surgelato) VALUES (?, ?, ?, ?, ?)";
         try {
