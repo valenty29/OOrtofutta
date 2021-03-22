@@ -78,7 +78,7 @@ public abstract class ObservedModel {
     listeners.remove(l);
   }
   
-  protected void firePropertyChanged(String propertyName, Object oldValue, Object newValue) {
+  public void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
     PropertyChangeEvent pce = new PropertyChangeEvent(this, propertyName, oldValue, newValue);
     firePropertyChanged(pce);
   }

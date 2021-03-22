@@ -51,7 +51,7 @@ public class Cliente extends ObservedModel implements PropertyChangeListener{
       return;
     }
     setValue(ID, id);
-    firePropertyChanged("id", oldId, id);
+    firePropertyChange("id", oldId, id);
   }
   
   public String getCF() {
@@ -64,7 +64,7 @@ public class Cliente extends ObservedModel implements PropertyChangeListener{
       return;
     }
     setValue(CF, cf);
-    firePropertyChanged("cf", oldCF, cf);    
+    firePropertyChange("cf", oldCF, cf);    
   }
 
   public String getNome() {
@@ -77,7 +77,7 @@ public class Cliente extends ObservedModel implements PropertyChangeListener{
       return;
     }
     setValue(NOME, nome);
-    firePropertyChanged("nome", oldNome, nome);
+    firePropertyChange("nome", oldNome, nome);
   }
 
   public String getCognome() {
@@ -90,7 +90,7 @@ public class Cliente extends ObservedModel implements PropertyChangeListener{
       return;
     }
     setValue(COGNOME, cognome);
-    firePropertyChanged("cognome", oldCognome, cognome);
+    firePropertyChange("cognome", oldCognome, cognome);
   }
 
   public Date getDataNascita() {
@@ -103,7 +103,7 @@ public class Cliente extends ObservedModel implements PropertyChangeListener{
       return;
     }
     setValue(DATA_NASCITA, dataNascita);
-    firePropertyChanged("dataNascita", oldDataNascita, dataNascita);
+    firePropertyChange("dataNascita", oldDataNascita, dataNascita);
   }
 
   public String getLuogoNascita() {
@@ -116,7 +116,7 @@ public class Cliente extends ObservedModel implements PropertyChangeListener{
       return;
     }
     setValue(LUOGO_NASCITA, luogoNascita);
-    firePropertyChanged("luogoNascita", oldLuogoNascita, luogoNascita);
+    firePropertyChange("luogoNascita", oldLuogoNascita, luogoNascita);
   }
 
   public Genere getGenere() {
@@ -134,7 +134,7 @@ public class Cliente extends ObservedModel implements PropertyChangeListener{
       return;
     }
     setValue(GENERE, genere);
-    firePropertyChanged("genere", oldGenere, genere);
+    firePropertyChange("genere", oldGenere, genere);
   }
 
   public String getEmail() {
@@ -147,7 +147,7 @@ public class Cliente extends ObservedModel implements PropertyChangeListener{
       return;
     }
     setValue(EMAIL, email);
-    firePropertyChanged("email", oldEmail, email);
+    firePropertyChange("email", oldEmail, email);
   }
   
   public RaccoltaPunti getRaccoltaPunti() {
@@ -165,7 +165,7 @@ public class Cliente extends ObservedModel implements PropertyChangeListener{
     
     setValue(RACCOLTA_PUNTI, raccoltaPunti);
     raccoltaPunti.addPropertyChangeListener(this);
-    firePropertyChanged("raccoltaPunti", oldRaccoltaPunti, raccoltaPunti);
+    firePropertyChange("raccoltaPunti", oldRaccoltaPunti, raccoltaPunti);
   }
 
   @SuppressWarnings("unchecked")
@@ -182,7 +182,7 @@ public class Cliente extends ObservedModel implements PropertyChangeListener{
     oldScontrini.removePropertyChangeListener(this);
     attributes[SCONTRINI] = scontrini;
     scontrini.addPropertyChangeListener(this);
-    firePropertyChanged("scontrini", oldScontrini, scontrini);
+    firePropertyChange("scontrini", oldScontrini, scontrini);
   }
 
   

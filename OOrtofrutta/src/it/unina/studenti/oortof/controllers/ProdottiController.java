@@ -1,5 +1,7 @@
 package it.unina.studenti.oortof.controllers;
 
+import java.util.ArrayList;
+
 import it.unina.studenti.oortof.dao.SQLProductDAO;
 import it.unina.studenti.oortof.models.ApplicationCounter;
 import it.unina.studenti.oortof.models.ApplicationStatus;
@@ -50,9 +52,14 @@ public class ProdottiController implements Controller<Prodotto> {
   }
 
   void commitInsert() {
+    sqlProductDao.createProduct(prodotto);
+    prodotti.add(prodotto);
+    ApplicationStatus.getInstance().setStatus(ApplicationStatus.STATUS_NAVIGATION);
   }
   
   void commitUpdate() {
+    sqlProductDao.updateProducts(oldProdotto, prodotto);
+    ApplicationStatus.getInstance().setStatus(ApplicationStatus.STATUS_NAVIGATION);
   }
   
   void commitSearch() {
@@ -70,10 +77,18 @@ public class ProdottiController implements Controller<Prodotto> {
     }
   }
   
+  @Override
+  public void preDelete() {
+  }
+
   
 
   @Override
   public void delete() {
+    ArrayList<Prodotto> toDelete = new ArrayList<>();
+    toDelete.add(prodotto);
+    sqlProductDao.deleteProducts(toDelete);
+    prodotti.remove(prodotto);
   }
 
   @Override

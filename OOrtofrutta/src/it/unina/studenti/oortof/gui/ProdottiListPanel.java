@@ -57,6 +57,7 @@ public class ProdottiListPanel extends JPanel {
       public void valueChanged(ListSelectionEvent e) {
         if (ApplicationCounter.getInstance().getCounter() != (table.getSelectedRow() + 1)) {
           ApplicationCounter.getInstance().setCounter(table.getSelectedRow() + 1);
+          ApplicationCounter.getInstance().setLimit(table.getRowCount());
         }
       }
     });

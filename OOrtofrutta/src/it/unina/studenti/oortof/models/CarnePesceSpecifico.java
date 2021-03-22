@@ -37,7 +37,7 @@ public class CarnePesceSpecifico extends ProdottoSpecifico{
       return;
     }
     setValue(TIPO_CARNE_PESCE, tipoCarnePesce);
-    firePropertyChanged("tipoCarnePesce", oldTipoCarnePesce, tipoCarnePesce);
+    firePropertyChange("tipoCarnePesce", oldTipoCarnePesce, tipoCarnePesce);
   }
 
   public boolean isDaAllevamento() {
@@ -54,7 +54,7 @@ public class CarnePesceSpecifico extends ProdottoSpecifico{
       return;
     }
     setValue(DA_ALLEVAMENTO, daAllevamento);
-    firePropertyChanged("daAllevamento", oldDaAllevamento, daAllevamento);
+    firePropertyChange("daAllevamento", oldDaAllevamento, daAllevamento);
   }
 
   public String getAnimale() {
@@ -67,7 +67,7 @@ public class CarnePesceSpecifico extends ProdottoSpecifico{
       return;
     }
     setValue(ANIMALE, animale);
-    firePropertyChanged("animale", oldAnimale, animale);
+    firePropertyChange("animale", oldAnimale, animale);
   }
 
   public boolean isConfezionato() {
@@ -84,7 +84,7 @@ public class CarnePesceSpecifico extends ProdottoSpecifico{
       return;
     }
     setValue(CONFEZIONATO, confezionato);
-    firePropertyChanged("confezionato", oldConfezionato, confezionato);
+    firePropertyChange("confezionato", oldConfezionato, confezionato);
   }
   
   public void copyTo(ObservedModel carnePesceSpecifico) {

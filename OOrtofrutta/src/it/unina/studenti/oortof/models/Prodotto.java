@@ -138,7 +138,7 @@ public class Prodotto extends ObservedModel implements PropertyChangeListener {
       old.removePropertyChangeListener(this);
     }
     ((ObservedList<ProdottoSpecifico>)attributes[PRODOTTI_SPECIFICI]).set(index, prodottoSpecifico);
-    firePropertyChanged("prodottiSpecifici", index, prodottoSpecifico);
+    firePropertyChange("prodottiSpecifici", index, prodottoSpecifico);
     prodottoSpecifico.addPropertyChangeListener(this);
   }
 

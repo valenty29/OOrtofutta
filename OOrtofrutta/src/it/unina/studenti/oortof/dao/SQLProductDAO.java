@@ -824,7 +824,7 @@ public class SQLProductDAO implements ProductDAO {
             filterCount++;
         }
 
-        if (prodCom.getString(ProdottoCommon.PREZZO) != null)
+        if (prodCom.getString(ProdottoCommon.PREZZO) != null && !prodCom.getString(ProdottoCommon.PREZZO).equals("")) 
         {
             if(filterCount != 0)
                 query += " AND ";

@@ -17,5 +17,4 @@ public class CarrelloPanel extends JPanel {
     add(carrelloTable, BorderLayout.CENTER);
   }
   
-
 }

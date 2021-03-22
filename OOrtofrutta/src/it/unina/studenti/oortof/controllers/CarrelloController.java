@@ -53,4 +53,10 @@ public class CarrelloController implements Controller {
     
   }
 
+  @Override
+  public void preDelete() {
+    // TODO Auto-generated method stub
+    
+  }
+
 }

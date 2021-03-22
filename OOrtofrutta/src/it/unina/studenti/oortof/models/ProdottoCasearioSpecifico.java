@@ -29,7 +29,7 @@ public class ProdottoCasearioSpecifico extends ProdottoSpecifico {
       return;
     }
     setValue(TIPO_LATTE, tipoLatte);
-    firePropertyChanged("tipoLatte", oldTipoLatte, tipoLatte);
+    firePropertyChange("tipoLatte", oldTipoLatte, tipoLatte);
   }
 
   public String getStabilimento() {
@@ -42,7 +42,7 @@ public class ProdottoCasearioSpecifico extends ProdottoSpecifico {
       return;
     }
     setValue(STABILIMENTO, stabilimento);
-    firePropertyChanged("stabilimento", oldStabilimento, stabilimento);
+    firePropertyChange("stabilimento", oldStabilimento, stabilimento);
   }
 
   public Integer getStagionatura() {
@@ -55,7 +55,7 @@ public class ProdottoCasearioSpecifico extends ProdottoSpecifico {
       return;
     }
     setValue(STAGIONATURA, stagionatura);
-    firePropertyChanged("stagionatura", oldStagionatura, stagionatura);
+    firePropertyChange("stagionatura", oldStagionatura, stagionatura);
   }
 
   public void copyTo(ObservedModel prodottoCasearioSpecifico) {

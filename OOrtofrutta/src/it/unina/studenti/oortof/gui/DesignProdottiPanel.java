@@ -16,7 +16,6 @@ import javax.swing.border.LineBorder;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.border.TitledBorder;
-
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import java.awt.SystemColor;
@@ -93,6 +92,7 @@ public abstract class DesignProdottiPanel extends JPanel {
    * Create the panel.
    */
   public DesignProdottiPanel() {
+
     codiceAllevamentoTextField.setColumns(10);
     GridBagLayout gridBagLayout = new GridBagLayout();
     gridBagLayout.columnWidths = new int[]{680, 0};
