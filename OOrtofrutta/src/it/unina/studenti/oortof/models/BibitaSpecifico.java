@@ -29,7 +29,7 @@ public class BibitaSpecifico extends ProdottoSpecifico {
       return;
     }
     setValue(GRADAZIONE_ALCOLICA, gradazioneAlcolica);
-    firePropertyChanged("gradazioneAlcolica", oldGradazioneAlcolica, gradazioneAlcolica);
+    firePropertyChange("gradazioneAlcolica", oldGradazioneAlcolica, gradazioneAlcolica);
   }
 
   public boolean isFrizzante() {
@@ -41,15 +41,12 @@ public class BibitaSpecifico extends ProdottoSpecifico {
   }
 
   public void setFrizzante(Boolean frizzante) {
-if (Boolean.FALSE.equals(frizzante)) {
-  Thread.dumpStack();
-}
     Boolean oldFrizzante = getFrizzante();
     if (equals(frizzante, oldFrizzante)) {
       return;
     }
     setValue(FRIZZANTE, frizzante);
-    firePropertyChanged("frizzante", oldFrizzante, frizzante);
+    firePropertyChange("frizzante", oldFrizzante, frizzante);
   }
 
   public TipoBibita getTipoBibita() {
@@ -67,7 +64,7 @@ if (Boolean.FALSE.equals(frizzante)) {
       return;
     }
     setValue(TIPO_BIBITA, tipoBibita);
-    firePropertyChanged("tipoBibita", oldTipoBibita, tipoBibita);
+    firePropertyChange("tipoBibita", oldTipoBibita, tipoBibita);
   }
   
   public void copyTo(ObservedModel bibitaSpecifico) {

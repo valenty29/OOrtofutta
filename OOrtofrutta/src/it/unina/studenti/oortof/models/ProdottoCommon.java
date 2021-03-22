@@ -50,7 +50,7 @@ public class ProdottoCommon extends ObservedModel implements PropertyChangeListe
       return;
     }
     setValue(ID, id);
-    firePropertyChanged("id", oldId, id);
+    firePropertyChange("id", oldId, id);
   }
   
   public Boolean getAltro() {
@@ -67,7 +67,7 @@ public class ProdottoCommon extends ObservedModel implements PropertyChangeListe
       return;
     }
     setValue(ALTRO, altro);
-    firePropertyChanged("altro", oldAltro, altro);
+    firePropertyChange("altro", oldAltro, altro);
   }
 
   public Boolean getBibita() {
@@ -84,7 +84,7 @@ public class ProdottoCommon extends ObservedModel implements PropertyChangeListe
       return;
     }
     setValue(BIBITA, bibita);
-    firePropertyChanged("bibita", oldBibita, bibita);
+    firePropertyChange("bibita", oldBibita, bibita);
   }
 
   public Boolean getCarnePesce() {
@@ -101,7 +101,7 @@ public class ProdottoCommon extends ObservedModel implements PropertyChangeListe
       return;
     }
     setValue(CARNE_PESCE, carnePesce);
-    firePropertyChanged("carnePesce", oldCarnePesce, carnePesce);
+    firePropertyChange("carnePesce", oldCarnePesce, carnePesce);
   }
 
   public Boolean getConserva() {
@@ -118,7 +118,7 @@ public class ProdottoCommon extends ObservedModel implements PropertyChangeListe
       return;
     }
     setValue(CONSERVA, conserva);
-    firePropertyChanged("conserva", oldConserva, conserva);
+    firePropertyChange("conserva", oldConserva, conserva);
   }
 
   public Boolean getFarinaceo() {
@@ -135,7 +135,7 @@ public class ProdottoCommon extends ObservedModel implements PropertyChangeListe
       return;
     }
     setValue(FARINACEO, farinaceo);
-    firePropertyChanged("farinaceo", oldFarinaceo, farinaceo);
+    firePropertyChange("farinaceo", oldFarinaceo, farinaceo);
   }
 
   public Boolean getFruttaVerdura() {
@@ -152,7 +152,7 @@ public class ProdottoCommon extends ObservedModel implements PropertyChangeListe
       return;
     }
     setValue(FRUTTA_VERDURA, fruttaVerdura);
-    firePropertyChanged("fruttaVerdura", oldFruttaVerdura, fruttaVerdura);
+    firePropertyChange("fruttaVerdura", oldFruttaVerdura, fruttaVerdura);
   }
 
   public Boolean getProdottoCaseario() {
@@ -169,7 +169,7 @@ public class ProdottoCommon extends ObservedModel implements PropertyChangeListe
       return;
     }
     setValue(PRODOTTO_CASEARIO, prodottoCaseario);
-    firePropertyChanged("prodottoCaseario", oldProdottoCaseario, prodottoCaseario);
+    firePropertyChange("prodottoCaseario", oldProdottoCaseario, prodottoCaseario);
   }
 
   public Boolean getUovo() {
@@ -186,7 +186,7 @@ public class ProdottoCommon extends ObservedModel implements PropertyChangeListe
       return;
     }
     setValue(UOVO, uovo);
-    firePropertyChanged("uovo", oldUovo, uovo);
+    firePropertyChange("uovo", oldUovo, uovo);
   }
 
   public String getNome() {
@@ -199,7 +199,7 @@ public class ProdottoCommon extends ObservedModel implements PropertyChangeListe
       return;
     }
     setValue(NOME, nome);
-    firePropertyChanged("nome", oldNome, nome);
+    firePropertyChange("nome", oldNome, nome);
   }
 
   public Float getPrezzo() {
@@ -212,7 +212,7 @@ public class ProdottoCommon extends ObservedModel implements PropertyChangeListe
       return;
     }
     setValue(PREZZO, prezzo);
-    firePropertyChanged("prezzo", oldPrezzo, prezzo);
+    firePropertyChange("prezzo", oldPrezzo, prezzo);
   }
 
   public boolean isSfuso() {
@@ -229,7 +229,7 @@ public class ProdottoCommon extends ObservedModel implements PropertyChangeListe
       return;
     }
     setValue(SFUSO, sfuso);
-    firePropertyChanged("sfuso", oldSfuso, sfuso);
+    firePropertyChange("sfuso", oldSfuso, sfuso);
   }
 
   @SuppressWarnings("unchecked")
@@ -246,7 +246,7 @@ public class ProdottoCommon extends ObservedModel implements PropertyChangeListe
     oldLotti.removePropertyChangeListener(this);
     attributes[LOTTI] = lotti;
     lotti.addPropertyChangeListener(this);
-    firePropertyChanged("lotti", oldLotti, lotti);
+    firePropertyChange("lotti", oldLotti, lotti);
   }
   
   @SuppressWarnings("unchecked")

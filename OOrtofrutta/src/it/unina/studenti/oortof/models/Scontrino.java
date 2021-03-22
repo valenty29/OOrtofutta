@@ -37,7 +37,7 @@ public class Scontrino extends ObservedModel implements PropertyChangeListener{
       return;
     }
     setValue(ID, id);
-    firePropertyChanged("id", oldId, id);
+    firePropertyChange("id", oldId, id);
   }
 
   /*public Cliente getCliente() {
@@ -69,7 +69,7 @@ public class Scontrino extends ObservedModel implements PropertyChangeListener{
       return;
     }
     setValue(DATA_ORARIO, dataOrario);
-    firePropertyChanged("dataOrario", oldDataOrario, dataOrario);
+    firePropertyChange("dataOrario", oldDataOrario, dataOrario);
   }
 
   public Float getPrezzoTotale() {
@@ -82,7 +82,7 @@ public class Scontrino extends ObservedModel implements PropertyChangeListener{
       return;
     }
     setValue(PREZZO_TOTALE, prezzoTotale);
-    firePropertyChanged("prezzoTotale", oldPrezzoTotale, prezzoTotale);
+    firePropertyChange("prezzoTotale", oldPrezzoTotale, prezzoTotale);
   }
   
   @SuppressWarnings("unchecked")
@@ -100,7 +100,7 @@ public class Scontrino extends ObservedModel implements PropertyChangeListener{
     oldAcquisti.removePropertyChangeListener(this);
     attributes[ACQUISTI] = acquisti;
     acquisti.addPropertyChangeListener(this);
-    firePropertyChanged("acquisti", oldAcquisti, acquisti);
+    firePropertyChange("acquisti", oldAcquisti, acquisti);
   }
   
   @SuppressWarnings("unchecked")

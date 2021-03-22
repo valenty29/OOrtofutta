@@ -13,7 +13,8 @@ public class ApplicationStatus extends ObservedModel {
   public static final int ACTION_UPDATE = 3;
   public static final int ACTION_SEARCH = 4;
   public static final int ACTION_COMMIT = 5;
-  public static final int ACTION_DELETE = 6;
+  public static final int ACTION_PRE_DELETE = 6;
+  public static final int ACTION_DELETE = 7;
   
   public static final int TAB_PRODOTTI = 0;
   public static final int TAB_CARRELLO = 1;
@@ -39,7 +40,7 @@ public class ApplicationStatus extends ObservedModel {
       return;
     }
     this.action = action;
-    firePropertyChanged("action", oldAction, action);
+    firePropertyChange("action", oldAction, action);
   }
   
   public int getAction() {
@@ -56,7 +57,7 @@ public class ApplicationStatus extends ObservedModel {
       return;
     }
     this.activeTab = activeTab;
-    firePropertyChanged("activeTab", oldActiveTab, activeTab);
+    firePropertyChange("activeTab", oldActiveTab, activeTab);
   }
   
   public void setStatus(int status) {
@@ -68,7 +69,7 @@ public class ApplicationStatus extends ObservedModel {
       return;
     }
     this.status = status;
-    firePropertyChanged("status", oldStatus, status);
+    firePropertyChange("status", oldStatus, status);
   }
   
   public int getStatus() {

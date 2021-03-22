@@ -44,7 +44,7 @@ public class RaccoltaPunti extends ObservedModel implements PropertyChangeListen
       return;
     }
     setValue(ID, id);
-    firePropertyChanged("id", oldId, id);
+    firePropertyChange("id", oldId, id);
   }
 
   public Float getFruttaVerdura() {
@@ -57,7 +57,7 @@ public class RaccoltaPunti extends ObservedModel implements PropertyChangeListen
       return;
     }
     setValue(FRUTTA_VERDURA, fruttaVerdura);
-    firePropertyChanged("fruttaVerdura",oldFruttaVerdura, fruttaVerdura);
+    firePropertyChange("fruttaVerdura",oldFruttaVerdura, fruttaVerdura);
   }
 
   public Float getProdottoCaseario() {
@@ -70,7 +70,7 @@ public class RaccoltaPunti extends ObservedModel implements PropertyChangeListen
       return;
     }
     setValue(PRODOTTO_CASEARIO, prodottoCaseario);
-    firePropertyChanged("prodottoCaseario", oldProdottoCaseario, prodottoCaseario);
+    firePropertyChange("prodottoCaseario", oldProdottoCaseario, prodottoCaseario);
   }
 
   public Float getFarinaceo() {
@@ -83,7 +83,7 @@ public class RaccoltaPunti extends ObservedModel implements PropertyChangeListen
       return;
     }
     setValue(FARINACEO, farinaceo);
-    firePropertyChanged("farinaceo", oldFarinaceo, farinaceo);
+    firePropertyChange("farinaceo", oldFarinaceo, farinaceo);
   }
 
   public Float getUovo() {
@@ -96,7 +96,7 @@ public class RaccoltaPunti extends ObservedModel implements PropertyChangeListen
       return;
     }
     setValue(UOVO, uovo);
-    firePropertyChanged("uovo", oldUovo, uovo);
+    firePropertyChange("uovo", oldUovo, uovo);
   }
 
   public Float getCarnePesce() { 
@@ -109,7 +109,7 @@ public class RaccoltaPunti extends ObservedModel implements PropertyChangeListen
       return;
     }
     setValue(CARNE_PESCE, carnePesce);
-    firePropertyChanged("carnePesce", oldCarnePesce, carnePesce);
+    firePropertyChange("carnePesce", oldCarnePesce, carnePesce);
   }
 
   public Float getBibita() {
@@ -122,7 +122,7 @@ public class RaccoltaPunti extends ObservedModel implements PropertyChangeListen
       return;
     }
     setValue(BIBITA, bibita);
-    firePropertyChanged("bibita", oldBibita, bibita);
+    firePropertyChange("bibita", oldBibita, bibita);
   }
 
   public Float getConserva() {
@@ -135,7 +135,7 @@ public class RaccoltaPunti extends ObservedModel implements PropertyChangeListen
       return;
     }
     setValue(CONSERVA, conserva);
-    firePropertyChanged("conserva", oldConserva, conserva);
+    firePropertyChange("conserva", oldConserva, conserva);
   }
 
   public Float getAltro() {
@@ -148,7 +148,7 @@ public class RaccoltaPunti extends ObservedModel implements PropertyChangeListen
       return;
     }
     setValue(ALTRO, altro);
-    firePropertyChanged("altro", oldAltro, altro);
+    firePropertyChange("altro", oldAltro, altro);
   }
   
   public Float getTotale() {

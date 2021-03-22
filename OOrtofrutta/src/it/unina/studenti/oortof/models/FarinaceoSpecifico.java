@@ -40,7 +40,7 @@ public class FarinaceoSpecifico extends ProdottoSpecifico {
       return;
     }
     setValue(GLUTINE, glutine);
-    firePropertyChanged("glutine", oldGlutine, glutine);
+    firePropertyChange("glutine", oldGlutine, glutine);
   }
 
   public String getTipoFarina() {
@@ -53,7 +53,7 @@ public class FarinaceoSpecifico extends ProdottoSpecifico {
       return;
     }
     setValue(TIPO_FARINA, tipoFarina);
-    firePropertyChanged("tipoFarina", oldTipoFarina, tipoFarina);
+    firePropertyChange("tipoFarina", oldTipoFarina, tipoFarina);
   }
 
   public boolean isFresco() {
@@ -70,7 +70,7 @@ public class FarinaceoSpecifico extends ProdottoSpecifico {
       return;
     }
     setValue(FRESCO, fresco);
-    firePropertyChanged("fresco", oldFresco, fresco);
+    firePropertyChange("fresco", oldFresco, fresco);
   }
 
   public boolean isSurgelato() {
@@ -87,7 +87,7 @@ public class FarinaceoSpecifico extends ProdottoSpecifico {
       return;
     }
     setValue(SURGELATO, surgelato);
-    firePropertyChanged("surgelato", oldSurgelato, surgelato);
+    firePropertyChange("surgelato", oldSurgelato, surgelato);
   }
   
   public void copyTo(ObservedModel farinaceoSpecifico) {

@@ -21,7 +21,7 @@ public class ApplicationCounter extends ObservedModel {
       return;
     }
     this.counter = counter;
-    firePropertyChanged("counter", oldCounter, counter);
+    firePropertyChange("counter", oldCounter, counter);
   }
   
   public int getCounter() {
@@ -34,7 +34,7 @@ public class ApplicationCounter extends ObservedModel {
       return;
     }
     this.limit = limit;
-    firePropertyChanged("limit", oldLimit, limit);
+    firePropertyChange("limit", oldLimit, limit);
   }
   
   public int getLimit() {

@@ -21,7 +21,7 @@ public class ConservaSpecifico extends ProdottoSpecifico {
       return;
     }
     setValue(TIPO_CONSERVAZIONE, tipoConservazione);
-    firePropertyChanged("tipoConservazione", oldTipoConservazione, tipoConservazione);
+    firePropertyChange("tipoConservazione", oldTipoConservazione, tipoConservazione);
   }
 
   public TipoConservazione getTipoConservazione() {

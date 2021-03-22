@@ -1,5 +1,7 @@
 package it.unina.studenti.oortof.controllers;
 
+import java.util.ArrayList;
+
 import it.unina.studenti.oortof.dao.SQLProductDAO;
 import it.unina.studenti.oortof.models.ApplicationCounter;
 import it.unina.studenti.oortof.models.ApplicationStatus;
@@ -70,10 +72,17 @@ public class ProdottiController implements Controller<Prodotto> {
     }
   }
   
+  @Override
+  public void preDelete() {
+  }
+
   
 
   @Override
   public void delete() {
+    ArrayList<Prodotto> toDelete = new ArrayList<>();
+    toDelete.add(prodotto);
+    sqlProductDao.deleteProducts(toDelete);
   }
 
   @Override
