@@ -193,6 +193,9 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     public void mouseReleased(MouseEvent e) {
       if (e.getButton() == MouseEvent.BUTTON3 && ApplicationStatus.getInstance().isSearch()) {
         if (e.getSource() instanceof JCheckBox) {
+          if (((JCheckBox)e.getSource()).isEnabled() && ((JCheckBox)e.getSource()).isSelected()) {
+            ((JCheckBox)e.getSource()).doClick();
+          }
           ((JCheckBox)e.getSource()).setEnabled(!((JCheckBox)e.getSource()).isEnabled());
         }
         else if (e.getSource() instanceof JRadioButton) {
@@ -347,27 +350,28 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
   }
 
   void modelToViewCore() {
+    boolean nav = ApplicationStatus.getInstance().isNavigation();
     nomeTextField.setText(prodotto.getProdottoCommon().getString(ProdottoCommon.NOME));
     codiceProdottoTextField.setText(prodotto.getProdottoCommon().getString(ProdottoCommon.ID));
     prezzoTextField.setText(prodotto.getProdottoCommon().getString(ProdottoCommon.PREZZO));
     sfusoCheckBox.setSelected(prodotto.getProdottoCommon().isSfuso());
-    sfusoCheckBox.setEnabled(prodotto.getProdottoCommon().getSfuso() != null);
+    sfusoCheckBox.setEnabled(!nav && prodotto.getProdottoCommon().getSfuso() != null);
     fruttaVerduraCheckbox.setSelected(prodotto.getProdottoCommon().isFruttaVerdura());
-    fruttaVerduraCheckbox.setEnabled(prodotto.getProdottoCommon().getFruttaVerdura() != null);
+    fruttaVerduraCheckbox.setEnabled(!nav && prodotto.getProdottoCommon().getFruttaVerdura() != null);
     prodottiCaseariCheckbox.setSelected(prodotto.getProdottoCommon().isProdottoCaseario());
-    prodottiCaseariCheckbox.setEnabled(prodotto.getProdottoCommon().getProdottoCaseario() != null);
+    prodottiCaseariCheckbox.setEnabled(!nav && prodotto.getProdottoCommon().getProdottoCaseario() != null);
     uovaCheckbox.setSelected(prodotto.getProdottoCommon().isUovo());
-    uovaCheckbox.setEnabled(prodotto.getProdottoCommon().getUovo() != null);
+    uovaCheckbox.setEnabled(!nav && prodotto.getProdottoCommon().getUovo() != null);
     bibiteCheckbox.setSelected(prodotto.getProdottoCommon().isBibita());
-    bibiteCheckbox.setEnabled(prodotto.getProdottoCommon().getBibita() != null);
+    bibiteCheckbox.setEnabled(!nav && prodotto.getProdottoCommon().getBibita() != null);
     conserveCheckbox.setSelected(prodotto.getProdottoCommon().isConserva());
-    conserveCheckbox.setEnabled(prodotto.getProdottoCommon().getConserva() != null);
+    conserveCheckbox.setEnabled(!nav && prodotto.getProdottoCommon().getConserva() != null);
     farinaceiCheckbox.setSelected(prodotto.getProdottoCommon().isFarinaceo());
-    farinaceiCheckbox.setEnabled(prodotto.getProdottoCommon().getFarinaceo() != null);
+    farinaceiCheckbox.setEnabled(!nav && prodotto.getProdottoCommon().getFarinaceo() != null);
     carnePesceCheckbox.setSelected(prodotto.getProdottoCommon().isCarnePesce());
-    carnePesceCheckbox.setEnabled(prodotto.getProdottoCommon().getCarnePesce() != null);
+    carnePesceCheckbox.setEnabled(!nav && prodotto.getProdottoCommon().getCarnePesce() != null);
     altriTipoCheckbox.setSelected(prodotto.getProdottoCommon().isAltro());
-    altriTipoCheckbox.setEnabled(prodotto.getProdottoCommon().getAltro() != null);
+    altriTipoCheckbox.setEnabled(!nav && prodotto.getProdottoCommon().getAltro() != null);
     FruttaVerduraSpecifico fvs = (FruttaVerduraSpecifico)prodotto.getProdottoSpecificoAt(Prodotto.FRUTTA_VERDURA_INDEX);
     fruttaRadioButton.setSelected(fvs != null && TipoFruttaVerdura.Frutta.equals(fvs.getTipoFruttaVerdura()));
     verduraRadioButton.setSelected(fvs != null && TipoFruttaVerdura.Verdura.equals(fvs.getTipoFruttaVerdura()));
@@ -375,9 +379,9 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
       fruttaVerduraBG.clearSelection();
     }
     surgelatoFruttaVerduraCheckbox.setSelected(fvs != null && fvs.isSurgelato());    
-    surgelatoFruttaVerduraCheckbox.setEnabled(fvs != null && fvs.getSurgelato() != null);    
+    surgelatoFruttaVerduraCheckbox.setEnabled(!nav && fvs != null && fvs.getSurgelato() != null);    
     biologicoCheckbox.setSelected(fvs != null && fvs.isBio());
-    biologicoCheckbox.setEnabled(fvs != null && fvs.getBio() != null);
+    biologicoCheckbox.setEnabled(!nav && fvs != null && fvs.getBio() != null);
     ConservaSpecifico cs = (ConservaSpecifico)prodotto.getProdottoSpecificoAt(Prodotto.CONSERVA_INDEX);
     sottovuotoRadioButton.setSelected(cs != null && TipoConservazione.Sottovuoto.equals(cs.getTipoConservazione()));
     sottacetoRadioButton.setSelected(cs != null && TipoConservazione.Sottaceto.equals(cs.getTipoConservazione()));
@@ -396,10 +400,11 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     FarinaceoSpecifico fs = (FarinaceoSpecifico)prodotto.getProdottoSpecificoAt(Prodotto.FARINACEO_INDEX);
     tipoFarinaTextField.setText(fs != null ? fs.getString(FarinaceoSpecifico.TIPO_FARINA) : null);
     senzaGlutineCheckbox.setSelected(fs != null && fs.isGlutine());
+    senzaGlutineCheckbox.setEnabled(!nav && fs != null && fs.getGlutine() != null);
     frescoCheckbox.setSelected(fs != null && fs.isFresco());
-    frescoCheckbox.setEnabled(fs != null && fs.getFresco() != null);
+    frescoCheckbox.setEnabled(!nav && fs != null && fs.getFresco() != null);
     surgelatoFarinaceiCheckbox.setSelected(fs != null && fs.isSurgelato());
-    surgelatoFarinaceiCheckbox.setEnabled(fs != null && fs.getSurgelato() != null);
+    surgelatoFarinaceiCheckbox.setEnabled(!nav && fs != null && fs.getSurgelato() != null);
     UovoSpecifico us = (UovoSpecifico)prodotto.getProdottoSpecificoAt(Prodotto.UOVO_INDEX);
     tipo0RadioButton.setSelected(us != null && ZERO.equals(us.getTipoAllevamento()));
     tipo1RadioButton.setSelected(us != null && UNO.equals(us.getTipoAllevamento()));
@@ -424,9 +429,9 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     }
     animaleTextField.setText(cps != null ? cps.getString(CarnePesceSpecifico.ANIMALE) : null);
     daAllevamentoCheckBox.setSelected(cps != null && cps.isDaAllevamento());
-    daAllevamentoCheckBox.setEnabled(cps != null && cps.getDaAllevamento() != null);
+    daAllevamentoCheckBox.setEnabled(!nav && cps != null && cps.getDaAllevamento() != null);
     confezionatoCheckBox.setSelected(cps != null && cps.isConfezionato());
-    confezionatoCheckBox.setEnabled(cps != null && cps.getConfezionato() != null);
+    confezionatoCheckBox.setEnabled(!nav && cps != null && cps.getConfezionato() != null);
     BibitaSpecifico bs = (BibitaSpecifico)prodotto.getProdottoSpecificoAt(Prodotto.BIBITA_INDEX);
     acquaRadioButton.setSelected(bs != null && TipoBibita.Acqua.equals(bs.getTipoBibita()));
     succhiDiFruttaRadioButton.setSelected(bs != null && TipoBibita.Succo.equals(bs.getTipoBibita()));
@@ -439,7 +444,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     }
     gradazioneAlcolicaTextField.setText(bs != null ? bs.getString(BibitaSpecifico.GRADAZIONE_ALCOLICA) : null);
     frizzanteCheckBox.setSelected(bs != null && bs.isFrizzante());
-    frizzanteCheckBox.setEnabled(bs != null && bs.getFrizzante() != null);
+    frizzanteCheckBox.setEnabled(!nav && bs != null && bs.getFrizzante() != null);
     
     ((LottiTableModel)lottiTable.getModel()).fireTableDataChanged();
     if (ApplicationStatus.getInstance().isNavigation()) {
@@ -448,7 +453,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
   }
   
   void viewToModelBibitaSpecifico() {
-    prodotto.getBibitaSpecifico().setFrizzante(frizzanteCheckBox.isSelected());
+    prodotto.getBibitaSpecifico().setFrizzante(frizzanteCheckBox.isEnabled() ? frizzanteCheckBox.isSelected() : null);
     prodotto.getBibitaSpecifico().setValue(BibitaSpecifico.GRADAZIONE_ALCOLICA, gradazioneAlcolicaTextField.getText());
     TipoBibita tb = null;
     if (acquaRadioButton.isSelected()) {
@@ -482,8 +487,8 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     }
     prodotto.getCarnePesceSpecifico().setValue(CarnePesceSpecifico.TIPO_CARNE_PESCE, tcp);
     prodotto.getCarnePesceSpecifico().setAnimale(animaleTextField.getText());
-    prodotto.getCarnePesceSpecifico().setDaAllevamento(daAllevamentoCheckBox.isSelected());
-    prodotto.getCarnePesceSpecifico().setConfezionato(confezionatoCheckBox.isSelected());
+    prodotto.getCarnePesceSpecifico().setDaAllevamento(daAllevamentoCheckBox.isEnabled() ? daAllevamentoCheckBox.isSelected() : null);
+    prodotto.getCarnePesceSpecifico().setConfezionato(confezionatoCheckBox.isEnabled() ? confezionatoCheckBox.isSelected() : null);
   }
   
   void viewToModelConservaSpecifico() {

@@ -41,6 +41,9 @@ public class BibitaSpecifico extends ProdottoSpecifico {
   }
 
   public void setFrizzante(Boolean frizzante) {
+if (Boolean.FALSE.equals(frizzante)) {
+  Thread.dumpStack();
+}
     Boolean oldFrizzante = getFrizzante();
     if (equals(frizzante, oldFrizzante)) {
       return;
