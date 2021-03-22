@@ -33,7 +33,7 @@ public class SQLProductDAO implements ProductDAO {
             	if (lotto.getCodLotto() != null && !lotto.getCodLotto().equals("")) {
             		createLotto.setString(1, lotto.getCodLotto());
                     createLotto.setLong(2, id);
-                    createLotto.setDate(3, new java.sql.Date(lotto.getScadenza().getTime()));
+                    createLotto.setDate(3, new java.sql.Date(lotto.getScadenza().getTime()));	
                     createLotto.setFloat(4, lotto.getDisponibilita());
                     createLotto.setDate(5, new java.sql.Date(lotto.getDataProduzione().getTime()));
                     createLotto.setString(6, lotto.getCodPaeseOrigine());
@@ -403,6 +403,8 @@ public class SQLProductDAO implements ProductDAO {
                 boolean rsFrizzante = rs.getBoolean("Frizzante");
                 TipoBibita rsTipoBibita = TipoBibita.valueOf(rs.getString("TipoB"));
                 Bibita bib = new Bibita(rsId, rsNome, rsPrezzo, rsSfuso, rsGradazione, rsFrizzante, rsTipoBibita );
+                
+                
                 bib.getProdottoCommon().setLotti(getLotti(rsId, conn));
                 list.add(bib);
             }
@@ -869,20 +871,20 @@ public class SQLProductDAO implements ProductDAO {
     
     public void updateProducts(Prodotto oldProdotto, Prodotto newProdotto) {
     	if (oldProdotto.getProdottoCommon().isBibita() && newProdotto.getProdottoCommon().isBibita()) {
-    		updateBibita((Bibita)oldProdotto, (Bibita)newProdotto);
-    	} else if (oldProdotto.getProdottoCommon().isBibita() && newProdotto.getProdottoCommon().isBibita()) {
-    		updateFruttaVerdura((FruttaVerdura)oldProdotto, (FruttaVerdura)newProdotto);
-    	} else if (oldProdotto.getProdottoCommon().isBibita() && newProdotto.getProdottoCommon().isBibita()) {
-    		updateProdottoCaseario((ProdottoCaseario)oldProdotto, (ProdottoCaseario)newProdotto);
-    	} else if (oldProdotto.getProdottoCommon().isBibita() && newProdotto.getProdottoCommon().isBibita()) {
-    		updateUovo((Uovo)oldProdotto, (Uovo)newProdotto);
-    	} else if (oldProdotto.getProdottoCommon().isBibita() && newProdotto.getProdottoCommon().isBibita()) {
-    		updateCarnePesce((CarnePesce)oldProdotto, (CarnePesce)newProdotto);
-    	} else if (oldProdotto.getProdottoCommon().isBibita() && newProdotto.getProdottoCommon().isBibita()) {
-    		updateConserva((Conserva)oldProdotto, (Conserva)newProdotto);
-    	} else if (oldProdotto.getProdottoCommon().isBibita() && newProdotto.getProdottoCommon().isBibita()) {
-    		updateFarinaceo((Farinaceo)oldProdotto, (Farinaceo)newProdotto);
-    	} else if (oldProdotto.getProdottoCommon().isBibita() && newProdotto.getProdottoCommon().isBibita()) {
+    		updateBibita(oldProdotto, newProdotto);
+    	} else if (oldProdotto.getProdottoCommon().isFruttaVerdura() && newProdotto.getProdottoCommon().isFruttaVerdura()) {
+    		updateFruttaVerdura(oldProdotto, newProdotto);
+    	} else if (oldProdotto.getProdottoCommon().isProdottoCaseario() && newProdotto.getProdottoCommon().isProdottoCaseario()) {
+    		updateProdottoCaseario(oldProdotto, newProdotto);
+    	} else if (oldProdotto.getProdottoCommon().isUovo() && newProdotto.getProdottoCommon().isUovo()) {
+    		updateUovo(oldProdotto, newProdotto);
+    	} else if (oldProdotto.getProdottoCommon().isCarnePesce() && newProdotto.getProdottoCommon().isCarnePesce()) {
+    		updateCarnePesce(oldProdotto, newProdotto);
+    	} else if (oldProdotto.getProdottoCommon().isConserva() && newProdotto.getProdottoCommon().isConserva()) {
+    		updateConserva(oldProdotto, newProdotto);
+    	} else if (oldProdotto.getProdottoCommon().isFarinaceo() && newProdotto.getProdottoCommon().isFarinaceo()) {
+    		updateFarinaceo(oldProdotto, newProdotto);
+    	} else if (oldProdotto.getProdottoCommon().isAltro() && newProdotto.getProdottoCommon().isAltro()) {
     		updateProductsCommon(oldProdotto.getProdottoCommon(), newProdotto.getProdottoCommon());
     	}
     }
@@ -983,7 +985,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    private void updateBibita(Bibita oldBibita, Bibita newBibita) {
+    private void updateBibita(Prodotto oldBibita, Prodotto newBibita) {
         updateProductsCommon(oldBibita.getProdottoCommon(), newBibita.getProdottoCommon());
 
         String updateQuery = "";
@@ -1025,7 +1027,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    private void updateUovo(Uovo oldUovo, Uovo newUovo) {
+    private void updateUovo(Prodotto oldUovo, Prodotto newUovo) {
         updateProductsCommon(oldUovo.getProdottoCommon(), newUovo.getProdottoCommon());
 
         String updateQuery = "";
@@ -1066,7 +1068,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    private void updateFarinaceo(Farinaceo oldFarinaceo, Farinaceo newFarinaceo) {
+    private void updateFarinaceo(Prodotto oldFarinaceo, Prodotto newFarinaceo) {
         updateProductsCommon(oldFarinaceo.getProdottoCommon(), newFarinaceo.getProdottoCommon());
 
         String updateQuery = "";
@@ -1116,7 +1118,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    private void updateCarnePesce(CarnePesce oldCarnePesce, CarnePesce newCarnePesce) {
+    private void updateCarnePesce(Prodotto oldCarnePesce, Prodotto newCarnePesce) {
         updateProductsCommon(oldCarnePesce.getProdottoCommon(), newCarnePesce.getProdottoCommon());
 
         String updateQuery = "";
@@ -1163,7 +1165,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    private void updateFruttaVerdura(FruttaVerdura oldFruttaVerdura, FruttaVerdura newFruttaVerdura) {
+    private void updateFruttaVerdura(Prodotto oldFruttaVerdura, Prodotto newFruttaVerdura) {
         updateProductsCommon(oldFruttaVerdura.getProdottoCommon(), newFruttaVerdura.getProdottoCommon());
 
         String updateQuery = "";
@@ -1202,7 +1204,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    private void updateConserva(Conserva oldConserva, Conserva newConserva) {
+    private void updateConserva(Prodotto oldConserva, Prodotto newConserva) {
         updateProductsCommon(oldConserva.getProdottoCommon(), newConserva.getProdottoCommon());
 
         String updateQuery = "";
@@ -1226,7 +1228,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    private void updateProdottoCaseario(ProdottoCaseario oldProdottoCaseario, ProdottoCaseario newProdottoCaseario) {
+    private void updateProdottoCaseario(Prodotto oldProdottoCaseario, Prodotto newProdottoCaseario) {
         updateProductsCommon(oldProdottoCaseario.getProdottoCommon(), newProdottoCaseario.getProdottoCommon());
 
         String updateQuery = "";
