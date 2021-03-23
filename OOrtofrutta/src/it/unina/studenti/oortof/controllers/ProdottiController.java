@@ -52,20 +52,35 @@ public class ProdottiController implements Controller<Prodotto> {
   }
 
   void commitInsert() {
-    sqlProductDao.createProduct(prodotto);
+    Prodotto prodottoDAO = new Prodotto();
+    prodotto.copyTo(prodottoDAO);
+    sqlProductDao.createProduct(prodottoDAO);
+    prodottoDAO.copyTo(prodotto);
     prodotti.add(prodotto);
     ApplicationStatus.getInstance().setStatus(ApplicationStatus.STATUS_NAVIGATION);
   }
   
   void commitUpdate() {
-    sqlProductDao.updateProducts(oldProdotto, prodotto);
+    Prodotto oldProdottoDAO = new Prodotto();
+    Prodotto newProdottoDAO = new Prodotto();
+    oldProdotto.copyTo(oldProdottoDAO);
+    prodotto.copyTo(newProdottoDAO);
+    sqlProductDao.updateProducts(oldProdottoDAO, newProdottoDAO);
+    newProdottoDAO.copyTo(prodotto);
     ApplicationStatus.getInstance().setStatus(ApplicationStatus.STATUS_NAVIGATION);
   }
   
   void commitSearch() {
-    ObservedList<Prodotto> ritorno = sqlProductDao.getProduct(prodotto);
-    ritorno.copyTo(prodotti);
-    ApplicationStatus.getInstance().setStatus(ApplicationStatus.STATUS_NAVIGATION);
+    try {
+      Prodotto prodottoDAO = new Prodotto();
+      prodotto.copyTo(prodottoDAO);
+      ObservedList<Prodotto> ritorno = sqlProductDao.getProduct(prodottoDAO);
+      ritorno.copyTo(prodotti);
+      ApplicationStatus.getInstance().setStatus(ApplicationStatus.STATUS_NAVIGATION);
+    }
+    catch (Exception e) {
+      e.printStackTrace();
+    }
   }
   
   @Override

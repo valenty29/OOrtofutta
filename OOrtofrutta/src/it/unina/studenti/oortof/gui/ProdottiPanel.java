@@ -21,7 +21,6 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.JCheckBox;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
@@ -30,7 +29,6 @@ import javax.swing.JTable;
 import it.unina.studenti.oortof.gui.models.LottiTableModel;
 import it.unina.studenti.oortof.models.ApplicationCounter;
 import it.unina.studenti.oortof.models.ApplicationStatus;
-import it.unina.studenti.oortof.models.Bibita;
 import it.unina.studenti.oortof.models.BibitaSpecifico;
 import it.unina.studenti.oortof.models.CarnePesceSpecifico;
 import it.unina.studenti.oortof.models.CatPeso;
@@ -343,6 +341,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
   }
   
   void navigation() {
+    lottiTable.getDefaultEditor(String.class).cancelCellEditing();
     setEnabledColor(false, SystemColor.control);
     if (ApplicationCounter.getInstance().getCounter() <= 0) {
       caratteristicheSpecificheTabbed.setVisible(false);
@@ -369,6 +368,9 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
   }
     
   void applicationStatusChanged(PropertyChangeEvent evt) {
+    if (ApplicationStatus.getInstance().getActiveTab() != 0) {
+      return;
+    }
     if (evt.getPropertyName().equals("status")) {
       switch (ApplicationStatus.getInstance().getStatus()) {
         case ApplicationStatus.STATUS_NAVIGATION: navigation(); break;

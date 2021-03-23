@@ -188,7 +188,7 @@ public class ObservedList<E extends ObservedModel> extends ObservedModel impleme
         }
       }    
     }
-    for (int i = list.size(); i < ((ObservedList)other).size(); i++) {
+    for (int i = ((ObservedList)other).size() - 1; i >= list.size(); i--) {
       ((ObservedList)other).remove(i);
     }
   }

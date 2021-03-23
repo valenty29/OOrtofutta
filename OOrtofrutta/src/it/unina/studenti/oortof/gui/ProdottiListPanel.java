@@ -36,7 +36,7 @@ public class ProdottiListPanel extends JPanel {
     table.setOpaque(true);
     table.setBackground(SystemColor.control);
 
-    table.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+    table.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     scrollPane.setViewportView(table);
     ApplicationCounter.getInstance().addPropertyChangeListener(new PropertyChangeListener() {
       @Override
@@ -52,6 +52,21 @@ public class ProdottiListPanel extends JPanel {
         }
       }
     });
+    ApplicationStatus.getInstance().addPropertyChangeListener(new PropertyChangeListener() {
+      @Override
+      public void propertyChange(PropertyChangeEvent evt) {
+        ApplicationStatus as = ApplicationStatus.getInstance();
+        if (as.getActiveTab() == 0 && evt.getOldValue().equals(ApplicationStatus.STATUS_SEARCH) && evt.getNewValue().equals(ApplicationStatus.STATUS_NAVIGATION) && as.getAction() == ApplicationStatus.ACTION_COMMIT) {
+          if (table.getModel().getRowCount() == 0) {
+            table.clearSelection();
+          }
+          else {
+            table.setRowSelectionInterval(0, 0);
+          }
+        }
+      }
+    });
+    
     table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
       @Override
       public void valueChanged(ListSelectionEvent e) {
@@ -75,6 +90,12 @@ public class ProdottiListPanel extends JPanel {
   
   public void setModel(ObservedList<Prodotto> prodotti) {
 	  table.setModel(new ProdottiListTableModel(prodotti));
+	  prodotti.addPropertyChangeListener(new PropertyChangeListener() {
+      @Override
+      public void propertyChange(PropertyChangeEvent evt) {
+        ApplicationCounter.getInstance().setLimit(prodotti.size());
+      }
+    });
   }
 
 }
