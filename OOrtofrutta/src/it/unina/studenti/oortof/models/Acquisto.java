@@ -11,15 +11,16 @@ public class Acquisto extends ObservedModel implements PropertyChangeListener {
   public static final int TIPO_PRODOTTO = 3; //Lotto
   
   public Acquisto() {
-    attributes = new Object[3];
+    attributes = new Object[4];
     setLotto(new Lotto());
   }
   
-  public Acquisto(Float quantita, Float prezzo, Lotto lotto) {
+  public Acquisto(Float quantita, Float prezzo, Lotto lotto, String tipoProdotto) {
     this();
     setValue(QUANTITA, quantita);
     setValue(PREZZO, prezzo);
     setValue(LOTTO, lotto);
+    setValue(TIPO_PRODOTTO, tipoProdotto);
   }
 
   public Float getQuantita() {
@@ -70,7 +71,10 @@ public class Acquisto extends ObservedModel implements PropertyChangeListener {
     if (equals(oldLotto, lotto)) {
       return;
     }
-    oldLotto.removePropertyChangeListener(this);
+    if (oldLotto != null) {
+    	oldLotto.removePropertyChangeListener(this);
+    }
+
     setValue(LOTTO, lotto);
     lotto.addPropertyChangeListener(this);
     firePropertyChanged("lotto", oldLotto, lotto);

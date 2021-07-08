@@ -9,21 +9,20 @@ public class Scontrino extends ObservedModel implements PropertyChangeListener{
 
   public static final int ID = 0;
   public static final int DATA_ORARIO = 1;
-  public static final int PREZZO_TOTALE = 2;
   public static final int ACQUISTI = 3;
 
   public Scontrino() {
     attributes = new Object[4];
     //setCliente(new Cliente());
     attributes[ACQUISTI] = new ObservedList<Acquisto>("acquisti");
+    addAcquisto(new Acquisto());
   }
 
-  public Scontrino(int id, Date dataOrario, Float prezzoTotale, ObservedList<Acquisto> acquisti) {
+  public Scontrino(int id, Date dataOrario, ObservedList<Acquisto> acquisti) {
     this();
     setValue(ID, id);
     //setValue(CLIENTE, cliente);
     setValue(DATA_ORARIO, dataOrario);
-    setValue(PREZZO_TOTALE, prezzoTotale);
     setValue(ACQUISTI, acquisti);
   }
 
@@ -70,19 +69,6 @@ public class Scontrino extends ObservedModel implements PropertyChangeListener{
     }
     setValue(DATA_ORARIO, dataOrario);
     firePropertyChanged("dataOrario", oldDataOrario, dataOrario);
-  }
-
-  public Float getPrezzoTotale() {
-    return getFloat(PREZZO_TOTALE);
-  }
-
-  public void setPrezzoTotale(Float prezzoTotale) {
-    Float oldPrezzoTotale = getPrezzoTotale();
-    if (equals(oldPrezzoTotale, prezzoTotale)) {
-      return;
-    }
-    setValue(PREZZO_TOTALE, prezzoTotale);
-    firePropertyChanged("prezzoTotale", oldPrezzoTotale, prezzoTotale);
   }
   
   @SuppressWarnings("unchecked")
@@ -153,7 +139,6 @@ public class Scontrino extends ObservedModel implements PropertyChangeListener{
       ((Scontrino)scontrino).setCliente(newCliente);
     }*/
     ((Scontrino)scontrino).setDataOrario(getDataOrario());
-    ((Scontrino)scontrino).setPrezzoTotale(getPrezzoTotale());
     ((ObservedList<Acquisto>)attributes[ACQUISTI]).copyTo(((Scontrino)scontrino).getAcquisti());
   }
 

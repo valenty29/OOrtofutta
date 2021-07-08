@@ -27,6 +27,7 @@ public class Cliente extends ObservedModel implements PropertyChangeListener{
     attributes = new Object[11];
     setRaccoltaPunti(new RaccoltaPunti());
     attributes[SCONTRINI] = new ObservedList<Scontrino>("scontrini");
+    addScontrino(new Scontrino());
   }
 
   public Cliente(Integer id, String cf, String nome, String cognome, Date dataNascita, String luogoNascita, Genere genere, String email) {

@@ -5,17 +5,15 @@ import java.beans.PropertyChangeEvent;
 public class UovoSpecifico extends ProdottoSpecifico {
 
   public static final int TIPO_ALLEVAMENTO = 0; //Integer
-  public static final int COD_ALLEVAMENTO = 1;  //String
-  public static final int CAT_PESO = 2;         //CatPeso
+  public static final int CAT_PESO = 1;         //CatPeso
   
   public UovoSpecifico() {
     attributes = new Object[3];
   }
 
-  public UovoSpecifico(int tipoAllevamento, String codAllevamento, CatPeso catPeso) {
+  public UovoSpecifico(int tipoAllevamento, CatPeso catPeso) {
     this();
     setValue(TIPO_ALLEVAMENTO, tipoAllevamento);
-    setValue(COD_ALLEVAMENTO, codAllevamento);
     setValue(CAT_PESO, catPeso);
   }
 
@@ -30,19 +28,6 @@ public class UovoSpecifico extends ProdottoSpecifico {
     }
     setValue(TIPO_ALLEVAMENTO, tipoAllevamento);
     firePropertyChanged("tipoAllevamento", oldTipoAllevamento, tipoAllevamento);
-  }
-
-  public String getCodAllevamento() {
-    return getString(COD_ALLEVAMENTO);
-  }
-
-  public void setCodAllevamento(String codAllevamento) {
-    String oldCodAllevamento = getCodAllevamento();
-    if (equals(codAllevamento, oldCodAllevamento)) {
-      return;
-    }
-    setValue(COD_ALLEVAMENTO, codAllevamento);
-    firePropertyChanged("codAllevamento", oldCodAllevamento, codAllevamento);
   }
 
   public CatPeso getCatPeso() {
@@ -65,7 +50,6 @@ public class UovoSpecifico extends ProdottoSpecifico {
 
   public void copyTo(ObservedModel uovoSpecifico) {
     ((UovoSpecifico)uovoSpecifico).setTipoAllevamento(getTipoAllevamento());
-    ((UovoSpecifico)uovoSpecifico).setCodAllevamento(getCodAllevamento());
     ((UovoSpecifico)uovoSpecifico).setCatPeso(getCatPeso());
   }
 
@@ -77,7 +61,6 @@ public class UovoSpecifico extends ProdottoSpecifico {
   @Override
   public void clear() {
     setTipoAllevamento(null);
-    setCodAllevamento(null);
     setCatPeso(null);
   }
 

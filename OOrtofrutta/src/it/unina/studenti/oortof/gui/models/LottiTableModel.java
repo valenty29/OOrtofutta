@@ -88,7 +88,12 @@ public class LottiTableModel extends AbstractTableModel {
   }
 
   static int[] tableIndexToModelIndex = new int[] {Lotto.COD_LOTTO, Lotto.SCADENZA, Lotto.DISPONIBILITA, Lotto.DATA_PRODUZIONE, Lotto.COD_PAESE_ORIGINE, Lotto.DATA_MUNGITURA};
-  
+
+  public Lotto getSelectedLotto(int index)
+  {
+    return lotti.get(index);
+  }
+
   public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
     if (columnIndex == 1 || columnIndex == 3 ||columnIndex == 5) {
       try {

@@ -20,6 +20,7 @@ public class ScontriniTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 	private String[] columnNames = {"Data", "Totale"};
 	private ObservedList<Scontrino> scontrini = new ObservedList<Scontrino>("scontrini");
+
 	//private Scontrino scontrino;
 	
 	@Override
@@ -40,9 +41,7 @@ public class ScontriniTableModel extends AbstractTableModel {
 		Scontrino currentScontrino = scontrini.get(rowIndex);
 		String value = "";
 		switch (columnIndex) {
-			case 0: value = currentScontrino.getDataOrario().toString();
-			break;
-			case 1: value = Float.toString(currentScontrino.getPrezzoTotale());
+			case 0: value = currentScontrino.getDataOrario() != null ? currentScontrino.getDataOrario().toString() : "";
 			break;
 		}
 		

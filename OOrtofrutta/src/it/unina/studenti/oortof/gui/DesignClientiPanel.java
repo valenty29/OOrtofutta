@@ -45,7 +45,8 @@ public abstract class DesignClientiPanel extends JPanel {
   protected JTextField puntiUovoTextField;
   protected JTextField puntiAltroTextField;
   protected JTextField puntiTotaliTextField;
-  private JScrollPane scrollPane;
+  protected JScrollPane scontriniScrollPane;
+  protected JScrollPane acquistiScrollPane;
   
   public DesignClientiPanel() {
 	  
@@ -386,24 +387,27 @@ public abstract class DesignClientiPanel extends JPanel {
     add(scontriniPanel, gbc_scontriniPanel);
     GridBagLayout gbl_scontriniPanel = new GridBagLayout();
     gbl_scontriniPanel.rowWeights = new double[]{0.0, 1.0};
-    gbl_scontriniPanel.columnWeights = new double[]{1.0, 0.0};
+    gbl_scontriniPanel.columnWeights = new double[]{1.0};
     scontriniPanel.setLayout(gbl_scontriniPanel);
     
     
     
-    scrollPane = new JScrollPane();
+    scontriniScrollPane = new JScrollPane();
     GridBagConstraints gbc_scrollPane = new GridBagConstraints();
     gbc_scrollPane.insets = new Insets(0, 0, 0, 5);
     gbc_scrollPane.fill = GridBagConstraints.BOTH;
     gbc_scrollPane.gridx = 0;
     gbc_scrollPane.gridy = 1;
-    scontriniPanel.add(scrollPane, gbc_scrollPane);
+    scontriniPanel.add(scontriniScrollPane, gbc_scrollPane);
     
     scontriniTable = new JTable();
     scontriniTable.setBackground(SystemColor.control);
     scontriniTable.getTableHeader().setOpaque(true);
     scontriniTable.getTableHeader().setBackground(SystemColor.control);
-    scrollPane.setViewportView(scontriniTable);
+    scontriniScrollPane.setViewportView(scontriniTable);
+
+
+
     
     JPanel acquistiPanel = new JPanel();
     acquistiPanel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Acquisti", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -415,9 +419,26 @@ public abstract class DesignClientiPanel extends JPanel {
     gbc_acquistiPanel.gridx = 0;
     gbc_acquistiPanel.gridy = 3;
     add(acquistiPanel, gbc_acquistiPanel);
-    
+    GridBagLayout gbl_acquistiPanel = new GridBagLayout();
+    gbl_acquistiPanel.rowWeights = new double[]{0.0, 1.0};
+    gbl_acquistiPanel.columnWeights = new double[]{1.0};
+    acquistiPanel.setLayout(gbl_acquistiPanel);
+
+
+    acquistiScrollPane = new JScrollPane();
+    GridBagConstraints gbc_acquistiScrollPane = new GridBagConstraints();
+    gbc_acquistiScrollPane.insets = new Insets(0, 0, 0, 5);
+    gbc_acquistiScrollPane.fill = GridBagConstraints.BOTH;
+    gbc_acquistiScrollPane.gridx = 0;
+    gbc_acquistiScrollPane.gridy = 1;
+    acquistiPanel.add(acquistiScrollPane, gbc_acquistiScrollPane);
+
+
     acquistiTable = new JTable();
-    acquistiPanel.add(acquistiTable);
+    acquistiTable.setBackground(SystemColor.control);
+    acquistiTable.getTableHeader().setOpaque(true);
+    acquistiTable.getTableHeader().setBackground(SystemColor.control);
+    acquistiScrollPane.setViewportView(acquistiTable);
     
    
 

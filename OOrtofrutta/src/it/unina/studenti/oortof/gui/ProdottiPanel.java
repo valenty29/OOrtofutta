@@ -13,36 +13,15 @@ import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.AbstractButton;
-import javax.swing.ButtonGroup;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.JCheckBox;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JRadioButton;
-import javax.swing.JTable;
 
 import it.unina.studenti.oortof.gui.models.LottiTableModel;
-import it.unina.studenti.oortof.models.ApplicationCounter;
-import it.unina.studenti.oortof.models.ApplicationStatus;
-import it.unina.studenti.oortof.models.BibitaSpecifico;
-import it.unina.studenti.oortof.models.CarnePesceSpecifico;
-import it.unina.studenti.oortof.models.CatPeso;
-import it.unina.studenti.oortof.models.ConservaSpecifico;
-import it.unina.studenti.oortof.models.FarinaceoSpecifico;
-import it.unina.studenti.oortof.models.FruttaVerduraSpecifico;
-import it.unina.studenti.oortof.models.Prodotto;
-import it.unina.studenti.oortof.models.ProdottoCasearioSpecifico;
-import it.unina.studenti.oortof.models.ProdottoCommon;
-import it.unina.studenti.oortof.models.TipoBibita;
-import it.unina.studenti.oortof.models.TipoCarnePesce;
-import it.unina.studenti.oortof.models.TipoConservazione;
-import it.unina.studenti.oortof.models.TipoFruttaVerdura;
-import it.unina.studenti.oortof.models.UovoSpecifico;
+import it.unina.studenti.oortof.models.*;
 
 public class ProdottiPanel extends DesignProdottiPanel implements DocumentListener, ActionListener {
 
@@ -140,7 +119,33 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
         }
       }
     });
-    
+
+    quantitaCarrello.addKeyListener(new KeyAdapter() {
+      public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ENTER && ApplicationStatus.getInstance().isNavigation()) {
+          Lotto selectedLotto = ((LottiTableModel)lottiTable.getModel()).getSelectedLotto(lottiTable.getSelectedRow());
+          float quantita = Float.parseFloat(quantitaCarrello.getText());
+          selectedLotto.setDisponibilita(selectedLotto.getDisponibilita() - quantita);
+
+
+
+        }
+      }
+
+    });
+
+    lottiTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+    lottiTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+      @Override
+      public void valueChanged(ListSelectionEvent e) {
+        if (lottiTable.getSelectedRow() != - 1) {
+          quantitaCarrello.setEnabled(true);
+        } else {
+          quantitaCarrello.setEnabled(false);
+        }
+      }
+    });
+
     lottiTable.setDefaultRenderer(String.class, new DefaultTableCellRenderer() {
       public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         boolean lastRow = table.getModel().getRowCount() == (row + 1);
@@ -179,6 +184,9 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
   void setEnabledColor(Container container, boolean enabled, Color color) {
     for (int i = 0; i < container.getComponentCount(); i++) {
       Component c = container.getComponent(i);
+      if (c == quantitaCarrello) {
+        continue;
+      }
       if (c instanceof JTextField || c instanceof AbstractButton) {
         c.setEnabled(enabled);
         c.setBackground(color);
@@ -218,7 +226,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     }
   }
 
-    void listenGuiField() {
+  void listenGuiField() {
     listenGuiField(this);
   }
   
@@ -302,6 +310,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     }
     lottiTable.editingCanceled(null);
     modelToView();
+
   }
 
   void insert() {
@@ -381,6 +390,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     ConservaSpecifico cs = (ConservaSpecifico)prodotto.getProdottoSpecificoAt(Prodotto.CONSERVA_INDEX);
     sottovuotoRadioButton.setSelected(cs != null && TipoConservazione.Sottovuoto.equals(cs.getTipoConservazione()));
     sottacetoRadioButton.setSelected(cs != null && TipoConservazione.Sottaceto.equals(cs.getTipoConservazione()));
+    //TODO aggiungere radiobutton sottovetro
     sottolioRadioButton.setSelected(cs != null && TipoConservazione.Sottolio.equals(cs.getTipoConservazione()));
     sottosaleRadioButton.setSelected(cs != null && TipoConservazione.Sottosale.equals(cs.getTipoConservazione()));
     sottoSpiritoRadioButton.setSelected(cs != null && TipoConservazione.Sottospirito.equals(cs.getTipoConservazione()));
@@ -391,7 +401,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     }
     ProdottoCasearioSpecifico pcs = (ProdottoCasearioSpecifico)prodotto.getProdottoSpecificoAt(Prodotto.PRODOTTO_CASEARIO_INDEX);
     stagionatureTextField.setText(pcs != null ? pcs.getString(ProdottoCasearioSpecifico.STAGIONATURA) : null);
-    stabilimentoTextField.setText(pcs != null ? pcs.getString(ProdottoCasearioSpecifico.STABILIMENTO) : null);
+    //TODO ELIMINARE TEXTFIEDL STABILIMENTO
     tipoLatteTextField.setText(pcs != null ? pcs.getString(ProdottoCasearioSpecifico.TIPO_LATTE) : null);
     FarinaceoSpecifico fs = (FarinaceoSpecifico)prodotto.getProdottoSpecificoAt(Prodotto.FARINACEO_INDEX);
     tipoFarinaTextField.setText(fs != null ? fs.getString(FarinaceoSpecifico.TIPO_FARINA) : null);
@@ -408,7 +418,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     if (us.getTipoAllevamento() == null) {
       tipoAllevamentoBG.clearSelection();
     }
-    codiceAllevamentoTextField.setText(us != null ? us.getString(UovoSpecifico.COD_ALLEVAMENTO) : null);
+    //TODO RIMUOVERE CAMPO CODALLEVAMENTO UOVO
     categoriaSRadioButton.setSelected(us != null && CatPeso.S.equals(us.getCatPeso()));
     categoriaMRadioButton.setSelected(us != null && CatPeso.M.equals(us.getCatPeso()));
     categoriaLRadioButton.setSelected(us != null && CatPeso.L.equals(us.getCatPeso()));
@@ -534,7 +544,6 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
 
   void viewToModelProdottoCasearioSpecifico() {
     prodotto.getProdottoCasearioSpecifico().setValue(ProdottoCasearioSpecifico.STAGIONATURA, stagionatureTextField.getText());
-    prodotto.getProdottoCasearioSpecifico().setStabilimento(stabilimentoTextField.getText());
     prodotto.getProdottoCasearioSpecifico().setTipoLatte(tipoLatteTextField.getText());
   }
   
@@ -567,7 +576,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
       cp = CatPeso.XL;
     }
     prodotto.getUovoSpecifico().setValue(UovoSpecifico.CAT_PESO, cp);
-    prodotto.getUovoSpecifico().setCodAllevamento(codiceAllevamentoTextField.getText());
+
   }
   
   void viewToModel() {

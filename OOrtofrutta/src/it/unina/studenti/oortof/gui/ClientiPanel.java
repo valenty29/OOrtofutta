@@ -11,20 +11,27 @@ import java.beans.PropertyChangeListener;
 import java.util.Date;
 
 import javax.swing.AbstractButton;
+import javax.swing.JLabel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
 
+import it.unina.studenti.oortof.gui.models.AcquistiTableModel;
 import it.unina.studenti.oortof.gui.models.ScontriniTableModel;
+import it.unina.studenti.oortof.models.Acquisto;
 import it.unina.studenti.oortof.models.ApplicationCounter;
 import it.unina.studenti.oortof.models.ApplicationStatus;
 import it.unina.studenti.oortof.models.Cliente;
 import it.unina.studenti.oortof.models.Genere;
+import it.unina.studenti.oortof.models.ObservedList;
 import it.unina.studenti.oortof.models.Prodotto;
 import it.unina.studenti.oortof.models.ProdottoCommon;
 import it.unina.studenti.oortof.models.RaccoltaPunti;
+import it.unina.studenti.oortof.models.Scontrino;
 
 public class ClientiPanel extends DesignClientiPanel implements DocumentListener, ActionListener{
 	Cliente cliente;
@@ -32,6 +39,9 @@ public class ClientiPanel extends DesignClientiPanel implements DocumentListener
 	/**
 	 * 
 	 */
+
+	private ScontriniTableModel scontriniModel;
+	private AcquistiTableModel acquistiModel;
 	private static final long serialVersionUID = 1L;
 	
 	public ClientiPanel() {
@@ -45,12 +55,42 @@ public class ClientiPanel extends DesignClientiPanel implements DocumentListener
 	    listenGuiField();
 	    
 	    scontriniTable.setModel(new ScontriniTableModel());
+	    acquistiTable.setModel(new AcquistiTableModel());
+
+	    scontriniModel = (ScontriniTableModel)scontriniTable.getModel();
+	    acquistiModel = (AcquistiTableModel)acquistiTable.getModel();
+
+	    acquistiTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+	        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+
+	          JLabel l = (JLabel)super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+	          if(ApplicationStatus.getInstance().isSearch()) {
+	        	  if (table.isCellEditable(row, column)) {
+		        	  System.out.println("SONO EDITABILE IN SEARCH");
+		        	  l.setBackground(Color.yellow);
+
+		          } else {
+		        	  System.out.println("NON SONO EDITABILE IN SEARCH");
+		        	  l.setBackground(SystemColor.control);
+		          }
+	          } else {
+	        	  System.out.println("NON SONO IN SEARCH");
+	        	  l.setBackground(Color.white);
+	          }
+
+	          return l;
+
+	        }
+	      });
 	  }
 
 	
 	
 	public void setModel(Cliente cliente) {
+		//Scontrino modelloScontrino = new Scontrino();
+		//ObservedList<Acquisto> modelloAcquisti = new ObservedList<Acquisto>("acquisti");
 	    this.cliente = cliente;
+	    Scontrino scontrino = new Scontrino();
 	    PropertyChangeListener dataModelListener = new PropertyChangeListener() {
 	      @Override
 	      public void propertyChange(PropertyChangeEvent evt) {
@@ -58,10 +98,37 @@ public class ClientiPanel extends DesignClientiPanel implements DocumentListener
 	      }
 	    };
 	    cliente.addPropertyChangeListener(dataModelListener);
+
 	    
-	    ScontriniTableModel model = (ScontriniTableModel)scontriniTable.getModel();
-	    
-	    model.setModel(cliente.getScontrini());
+	    acquistiModel.setModel(cliente.getScontrini());
+	    scontriniModel.setModel(cliente.getScontrini());
+
+	    scontriniTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+	        public void valueChanged(ListSelectionEvent event) {
+	            // do some actions here, for example
+	            // print first column value from selected row
+	        	int index = scontriniTable.getSelectedRow();
+	        	if (index != -1) {
+	        		acquistiModel.setIndex(index);
+
+	        	}
+	        }
+	    });
+
+	    /*acquistiTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+	        public void valueChanged(ListSelectionEvent event) {
+	            // do some actions here, for example
+	            // print first column value from selected row
+	        	cliente.getScontrini().clear();
+	        	int index = acquistiTable.getSelectedRow();
+	        	if (index != -1) {
+	        		listCliente.get(index).copyTo(cliente);
+	        	}
+
+	        }
+	    });*/
+
+
 	    /*scontriniTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 	        public void valueChanged(ListSelectionEvent event) {
 	            // do some actions here, for example
@@ -108,6 +175,7 @@ public class ClientiPanel extends DesignClientiPanel implements DocumentListener
 	  }
 	
 	void navigation() {
+		acquistiModel.isSearching(false);
 	    setEnabledColor(infoClientePanel, false, SystemColor.control);
 	    setEnabledColor(puntiPanel, false, SystemColor.control);
 	    modelToView();
@@ -126,6 +194,7 @@ public class ClientiPanel extends DesignClientiPanel implements DocumentListener
 	  }
 
 	  void search() {
+		acquistiModel.isSearching(true);
 	    setEnabledColor(infoClientePanel, true, Color.yellow);
 	    setEnabledColor(puntiPanel, true, Color.yellow);
 	    (new Cliente()).copyTo(cliente);

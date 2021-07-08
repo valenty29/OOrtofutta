@@ -170,14 +170,43 @@ public class SQLClienteDAO {
                 filterCount++;
             }
 
+            Acquisto acq = clienteTemplate.getScontrini().get(0).getAcquisti().get(0);
+
+            if (acq.getTipoProdotto() != null)
+            {
+                if (filterCount != 0)
+                    query += " AND ";
+                query += String.format("Tipo = '%s'", acq.getTipoProdotto());
+                filterCount++;
+            }
+
+            String quantitaFilters = "";
+
+            if (acq.getString(Acquisto.PREZZO) != null && !acq.getString(Acquisto.PREZZO).equals("")) {
+
+                String puntiFilter = acq.getString(Acquisto.PREZZO);
+
+                quantitaFilters = String.format("GROUP BY (C.id, C.cf, C.genere, R.id, C.nome, C.cognome, C.email, C.datanascita, C.luogonascita, R.puntifruttaverdura, R.puntiprodottocaseario, R.puntifarinaceo, R.puntiuovo, R.punticarnepesce, R.punticonserva, R.puntibibita, R.puntialtro) HAVING SUM(Quantita) %s", DAOHelpers.getFloatQueryField(puntiFilter));
+            }
+
+
+
             if (!query.equals("") && !raccoltaPuntiFilters.equals(""))
             {
                 query = raccoltaPuntiFilters + " AND " + query;
             } else {
                 query = raccoltaPuntiFilters + query;
             }
+            String sql = "SELECT DISTINCT C.id AS idC, R.id as idR, C.cf, C.genere, C.nome, C.cognome, C.datanascita, C.luogoNascita, C.email, R.puntifruttaverdura, R.puntiprodottocaseario, R.puntifarinaceo, R.puntiuovo, R.punticarnepesce, R.punticonserva, R.puntibibita, R.puntialtro" + (quantitaFilters.equals("") ? "" : ", SUM(quantita)") + " FROM"
+					        +    "((((CLIENTE C INNER JOIN SCONTRINO S ON C.id = S.idCliente)"
+					        +   			  "INNER JOIN ACQUISTO A ON A.idScontrino = S.id)"
+					        +   		      "INNER JOIN LOTTO L ON A.idLotto = L.id)"
+					        +   		      "INNER JOIN PRODOTTO P ON L.idProdotto = P.id)"
+					        +                 "INNER JOIN RACCOLTAPUNTI R ON R.idCliente = C.id"
+					        +                 (query.equals("") ? ";" : " WHERE " + query)
+					        +                 (quantitaFilters.equals("") ? ";" : quantitaFilters);
 
-            String sql = "SELECT C.id AS idC, R.id as idR, * FROM CLIENTE C INNER JOIN RACCOLTAPUNTI R ON R.idCliente = C.id" + (query.equals("") ? ";" : " WHERE " + query + ";") ;
+            //String sql = "SELECT C.id AS idC, R.id as idR, * FROM CLIENTE C INNER JOIN RACCOLTAPUNTI R ON R.idCliente = C.id" + (query.equals("") ? ";" : " WHERE " + query + ";") ;
             System.out.println(sql);
             ResultSet rs = stm.executeQuery(sql);
             ObservedList<Cliente> list = new ObservedList<Cliente>("cliente");
@@ -229,12 +258,38 @@ public class SQLClienteDAO {
             {
             	int rsId = rs.getInt("id");
                 Date rsDataOrario =  new Date(rs.getTimestamp("DataOrario").getTime());
-                float rsPrezzoTotale = rs.getFloat("PrezzoTotale");
                 //TODO
                 ObservedList<Acquisto> acquisti = new ObservedList<Acquisto>("acquisti");
-                Scontrino scontrino = new Scontrino(rsId, rsDataOrario, rsPrezzoTotale, acquisti);
-                
+                Scontrino scontrino = new Scontrino(rsId, rsDataOrario, acquisti);
+                scontrino.setAcquisti(getAcquisti(scontrino));
                 list.add(scontrino);
+            }
+            conn.close();
+            return list;
+        } catch (SQLException se)
+        {
+            throw new RuntimeException(se);
+        }
+    }
+
+    private ObservedList<Acquisto> getAcquisti(Scontrino scontrino){
+    	try {
+            Connection conn = context.OpenConnection();
+            Statement stm = conn.createStatement();
+            String sql = "SELECT * FROM ACQUISTO WHERE IdScontrino = " + scontrino.getId() +";";
+            ResultSet rs = stm.executeQuery(sql);
+            ObservedList<Acquisto> list = new ObservedList<Acquisto>("acquisti");
+            while(rs.next())
+            {
+            	int rsId = rs.getInt("id");
+            	float rsQuantita = rs.getFloat("quantita");
+            	float rsPrezzo = rs.getFloat("prezzo");
+            	int rsIdLotto = rs.getInt("idLotto");
+
+                //TODO assegnare lotto a acquisto
+            	Lotto lotto = new Lotto();
+            	lotto.setId(1);
+            	list.add(new Acquisto(rsQuantita, rsPrezzo, lotto, "Bibita"));
             }
             conn.close();
             return list;

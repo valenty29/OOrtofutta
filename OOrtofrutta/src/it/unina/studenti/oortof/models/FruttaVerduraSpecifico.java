@@ -13,6 +13,7 @@ public class FruttaVerduraSpecifico extends ProdottoSpecifico {
   }
 
   public FruttaVerduraSpecifico(TipoFruttaVerdura tipoFruttaVerdura, boolean bio, boolean surgelato) {
+    this();
     setValue(TIPO_FRUTTA_VERDURA, tipoFruttaVerdura);
     setValue(BIO, bio);
     setValue(SURGELATO, surgelato);

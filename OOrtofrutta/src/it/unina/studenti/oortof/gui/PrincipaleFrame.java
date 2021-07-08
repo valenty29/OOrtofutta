@@ -15,7 +15,6 @@ import it.unina.studenti.oortof.dao.SQLProductDAO;
 import it.unina.studenti.oortof.models.ApplicationCounter;
 import it.unina.studenti.oortof.models.ApplicationStatus;
 import it.unina.studenti.oortof.models.Bibita;
-import it.unina.studenti.oortof.models.BibitaSpecifico;
 import it.unina.studenti.oortof.models.Cliente;
 import it.unina.studenti.oortof.models.Lotto;
 import it.unina.studenti.oortof.models.ObservedList;
@@ -105,15 +104,33 @@ public class PrincipaleFrame extends JFrame {
 System.err.println("THREAD START");
                 Thread.sleep(3000);
 System.err.println("BINGO");
-                Bibita bibita = new Bibita(1, "Pippo", 12.30f, true, 123.45f, true, TipoBibita.Fermentato);
-                Lotto l1 = new Lotto(1, "11111111", new Date(), 1.1f, new Date(), "ITA", null);
-                Lotto l2 = new Lotto(2, "22222222", new Date(), 1.1f, new Date(), "USA", null);
-                bibita.getProdottoCommon().addLotto(l1);
-                bibita.getProdottoCommon().addLotto(l2);
-                prodottoList.add(bibita);
-                Thread.sleep(2000);
-                ApplicationCounter.getInstance().setLimit(1);
-                ApplicationCounter.getInstance().setCounter(1);
+
+
+
+
+
+
+                System.err.println();
+
+                new Thread() {
+                  public void run() {
+                    try {
+
+
+                      Thread.sleep(5000);
+
+
+
+
+
+                    }
+                    catch (Exception e) {
+                      e.printStackTrace();
+                    }
+                  }
+                }.start();
+
+                System.out.println("a");
               }
               catch (Exception e) {
                 e.printStackTrace();

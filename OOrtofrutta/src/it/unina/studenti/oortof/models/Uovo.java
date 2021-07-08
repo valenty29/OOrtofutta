@@ -8,9 +8,9 @@ public class Uovo extends Prodotto {
     prodottoCommon.setValue(ProdottoCommon.UOVO, Boolean.TRUE);
   }
 
-  public Uovo(int id, String nome, float prezzo, boolean sfuso, int tipoAllevamento, String codAllevamento, CatPeso catPeso) {
+  public Uovo(int id, String nome, float prezzo, boolean sfuso, int tipoAllevamento, CatPeso catPeso) {
     super(id, nome, prezzo, sfuso);
-    replaceProdottoSpecifico(UOVO_INDEX, new UovoSpecifico(tipoAllevamento, codAllevamento, catPeso));
+    replaceProdottoSpecifico(UOVO_INDEX, new UovoSpecifico(tipoAllevamento, catPeso));
     prodottoCommon.setValue(ProdottoCommon.UOVO, Boolean.TRUE);
  }
 }

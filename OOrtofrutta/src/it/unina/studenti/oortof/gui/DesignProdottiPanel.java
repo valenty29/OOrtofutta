@@ -20,6 +20,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import java.awt.SystemColor;
+import javax.swing.BoxLayout;
 
 public abstract class DesignProdottiPanel extends JPanel {
 
@@ -87,18 +88,20 @@ public abstract class DesignProdottiPanel extends JPanel {
   protected ButtonGroup tipoAllevamentoBG = new ButtonGroup();
   protected ButtonGroup carnePesceBG = new ButtonGroup();
   protected ButtonGroup bibitaBG = new ButtonGroup();
-  
+  protected final JTextField quantitaCarrello = new JTextField();
+
   
   /**
    * Create the panel.
    */
   public DesignProdottiPanel() {
+  	quantitaCarrello.setColumns(10);
     codiceAllevamentoTextField.setColumns(10);
     GridBagLayout gridBagLayout = new GridBagLayout();
     gridBagLayout.columnWidths = new int[]{680, 0};
-    gridBagLayout.rowHeights = new int[]{128, 157, 200, 0};
-    gridBagLayout.columnWeights = new double[]{0.0, Double.MIN_VALUE};
-    gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+    gridBagLayout.rowHeights = new int[]{128, 157, 200, 0, 0};
+    gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+    gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
     setLayout(gridBagLayout);
     
     JPanel commonPanel = new JPanel();
@@ -722,13 +725,14 @@ public abstract class DesignProdottiPanel extends JPanel {
     JPanel lottiPanel = new JPanel();
     lottiPanel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Lotti", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
     GridBagConstraints gbc_lottiPanel = new GridBagConstraints();
+    gbc_lottiPanel.insets = new Insets(0, 0, 5, 0);
     gbc_lottiPanel.weightx = 1.0;
     gbc_lottiPanel.weighty = 1.0;
     gbc_lottiPanel.fill = GridBagConstraints.BOTH;
     gbc_lottiPanel.gridx = 0;
     gbc_lottiPanel.gridy = 2;
     add(lottiPanel, gbc_lottiPanel);
-    lottiPanel.setLayout(new BorderLayout(0, 0));
+    lottiPanel.setLayout(new BoxLayout(lottiPanel, BoxLayout.Y_AXIS));
     
     JScrollPane scrollPane = new JScrollPane();
     lottiPanel.add(scrollPane);
@@ -738,7 +742,9 @@ public abstract class DesignProdottiPanel extends JPanel {
     lottiTable.getTableHeader().setOpaque(true);
     lottiTable.getTableHeader().setBackground(SystemColor.control);
     scrollPane.setViewportView(lottiTable);
-    
+
+
+
     fruttaVerduraBG.add(fruttaRadioButton);
     fruttaVerduraBG.add(verduraRadioButton);
     
@@ -770,6 +776,12 @@ public abstract class DesignProdottiPanel extends JPanel {
     bibitaBG.add(softDrinkRadioButton);
     bibitaBG.add(bibitaAltroRadioButton);
     
+    GridBagConstraints gbc_quantitaCarrello = new GridBagConstraints();
+    gbc_quantitaCarrello.fill = GridBagConstraints.HORIZONTAL;
+    gbc_quantitaCarrello.gridx = 0;
+    gbc_quantitaCarrello.gridy = 3;
+    add(quantitaCarrello, gbc_quantitaCarrello);
+
   }
 
 }

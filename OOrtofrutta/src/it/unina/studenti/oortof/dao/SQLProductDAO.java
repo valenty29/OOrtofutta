@@ -169,8 +169,7 @@ public class SQLProductDAO implements ProductDAO {
             PreparedStatement createUovo = conn.prepareStatement(sql);
             createUovo.setLong(1, id);
             createUovo.setInt(2, uovo.getUovoSpecifico().getTipoAllevamento());
-            createUovo.setString(3, uovo.getUovoSpecifico().getCodAllevamento());
-            createUovo.setObject(4, uovo.getUovoSpecifico().getCatPeso().name(), Types.OTHER);
+            createUovo.setObject(3, uovo.getUovoSpecifico().getCatPeso().name(), Types.OTHER);
 
             createUovo.executeUpdate();
             conn.close();
@@ -230,8 +229,7 @@ public class SQLProductDAO implements ProductDAO {
             PreparedStatement createProdottoCaseario = conn.prepareStatement(sql);
             createProdottoCaseario.setLong(1, id);
             createProdottoCaseario.setString(2, prodottoCaseario.getProdottoCasearioSpecifico().getTipoLatte());
-            createProdottoCaseario.setString(3, prodottoCaseario.getProdottoCasearioSpecifico().getStabilimento());
-            createProdottoCaseario.setInt(4, prodottoCaseario.getProdottoCasearioSpecifico().getStagionatura());
+            createProdottoCaseario.setInt(3, prodottoCaseario.getProdottoCasearioSpecifico().getStagionatura());
 
             createProdottoCaseario.executeUpdate();
             conn.close();
@@ -432,13 +430,6 @@ public class SQLProductDAO implements ProductDAO {
                 query += "TipoAllevamento = " + uovoSpecifico.getTipoAllevamento();
                 filterCount++;
             }
-            if(uovoSpecifico.getString(UovoSpecifico.COD_ALLEVAMENTO) != null && !uovoSpecifico.getString(UovoSpecifico.COD_ALLEVAMENTO).equals(""))
-            {
-                if (filterCount != 0)
-                    query += " AND ";
-                query += String.format("CodAllevamento = '%s'", uovoSpecifico.getCodAllevamento());
-                filterCount++;
-            }
             if(uovoSpecifico.getString(UovoSpecifico.CAT_PESO) != null)
             {
                 if(filterCount != 0)
@@ -463,10 +454,9 @@ public class SQLProductDAO implements ProductDAO {
                 boolean rsSfuso = rs.getBoolean("Sfuso");
                 float rsPrezzo = rs.getFloat("Prezzo");
                 int rsTipoAllevamento = rs.getInt("TipoAllevamento");
-                String rsCodAllevamento = rs.getString("CodAllevamento");
                 CatPeso rsCatPeso = CatPeso.valueOf(rs.getString("CatPeso"));
-                Uovo newUovo = new Uovo(rsId, rsNome, rsPrezzo, rsSfuso, rsTipoAllevamento, rsCodAllevamento, rsCatPeso);
-                uovo.getProdottoCommon().setLotti(getLotti(rsId, conn));
+                Uovo newUovo = new Uovo(rsId, rsNome, rsPrezzo, rsSfuso, rsTipoAllevamento,rsCatPeso);
+                newUovo.getProdottoCommon().setLotti(getLotti(rsId, conn));
                 list.add(newUovo);
             }
 
@@ -531,12 +521,12 @@ public class SQLProductDAO implements ProductDAO {
                 boolean rsSfuso = rs.getBoolean("Sfuso");
                 float rsPrezzo = rs.getFloat("Prezzo");
 
-                TipoCarnePesce rsTipoCP = TipoCarnePesce.valueOf(rs.getString("Tipo"));
+                TipoCarnePesce rsTipoCP = TipoCarnePesce.valueOf(rs.getString("TipoCP"));
                 Boolean rsDaAllevamento = rs.getBoolean("DaAllevamento");
                 String rsAnimale = rs.getString("Animale");
                 Boolean rsConfezionato = rs.getBoolean("Confezionato");
                 CarnePesce newCarnePesce = new CarnePesce(rsId, rsNome, rsPrezzo, rsSfuso, rsTipoCP, rsDaAllevamento, rsAnimale, rsConfezionato);
-                carnePesce.getProdottoCommon().setLotti(getLotti(rsId, conn));
+                newCarnePesce.getProdottoCommon().setLotti(getLotti(rsId, conn));
                 list.add(newCarnePesce);
 
             }
@@ -627,7 +617,7 @@ public class SQLProductDAO implements ProductDAO {
             int filterCount = 0;
             if(fruttaVerduraSpecifico.getTipoFruttaVerdura() != null && !fruttaVerduraSpecifico.getTipoFruttaVerdura().equals(""))
             {
-                query += String.format("Tipo = '%s'", fruttaVerduraSpecifico.getTipoFruttaVerdura().name());
+                query += String.format("TipoFV = '%s'", fruttaVerduraSpecifico.getTipoFruttaVerdura().name());
                 filterCount++;
             }
             if(fruttaVerduraSpecifico.getString(FruttaVerduraSpecifico.BIO) != null)
@@ -660,11 +650,11 @@ public class SQLProductDAO implements ProductDAO {
                 String rsNome = rs.getString("Nome");
                 boolean rsSfuso = rs.getBoolean("Sfuso");
                 float rsPrezzo = rs.getFloat("Prezzo");
-                TipoFruttaVerdura rsTipoFV = TipoFruttaVerdura.valueOf(rs.getString("Tipo"));
+                TipoFruttaVerdura rsTipoFV = TipoFruttaVerdura.valueOf(rs.getString("TipoFV"));
                 Boolean rsBio = rs.getBoolean("Bio");
                 Boolean rsSurgelato = rs.getBoolean("Surgelato");
                 FruttaVerdura newFruttaVerdura = new FruttaVerdura(rsId, rsNome, rsPrezzo, rsSfuso, rsTipoFV, rsBio, rsSurgelato);
-                fruttaVerdura.getProdottoCommon().setLotti(getLotti(rsId, conn));
+                newFruttaVerdura.getProdottoCommon().setLotti(getLotti(rsId, conn));
                 list.add(newFruttaVerdura);
             }
             conn.close();
@@ -708,7 +698,7 @@ public class SQLProductDAO implements ProductDAO {
                 float rsPrezzo = rs.getFloat("Prezzo");
                 TipoConservazione rsTipoC= TipoConservazione.valueOf(rs.getString("TipoConservazione"));
                 Conserva newConserva = new Conserva(rsId, rsNome, rsPrezzo, rsSfuso,  rsTipoC);
-                conserva.getProdottoCommon().setLotti(getLotti(rsId, conn));
+                newConserva.getProdottoCommon().setLotti(getLotti(rsId, conn));
                 list.add(newConserva);
             }
             conn.close();
@@ -732,13 +722,6 @@ public class SQLProductDAO implements ProductDAO {
             if(prodCasSpecifico.getString(ProdottoCasearioSpecifico.TIPO_LATTE) != null && !prodCasSpecifico.getString(ProdottoCasearioSpecifico.TIPO_LATTE).equals(""))
             {
                 query += String.format("TipoLatte = '%s'", prodCasSpecifico.getTipoLatte());
-                filterCount++;
-            }
-            if(prodCasSpecifico.getString(ProdottoCasearioSpecifico.STABILIMENTO) != null && !prodCasSpecifico.getString(ProdottoCasearioSpecifico.STABILIMENTO).equals(""))
-            {
-                if(filterCount != 0)
-                    query += " AND ";
-                query += "Stabilimento = " + prodCasSpecifico.getStabilimento();
                 filterCount++;
             }
             if(prodCasSpecifico.getString(ProdottoCasearioSpecifico.STAGIONATURA) != null)
@@ -765,10 +748,9 @@ public class SQLProductDAO implements ProductDAO {
                 boolean rsSfuso = rs.getBoolean("Sfuso");
                 float rsPrezzo = rs.getFloat("Prezzo");
                 String rsTipoLatte = rs.getString("TipoLatte");
-                String rsStabilimento = rs.getString("Stabilimento");
                 int rsStagionatura = rs.getInt("Stagionatura");
-
-                ProdottoCaseario newProdottoCaseario = new ProdottoCaseario(rsId, rsNome, rsPrezzo, rsSfuso, rsTipoLatte, rsStabilimento, rsStagionatura);
+                ProdottoCaseario newProdottoCaseario = new ProdottoCaseario(rsId, rsNome, rsPrezzo, rsSfuso, rsTipoLatte, rsStagionatura);
+                //TODO LOtti caseari
                 list.add(newProdottoCaseario);
 
             }
@@ -1037,15 +1019,6 @@ public class SQLProductDAO implements ProductDAO {
             updateQuery += String.format("SET TipoAllevamento = %d", newUovo.getUovoSpecifico().getTipoAllevamento());
             counter++;
         }
-        if (oldUovo.getUovoSpecifico().getCodAllevamento().equals(newUovo.getUovoSpecifico().getCodAllevamento()))
-        {
-            if (counter != 0)
-            {
-                updateQuery += ",";
-            }
-            updateQuery += String.format("SET CodAllevamento = '%s'", newUovo.getUovoSpecifico().getCodAllevamento());
-            counter++;
-        }
         if (oldUovo.getUovoSpecifico().getCatPeso().equals(newUovo.getUovoSpecifico().getCatPeso()));
         {
             if (counter != 0)
@@ -1236,14 +1209,6 @@ public class SQLProductDAO implements ProductDAO {
         if (oldProdottoCaseario.getProdottoCasearioSpecifico().getTipoLatte() != newProdottoCaseario.getProdottoCasearioSpecifico().getTipoLatte())
         {
             updateQuery += String.format("SET TipoLatte = '%s'", newProdottoCaseario.getProdottoCasearioSpecifico().getTipoLatte());
-        }
-        if (oldProdottoCaseario.getProdottoCasearioSpecifico().getStabilimento() != newProdottoCaseario.getProdottoCasearioSpecifico().getStabilimento())
-        {
-            if (counter != 0)
-            {
-                updateQuery += ",";
-            }
-            updateQuery += String.format("SET Stabilimento = '%s'", newProdottoCaseario.getProdottoCasearioSpecifico().getStabilimento());
         }
         if (oldProdottoCaseario.getProdottoCasearioSpecifico().getStagionatura() != newProdottoCaseario.getProdottoCasearioSpecifico().getStagionatura())
         {
