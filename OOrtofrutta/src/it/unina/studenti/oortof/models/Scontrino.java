@@ -9,21 +9,25 @@ public class Scontrino extends ObservedModel implements PropertyChangeListener{
 
   public static final int ID = 0;
   public static final int DATA_ORARIO = 1;
+  public static final int CLIENTE = 2;
   public static final int ACQUISTI = 3;
+  public static final int TOTALE = 4;
+
 
   public Scontrino() {
-    attributes = new Object[4];
+    attributes = new Object[5];
     //setCliente(new Cliente());
     attributes[ACQUISTI] = new ObservedList<Acquisto>("acquisti");
     addAcquisto(new Acquisto());
   }
 
-  public Scontrino(int id, Date dataOrario, ObservedList<Acquisto> acquisti) {
+  public Scontrino(int id, Date dataOrario, ObservedList<Acquisto> acquisti, Cliente cliente, Float totale) {
     this();
     setValue(ID, id);
-    //setValue(CLIENTE, cliente);
+    setValue(CLIENTE, cliente);
     setValue(DATA_ORARIO, dataOrario);
     setValue(ACQUISTI, acquisti);
+    setValue(TOTALE, totale);
   }
 
   public Integer getId() {
@@ -39,7 +43,18 @@ public class Scontrino extends ObservedModel implements PropertyChangeListener{
     firePropertyChanged("id", oldId, id);
   }
 
-  /*public Cliente getCliente() {
+  public Float getTotale() { return getFloat(TOTALE); }
+
+  public void setTotale(Float totale) {
+    Float oldTotale = getTotale();
+    if (equals(oldTotale, totale)) {
+      return;
+    }
+    setValue(TOTALE, totale);
+    firePropertyChanged("totale", oldTotale, totale);
+  }
+
+  public Cliente getCliente() {
     return (Cliente)attributes[CLIENTE];
   }
 
@@ -55,7 +70,7 @@ public class Scontrino extends ObservedModel implements PropertyChangeListener{
     setValue(CLIENTE, cliente);
     cliente.addPropertyChangeListener(this);
     firePropertyChanged("cliente", oldCliente, cliente);
-  }*/
+  }
 
   public Date getDataOrario() {
     return getDate(DATA_ORARIO);

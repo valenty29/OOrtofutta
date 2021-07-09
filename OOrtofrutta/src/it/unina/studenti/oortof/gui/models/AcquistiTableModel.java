@@ -20,7 +20,7 @@ public class AcquistiTableModel extends AbstractTableModel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String[] columnNames = {"Quantità", "Importo pagato", "Id lotto", "Tipologia prodotto"};
+	private String[] columnNames = {"Quantitï¿½", "Importo pagato", "Id lotto", "Tipologia prodotto"};
 	private ObservedList<Scontrino> scontrini = new ObservedList<Scontrino>("scontrini");
 	private List<Acquisto> acquisti = new ArrayList<>();
 	private Acquisto acquisto;

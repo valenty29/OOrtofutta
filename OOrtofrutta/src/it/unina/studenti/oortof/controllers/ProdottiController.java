@@ -1,14 +1,11 @@
 package it.unina.studenti.oortof.controllers;
 
 import it.unina.studenti.oortof.dao.SQLProductDAO;
-import it.unina.studenti.oortof.models.ApplicationCounter;
-import it.unina.studenti.oortof.models.ApplicationStatus;
-import it.unina.studenti.oortof.models.Lotto;
-import it.unina.studenti.oortof.models.ObservedList;
-import it.unina.studenti.oortof.models.Prodotto;
+import it.unina.studenti.oortof.models.*;
 
 public class ProdottiController implements Controller<Prodotto> {
-  
+
+  private Carrello carrello;
   private Prodotto oldProdotto = new Prodotto();
   private Prodotto prodotto;
   private ObservedList<Prodotto> prodotti;
@@ -50,9 +47,13 @@ public class ProdottiController implements Controller<Prodotto> {
   }
 
   void commitInsert() {
+    sqlProductDao.createProduct(prodotto);
+    ApplicationStatus.getInstance().setStatus(ApplicationStatus.STATUS_NAVIGATION);
   }
   
   void commitUpdate() {
+    sqlProductDao.updateProducts(oldProdotto, prodotto);
+    ApplicationStatus.getInstance().setStatus(ApplicationStatus.STATUS_NAVIGATION);
   }
   
   void commitSearch() {
@@ -76,19 +77,37 @@ public class ProdottiController implements Controller<Prodotto> {
   public void delete() {
   }
 
-  @Override
-  public void setModel(Prodotto prodotto, ObservedList<Prodotto> prodotti) {
+  public void setModel(Prodotto prodotto, ObservedList<Prodotto> prodotti, Carrello carrello) {
+    this.carrello = carrello;
     this.prodotto = prodotto;
     this.prodotti = prodotti;
   }
 
+  @Override
+  public void setModel(Prodotto prodotto) {
 
+  }
+
+  @Override
+  public void setModel(Prodotto prodotto, ObservedList<Prodotto> prodotti) {
+
+  }
 
   @Override
   public void listToDetail() {
     int index = ApplicationCounter.getInstance().getCounter();
     if (index > 0) {
       prodotti.get(index - 1).copyTo(prodotto);
+      prodotto.getProdottoCommon().getLotti().forEach(lotto -> {
+        carrello.getLotti().stream().filter(lotto1 -> {
+          System.out.println("AOOO");
+          if (lotto1.getId().equals(lotto.getId())) {
+            lotto.setDisponibilita(lotto.getDisponibilita() - lotto1.getDisponibilita());
+            return true;
+          }
+          return false;
+        }).findFirst();
+      });
     }
     else {
       prodotto.clear();

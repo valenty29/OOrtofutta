@@ -65,9 +65,11 @@ public class LottiTableModel extends AbstractTableModel {
   }
 
   public boolean isCellEditable(int rowIndex, int columnIndex) {
+
     if (ApplicationStatus.getInstance().isNavigation() || ApplicationStatus.getInstance().isSearch()) {
       return false;
     }
+
     if (rowIndex != (getRowCount() - 1)) {
       return false;
     }

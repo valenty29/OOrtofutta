@@ -201,6 +201,9 @@ public class ClientiPanel extends DesignClientiPanel implements DocumentListener
 	  }
 	    
 	  void applicationStatusChanged(PropertyChangeEvent evt) {
+		  if (ApplicationStatus.getInstance().getActiveTab() != ApplicationStatus.TAB_CLIENTI) {
+			  return;
+		  }
 	    switch (ApplicationStatus.getInstance().getStatus()) {
 	      case ApplicationStatus.STATUS_NAVIGATION: navigation(); break;
 	      case ApplicationStatus.STATUS_INSERT: insert(); break;

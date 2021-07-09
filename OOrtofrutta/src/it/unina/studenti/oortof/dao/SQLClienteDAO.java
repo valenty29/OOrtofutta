@@ -258,10 +258,15 @@ public class SQLClienteDAO {
             {
             	int rsId = rs.getInt("id");
                 Date rsDataOrario =  new Date(rs.getTimestamp("DataOrario").getTime());
-                //TODO
+
                 ObservedList<Acquisto> acquisti = new ObservedList<Acquisto>("acquisti");
-                Scontrino scontrino = new Scontrino(rsId, rsDataOrario, acquisti);
+
+                Scontrino scontrino = new Scontrino(rsId, rsDataOrario, acquisti, cliente, 0f);
                 scontrino.setAcquisti(getAcquisti(scontrino));
+                Float totale = scontrino.getAcquisti().stream().map(acq -> {
+                    return acq.getPrezzo();
+                }).reduce(0f,  (subtotal, element) -> subtotal + element);
+                scontrino.setTotale(totale);
                 list.add(scontrino);
             }
             conn.close();
@@ -285,10 +290,9 @@ public class SQLClienteDAO {
             	float rsQuantita = rs.getFloat("quantita");
             	float rsPrezzo = rs.getFloat("prezzo");
             	int rsIdLotto = rs.getInt("idLotto");
-
+                Lotto lotto = getLotto(rsIdLotto, conn);
                 //TODO assegnare lotto a acquisto
-            	Lotto lotto = new Lotto();
-            	lotto.setId(1);
+
             	list.add(new Acquisto(rsQuantita, rsPrezzo, lotto, "Bibita"));
             }
             conn.close();
@@ -296,6 +300,29 @@ public class SQLClienteDAO {
         } catch (SQLException se)
         {
             throw new RuntimeException(se);
+        }
+    }
+
+    public Lotto getLotto(Integer idLotto, Connection connection) {
+        String sql = "SELECT * FROM LOTTO WHERE Id = " + idLotto + ";";
+        try {
+            Statement stm = connection.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            while(rs.next()) {
+                int rsId = rs.getInt("id");
+                String rsCodLotto = rs.getString("CodLotto");
+                java.sql.Date rsScadenza = rs.getDate("Scadenza");
+                float rsDisponibilita = rs.getFloat("Disponibilita");
+                java.sql.Date rsDataProduzione = rs.getDate("DataProduzione");
+                String rsCodPaeseOrigine = rs.getString("CodPaeseOrigine");
+                java.sql.Date rsDataMungitura = rs.getDate("DataMungitura");
+                Lotto lotto = new Lotto(rsId, rsCodLotto, rsScadenza, rsDisponibilita, rsDataProduzione, rsCodPaeseOrigine, rsDataMungitura);
+                return lotto;
+            }
+            throw new RuntimeException("Couldn't find the lotto");
+        } catch (SQLException e)
+        {
+            throw new RuntimeException(e);
         }
     }
 
@@ -426,6 +453,56 @@ public class SQLClienteDAO {
         } catch (SQLException e) {
             // TODO
             throw new RuntimeException();
+        }
+    }
+
+    public void createScontrino(Cliente cliente, ObservedList<Lotto> lotti) {
+        int scontrinoId = -1;
+        String scontrinoSql = "INSERT INTO SCONTRINO (IdCliente) VALUES (?)";
+        try {
+            Connection conn = context.OpenConnection();
+            PreparedStatement createScontrino = conn.prepareStatement(scontrinoSql, Statement.RETURN_GENERATED_KEYS);
+
+            createScontrino.setInt(1, cliente.getId());
+            createScontrino.executeUpdate();
+            try {
+                ResultSet generatedKeys = createScontrino.getGeneratedKeys();
+                if(generatedKeys.next()) {
+                    scontrinoId = Math.toIntExact(generatedKeys.getLong(1));
+                    if (scontrinoId == -1) {
+                        throw new RuntimeException("Errore nel recupero dell'id dallo scontrino generato");
+                    }
+
+                }
+
+            } catch (SQLException e) {
+                throw new RuntimeException();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        String acquistiSql = "INSERT INTO ACQUISTO (Quantita, IdLotto, IdScontrino) VALUES (?, ?, ?)";
+
+        try {
+            Connection conn = context.OpenConnection();
+            PreparedStatement createAcquisto = conn.prepareStatement(acquistiSql);
+
+            for(Lotto lotto: lotti) {
+
+                if (lotto.getCodLotto() != null && !lotto.getCodLotto().equals("")) {
+                    createAcquisto.setDouble(1, lotto.getDisponibilita());
+                    createAcquisto.setInt(2, lotto.getId());
+                    createAcquisto.setInt(3, scontrinoId);
+                    createAcquisto.addBatch();
+                }
+            }
+            createAcquisto.executeBatch();
+
+            conn.close();
+        } catch (SQLException e) {
+            // TODO
+            throw new RuntimeException(e);
         }
     }
 

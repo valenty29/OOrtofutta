@@ -203,7 +203,7 @@ public class SQLProductDAO implements ProductDAO {
 
     private int createFruttaVerdura(Prodotto fruttaVerdura){
         int id = createProductCommon(fruttaVerdura.getProdottoCommon());
-        String sql = "INSERT INTO FRUTTAVERDURA (IdProdotto, TipoFV, Bio, Surgelato) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO FRUTTAVERDURA (IdProdotto, TipoFV, Bio, Surgelato) VALUES (?, ?, ?, ?)";
         try {
             Connection conn = context.OpenConnection();
             PreparedStatement createFruttaVerdura = conn.prepareStatement(sql);
@@ -847,6 +847,22 @@ public class SQLProductDAO implements ProductDAO {
             return;
         }
     }
+
+    public void deleteLotti(ObservedList<Lotto> lotti) {
+        String inSql = arrayToString(lotti);
+        String sql = "DELETE FROM LOTTO WHERE id IN (" +inSql + ");";
+
+        try {
+            Connection conn = context.OpenConnection();
+            Statement stm = conn.createStatement();
+            stm.execute(sql);
+            conn.close();
+        } catch (SQLException se)
+        {
+            System.out.println(se);
+            return;
+        }
+    }
     //endregion
 
     //region UPDATE
@@ -872,11 +888,15 @@ public class SQLProductDAO implements ProductDAO {
     }
     
     public void updateLotti(ObservedList<Lotto> oldLotti, ObservedList<Lotto> newLotti, long id) {
+
     	ObservedList<Lotto> lottiDaCreare = new ObservedList<Lotto>("lottiDaCreare");
     	ObservedList<Lotto> lottiDaAggiornare = new ObservedList<Lotto>("lottiDaAggiornare");
-    	
+    	ObservedList<Lotto> lottiDaEliminare = new ObservedList<>("lottiDaEliminare");
+    	newLotti.removeIf(lotto -> lotto.getId() == null);
+
     	for(Lotto lotto: newLotti) {
-    		Optional<Lotto> optLotto = oldLotti.stream().filter(oldLotto -> oldLotto.getId() == lotto.getId()).findFirst(); 
+
+    		Optional<Lotto> optLotto = oldLotti.stream().filter(oldLotto -> oldLotto.getId().equals(lotto.getId())).findFirst();
     		
     		if (optLotto.isPresent()) {
     			lottiDaAggiornare.add(lotto);
@@ -884,8 +904,21 @@ public class SQLProductDAO implements ProductDAO {
     			lottiDaCreare.add(lotto);
     		}
     	}
-    	
-    	createLotti(lottiDaCreare, id);
+
+        for(Lotto lotto: oldLotti) {
+
+            Optional<Lotto> optLotto = newLotti.stream().filter(newLotto -> newLotto.getId().equals(lotto.getId())).findFirst();
+
+            if (!optLotto.isPresent()) {
+                lottiDaEliminare.add(lotto);
+            }
+
+        }
+
+
+        deleteLotti(lottiDaEliminare);
+
+        createLotti(lottiDaCreare, id);
     	
     	if (lottiDaAggiornare.size() > 0) {
     		String sql = "UPDATE LOTTO SET CodLotto = ?, Scadenza = ?, Disponibilita = ?, DataProduzione = ?, CodPaeseOrigine = ?, DataMungitura = ? WHERE id = ?";
@@ -1242,6 +1275,24 @@ public class SQLProductDAO implements ProductDAO {
         for(Prodotto prod: prodotti)
         {
             ids[count] = prod.getProdottoCommon().getId();
+            count++;
+        }
+        String inSql = "";
+        for (int x = 0; x < count; x++)
+        {
+            inSql += ids[x] + ",";
+        }
+        inSql = inSql.subSequence(0, inSql.length() - 1).toString();
+        return inSql;
+    }
+
+    private String arrayToString(ObservedList<Lotto> lotti)
+    {
+        int[] ids = new int[lotti.size()];
+        int count = 0;
+        for(Lotto lotto: lotti)
+        {
+            ids[count] = lotto.getId();
             count++;
         }
         String inSql = "";

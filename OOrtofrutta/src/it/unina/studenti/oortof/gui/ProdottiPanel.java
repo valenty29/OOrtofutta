@@ -28,7 +28,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
   private static final long serialVersionUID = 1L;
   
   Prodotto prodotto;
-  
+  Carrello carrello;
   ButtonGroup bg = new ButtonGroup();
   
   ActionListener checkBoxActionListener = new ActionListener() {
@@ -126,9 +126,10 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
           Lotto selectedLotto = ((LottiTableModel)lottiTable.getModel()).getSelectedLotto(lottiTable.getSelectedRow());
           float quantita = Float.parseFloat(quantitaCarrello.getText());
           selectedLotto.setDisponibilita(selectedLotto.getDisponibilita() - quantita);
-
-
-
+          var newLotto = new Lotto();
+          selectedLotto.copyTo(newLotto);
+          newLotto.setDisponibilita(quantita);
+          carrello.add(newLotto);
         }
       }
 
@@ -165,8 +166,9 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     });
   }
   
-  public void setModel(Prodotto prodotto) {
+  public void setModel(Prodotto prodotto, Carrello carrello) {
     this.prodotto = prodotto;
+    this.carrello = carrello;
     PropertyChangeListener dataModelListener = new PropertyChangeListener() {
       @Override
       public void propertyChange(PropertyChangeEvent evt) {
@@ -175,6 +177,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     };
     ((LottiTableModel)lottiTable.getModel()).setList(prodotto.getProdottoCommon().getLotti());
     prodotto.addPropertyChangeListener(dataModelListener);
+    carrello.addPropertyChangeListener(dataModelListener);
   }
   
   void setEnabledColor(boolean enabled, Color color) {
@@ -330,6 +333,9 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
   }
     
   void applicationStatusChanged(PropertyChangeEvent evt) {
+    if (ApplicationStatus.getInstance().getActiveTab() != ApplicationStatus.TAB_PRODOTTI) {
+      return;
+    }
     switch (ApplicationStatus.getInstance().getStatus()) {
       case ApplicationStatus.STATUS_NAVIGATION: navigation(); break;
       case ApplicationStatus.STATUS_INSERT: insert(); break;
@@ -358,7 +364,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
   void modelToViewCore() {
     nomeTextField.setText(prodotto.getProdottoCommon().getString(ProdottoCommon.NOME));
     codiceProdottoTextField.setText(prodotto.getProdottoCommon().getString(ProdottoCommon.ID));
-    prezzoTextField.setText(prodotto.getProdottoCommon().getString(ProdottoCommon.PREZZO));
+    prezzoTextField.setText(prodotto.getProdottoCommon().getString(ProdottoCommon.PREZZO) == null ? null : prodotto.getProdottoCommon().getString(ProdottoCommon.PREZZO).isBlank() || prodotto.getProdottoCommon().getString(ProdottoCommon.PREZZO).isEmpty() ? null : prodotto.getProdottoCommon().getString(ProdottoCommon.PREZZO));
     sfusoCheckBox.setSelected(prodotto.getProdottoCommon().isSfuso());
     sfusoCheckBox.setEnabled(prodotto.getProdottoCommon().getSfuso() != null);
     fruttaVerduraCheckbox.setSelected(prodotto.getProdottoCommon().isFruttaVerdura());
@@ -599,7 +605,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     pc.setValue(ProdottoCommon.FRUTTA_VERDURA, fruttaVerduraCheckbox.isEnabled() ? fruttaVerduraCheckbox.isSelected() : null);
     pc.setValue(ProdottoCommon.PRODOTTO_CASEARIO, prodottiCaseariCheckbox.isEnabled() ? prodottiCaseariCheckbox.isSelected() : null);
     pc.setValue(ProdottoCommon.UOVO, uovaCheckbox.isEnabled() ? uovaCheckbox.isSelected() : null);
-    pc.setValue(ProdottoCommon.PREZZO, prezzoTextField.getText());
+    pc.setValue(ProdottoCommon.PREZZO, prezzoTextField.getText().isBlank() || prezzoTextField.getText().isEmpty() ? null : prezzoTextField.getText());
     pc.setValue(ProdottoCommon.SFUSO, sfusoCheckBox.isEnabled() ? sfusoCheckBox.isSelected() : null);
     if (pc.isBibita()) {
       viewToModelBibitaSpecifico();

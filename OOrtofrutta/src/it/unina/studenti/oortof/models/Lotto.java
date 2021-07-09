@@ -142,9 +142,14 @@ public class Lotto extends ObservedModel {
     if (this == other) {
       return true;
     }
-    if (getId() > 0 && ((Lotto)other).getId() > 0) {
-      return getId() == ((Lotto)other).getId();
+    try {
+      if (getId() > 0 && ((Lotto)other).getId() > 0) {
+        return getId() == ((Lotto)other).getId();
+      }
+    } catch (Exception ex) {
+      return false;
     }
+
     return getCodLotto().equals(((Lotto)other).getCodLotto());
   }
 

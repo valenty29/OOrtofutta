@@ -12,5 +12,6 @@ public interface Controller<T extends ObservedModel> {
   public void commit();
   public void delete();
   public void setModel(T observedModel, ObservedList<T> observedList);
+  public void setModel(T observedModel);
   public void listToDetail();
 }

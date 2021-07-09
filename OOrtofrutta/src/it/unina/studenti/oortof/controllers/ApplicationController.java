@@ -90,6 +90,10 @@ public class ApplicationController implements Controller, PropertyChangeListener
     throw new RuntimeException("Application controller lavora senza un modello");
   }
 
+  public void setModel(ObservedModel observedModel) {
+    throw new RuntimeException("Application controller lavora senza un modello");
+  }
+
   @Override
   public void listToDetail() {
     // TODO Auto-generated method stub
