@@ -348,24 +348,24 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
   
   void groupCheckBox(boolean group) {
     if (group) {
-      tipoProdottoBG.add(fruttaVerduraCheckbox);
-      tipoProdottoBG.add(carnePesceCheckbox);
-      tipoProdottoBG.add(prodottiCaseariCheckbox);
-      tipoProdottoBG.add(bibiteCheckbox);
-      tipoProdottoBG.add(farinaceiCheckbox);
-      tipoProdottoBG.add(conserveCheckbox);
-      tipoProdottoBG.add(uovaCheckbox);
-      tipoProdottoBG.add(altriTipoCheckbox);
+      bg.add(fruttaVerduraCheckbox);
+      bg.add(carnePesceCheckbox);
+      bg.add(prodottiCaseariCheckbox);
+      bg.add(bibiteCheckbox);
+      bg.add(farinaceiCheckbox);
+      bg.add(conserveCheckbox);
+      bg.add(uovaCheckbox);
+      bg.add(altriTipoCheckbox);
     }
     else {
-      tipoProdottoBG.remove(fruttaVerduraCheckbox);
-      tipoProdottoBG.remove(carnePesceCheckbox);
-      tipoProdottoBG.remove(prodottiCaseariCheckbox);
-      tipoProdottoBG.remove(bibiteCheckbox);
-      tipoProdottoBG.remove(farinaceiCheckbox);
-      tipoProdottoBG.remove(conserveCheckbox);
-      tipoProdottoBG.remove(uovaCheckbox);
-      tipoProdottoBG.remove(altriTipoCheckbox);
+      bg.remove(fruttaVerduraCheckbox);
+      bg.remove(carnePesceCheckbox);
+      bg.remove(prodottiCaseariCheckbox);
+      bg.remove(bibiteCheckbox);
+      bg.remove(farinaceiCheckbox);
+      bg.remove(conserveCheckbox);
+      bg.remove(uovaCheckbox);
+      bg.remove(altriTipoCheckbox);
     }
   }
   
@@ -448,7 +448,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     prezzoTextField.setText(prodotto.getProdottoCommon().getString(ProdottoCommon.PREZZO) == null ? null : prodotto.getProdottoCommon().getString(ProdottoCommon.PREZZO).isBlank() || prodotto.getProdottoCommon().getString(ProdottoCommon.PREZZO).isEmpty() ? null : prodotto.getProdottoCommon().getString(ProdottoCommon.PREZZO));
     sfusoCheckBox.setSelected(prodotto.getProdottoCommon().isSfuso());
     sfusoCheckBox.setForeground(prodotto.getProdottoCommon().getSfuso() != null ? Color.black : Color.gray);
-    boolean group = tipoProdottoBG.getButtonCount() > 0;
+    boolean group = bg.getButtonCount() > 0;
     groupCheckBox(false);
     fruttaVerduraCheckbox.setSelected(prodotto.getProdottoCommon().isFruttaVerdura());
     fruttaVerduraCheckbox.setForeground(prodotto.getProdottoCommon().getFruttaVerdura() != null ? Color.black : Color.gray);

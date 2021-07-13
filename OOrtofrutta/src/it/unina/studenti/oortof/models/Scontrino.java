@@ -51,7 +51,7 @@ public class Scontrino extends ObservedModel implements PropertyChangeListener{
       return;
     }
     setValue(TOTALE, totale);
-    firePropertyChanged("totale", oldTotale, totale);
+    firePropertyChange("totale", oldTotale, totale);
   }
 
   public Cliente getCliente() {
@@ -69,7 +69,7 @@ public class Scontrino extends ObservedModel implements PropertyChangeListener{
     
     setValue(CLIENTE, cliente);
     cliente.addPropertyChangeListener(this);
-    firePropertyChanged("cliente", oldCliente, cliente);
+    firePropertyChange("cliente", oldCliente, cliente);
   }
 
   public Date getDataOrario() {

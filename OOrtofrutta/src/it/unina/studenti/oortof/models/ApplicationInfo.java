@@ -21,7 +21,7 @@ public class ApplicationInfo extends ObservedModel {
     public void setMessage(String newMessage, int level) {
         ApplicationMessage oldMessage = message;
         message = new ApplicationMessage(newMessage, level);
-        firePropertyChanged("message", oldMessage, message);
+        firePropertyChange("message", oldMessage, message);
     }
 
 
