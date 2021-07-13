@@ -89,9 +89,9 @@ public class CarnePesceSpecifico extends ProdottoSpecifico{
   
   public void copyTo(ObservedModel carnePesceSpecifico) {
     ((CarnePesceSpecifico)carnePesceSpecifico).setTipoCarnePesce(getTipoCarnePesce());
-    ((CarnePesceSpecifico)carnePesceSpecifico).setDaAllevamento(isDaAllevamento());
+    ((CarnePesceSpecifico)carnePesceSpecifico).setDaAllevamento(getDaAllevamento());
     ((CarnePesceSpecifico)carnePesceSpecifico).setAnimale(getAnimale());
-    ((CarnePesceSpecifico)carnePesceSpecifico).setConfezionato(isConfezionato());
+    ((CarnePesceSpecifico)carnePesceSpecifico).setConfezionato(getConfezionato());
   }
 
   @Override

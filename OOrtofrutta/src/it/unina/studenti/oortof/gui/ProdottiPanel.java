@@ -692,6 +692,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     pc.setUovo(uovaCheckbox.isSelected() ? Boolean.TRUE : uovaCheckbox.getForeground().equals(Color.black) ? Boolean.FALSE : null);
     pc.setSfuso(sfusoCheckBox.isSelected() ? Boolean.TRUE : sfusoCheckBox.getForeground().equals(Color.black) ? Boolean.FALSE : null);
     pc.setValue(ProdottoCommon.PREZZO, prezzoTextField.getText().isBlank() || prezzoTextField.getText().isEmpty() ? null : prezzoTextField.getText());
+
     if (pc.isBibita()) {
       viewToModelBibitaSpecifico();
     }

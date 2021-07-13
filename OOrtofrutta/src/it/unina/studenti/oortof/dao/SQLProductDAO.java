@@ -363,7 +363,7 @@ public class SQLProductDAO implements ProductDAO {
 
 
 
-            String sql = "SELECT * FROM PRODOTTO " + (productFilters.equals("") ? ";" : " WHERE " + productFilters + ";");
+            String sql = "SELECT * FROM PRODOTTO WHERE Tipo = 'Altro'" + (productFilters.equals("") ? ";" : " AND " + productFilters + ";");
             System.out.println(sql);
             ResultSet rs = stm.executeQuery(sql);
             ObservedList<Altro> list = new ObservedList<Altro>("altro");

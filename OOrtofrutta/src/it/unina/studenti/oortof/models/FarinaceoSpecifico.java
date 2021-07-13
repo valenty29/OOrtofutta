@@ -82,7 +82,7 @@ public class FarinaceoSpecifico extends ProdottoSpecifico {
   }
   
   public void setSurgelato(Boolean surgelato) {
-    Boolean oldSurgelato = getSurgelato();
+      Boolean oldSurgelato = getSurgelato();
     if (equals(surgelato, oldSurgelato)) {
       return;
     }
@@ -91,10 +91,10 @@ public class FarinaceoSpecifico extends ProdottoSpecifico {
   }
   
   public void copyTo(ObservedModel farinaceoSpecifico) {
-    ((FarinaceoSpecifico)farinaceoSpecifico).setGlutine(isGlutine());
+    ((FarinaceoSpecifico)farinaceoSpecifico).setGlutine(getGlutine());
     ((FarinaceoSpecifico)farinaceoSpecifico).setTipoFarina(getTipoFarina());
-    ((FarinaceoSpecifico)farinaceoSpecifico).setFresco(isFresco());
-    ((FarinaceoSpecifico)farinaceoSpecifico).setSurgelato(isSurgelato());
+    ((FarinaceoSpecifico)farinaceoSpecifico).setFresco(getFresco());
+    ((FarinaceoSpecifico)farinaceoSpecifico).setSurgelato(getSurgelato());
   }
 
   @Override
