@@ -60,23 +60,14 @@ public class ClientiPanel extends DesignClientiPanel implements DocumentListener
 	    scontriniModel = (ScontriniTableModel)scontriniTable.getModel();
 	    acquistiModel = (AcquistiTableModel)acquistiTable.getModel();
 
+
+
 	    acquistiTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
 	        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 
 	          JLabel l = (JLabel)super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-	          if(ApplicationStatus.getInstance().isSearch()) {
-	        	  if (table.isCellEditable(row, column)) {
-		        	  System.out.println("SONO EDITABILE IN SEARCH");
-		        	  l.setBackground(Color.yellow);
+	          l.setBackground(isSelected ? table.getSelectionBackground() : table.getBackground());
 
-		          } else {
-		        	  System.out.println("NON SONO EDITABILE IN SEARCH");
-		        	  l.setBackground(SystemColor.control);
-		          }
-	          } else {
-	        	  System.out.println("NON SONO IN SEARCH");
-	        	  l.setBackground(Color.white);
-	          }
 
 	          return l;
 

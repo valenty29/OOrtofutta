@@ -155,6 +155,7 @@ public class Scontrino extends ObservedModel implements PropertyChangeListener{
     }*/
     ((Scontrino)scontrino).setDataOrario(getDataOrario());
     ((ObservedList<Acquisto>)attributes[ACQUISTI]).copyTo(((Scontrino)scontrino).getAcquisti());
+    ((Scontrino)scontrino).setTotale(getTotale());
   }
 
   @Override

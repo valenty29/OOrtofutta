@@ -106,7 +106,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     listenGuiField();
     
     lottiTable.setModel(new LottiTableModel());
-    
+    quantitaCarrello.setEnabled(false);
     setTriState();
     
     lottiTable.addKeyListener(new KeyAdapter() {
@@ -123,13 +123,27 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     quantitaCarrello.addKeyListener(new KeyAdapter() {
       public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER && ApplicationStatus.getInstance().isNavigation()) {
+
           Lotto selectedLotto = ((LottiTableModel)lottiTable.getModel()).getSelectedLotto(lottiTable.getSelectedRow());
           float quantita = Float.parseFloat(quantitaCarrello.getText());
-          selectedLotto.setDisponibilita(selectedLotto.getDisponibilita() - quantita);
+          float newQuantita = selectedLotto.getDisponibilita() - quantita;
+          if (newQuantita < 0) {
+            ApplicationInfo.getInstance().setMessage("IL LOTTO NON HA ABBASTANZA DISPONIBILITA", ApplicationInfo.LEVEL_ERROR);
+            return;
+          }
+
+          if (quantita == 0f) {
+            ApplicationInfo.getInstance().setMessage("SELEZIONARE UNA QUANTITA MAGGIORE DI 0", ApplicationInfo.LEVEL_ERROR);
+            return;
+          }
+
+          selectedLotto.setDisponibilita(newQuantita);
           var newLotto = new Lotto();
           selectedLotto.copyTo(newLotto);
           newLotto.setDisponibilita(quantita);
           carrello.add(newLotto);
+
+          ApplicationInfo.getInstance().setMessage(String.format("AGGIUNTI %.2f DEL LOTTO %s AL CARRELLO", quantita, selectedLotto.getCodLotto()), ApplicationInfo.LEVEL_LOG);
         }
       }
 
@@ -347,7 +361,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
   void dataModelChanged(PropertyChangeEvent evt) {
     modelToView();
   }
-  
+
   static final Integer ZERO = 0;
   static final Integer UNO = 1;
   static final Integer DUE = 2;

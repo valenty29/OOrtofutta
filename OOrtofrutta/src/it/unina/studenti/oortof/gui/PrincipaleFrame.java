@@ -1,7 +1,6 @@
 package it.unina.studenti.oortof.gui;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import java.awt.*;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -26,17 +25,12 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.border.BevelBorder;
-import java.awt.Dimension;
 import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
@@ -319,19 +313,41 @@ System.err.println("BINGO");
     gbc_statusLabel.gridx = 2;
     gbc_statusLabel.gridy = 0;
     statusBar.add(statusLabel, gbc_statusLabel);
-    
+
+    ApplicationInfo.getInstance().addPropertyChangeListener(new PropertyChangeListener() {
+      @Override
+      public void propertyChange(PropertyChangeEvent evt) {
+        applicationInfoChanged(evt);
+      }
+    });
+
     ApplicationStatus.getInstance().addPropertyChangeListener(new PropertyChangeListener() {
       @Override
       public void propertyChange(PropertyChangeEvent evt) {
         applicationStatusChanged(evt);
       }
     });
+
     ApplicationCounter.getInstance().addPropertyChangeListener(new PropertyChangeListener() {
       @Override
       public void propertyChange(PropertyChangeEvent evt) {
         applicationCounterChanged(evt);
       }
     });
+  }
+
+  void applicationInfoChanged(PropertyChangeEvent evt) {
+    ApplicationMessage mess = ApplicationInfo.getInstance().getMessage();
+    messageLabel.setText(mess.getMessage());
+    switch (mess.getLevel()) {
+      case ApplicationInfo.LEVEL_ERROR:
+        messageLabel.setForeground(Color.RED);
+        break;
+
+      case ApplicationInfo.LEVEL_LOG:
+        messageLabel.setForeground(Color.BLACK);
+        break;
+    }
   }
   
   void applicationCounterChanged(PropertyChangeEvent evt) {

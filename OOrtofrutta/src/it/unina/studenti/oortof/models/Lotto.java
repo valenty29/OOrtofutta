@@ -1,9 +1,11 @@
 package it.unina.studenti.oortof.models;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Date;
 
 
-public class Lotto extends ObservedModel {
+public class Lotto extends ObservedModel implements PropertyChangeListener {
   
   public static final int ID = 0;                 //Integer
   public static final int COD_LOTTO = 1;          //String
@@ -12,6 +14,7 @@ public class Lotto extends ObservedModel {
   public static final int DATA_PRODUZIONE = 4;    //Date
   public static final int COD_PAESE_ORIGINE = 5;  //String
   public static final int DATA_MUNGITURA = 6;  //Date
+
 
 
   
@@ -28,6 +31,7 @@ public class Lotto extends ObservedModel {
     setValue(DATA_PRODUZIONE, dataProduzione);
     setValue(COD_PAESE_ORIGINE, codPaeseOrigine);
     setValue(DATA_MUNGITURA, dataMungitura);
+
   }
 
   public Integer getId() {
@@ -124,7 +128,7 @@ public class Lotto extends ObservedModel {
     setValue(DATA_MUNGITURA, dataMungitura);
     firePropertyChanged("dataMungitura", oldDataMungitura, dataMungitura);
   }
-  
+
   public void copyTo(ObservedModel lotto) {
     ((Lotto)lotto).setId(getId());
     ((Lotto)lotto).setCodLotto(getCodLotto());
@@ -151,6 +155,11 @@ public class Lotto extends ObservedModel {
     }
 
     return getCodLotto().equals(((Lotto)other).getCodLotto());
+  }
+
+  @Override
+  public void propertyChange(PropertyChangeEvent evt) {
+    firePropertyChanged(evt);
   }
 
 }

@@ -56,6 +56,7 @@ public class CarrelloPanel extends JPanel {
       @Override
       public void actionPerformed(ActionEvent e) {
         sqlClienteDAO.createScontrino(cliente, carrello.getLotti());
+        carrello.clear();
       }
     });
     cancellaButton = new JButton();

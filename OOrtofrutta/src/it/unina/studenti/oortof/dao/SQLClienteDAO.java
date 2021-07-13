@@ -326,6 +326,7 @@ public class SQLClienteDAO {
         }
     }
 
+
     public void updateCliente(Cliente oldCliente, Cliente newCliente)
     {
         if (oldCliente.getId() != newCliente.getId())

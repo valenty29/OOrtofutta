@@ -344,12 +344,49 @@ public class SQLProductDAO implements ProductDAO {
     		}
     	} 
     	if (allNull || prodotto.getProdottoCommon().isAltro()) {
-    		/*ObservedList<Altro> prods = getAltro(prodotto);
+    		ObservedList<Altro> prods = getAltro(prodotto);
     		for (Altro altro: prods) {
     			prodotti.add(altro);
-    		}*/
+    		}
     	}
     	return prodotti;
+    }
+
+    private ObservedList<Altro> getAltro(Prodotto prod)  {
+
+        try {
+            Connection conn = context.OpenConnection();
+            Statement stm = conn.createStatement();
+            String productFilters = getProdottoFilters(prod.getProdottoCommon());
+
+            int filterCount = 0;
+
+
+
+            String sql = "SELECT * FROM PRODOTTO " + (productFilters.equals("") ? ";" : " WHERE " + productFilters + ";");
+            System.out.println(sql);
+            ResultSet rs = stm.executeQuery(sql);
+            ObservedList<Altro> list = new ObservedList<Altro>("altro");
+            while(rs.next())
+            {
+                int rsId = rs.getInt("Id");
+                String rsNome = rs.getString("Nome");
+                boolean rsSfuso = rs.getBoolean("Sfuso");
+                float rsPrezzo = rs.getFloat("Prezzo");
+
+                Altro altro = new Altro(rsId, rsNome, rsPrezzo, rsSfuso);
+
+
+                altro.getProdottoCommon().setLotti(getLotti(rsId, conn));
+                list.add(altro);
+            }
+            conn.close();
+            return list;
+        }
+        catch (SQLException se)
+        {
+            throw new RuntimeException(se);
+        }
     }
 
     private ObservedList<Bibita> getBibita(Prodotto bibita)  {

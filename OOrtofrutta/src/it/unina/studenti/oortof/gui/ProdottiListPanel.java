@@ -36,7 +36,7 @@ public class ProdottiListPanel extends JPanel {
     table.setOpaque(true);
     table.setBackground(SystemColor.control);
 
-    table.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+    table.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     scrollPane.setViewportView(table);
     ApplicationCounter.getInstance().addPropertyChangeListener(new PropertyChangeListener() {
       @Override

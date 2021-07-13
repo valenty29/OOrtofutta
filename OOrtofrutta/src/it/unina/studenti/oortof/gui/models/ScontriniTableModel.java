@@ -43,7 +43,7 @@ public class ScontriniTableModel extends AbstractTableModel {
 		switch (columnIndex) {
 			case 0: value = currentScontrino.getDataOrario() != null ? currentScontrino.getDataOrario().toString() : "";
 			break;
-			case 1: value = currentScontrino.getTotale() != null ? currentScontrino.getTotale().toString() : "";
+			case 1: value = currentScontrino.getTotale() != null ? String.format("%.2f", currentScontrino.getTotale()) : "";
 			break;
 		}
 		
