@@ -130,4 +130,10 @@ public class ClientiController implements Controller {
 
     }
 
+    @Override
+    public void preDelete() {
+      // TODO Auto-generated method stub
+      
+    }
+
 }

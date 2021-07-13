@@ -99,5 +99,11 @@ public class ApplicationController implements Controller, PropertyChangeListener
     // TODO Auto-generated method stub
     
   }
+
+  @Override
+  public void preDelete() {
+    // TODO Auto-generated method stub
+    
+  }
   
 }

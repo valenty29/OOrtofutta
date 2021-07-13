@@ -106,5 +106,4 @@ public class CarrelloPanel extends JPanel {
     lastNameLabel.setText(cliente.getCognome());
   }
   
-
 }

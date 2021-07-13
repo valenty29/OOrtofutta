@@ -27,7 +27,7 @@ public class UovoSpecifico extends ProdottoSpecifico {
       return;
     }
     setValue(TIPO_ALLEVAMENTO, tipoAllevamento);
-    firePropertyChanged("tipoAllevamento", oldTipoAllevamento, tipoAllevamento);
+    firePropertyChange("tipoAllevamento", oldTipoAllevamento, tipoAllevamento);
   }
 
   public CatPeso getCatPeso() {
@@ -45,7 +45,7 @@ public class UovoSpecifico extends ProdottoSpecifico {
       return;
     }
     setValue(CAT_PESO, catPeso);
-    firePropertyChanged("catPeso", oldCatPeso, catPeso);
+    firePropertyChange("catPeso", oldCatPeso, catPeso);
   }
 
   public void copyTo(ObservedModel uovoSpecifico) {

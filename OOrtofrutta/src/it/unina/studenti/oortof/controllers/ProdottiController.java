@@ -1,5 +1,7 @@
 package it.unina.studenti.oortof.controllers;
 
+import java.util.ArrayList;
+
 import it.unina.studenti.oortof.dao.SQLProductDAO;
 import it.unina.studenti.oortof.models.*;
 
@@ -57,9 +59,16 @@ public class ProdottiController implements Controller<Prodotto> {
   }
   
   void commitSearch() {
-    ObservedList<Prodotto> ritorno = sqlProductDao.getProduct(prodotto);
-    ritorno.copyTo(prodotti);
-    ApplicationStatus.getInstance().setStatus(ApplicationStatus.STATUS_NAVIGATION);
+    try {
+      Prodotto prodottoDAO = new Prodotto();
+      prodotto.copyTo(prodottoDAO);
+      ObservedList<Prodotto> ritorno = sqlProductDao.getProduct(prodottoDAO);
+      ritorno.copyTo(prodotti);
+      ApplicationStatus.getInstance().setStatus(ApplicationStatus.STATUS_NAVIGATION);
+    }
+    catch (Exception e) {
+      e.printStackTrace();
+    }
   }
   
   @Override
@@ -71,10 +80,18 @@ public class ProdottiController implements Controller<Prodotto> {
     }
   }
   
+  @Override
+  public void preDelete() {
+  }
+
   
 
   @Override
   public void delete() {
+    ArrayList<Prodotto> toDelete = new ArrayList<>();
+    toDelete.add(prodotto);
+    sqlProductDao.deleteProducts(toDelete);
+    prodotti.remove(prodotto);
   }
 
   public void setModel(Prodotto prodotto, ObservedList<Prodotto> prodotti, Carrello carrello) {

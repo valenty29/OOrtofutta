@@ -52,11 +52,27 @@ public class ProdottiListPanel extends JPanel {
         }
       }
     });
+    ApplicationStatus.getInstance().addPropertyChangeListener(new PropertyChangeListener() {
+      @Override
+      public void propertyChange(PropertyChangeEvent evt) {
+        ApplicationStatus as = ApplicationStatus.getInstance();
+        if (as.getActiveTab() == 0 && evt.getOldValue().equals(ApplicationStatus.STATUS_SEARCH) && evt.getNewValue().equals(ApplicationStatus.STATUS_NAVIGATION) && as.getAction() == ApplicationStatus.ACTION_COMMIT) {
+          if (table.getModel().getRowCount() == 0) {
+            table.clearSelection();
+          }
+          else {
+            table.setRowSelectionInterval(0, 0);
+          }
+        }
+      }
+    });
+    
     table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
       @Override
       public void valueChanged(ListSelectionEvent e) {
         if (ApplicationCounter.getInstance().getCounter() != (table.getSelectedRow() + 1)) {
           ApplicationCounter.getInstance().setCounter(table.getSelectedRow() + 1);
+          ApplicationCounter.getInstance().setLimit(table.getRowCount());
         }
       }
     });
@@ -74,6 +90,12 @@ public class ProdottiListPanel extends JPanel {
   
   public void setModel(ObservedList<Prodotto> prodotti) {
 	  table.setModel(new ProdottiListTableModel(prodotti));
+	  prodotti.addPropertyChangeListener(new PropertyChangeListener() {
+      @Override
+      public void propertyChange(PropertyChangeEvent evt) {
+        ApplicationCounter.getInstance().setLimit(prodotti.size());
+      }
+    });
   }
 
 }

@@ -262,7 +262,7 @@ System.err.println("BINGO");
 
       @Override
       public void actionPerformed(ActionEvent e) {
-        ApplicationStatus.getInstance().setAction(ApplicationStatus.ACTION_DELETE);
+        ApplicationStatus.getInstance().setAction(ApplicationStatus.ACTION_PRE_DELETE);
       }
     };
     deleteButton.setFocusable(false);

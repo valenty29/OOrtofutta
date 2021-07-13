@@ -16,7 +16,6 @@ import javax.swing.border.LineBorder;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.border.TitledBorder;
-
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import java.awt.SystemColor;
@@ -140,6 +139,7 @@ public abstract class DesignProdottiPanel extends JPanel {
     gbc_nomeTextField.gridy = 0;
     commonPanel.add(nomeTextField, gbc_nomeTextField);
     nomeTextField.setColumns(10);
+    fruttaVerduraCheckbox.setForeground(Color.GRAY);
     
     fruttaVerduraCheckbox.setEnabled(false);
     GridBagConstraints gbc_fruttaVerduraCheckbox = new GridBagConstraints();
@@ -148,6 +148,7 @@ public abstract class DesignProdottiPanel extends JPanel {
     gbc_fruttaVerduraCheckbox.gridx = 3;
     gbc_fruttaVerduraCheckbox.gridy = 0;
     commonPanel.add(fruttaVerduraCheckbox, gbc_fruttaVerduraCheckbox);
+    conserveCheckbox.setForeground(Color.GRAY);
     
     conserveCheckbox.setEnabled(false);
     GridBagConstraints gbc_conserveCheckbox = new GridBagConstraints();
@@ -175,6 +176,7 @@ public abstract class DesignProdottiPanel extends JPanel {
     gbc_codiceProdottoTextField.gridy = 1;
     commonPanel.add(codiceProdottoTextField, gbc_codiceProdottoTextField);
     codiceProdottoTextField.setColumns(10);
+    prodottiCaseariCheckbox.setForeground(Color.GRAY);
     
     prodottiCaseariCheckbox.setEnabled(false);
     GridBagConstraints gbc_prodottiCaseariCheckbox = new GridBagConstraints();
@@ -183,6 +185,7 @@ public abstract class DesignProdottiPanel extends JPanel {
     gbc_prodottiCaseariCheckbox.gridx = 3;
     gbc_prodottiCaseariCheckbox.gridy = 1;
     commonPanel.add(prodottiCaseariCheckbox, gbc_prodottiCaseariCheckbox);
+    farinaceiCheckbox.setForeground(Color.GRAY);
     
     farinaceiCheckbox.setEnabled(false);
     GridBagConstraints gbc_farinaceiCheckbox = new GridBagConstraints();
@@ -210,6 +213,7 @@ public abstract class DesignProdottiPanel extends JPanel {
     gbc_prezzoTextField.gridy = 2;
     commonPanel.add(prezzoTextField, gbc_prezzoTextField);
     prezzoTextField.setColumns(10);
+    uovaCheckbox.setForeground(Color.GRAY);
     
     uovaCheckbox.setEnabled(false);
     GridBagConstraints gbc_uovaCheckbox = new GridBagConstraints();
@@ -218,6 +222,7 @@ public abstract class DesignProdottiPanel extends JPanel {
     gbc_uovaCheckbox.gridx = 3;
     gbc_uovaCheckbox.gridy = 2;
     commonPanel.add(uovaCheckbox, gbc_uovaCheckbox);
+    carnePesceCheckbox.setForeground(Color.GRAY);
     
     carnePesceCheckbox.setEnabled(false);
     GridBagConstraints gbc_carnePesceCheckbox = new GridBagConstraints();
@@ -226,6 +231,7 @@ public abstract class DesignProdottiPanel extends JPanel {
     gbc_carnePesceCheckbox.gridx = 4;
     gbc_carnePesceCheckbox.gridy = 2;
     commonPanel.add(carnePesceCheckbox, gbc_carnePesceCheckbox);
+    sfusoCheckBox.setForeground(Color.GRAY);
     
     sfusoCheckBox.setEnabled(false);
     sfusoCheckBox.setBackground(SystemColor.control);
@@ -235,6 +241,7 @@ public abstract class DesignProdottiPanel extends JPanel {
     gbc_sfusoCheckBox.gridx = 1;
     gbc_sfusoCheckBox.gridy = 3;
     commonPanel.add(sfusoCheckBox, gbc_sfusoCheckBox);
+    bibiteCheckbox.setForeground(Color.GRAY);
     
     bibiteCheckbox.setEnabled(false);
     GridBagConstraints gbc_bibiteCheckbox = new GridBagConstraints();
@@ -243,6 +250,7 @@ public abstract class DesignProdottiPanel extends JPanel {
     gbc_bibiteCheckbox.gridx = 3;
     gbc_bibiteCheckbox.gridy = 3;
     commonPanel.add(bibiteCheckbox, gbc_bibiteCheckbox);
+    altriTipoCheckbox.setForeground(Color.GRAY);
     
     altriTipoCheckbox.setEnabled(false);
     GridBagConstraints gbc_altriTipoCheckbox = new GridBagConstraints();
@@ -281,6 +289,7 @@ public abstract class DesignProdottiPanel extends JPanel {
     gbc_fruttaRadioButton.gridx = 0;
     gbc_fruttaRadioButton.gridy = 0;
     fruttaVerduraPanel.add(fruttaRadioButton, gbc_fruttaRadioButton);
+    surgelatoFruttaVerduraCheckbox.setForeground(Color.GRAY);
     
     surgelatoFruttaVerduraCheckbox.setEnabled(false);
     GridBagConstraints gbc_surgelatoFruttaVerduraCheckbox = new GridBagConstraints();
@@ -297,6 +306,7 @@ public abstract class DesignProdottiPanel extends JPanel {
     gbc_verduraRadioButton.gridx = 0;
     gbc_verduraRadioButton.gridy = 1;
     fruttaVerduraPanel.add(verduraRadioButton, gbc_verduraRadioButton);
+    biologicoCheckbox.setForeground(Color.GRAY);
     
     biologicoCheckbox.setEnabled(false);
     GridBagConstraints gbc_biologicoCheckbox = new GridBagConstraints();
@@ -462,6 +472,7 @@ public abstract class DesignProdottiPanel extends JPanel {
     gbc_tipoFarinaTextField.gridy = 0;
     farinaceiPanel.add(tipoFarinaTextField, gbc_tipoFarinaTextField);
     tipoFarinaTextField.setColumns(10);
+    senzaGlutineCheckbox.setForeground(Color.GRAY);
     
     senzaGlutineCheckbox.setEnabled(false);
     GridBagConstraints gbc_senzaGlutineCheckbox = new GridBagConstraints();
@@ -469,6 +480,7 @@ public abstract class DesignProdottiPanel extends JPanel {
     gbc_senzaGlutineCheckbox.gridx = 0;
     gbc_senzaGlutineCheckbox.gridy = 1;
     farinaceiPanel.add(senzaGlutineCheckbox, gbc_senzaGlutineCheckbox);
+    frescoCheckbox.setForeground(Color.GRAY);
     
     frescoCheckbox.setEnabled(false);
     GridBagConstraints gbc_frescoCheckbox = new GridBagConstraints();
@@ -477,6 +489,7 @@ public abstract class DesignProdottiPanel extends JPanel {
     gbc_frescoCheckbox.gridx = 1;
     gbc_frescoCheckbox.gridy = 1;
     farinaceiPanel.add(frescoCheckbox, gbc_frescoCheckbox);
+    surgelatoFarinaceiCheckbox.setForeground(Color.GRAY);
     
     surgelatoFarinaceiCheckbox.setEnabled(false);
     GridBagConstraints gbc_surgelatoFarinaceiCheckbox = new GridBagConstraints();
@@ -620,6 +633,7 @@ public abstract class DesignProdottiPanel extends JPanel {
     gbc_pesceRadioButton.gridx = 0;
     gbc_pesceRadioButton.gridy = 1;
     carnePescePanel.add(pesceRadioButton, gbc_pesceRadioButton);
+    daAllevamentoCheckBox.setForeground(Color.GRAY);
     
     daAllevamentoCheckBox.setEnabled(false);
     GridBagConstraints gbc_daAllevamentoCheckBox = new GridBagConstraints();
@@ -628,6 +642,7 @@ public abstract class DesignProdottiPanel extends JPanel {
     gbc_daAllevamentoCheckBox.gridx = 1;
     gbc_daAllevamentoCheckBox.gridy = 1;
     carnePescePanel.add(daAllevamentoCheckBox, gbc_daAllevamentoCheckBox);
+    confezionatoCheckBox.setForeground(Color.GRAY);
     
     confezionatoCheckBox.setEnabled(false);
     GridBagConstraints gbc_confezionatoCheckBox = new GridBagConstraints();
@@ -697,6 +712,7 @@ public abstract class DesignProdottiPanel extends JPanel {
     gbc_liquoriRadioButton.gridx = 1;
     gbc_liquoriRadioButton.gridy = 1;
     bibitePanel.add(liquoriRadioButton, gbc_liquoriRadioButton);
+    frizzanteCheckBox.setForeground(Color.GRAY);
     
     frizzanteCheckBox.setEnabled(false);
     GridBagConstraints gbc_frizzanteCheckBox = new GridBagConstraints();

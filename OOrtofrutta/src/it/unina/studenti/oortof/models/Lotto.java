@@ -44,7 +44,7 @@ public class Lotto extends ObservedModel implements PropertyChangeListener {
       return;
     }
     setValue(ID, id);
-    firePropertyChanged("id", oldId, id);
+    firePropertyChange("id", oldId, id);
   }
   
   public String getCodLotto() {
@@ -57,7 +57,7 @@ public class Lotto extends ObservedModel implements PropertyChangeListener {
       return;
     }
     setValue(COD_LOTTO, codLotto);
-    firePropertyChanged("colLotto", oldCodLotto, codLotto);
+    firePropertyChange("colLotto", oldCodLotto, codLotto);
   }
 
   public Date getScadenza() {
@@ -70,7 +70,7 @@ public class Lotto extends ObservedModel implements PropertyChangeListener {
       return;
     }
     setValue(SCADENZA, scadenza);
-    firePropertyChanged("scadenza", oldScadenza, scadenza);
+    firePropertyChange("scadenza", oldScadenza, scadenza);
   }
 
   public Float getDisponibilita() {
@@ -83,7 +83,7 @@ public class Lotto extends ObservedModel implements PropertyChangeListener {
       return;
     }
     setValue(DISPONIBILITA, disponibilita);
-    firePropertyChanged("disponibilita", oldDisponibilita, disponibilita);
+    firePropertyChange("disponibilita", oldDisponibilita, disponibilita);
   }
 
   public Date getDataProduzione() {
@@ -96,7 +96,7 @@ public class Lotto extends ObservedModel implements PropertyChangeListener {
       return;
     }
     setValue(DATA_PRODUZIONE, dataProduzione);
-    firePropertyChanged("dataProduzione", oldDataProduzione, dataProduzione);
+    firePropertyChange("dataProduzione", oldDataProduzione, dataProduzione);
   }
 
   public String getCodPaeseOrigine() {
@@ -109,7 +109,7 @@ public class Lotto extends ObservedModel implements PropertyChangeListener {
       return;
     }
     setValue(COD_PAESE_ORIGINE, codPaeseOrigine);
-    firePropertyChanged("codPaeseOrigine", oldCodPaeseOrigine, codPaeseOrigine);
+    firePropertyChange("codPaeseOrigine", oldCodPaeseOrigine, codPaeseOrigine);
   }
   
   public String toString() {
@@ -126,7 +126,7 @@ public class Lotto extends ObservedModel implements PropertyChangeListener {
       return;
     }
     setValue(DATA_MUNGITURA, dataMungitura);
-    firePropertyChanged("dataMungitura", oldDataMungitura, dataMungitura);
+    firePropertyChange("dataMungitura", oldDataMungitura, dataMungitura);
   }
 
   public void copyTo(ObservedModel lotto) {

@@ -34,7 +34,7 @@ public class FruttaVerduraSpecifico extends ProdottoSpecifico {
       return;
     }
     setValue(TIPO_FRUTTA_VERDURA, tipoFruttaVerdura);
-    firePropertyChanged("tipoFruttaVerdura", oldTipoFruttaVerdura, tipoFruttaVerdura);    
+    firePropertyChange("tipoFruttaVerdura", oldTipoFruttaVerdura, tipoFruttaVerdura);    
   }
 
   public boolean isBio() {
@@ -51,7 +51,7 @@ public class FruttaVerduraSpecifico extends ProdottoSpecifico {
       return;
     }
     setValue(BIO, bio);
-    firePropertyChanged("bio", oldBio, bio);
+    firePropertyChange("bio", oldBio, bio);
   }
 
   public boolean isSurgelato() {
@@ -68,7 +68,7 @@ public class FruttaVerduraSpecifico extends ProdottoSpecifico {
       return;
     }
     setValue(SURGELATO, surgelato);
-    firePropertyChanged("surgelato", oldSurgelato, surgelato);
+    firePropertyChange("surgelato", oldSurgelato, surgelato);
   }
 
   public void copyTo(ObservedModel fruttaVerduraSpecifico) {

@@ -51,7 +51,7 @@ public class ObservedList<E extends ObservedModel> extends ObservedModel impleme
   public boolean add(E e) {
     boolean added = list.add(e);
     if (added) {
-      firePropertyChanged(name, null, e);
+      firePropertyChange(name, null, e);
       if (e != null) {
         e.addPropertyChangeListener(this);
       }
@@ -101,7 +101,7 @@ public class ObservedList<E extends ObservedModel> extends ObservedModel impleme
     }
     List<ObservedModel> oldList = new ArrayList<ObservedModel>(list);
     list.clear();
-    firePropertyChanged(name, oldList, list);
+    firePropertyChange(name, oldList, list);
   }
 
   @Override
@@ -113,7 +113,7 @@ public class ObservedList<E extends ObservedModel> extends ObservedModel impleme
   public E set(int index, E element) {
     E old = list.set(index, element);
     if (old != element) {
-      firePropertyChanged(name, index, element);
+      firePropertyChange(name, index, element);
     }
     return old;
   }
@@ -121,7 +121,7 @@ public class ObservedList<E extends ObservedModel> extends ObservedModel impleme
   @Override
   public void add(int index, E element) {
     list.add(index, element);
-    firePropertyChanged(name, index, element);
+    firePropertyChange(name, index, element);
     element.addPropertyChangeListener(this);
   }
 
@@ -130,7 +130,7 @@ public class ObservedList<E extends ObservedModel> extends ObservedModel impleme
     E om = list.remove(index);
     if (om != null) {
       om.removePropertyChangeListener(this);
-      firePropertyChanged(name, om, index);
+      firePropertyChange(name, om, index);
     }
     return om;
   }
@@ -188,7 +188,7 @@ public class ObservedList<E extends ObservedModel> extends ObservedModel impleme
         }
       }    
     }
-    for (int i = list.size(); i < ((ObservedList)other).size(); i++) {
+    for (int i = ((ObservedList)other).size() - 1; i >= list.size(); i--) {
       ((ObservedList)other).remove(i);
     }
   }
