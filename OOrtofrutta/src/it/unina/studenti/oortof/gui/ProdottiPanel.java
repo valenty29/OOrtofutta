@@ -24,7 +24,10 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTable;
+import javax.swing.text.AbstractDocument;
 
+import it.unina.studenti.oortof.gui.models.InputCheckRules;
+import it.unina.studenti.oortof.gui.models.InputCheckingDocumentFilter;
 import it.unina.studenti.oortof.gui.models.LottiTableModel;
 import it.unina.studenti.oortof.models.*;
 
@@ -113,6 +116,9 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     lottiTable.setModel(new LottiTableModel());
     quantitaCarrello.setEnabled(false);
     setTriState();
+    
+    ((AbstractDocument)codiceProdottoTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(codiceProdottoTextField, InputCheckRules.soloNumeri));
+    ((AbstractDocument)prezzoTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(prezzoTextField, InputCheckRules.numeriSpazio));
     
     lottiTable.addKeyListener(new KeyAdapter() {
       public void keyReleased(KeyEvent e) {

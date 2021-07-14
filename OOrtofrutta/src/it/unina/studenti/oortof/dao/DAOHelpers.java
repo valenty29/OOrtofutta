@@ -1,10 +1,11 @@
 package it.unina.studenti.oortof.dao;
 
 import it.unina.studenti.oortof.models.Cliente;
+import it.unina.studenti.oortof.models.FieldException;
 import it.unina.studenti.oortof.models.ProdottoCommon;
 
 public class DAOHelpers {
-    public static String getFloatQueryField(String query){
+    public static String getFloatQueryField(String query) throws FieldException {
 
         String[] queryDestr = query.split(" ");
         String finalQuery = "";
@@ -24,8 +25,8 @@ public class DAOHelpers {
                 finalQuery += String.format("%s %f", operator, f1);
             }
 
-        } catch (NumberFormatException nfe){
-            System.out.println("PASSATO VALORE INVALIDO A QUERY PREZZO");
+        } catch (Exception nfe){
+            throw new FieldException(query, "Sintassi ricerca errata", java.util.Optional.of("Sintassi corretta: [numero] < | [numero] > | [numero] [numero]"));
         }
         return finalQuery;
     }

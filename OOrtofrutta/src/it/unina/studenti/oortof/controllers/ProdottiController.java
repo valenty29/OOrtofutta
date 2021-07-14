@@ -66,6 +66,9 @@ public class ProdottiController implements Controller<Prodotto> {
       ritorno.copyTo(prodotti);
       ApplicationStatus.getInstance().setStatus(ApplicationStatus.STATUS_NAVIGATION);
     }
+    catch (ValidationException ve) {
+      ApplicationInfo.getInstance().setMessage(ve.toString(), ApplicationInfo.LEVEL_ERROR);
+    }
     catch (Exception e) {
       e.printStackTrace();
     }

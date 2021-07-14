@@ -18,7 +18,8 @@ public class SQLClienteDAO {
         context = new DBContext();
     }
 
-    private String getRaccoltaPuntiFilters(RaccoltaPunti raccoltaPunti){
+    private String getRaccoltaPuntiFilters(RaccoltaPunti raccoltaPunti) throws ValidationException {
+        ArrayList<FieldException> exceptionList = new ArrayList<>();
         String query = "";
         if(raccoltaPunti == null) {
             return query;
@@ -29,7 +30,12 @@ public class SQLClienteDAO {
         if (raccoltaPunti.getString(RaccoltaPunti.FRUTTA_VERDURA) != null)
         {
             String puntiFilter = raccoltaPunti.getString(RaccoltaPunti.FRUTTA_VERDURA);
-            query += String.format("PuntiFruttaVerdura %s", DAOHelpers.getFloatQueryField(puntiFilter));
+            try {
+                query += String.format("PuntiFruttaVerdura %s", DAOHelpers.getFloatQueryField(puntiFilter));
+            } catch (FieldException fe) {
+                exceptionList.add(fe);
+            }
+
             filterCount++;
         }
 
@@ -39,7 +45,11 @@ public class SQLClienteDAO {
                 query += " AND ";
             }
             String puntiFilter = raccoltaPunti.getString(RaccoltaPunti.PRODOTTO_CASEARIO);
-            query += String.format("PuntiProdottoCaseario %s", DAOHelpers.getFloatQueryField(puntiFilter));
+            try {
+                query += String.format("PuntiProdottoCaseario %s", DAOHelpers.getFloatQueryField(puntiFilter));
+            } catch (FieldException fe) {
+                exceptionList.add(fe);
+            }
             filterCount++;
         }
 
@@ -49,7 +59,11 @@ public class SQLClienteDAO {
                 query += " AND ";
             }
             String puntiFilter = raccoltaPunti.getString(RaccoltaPunti.FARINACEO);
-            query += String.format("PuntiFarinaceo %s", DAOHelpers.getFloatQueryField(puntiFilter));
+            try {
+                query += String.format("PuntiFarinaceo %s", DAOHelpers.getFloatQueryField(puntiFilter));
+            } catch (FieldException fe) {
+                exceptionList.add(fe);
+            }
             filterCount++;
         }
 
@@ -59,7 +73,11 @@ public class SQLClienteDAO {
                 query += " AND ";
             }
             String puntiFilter = raccoltaPunti.getString(RaccoltaPunti.UOVO);
-            query += String.format("PuntiUovo %s", DAOHelpers.getFloatQueryField(puntiFilter));
+            try {
+                query += String.format("PuntiUovo %s", DAOHelpers.getFloatQueryField(puntiFilter));
+            } catch (FieldException fe) {
+                exceptionList.add(fe);
+            }
             filterCount++;
         }
 
@@ -69,7 +87,11 @@ public class SQLClienteDAO {
                 query += " AND ";
             }
             String puntiFilter = raccoltaPunti.getString(RaccoltaPunti.CARNE_PESCE);
-            query += String.format("PuntiCarnePesce %s", DAOHelpers.getFloatQueryField(puntiFilter));
+            try {
+                query += String.format("PuntiCarnePesce %s", DAOHelpers.getFloatQueryField(puntiFilter));
+            } catch (FieldException fe) {
+                exceptionList.add(fe);
+            }
             filterCount++;
         }
 
@@ -79,7 +101,11 @@ public class SQLClienteDAO {
                 query += " AND ";
             }
             String puntiFilter = raccoltaPunti.getString(RaccoltaPunti.BIBITA);
-            query += String.format("PuntiBibita %s", DAOHelpers.getFloatQueryField(puntiFilter));
+            try {
+                query += String.format("PuntiBibita %s", DAOHelpers.getFloatQueryField(puntiFilter));
+            } catch (FieldException fe) {
+                exceptionList.add(fe);
+            }
             filterCount++;
         }
 
@@ -89,7 +115,11 @@ public class SQLClienteDAO {
                 query += " AND ";
             }
             String puntiFilter = raccoltaPunti.getString(RaccoltaPunti.CONSERVA);
-            query += String.format("PuntiConserva %s", DAOHelpers.getFloatQueryField(puntiFilter));
+            try {
+                query += String.format("PuntiConserva %s", DAOHelpers.getFloatQueryField(puntiFilter));
+            } catch (FieldException fe) {
+                exceptionList.add(fe);
+            }
             filterCount++;
         }
 
@@ -99,16 +129,23 @@ public class SQLClienteDAO {
                 query += " AND ";
             }
             String puntiFilter = raccoltaPunti.getString(RaccoltaPunti.ALTRO);
-            query += String.format("PuntiAltro %s", DAOHelpers.getFloatQueryField(puntiFilter));
+            try {
+                query += String.format("PuntiAltro %s", DAOHelpers.getFloatQueryField(puntiFilter));
+            } catch (FieldException fe) {
+                exceptionList.add(fe);
+            }
             filterCount++;
+        }
+
+        if (exceptionList.size() > 0) {
+            throw new ValidationException(exceptionList);
         }
 
         return query;
     }
 
-    public ObservedList<Cliente> getClienti(Cliente clienteTemplate)
-    {
-
+    public ObservedList<Cliente> getClienti(Cliente clienteTemplate) throws ValidationException {
+        ArrayList<FieldException> exceptionList = new ArrayList<>();
         try {
             Connection conn = context.OpenConnection();
             Statement stm = conn.createStatement();
@@ -185,8 +222,11 @@ public class SQLClienteDAO {
             if (acq.getString(Acquisto.PREZZO) != null && !acq.getString(Acquisto.PREZZO).equals("")) {
 
                 String puntiFilter = acq.getString(Acquisto.PREZZO);
-
-                quantitaFilters = String.format("GROUP BY (C.id, C.cf, C.genere, R.id, C.nome, C.cognome, C.email, C.datanascita, C.luogonascita, R.puntifruttaverdura, R.puntiprodottocaseario, R.puntifarinaceo, R.puntiuovo, R.punticarnepesce, R.punticonserva, R.puntibibita, R.puntialtro) HAVING SUM(Quantita) %s", DAOHelpers.getFloatQueryField(puntiFilter));
+                try {
+                    quantitaFilters = String.format("GROUP BY (C.id, C.cf, C.genere, R.id, C.nome, C.cognome, C.email, C.datanascita, C.luogonascita, R.puntifruttaverdura, R.puntiprodottocaseario, R.puntifarinaceo, R.puntiuovo, R.punticarnepesce, R.punticonserva, R.puntibibita, R.puntialtro) HAVING SUM(Quantita) %s", DAOHelpers.getFloatQueryField(puntiFilter));
+                } catch (FieldException fe) {
+                    exceptionList.add(fe);
+                }
             }
 
 
@@ -240,6 +280,10 @@ public class SQLClienteDAO {
 
 
             conn.close();
+
+            if (exceptionList.size() > 0) {
+                throw new ValidationException(exceptionList);
+            }
             return list;
         } catch (SQLException se)
         {
@@ -439,12 +483,14 @@ public class SQLClienteDAO {
                 if (generatedKeys.next())
                 {
                     id = Math.toIntExact(generatedKeys.getLong(1));
+                    try {
+                        Optional<Cliente> finalCliente = getClienti(new Cliente(id, null, null, null, null, null, null, null)).stream().findFirst();
+                        if (!finalCliente.isPresent()){
+                            throw new SQLException();
+                        }
+                        return finalCliente.get();
+                    } catch (ValidationException ve) { }
 
-                    Optional<Cliente> finalCliente = getClienti(new Cliente(id, null, null, null, null, null, null, null)).stream().findFirst();
-                    if (!finalCliente.isPresent()){
-                        throw new SQLException();
-                    }
-                    return finalCliente.get();
                 }
                 throw new SQLException();
             } catch (SQLException e)

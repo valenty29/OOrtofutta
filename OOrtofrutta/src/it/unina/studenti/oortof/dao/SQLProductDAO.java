@@ -1,5 +1,6 @@
 package it.unina.studenti.oortof.dao;
 
+import java.lang.reflect.Field;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -287,8 +288,8 @@ public class SQLProductDAO implements ProductDAO {
 
     
 
-    @SuppressWarnings("unchecked")
-	public ObservedList<Prodotto> getProduct(Prodotto prodotto) {
+
+	public ObservedList<Prodotto> getProduct(Prodotto prodotto) throws ValidationException {
     	ObservedList<Prodotto> prodotti = new ObservedList<Prodotto>("prodotti");
     	boolean allNull = true;
     	
@@ -352,7 +353,7 @@ public class SQLProductDAO implements ProductDAO {
     	return prodotti;
     }
 
-    private ObservedList<Altro> getAltro(Prodotto prod)  {
+    private ObservedList<Altro> getAltro(Prodotto prod) throws ValidationException {
 
         try {
             Connection conn = context.OpenConnection();
@@ -389,8 +390,9 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    private ObservedList<Bibita> getBibita(Prodotto bibita)  {
+    private ObservedList<Bibita> getBibita(Prodotto bibita) throws ValidationException {
         BibitaSpecifico bibSpec = bibita.getBibitaSpecifico();
+        ArrayList<FieldException> exceptionList = new ArrayList<>();
         try {
             Connection conn = context.OpenConnection();
             Statement stm = conn.createStatement();
@@ -407,7 +409,12 @@ public class SQLProductDAO implements ProductDAO {
                 if(filterCount != 0)
                     query += " AND ";
                 String gradazioneFilter = bibSpec.getString(BibitaSpecifico.GRADAZIONE_ALCOLICA);
-                query += String.format("PuntiFruttaVerdura %s", DAOHelpers.getFloatQueryField(gradazioneFilter));
+                try {
+                    query += String.format("PuntiFruttaVerdura %s", DAOHelpers.getFloatQueryField(gradazioneFilter));
+                } catch (FieldException fe){
+                    exceptionList.add(fe);
+                }
+
                 filterCount++;
             }
             if(bibSpec.getString(BibitaSpecifico.TIPO_BIBITA) != null)
@@ -444,6 +451,10 @@ public class SQLProductDAO implements ProductDAO {
                 list.add(bib);
             }
             conn.close();
+
+            if (exceptionList.size() > 0) {
+                throw new ValidationException(exceptionList);
+            }
             return list;
             }
         catch (SQLException se)
@@ -452,8 +463,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    private ObservedList<Uovo> getUovo(Prodotto uovo)
-    {
+    private ObservedList<Uovo> getUovo(Prodotto uovo) throws ValidationException {
 
         UovoSpecifico uovoSpecifico = uovo.getUovoSpecifico();
 
@@ -505,8 +515,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    private ObservedList<CarnePesce> getCarnePesce(Prodotto carnePesce)
-    {
+    private ObservedList<CarnePesce> getCarnePesce(Prodotto carnePesce) throws ValidationException {
 
             CarnePesceSpecifico carnePesceSpecifico = carnePesce.getCarnePesceSpecifico();
 
@@ -576,8 +585,7 @@ public class SQLProductDAO implements ProductDAO {
     }
 
 
-    private ObservedList<Farinaceo> getFarinaceo(Prodotto farinaceo)
-    {
+    private ObservedList<Farinaceo> getFarinaceo(Prodotto farinaceo) throws ValidationException {
         FarinaceoSpecifico farinaceoSpecifico = farinaceo.getFarinaceoSpecifico();
         try {
             Connection conn = context.OpenConnection();
@@ -643,8 +651,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    private ObservedList<FruttaVerdura> getFruttaVerdura(Prodotto fruttaVerdura)
-    {
+    private ObservedList<FruttaVerdura> getFruttaVerdura(Prodotto fruttaVerdura) throws ValidationException {
         FruttaVerduraSpecifico fruttaVerduraSpecifico = fruttaVerdura.getFruttaVerduraSpecifico();
         try {
             Connection conn = context.OpenConnection();
@@ -702,8 +709,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    private ObservedList<Conserva> getConserva(Prodotto conserva)
-    {
+    private ObservedList<Conserva> getConserva(Prodotto conserva) throws ValidationException {
 
         ConservaSpecifico conservaSpecifico = conserva.getConservaSpecifico();
         try {
@@ -746,8 +752,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    private ObservedList<ProdottoCaseario> getProdottoCaseario(Prodotto prodottoCaseario)
-    {
+    private ObservedList<ProdottoCaseario> getProdottoCaseario(Prodotto prodottoCaseario) throws ValidationException {
 
         ProdottoCasearioSpecifico prodCasSpecifico = prodottoCaseario.getProdottoCasearioSpecifico();
         try {
@@ -828,8 +833,9 @@ public class SQLProductDAO implements ProductDAO {
     }
     
 
-    private String getProdottoFilters(ProdottoCommon prodCom) {
+    private String getProdottoFilters(ProdottoCommon prodCom) throws ValidationException {
 
+        ArrayList<FieldException> exceptions = new ArrayList();
         String query = "";
         int filterCount = 0;
         if (prodCom.getId() != null) {
@@ -849,7 +855,12 @@ public class SQLProductDAO implements ProductDAO {
         {
             if(filterCount != 0)
                 query += " AND ";
-            query += String.format("Prezzo %s", DAOHelpers.getFloatQueryField(prodCom.getString(ProdottoCommon.PREZZO)));
+            try {
+                query += String.format("Prezzo %s", DAOHelpers.getFloatQueryField(prodCom.getString(ProdottoCommon.PREZZO)));
+            } catch (FieldException fe) {
+                exceptions.add(fe);
+            }
+
         }
 
         if(prodCom.getString(ProdottoCommon.SFUSO) != null)
@@ -858,6 +869,10 @@ public class SQLProductDAO implements ProductDAO {
                 query += " AND ";
             query += "Sfuso = " + prodCom.isSfuso();
             filterCount++;
+        }
+
+        if (exceptions.size() > 0) {
+            throw new ValidationException(exceptions);
         }
 
         return query;

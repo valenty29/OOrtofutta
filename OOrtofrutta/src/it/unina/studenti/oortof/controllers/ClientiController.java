@@ -6,13 +6,7 @@ import java.util.List;
 import it.unina.studenti.oortof.dao.DBContext;
 import it.unina.studenti.oortof.dao.ListHelpers;
 import it.unina.studenti.oortof.dao.SQLClienteDAO;
-import it.unina.studenti.oortof.models.Acquisto;
-import it.unina.studenti.oortof.models.ApplicationStatus;
-import it.unina.studenti.oortof.models.Cliente;
-import it.unina.studenti.oortof.models.ObservedList;
-import it.unina.studenti.oortof.models.ObservedModel;
-import it.unina.studenti.oortof.models.Prodotto;
-import it.unina.studenti.oortof.models.Scontrino;
+import it.unina.studenti.oortof.models.*;
 
 public class ClientiController implements Controller {
 	private Cliente cliente;
@@ -90,7 +84,12 @@ public class ClientiController implements Controller {
 
 
 					clienti.copyTo(listCliente);
-				} catch (Exception e) {
+
+				}
+				catch (ValidationException ve) {
+					ApplicationInfo.getInstance().setMessage(ve.toString(), ApplicationInfo.LEVEL_ERROR);
+				}
+				catch (Exception e) {
 					
 				}
 				
