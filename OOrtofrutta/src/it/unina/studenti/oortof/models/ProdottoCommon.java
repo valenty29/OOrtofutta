@@ -296,7 +296,7 @@ public class ProdottoCommon extends ObservedModel implements PropertyChangeListe
     ((ProdottoCommon)prodottoCommon).setProdottoCaseario(getProdottoCaseario());
     ((ProdottoCommon)prodottoCommon).setUovo(getUovo());
     ((ProdottoCommon)prodottoCommon).setNome(getNome());
-    ((ProdottoCommon)prodottoCommon).setPrezzo(getPrezzo());
+    ((ProdottoCommon)prodottoCommon).setValue(PREZZO, attributes[PREZZO]);
     ((ProdottoCommon)prodottoCommon).setSfuso(getSfuso());
     ((ObservedList<Lotto>)attributes[LOTTI]).copyTo(((ProdottoCommon)prodottoCommon).getLotti());
   }

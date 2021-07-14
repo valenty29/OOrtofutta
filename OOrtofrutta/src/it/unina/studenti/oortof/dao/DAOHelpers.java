@@ -15,6 +15,7 @@ public class DAOHelpers {
                 float f2 = Float.parseFloat(queryDestr[1]);
 
                 finalQuery += String.format("BETWEEN %f AND %f", f1, f2);
+                finalQuery = finalQuery.replace(",", ".");
             }
 
             catch (NumberFormatException nfef){

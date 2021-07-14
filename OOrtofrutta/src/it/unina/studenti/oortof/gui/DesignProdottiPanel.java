@@ -13,7 +13,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.JRadioButton;
 import javax.swing.border.LineBorder;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.border.TitledBorder;
 import javax.swing.JScrollPane;
@@ -28,7 +27,6 @@ public abstract class DesignProdottiPanel extends JPanel {
   protected JFormattedTextField codiceProdottoTextField;
   protected JFormattedTextField prezzoTextField;
   protected JTextField stagionatureTextField;
-  protected JTextField stabilimentoTextField;
   protected JTextField tipoLatteTextField;
   protected JTextField tipoFarinaTextField;
   protected JTextField animaleTextField;
@@ -41,6 +39,7 @@ public abstract class DesignProdottiPanel extends JPanel {
   protected JRadioButton tipo1RadioButton = new JRadioButton("1");
   protected JRadioButton tipo2RadioButton = new JRadioButton("2");
   protected JRadioButton tipo3RadioButton = new JRadioButton("3");
+  protected JRadioButton sottoVetroRadioButton = new JRadioButton("Sotto vetro");
   protected JRadioButton inZuccheriRadioButton = new JRadioButton("In zuccheri");
   protected JRadioButton conserveAltroTipoRadioButton = new JRadioButton("Altro tipo di conservazione");
   protected JRadioButton sottacetoRadioButton = new JRadioButton("Sott'aceto");
@@ -78,8 +77,6 @@ public abstract class DesignProdottiPanel extends JPanel {
   protected JCheckBox uovaCheckbox = new JCheckBox("Uova");
   protected JCheckBox altriTipoCheckbox = new JCheckBox("Altri tipi");
   protected JCheckBox daAllevamentoCheckBox = new JCheckBox("Da Allevamento");
-  protected JLabel lblNewLabel = new JLabel("Codice Allevamento");
-  protected JTextField codiceAllevamentoTextField = new JTextField();
 
   protected ButtonGroup fruttaVerduraBG = new ButtonGroup();
   protected ButtonGroup conserveBG = new ButtonGroup();
@@ -87,7 +84,8 @@ public abstract class DesignProdottiPanel extends JPanel {
   protected ButtonGroup tipoAllevamentoBG = new ButtonGroup();
   protected ButtonGroup carnePesceBG = new ButtonGroup();
   protected ButtonGroup bibitaBG = new ButtonGroup();
-  protected final JTextField quantitaCarrello = new JTextField();
+  protected JTextField quantitaCarrello = new JTextField();
+  
 
   
   /**
@@ -95,7 +93,6 @@ public abstract class DesignProdottiPanel extends JPanel {
    */
   public DesignProdottiPanel() {
   	quantitaCarrello.setColumns(10);
-    codiceAllevamentoTextField.setColumns(10);
     GridBagLayout gridBagLayout = new GridBagLayout();
     gridBagLayout.columnWidths = new int[]{680, 0};
     gridBagLayout.rowHeights = new int[]{128, 157, 200, 0, 0};
@@ -320,9 +317,9 @@ public abstract class DesignProdottiPanel extends JPanel {
     caratteristicheSpecificheTabbed.setEnabledAt(1, false);
     GridBagLayout gbl_conservePanel = new GridBagLayout();
     gbl_conservePanel.columnWidths = new int[]{0, 0, 0, 0, 0};
-    gbl_conservePanel.rowHeights = new int[]{0, 0, 0};
+    gbl_conservePanel.rowHeights = new int[]{0, 0, 0, 0};
     gbl_conservePanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-    gbl_conservePanel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+    gbl_conservePanel.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
     conservePanel.setLayout(gbl_conservePanel);
     
     sottovuotoRadioButton.setEnabled(false);
@@ -341,27 +338,28 @@ public abstract class DesignProdottiPanel extends JPanel {
     gbc_sottolioRadioButton.gridy = 0;
     conservePanel.add(sottolioRadioButton, gbc_sottolioRadioButton);
     
+    GridBagConstraints gbc_sottoVetroRadioButton = new GridBagConstraints();
+    gbc_sottoVetroRadioButton.insets = new Insets(0, 0, 5, 5);
+    gbc_sottoVetroRadioButton.anchor = GridBagConstraints.WEST;
+    gbc_sottoVetroRadioButton.gridx = 2;
+    gbc_sottoVetroRadioButton.gridy = 0;
+    sottoVetroRadioButton.setEnabled(false);
+    conservePanel.add(sottoVetroRadioButton, gbc_sottoVetroRadioButton);
+    
 
     inZuccheriRadioButton.setEnabled(false);
     GridBagConstraints gbc_inZuccheriRadioButton = new GridBagConstraints();
+    gbc_inZuccheriRadioButton.insets = new Insets(0, 0, 5, 0);
     gbc_inZuccheriRadioButton.anchor = GridBagConstraints.WEST;
-    gbc_inZuccheriRadioButton.insets = new Insets(0, 0, 5, 5);
-    gbc_inZuccheriRadioButton.gridx = 2;
+    gbc_inZuccheriRadioButton.gridx = 3;
     gbc_inZuccheriRadioButton.gridy = 0;
     conservePanel.add(inZuccheriRadioButton, gbc_inZuccheriRadioButton);
-    
-    conserveAltroTipoRadioButton.setEnabled(false);
-    GridBagConstraints gbc_conserveAltroTipoRadioButton = new GridBagConstraints();
-    gbc_conserveAltroTipoRadioButton.anchor = GridBagConstraints.WEST;
-    gbc_conserveAltroTipoRadioButton.insets = new Insets(0, 0, 5, 0);
-    gbc_conserveAltroTipoRadioButton.gridx = 3;
-    gbc_conserveAltroTipoRadioButton.gridy = 0;
-    conservePanel.add(conserveAltroTipoRadioButton, gbc_conserveAltroTipoRadioButton);
+    conserveBG.add(inZuccheriRadioButton);
     
     sottacetoRadioButton.setEnabled(false);
     GridBagConstraints gbc_sottacetoRadioButton = new GridBagConstraints();
     gbc_sottacetoRadioButton.anchor = GridBagConstraints.WEST;
-    gbc_sottacetoRadioButton.insets = new Insets(0, 0, 0, 5);
+    gbc_sottacetoRadioButton.insets = new Insets(0, 0, 5, 5);
     gbc_sottacetoRadioButton.gridx = 0;
     gbc_sottacetoRadioButton.gridy = 1;
     conservePanel.add(sottacetoRadioButton, gbc_sottacetoRadioButton);
@@ -369,7 +367,7 @@ public abstract class DesignProdottiPanel extends JPanel {
     sottosaleRadioButton.setEnabled(false);
     GridBagConstraints gbc_sottosaleRadioButton = new GridBagConstraints();
     gbc_sottosaleRadioButton.anchor = GridBagConstraints.WEST;
-    gbc_sottosaleRadioButton.insets = new Insets(0, 0, 0, 5);
+    gbc_sottosaleRadioButton.insets = new Insets(0, 0, 5, 5);
     gbc_sottosaleRadioButton.gridx = 1;
     gbc_sottosaleRadioButton.gridy = 1;
     conservePanel.add(sottosaleRadioButton, gbc_sottosaleRadioButton);
@@ -377,7 +375,7 @@ public abstract class DesignProdottiPanel extends JPanel {
     sottoSpiritoRadioButton.setEnabled(false);
     GridBagConstraints gbc_sottoSpiritoRadioButton = new GridBagConstraints();
     gbc_sottoSpiritoRadioButton.anchor = GridBagConstraints.WEST;
-    gbc_sottoSpiritoRadioButton.insets = new Insets(0, 0, 0, 5);
+    gbc_sottoSpiritoRadioButton.insets = new Insets(0, 0, 5, 5);
     gbc_sottoSpiritoRadioButton.gridx = 2;
     gbc_sottoSpiritoRadioButton.gridy = 1;
     conservePanel.add(sottoSpiritoRadioButton, gbc_sottoSpiritoRadioButton);
@@ -387,9 +385,9 @@ public abstract class DesignProdottiPanel extends JPanel {
     caratteristicheSpecificheTabbed.setEnabledAt(2, false);
     GridBagLayout gbl_prodottiCaseariPanel = new GridBagLayout();
     gbl_prodottiCaseariPanel.columnWidths = new int[]{0, 204, 0};
-    gbl_prodottiCaseariPanel.rowHeights = new int[]{0, 0, 0, 0};
+    gbl_prodottiCaseariPanel.rowHeights = new int[]{0, 0, 0};
     gbl_prodottiCaseariPanel.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-    gbl_prodottiCaseariPanel.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+    gbl_prodottiCaseariPanel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
     prodottiCaseariPanel.setLayout(gbl_prodottiCaseariPanel);
     
     JLabel stagionaturaLabel = new JLabel("Stagionatura");
@@ -410,30 +408,12 @@ public abstract class DesignProdottiPanel extends JPanel {
     prodottiCaseariPanel.add(stagionatureTextField, gbc_stagionatureTextField);
     stagionatureTextField.setColumns(10);
     
-    JLabel stabilimentoLabel = new JLabel("Stabilimento");
-    GridBagConstraints gbc_stabilimentoLabel = new GridBagConstraints();
-    gbc_stabilimentoLabel.anchor = GridBagConstraints.EAST;
-    gbc_stabilimentoLabel.insets = new Insets(0, 0, 5, 5);
-    gbc_stabilimentoLabel.gridx = 0;
-    gbc_stabilimentoLabel.gridy = 1;
-    prodottiCaseariPanel.add(stabilimentoLabel, gbc_stabilimentoLabel);
-    
-    stabilimentoTextField = new JTextField();
-    stabilimentoTextField.setEnabled(false);
-    GridBagConstraints gbc_stabilimentoTextField = new GridBagConstraints();
-    gbc_stabilimentoTextField.insets = new Insets(0, 0, 5, 0);
-    gbc_stabilimentoTextField.fill = GridBagConstraints.HORIZONTAL;
-    gbc_stabilimentoTextField.gridx = 1;
-    gbc_stabilimentoTextField.gridy = 1;
-    prodottiCaseariPanel.add(stabilimentoTextField, gbc_stabilimentoTextField);
-    stabilimentoTextField.setColumns(10);
-    
     JLabel tipoLatteLabel = new JLabel("Tipo di latte");
     GridBagConstraints gbc_tipoLatteLabel = new GridBagConstraints();
     gbc_tipoLatteLabel.anchor = GridBagConstraints.EAST;
     gbc_tipoLatteLabel.insets = new Insets(0, 0, 0, 5);
     gbc_tipoLatteLabel.gridx = 0;
-    gbc_tipoLatteLabel.gridy = 2;
+    gbc_tipoLatteLabel.gridy = 1;
     prodottiCaseariPanel.add(tipoLatteLabel, gbc_tipoLatteLabel);
     
     tipoLatteTextField = new JTextField();
@@ -441,7 +421,7 @@ public abstract class DesignProdottiPanel extends JPanel {
     GridBagConstraints gbc_tipoLatteTextField = new GridBagConstraints();
     gbc_tipoLatteTextField.fill = GridBagConstraints.HORIZONTAL;
     gbc_tipoLatteTextField.gridx = 1;
-    gbc_tipoLatteTextField.gridy = 2;
+    gbc_tipoLatteTextField.gridy = 1;
     prodottiCaseariPanel.add(tipoLatteTextField, gbc_tipoLatteTextField);
     tipoLatteTextField.setColumns(10);
     
@@ -502,9 +482,9 @@ public abstract class DesignProdottiPanel extends JPanel {
     caratteristicheSpecificheTabbed.setEnabledAt(4, false);
     GridBagLayout gbl_uovaPanel = new GridBagLayout();
     gbl_uovaPanel.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
-    gbl_uovaPanel.rowHeights = new int[]{0, 0, 0, 0};
+    gbl_uovaPanel.rowHeights = new int[]{0, 0, 0};
     gbl_uovaPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-    gbl_uovaPanel.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+    gbl_uovaPanel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
     uovaPanel.setLayout(gbl_uovaPanel);
     
     JLabel tipoDiAllevamentoLabel = new JLabel("Tipo di allevamento");
@@ -542,53 +522,38 @@ public abstract class DesignProdottiPanel extends JPanel {
     gbc_tipo3RadioButton.gridy = 0;
     uovaPanel.add(tipo3RadioButton, gbc_tipo3RadioButton);
     
-    GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-    gbc_lblNewLabel.anchor = GridBagConstraints.EAST;
-    gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
-    gbc_lblNewLabel.gridx = 0;
-    gbc_lblNewLabel.gridy = 1;
-    uovaPanel.add(lblNewLabel, gbc_lblNewLabel);
-    
-    GridBagConstraints gbc_codiceAllevamentoTextField = new GridBagConstraints();
-    gbc_codiceAllevamentoTextField.fill = GridBagConstraints.HORIZONTAL;
-    gbc_codiceAllevamentoTextField.gridwidth = 4;
-    gbc_codiceAllevamentoTextField.insets = new Insets(0, 0, 5, 5);
-    gbc_codiceAllevamentoTextField.gridx = 1;
-    gbc_codiceAllevamentoTextField.gridy = 1;
-    uovaPanel.add(codiceAllevamentoTextField, gbc_codiceAllevamentoTextField);
-    
     JLabel categoriaDiPesoLabel = new JLabel("Categoria di peso");
     GridBagConstraints gbc_categoriaDiPesoLabel = new GridBagConstraints();
     gbc_categoriaDiPesoLabel.insets = new Insets(0, 0, 0, 5);
     gbc_categoriaDiPesoLabel.gridx = 0;
-    gbc_categoriaDiPesoLabel.gridy = 2;
+    gbc_categoriaDiPesoLabel.gridy = 1;
     uovaPanel.add(categoriaDiPesoLabel, gbc_categoriaDiPesoLabel);
     
     categoriaSRadioButton.setEnabled(false);
     GridBagConstraints gbc_categoriaSRadioButton = new GridBagConstraints();
     gbc_categoriaSRadioButton.insets = new Insets(0, 0, 0, 5);
     gbc_categoriaSRadioButton.gridx = 1;
-    gbc_categoriaSRadioButton.gridy = 2;
+    gbc_categoriaSRadioButton.gridy = 1;
     uovaPanel.add(categoriaSRadioButton, gbc_categoriaSRadioButton);
     
     categoriaMRadioButton.setEnabled(false);
     GridBagConstraints gbc_categoriaMRadioButton = new GridBagConstraints();
     gbc_categoriaMRadioButton.insets = new Insets(0, 0, 0, 5);
     gbc_categoriaMRadioButton.gridx = 2;
-    gbc_categoriaMRadioButton.gridy = 2;
+    gbc_categoriaMRadioButton.gridy = 1;
     uovaPanel.add(categoriaMRadioButton, gbc_categoriaMRadioButton);
     
     categoriaLRadioButton.setEnabled(false);
     GridBagConstraints gbc_categoriaLRadioButton = new GridBagConstraints();
     gbc_categoriaLRadioButton.insets = new Insets(0, 0, 0, 5);
     gbc_categoriaLRadioButton.gridx = 3;
-    gbc_categoriaLRadioButton.gridy = 2;
+    gbc_categoriaLRadioButton.gridy = 1;
     uovaPanel.add(categoriaLRadioButton, gbc_categoriaLRadioButton);
     
     categoriaXLRadioButton.setEnabled(false);
     GridBagConstraints gbc_categoriaXLRadioButton = new GridBagConstraints();
     gbc_categoriaXLRadioButton.gridx = 4;
-    gbc_categoriaXLRadioButton.gridy = 2;
+    gbc_categoriaXLRadioButton.gridy = 1;
     uovaPanel.add(categoriaXLRadioButton, gbc_categoriaXLRadioButton);
     
     JPanel carnePescePanel = new JPanel();
@@ -766,11 +731,19 @@ public abstract class DesignProdottiPanel extends JPanel {
     
     conserveBG.add(sottovuotoRadioButton);
     conserveBG.add(sottolioRadioButton);
-    conserveBG.add(inZuccheriRadioButton);
-    conserveBG.add(conserveAltroTipoRadioButton);
     conserveBG.add(sottacetoRadioButton);
     conserveBG.add(sottosaleRadioButton);
     conserveBG.add(sottoSpiritoRadioButton);
+    conserveBG.add(sottoVetroRadioButton);
+    
+    conserveAltroTipoRadioButton.setEnabled(false);
+    GridBagConstraints gbc_conserveAltroTipoRadioButton = new GridBagConstraints();
+    gbc_conserveAltroTipoRadioButton.insets = new Insets(0, 0, 5, 0);
+    gbc_conserveAltroTipoRadioButton.anchor = GridBagConstraints.WEST;
+    gbc_conserveAltroTipoRadioButton.gridx = 3;
+    gbc_conserveAltroTipoRadioButton.gridy = 1;
+    conservePanel.add(conserveAltroTipoRadioButton, gbc_conserveAltroTipoRadioButton);
+    conserveBG.add(conserveAltroTipoRadioButton);
     
     tipoAllevamentoBG.add(tipo0RadioButton);
     tipoAllevamentoBG.add(tipo1RadioButton);

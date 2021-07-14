@@ -167,6 +167,8 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     });
 
     lottiTable.setDefaultRenderer(String.class, new DefaultTableCellRenderer() {
+      private static final long serialVersionUID = 1L;
+
       public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         boolean lastRow = table.getModel().getRowCount() == (row + 1);
         isSelected = ApplicationStatus.getInstance().isNavigation() || !lastRow ? isSelected : false;
@@ -480,7 +482,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     ConservaSpecifico cs = (ConservaSpecifico)prodotto.getProdottoSpecificoAt(Prodotto.CONSERVA_INDEX);
     sottovuotoRadioButton.setSelected(cs != null && TipoConservazione.Sottovuoto.equals(cs.getTipoConservazione()));
     sottacetoRadioButton.setSelected(cs != null && TipoConservazione.Sottaceto.equals(cs.getTipoConservazione()));
-    //TODO aggiungere radiobutton sottovetro
+    sottoVetroRadioButton.setSelected(cs != null && TipoConservazione.Sottovetro.equals(cs.getTipoConservazione()));
     sottolioRadioButton.setSelected(cs != null && TipoConservazione.Sottolio.equals(cs.getTipoConservazione()));
     sottosaleRadioButton.setSelected(cs != null && TipoConservazione.Sottosale.equals(cs.getTipoConservazione()));
     sottoSpiritoRadioButton.setSelected(cs != null && TipoConservazione.Sottospirito.equals(cs.getTipoConservazione()));
@@ -491,7 +493,6 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     }
     ProdottoCasearioSpecifico pcs = (ProdottoCasearioSpecifico)prodotto.getProdottoSpecificoAt(Prodotto.PRODOTTO_CASEARIO_INDEX);
     stagionatureTextField.setText(pcs != null ? pcs.getString(ProdottoCasearioSpecifico.STAGIONATURA) : null);
-    //TODO ELIMINARE TEXTFIEDL STABILIMENTO
     tipoLatteTextField.setText(pcs != null ? pcs.getString(ProdottoCasearioSpecifico.TIPO_LATTE) : null);
     FarinaceoSpecifico fs = (FarinaceoSpecifico)prodotto.getProdottoSpecificoAt(Prodotto.FARINACEO_INDEX);
     tipoFarinaTextField.setText(fs != null ? fs.getString(FarinaceoSpecifico.TIPO_FARINA) : null);
@@ -509,7 +510,6 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     if (us.getTipoAllevamento() == null) {
       tipoAllevamentoBG.clearSelection();
     }
-    //TODO RIMUOVERE CAMPO CODALLEVAMENTO UOVO
     categoriaSRadioButton.setSelected(us != null && CatPeso.S.equals(us.getCatPeso()));
     categoriaMRadioButton.setSelected(us != null && CatPeso.M.equals(us.getCatPeso()));
     categoriaLRadioButton.setSelected(us != null && CatPeso.L.equals(us.getCatPeso()));
@@ -603,6 +603,9 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     }
     else if (sottoSpiritoRadioButton.isSelected()) {
       tc = TipoConservazione.Sottospirito;
+    }
+    else if (sottoVetroRadioButton.isSelected()) {
+      tc = TipoConservazione.Sottovetro;
     }
     else if (inZuccheriRadioButton.isSelected()) {
       tc = TipoConservazione.Zucchero;

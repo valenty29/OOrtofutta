@@ -4,16 +4,15 @@ import it.unina.studenti.oortof.dao.SQLClienteDAO;
 import it.unina.studenti.oortof.gui.models.LottiTableModel;
 import it.unina.studenti.oortof.models.Carrello;
 import it.unina.studenti.oortof.models.Cliente;
-import it.unina.studenti.oortof.models.Prodotto;
 
 import javax.swing.*;
-import java.awt.BorderLayout;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.awt.BorderLayout;
 
 @SuppressWarnings("serial")
 public class CarrelloPanel extends JPanel {
@@ -23,27 +22,26 @@ public class CarrelloPanel extends JPanel {
   private JButton cancellaButton;
   private Carrello carrello;
   private Cliente cliente;
-  private JPanel buttonPanel;
-  private JPanel clientePanel;
+  private JPanel southCarrelloPanel;
   private SQLClienteDAO sqlClienteDAO;
-  private JLabel firstNameLabel;
-  private JLabel lastNameLabel;
+  private JPanel northCarrelloPanel;
+  private JLabel nomeCognomeLabel;
+
   public CarrelloPanel() {
     sqlClienteDAO = new SQLClienteDAO();
     scrollPane = new JScrollPane();
-    clientePanel = new JPanel();
-    clientePanel.setLayout(new BoxLayout(clientePanel, BoxLayout.X_AXIS));
-    firstNameLabel = new JLabel("TESTONE");
-    lastNameLabel = new JLabel("TESTISSIMA");
-    clientePanel.add(firstNameLabel);
-    clientePanel.add(lastNameLabel);
-    buttonPanel = new JPanel();
-    buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
-    add(clientePanel);
-    add(scrollPane);
-    add(buttonPanel);
-    setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-    
+    southCarrelloPanel = new JPanel();
+    southCarrelloPanel.setLayout(new BoxLayout(southCarrelloPanel, BoxLayout.X_AXIS));
+    setLayout(new BorderLayout(0, 0));
+    add(scrollPane, BorderLayout.CENTER);
+
+    northCarrelloPanel = new JPanel();
+    add(northCarrelloPanel, BorderLayout.NORTH);
+
+    nomeCognomeLabel = new JLabel("Seleziona un Cliente");
+    northCarrelloPanel.add(nomeCognomeLabel);
+    add(southCarrelloPanel, BorderLayout.SOUTH);
+
     carrelloTable = new JTable();
     carrelloTable.setBorder(new LineBorder(new Color(0, 0, 0)));
 
@@ -67,10 +65,8 @@ public class CarrelloPanel extends JPanel {
       }
     });
     cancellaButton.setText("Cancella acquisti");
-    buttonPanel.add(confermaButton);
-    buttonPanel.add(cancellaButton);
-
-
+    southCarrelloPanel.add(confermaButton);
+    southCarrelloPanel.add(cancellaButton);
 
     carrelloTable.setModel(new LottiTableModel());
   }
@@ -102,8 +98,7 @@ public class CarrelloPanel extends JPanel {
   }
 
   void modelToViewCore() {
-    firstNameLabel.setText(cliente.getNome());
-    lastNameLabel.setText(cliente.getCognome());
+    nomeCognomeLabel.setText(cliente.getNome() + " " + cliente.getCognome());
   }
-  
+
 }

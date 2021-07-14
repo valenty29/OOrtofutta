@@ -36,10 +36,8 @@ import it.unina.studenti.oortof.models.Scontrino;
 public class ClientiPanel extends DesignClientiPanel implements DocumentListener, ActionListener{
 	Cliente cliente;
 	Cliente oldCliente = new Cliente();
-	/**
-	 * 
-	 */
-
+	
+	
 	private ScontriniTableModel scontriniModel;
 	private AcquistiTableModel acquistiModel;
 	private static final long serialVersionUID = 1L;
@@ -78,8 +76,8 @@ public class ClientiPanel extends DesignClientiPanel implements DocumentListener
 	
 	
 	public void setModel(Cliente cliente) {
-		//Scontrino modelloScontrino = new Scontrino();
-		//ObservedList<Acquisto> modelloAcquisti = new ObservedList<Acquisto>("acquisti");
+		Scontrino modelloScontrino = new Scontrino();
+		ObservedList<Acquisto> modelloAcquisti = new ObservedList<Acquisto>("acquisti");
 	    this.cliente = cliente;
 	    Scontrino scontrino = new Scontrino();
 	    PropertyChangeListener dataModelListener = new PropertyChangeListener() {
@@ -96,8 +94,6 @@ public class ClientiPanel extends DesignClientiPanel implements DocumentListener
 
 	    scontriniTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 	        public void valueChanged(ListSelectionEvent event) {
-	            // do some actions here, for example
-	            // print first column value from selected row
 	        	int index = scontriniTable.getSelectedRow();
 	        	if (index != -1) {
 	        		acquistiModel.setIndex(index);
@@ -106,27 +102,6 @@ public class ClientiPanel extends DesignClientiPanel implements DocumentListener
 	        }
 	    });
 
-	    /*acquistiTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-	        public void valueChanged(ListSelectionEvent event) {
-	            // do some actions here, for example
-	            // print first column value from selected row
-	        	cliente.getScontrini().clear();
-	        	int index = acquistiTable.getSelectedRow();
-	        	if (index != -1) {
-	        		listCliente.get(index).copyTo(cliente);
-	        	}
-
-	        }
-	    });*/
-
-
-	    /*scontriniTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-	        public void valueChanged(ListSelectionEvent event) {
-	            // do some actions here, for example
-	            // print first column value from selected row
-	        	listCliente.get(table.getSelectedRow()).copyTo(cliente);
-	        }
-	    });*/
 	  }
 	
 	void setEnabledColor(boolean enabled, Color color) {
