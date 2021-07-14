@@ -23,6 +23,7 @@ public class DAOHelpers {
                 String operator = queryDestr[1];
 
                 finalQuery += String.format("%s %f", operator, f1);
+                finalQuery = finalQuery.replace(",", ".");
             }
 
         } catch (Exception nfe){

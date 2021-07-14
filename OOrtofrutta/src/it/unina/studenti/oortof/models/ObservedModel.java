@@ -4,6 +4,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -22,10 +23,24 @@ public abstract class ObservedModel {
     return sample;
   }
   
-  static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-  
+  static final SimpleDateFormat sdtf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+  static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+  private Calendar cal = Calendar.getInstance();
+
   public void setValue(int index, Object value) {
-    attributes[index] = value == null || value instanceof ObservedModel || value instanceof ObservedList ? value : value instanceof Date ? sdf.format((Date)value) : value.toString();
+    if (value instanceof Date) {
+      cal.setTime((Date) value);
+
+      if(cal.get(Calendar.HOUR_OF_DAY) + cal.get(Calendar.MINUTE) + cal.get(Calendar.SECOND) > 0) {
+        attributes[index] = sdtf.format((Date)value);
+      } else {
+        attributes[index] = sdf.format((Date)value);
+      }
+    } else {
+      attributes[index] = value == null || value instanceof ObservedModel || value instanceof ObservedList ? value : value.toString();
+    }
+
   }
   
   public Boolean getBoolean(int index) {
