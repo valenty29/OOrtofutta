@@ -16,6 +16,11 @@ public class InputCheckingDocumentFilter extends DocumentFilter {
   private JTextField textField;
   private InputCheckRule checkRule;
 
+  public InputCheckingDocumentFilter(JTextField textField, InputCheckRule checkRule) {
+        this.textField = textField;
+        this.checkRule = checkRule;
+    }
+
     public void remove(FilterBypass fb, int offset, int length) throws BadLocationException {
         super.remove(fb, offset, length);
     }
@@ -38,11 +43,6 @@ public class InputCheckingDocumentFilter extends DocumentFilter {
         } else {
             super.insertString(fb, offs, str, a);
         }
-
-    }
-    else {
-      super.insertString(fb, offs, str, a);
-    }
   }
 
     public void replace(FilterBypass fb, int offs, int length,
