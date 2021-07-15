@@ -815,13 +815,14 @@ public class SQLProductDAO implements ProductDAO {
             while(rs.next())
             {
                 int rsId = rs.getInt("id");
+                int rsIdProdotto = rs.getInt("idProdotto");
                 String rsCodLotto = rs.getString("CodLotto");
                 Date rsScadenza = rs.getDate("Scadenza");
                 float rsDisponibilita = rs.getFloat("Disponibilita");
                 Date rsDataProduzione = rs.getDate("DataProduzione");
                 String rsCodPaeseOrigine = rs.getString("CodPaeseOrigine");
                 Date rsDataMungitura = rs.getDate("DataMungitura");
-                Lotto lotto = new Lotto(rsId, rsCodLotto, rsScadenza, rsDisponibilita, rsDataProduzione, rsCodPaeseOrigine, rsDataMungitura);
+                Lotto lotto = new Lotto(rsId, rsIdProdotto, rsCodLotto, rsScadenza, rsDisponibilita, rsDataProduzione, rsCodPaeseOrigine, rsDataMungitura);
                 lotti.add(lotto);
             }
             return lotti;

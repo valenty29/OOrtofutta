@@ -2,6 +2,7 @@ package it.unina.studenti.oortof.models;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -11,7 +12,7 @@ import java.util.List;
 
 public class Cliente extends ObservedModel implements PropertyChangeListener{
 
-
+  SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
   public static final int ID = 0;   // Float
   public static final int CF = 1;             // Boolean
   public static final int NOME = 2;           // TipoBibita
@@ -32,6 +33,7 @@ public class Cliente extends ObservedModel implements PropertyChangeListener{
 
   public Cliente(Integer id, String cf, String nome, String cognome, Date dataNascita, String luogoNascita, Genere genere, String email) {
     this();
+    dataNascita.getHours();
     setValue(ID, id);
     setValue(CF, cf);
     setValue(NOME, nome);
@@ -95,7 +97,14 @@ public class Cliente extends ObservedModel implements PropertyChangeListener{
   }
 
   public Date getDataNascita() {
-    return getDate(DATA_NASCITA);
+    try {
+      Date convertedCurrentDate = sdf.parse(getString(DATA_NASCITA));
+      return convertedCurrentDate;
+    } catch (Exception e ){
+      //TODO gestire questo errore
+      return null;
+    }
+
   } 
 
   public void setDataNascita(Date dataNascita) {

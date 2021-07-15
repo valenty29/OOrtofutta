@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.AbstractButton;
@@ -19,8 +20,11 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.text.AbstractDocument;
 
 import it.unina.studenti.oortof.gui.models.AcquistiTableModel;
+import it.unina.studenti.oortof.gui.models.InputCheckRules;
+import it.unina.studenti.oortof.gui.models.InputCheckingDocumentFilter;
 import it.unina.studenti.oortof.gui.models.ScontriniTableModel;
 import it.unina.studenti.oortof.models.Acquisto;
 import it.unina.studenti.oortof.models.ApplicationCounter;
@@ -36,8 +40,8 @@ import it.unina.studenti.oortof.models.Scontrino;
 public class ClientiPanel extends DesignClientiPanel implements DocumentListener, ActionListener{
 	Cliente cliente;
 	Cliente oldCliente = new Cliente();
-	
-	
+
+	private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 	private ScontriniTableModel scontriniModel;
 	private AcquistiTableModel acquistiModel;
 	private static final long serialVersionUID = 1L;
@@ -71,6 +75,17 @@ public class ClientiPanel extends DesignClientiPanel implements DocumentListener
 
 	        }
 	      });
+
+		((AbstractDocument)puntiFruttaVerduraTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(puntiFruttaVerduraTextField, InputCheckRules.numeriSpazio));
+		((AbstractDocument)puntiFarinaceoTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(puntiFarinaceoTextField, InputCheckRules.numeriSpazio));
+		((AbstractDocument)puntiConservaTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(puntiConservaTextField, InputCheckRules.numeriSpazio));
+		((AbstractDocument)puntiBibitaTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(puntiBibitaTextField, InputCheckRules.numeriSpazio));
+		((AbstractDocument)puntiCarnePesceTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(puntiCarnePesceTextField, InputCheckRules.numeriSpazio));
+		((AbstractDocument)puntiProdottoCasearioTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(puntiProdottoCasearioTextField, InputCheckRules.numeriSpazio));
+		((AbstractDocument)puntiUovoTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(puntiUovoTextField, InputCheckRules.numeriSpazio));
+		((AbstractDocument)puntiConservaTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(puntiConservaTextField, InputCheckRules.numeriSpazio));
+		((AbstractDocument)puntiAltroTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(puntiAltroTextField, InputCheckRules.numeriSpazio));
+		((AbstractDocument)puntiTotaliTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(puntiTotaliTextField, InputCheckRules.numeriSpazio));
 	  }
 
 	
@@ -190,7 +205,12 @@ public class ClientiPanel extends DesignClientiPanel implements DocumentListener
 	    cognomeTextField.setText(cliente.getString(Cliente.COGNOME));
 	    cfTextField.setText(cliente.getString(Cliente.CF));
 	    eMailTextField.setText(cliente.getString(Cliente.EMAIL));
-	    dataNascitaTextField.setText(cliente.getString(Cliente.DATA_NASCITA));
+		try {
+			dataNascitaTextField.setText(cliente.getString(Cliente.DATA_NASCITA) != null ? formatter.format(cliente.getDataNascita()) : "");
+		} catch (Exception e ) {
+
+		}
+
 	    luogoNascitaTextField.setText(cliente.getString(Cliente.LUOGO_NASCITA));
 	    
 	    if(cliente.getGenere() == Genere.M) {

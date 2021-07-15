@@ -14,17 +14,18 @@ public class Lotto extends ObservedModel implements PropertyChangeListener {
   public static final int DATA_PRODUZIONE = 4;    //Date
   public static final int COD_PAESE_ORIGINE = 5;  //String
   public static final int DATA_MUNGITURA = 6;  //Date
-
+  public static final int ID_PRODOTTO = 7;
 
 
   
   public Lotto() {
-    attributes = new Object[7];
+    attributes = new Object[8];
   }
 
-  public Lotto(Integer id, String codLotto, Date scadenza, Float disponibilita, Date dataProduzione, String codPaeseOrigine, Date dataMungitura) {
+  public Lotto(Integer id, Integer idProdotto, String codLotto, Date scadenza, Float disponibilita, Date dataProduzione, String codPaeseOrigine, Date dataMungitura) {
     this();
     setValue(ID, id);
+    setValue(ID_PRODOTTO, idProdotto);
     setValue(COD_LOTTO, codLotto);
     setValue(SCADENZA, scadenza);
     setValue(DISPONIBILITA, disponibilita);
@@ -45,6 +46,19 @@ public class Lotto extends ObservedModel implements PropertyChangeListener {
     }
     setValue(ID, id);
     firePropertyChange("id", oldId, id);
+  }
+
+  public Integer getIdProdotto() {
+    return getInteger(ID_PRODOTTO);
+  }
+
+  public void setIdProdotto(Integer id) {
+    Integer oldId = getId();
+    if (equals(oldId, id)) {
+      return;
+    }
+    setValue(ID_PRODOTTO, id);
+    firePropertyChange("idProdotto", oldId, id);
   }
   
   public String getCodLotto() {

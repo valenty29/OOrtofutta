@@ -20,7 +20,7 @@ public class AcquistiTableModel extends AbstractTableModel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String[] columnNames = {"Quantit�", "Importo pagato", "Id lotto", "Tipologia prodotto"};
+	private String[] columnNames = {"Quantit�", "Importo pagato", "Id lotto", "Nome prodotto", "Tipologia prodotto"};
 	private ObservedList<Scontrino> scontrini = new ObservedList<Scontrino>("scontrini");
 	private List<Acquisto> acquisti = new ArrayList<>();
 	private Acquisto acquisto;
@@ -50,7 +50,9 @@ public class AcquistiTableModel extends AbstractTableModel {
 			break;
 			case 2: value = currentAcquisto.getLotto() != null && currentAcquisto.getLotto().getId() != null ? Integer.toString(currentAcquisto.getLotto().getId()) : "";
 			break;
-			case 3: value = currentAcquisto.getTipoProdotto();
+			case 3: value = currentAcquisto.getNomeProdotto();
+			break;
+			case 4: value = currentAcquisto.getTipoProdotto();
 		}
 		
 		return value;
@@ -77,13 +79,7 @@ public class AcquistiTableModel extends AbstractTableModel {
 	}
 	
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
-	    if (!ApplicationStatus.getInstance().isSearch()) {
-	      return false;
-	    }
-	    if (rowIndex != 0 || (columnIndex > 0 && columnIndex < 3)) {
-	      return false;
-	    }
-	    return true;
+	    return false;
 	  }
 
 	public void isSearching(boolean searching) {

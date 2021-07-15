@@ -144,7 +144,7 @@ public class SQLClienteDAO {
         return query;
     }
 
-    public ObservedList<Cliente> getClienti(Cliente clienteTemplate) throws ValidationException {
+    public ObservedList<Cliente> getClienti(Cliente clienteTemplate) throws ValidationException, DatabaseException {
         ArrayList<FieldException> exceptionList = new ArrayList<>();
         try {
             Connection conn = context.OpenConnection();
@@ -182,7 +182,7 @@ public class SQLClienteDAO {
             {
                 if (filterCount != 0)
                     query += " AND ";
-                query += String.format("DataNascita = '%s'", clienteTemplate.getDataNascita());
+                query += String.format("DataNascita = '%s'", clienteTemplate.getString(Cliente.DATA_NASCITA));
                 filterCount++;
             }
             if (clienteTemplate.getString(Cliente.LUOGO_NASCITA) != null)
@@ -264,12 +264,12 @@ public class SQLClienteDAO {
                 int rsidR = rs.getInt("idR");
                 float rsFruttaVerdura = rs.getFloat("puntifruttaVerdura");
                 float rsProdottoCaseario = rs.getFloat("puntiprodottoCaseario");
-                float rsFarinaceo = rs.getInt("puntifarinaceo");
-                float rsUovo = rs.getInt("puntiuovo");
-                float rsCarnePesce = rs.getInt("punticarnePesce");
-                float rsBibita = rs.getInt("puntibibita");
-                float rsConserva = rs.getInt("punticonserva");
-                float rsAltro = rs.getInt("puntialtro");
+                float rsFarinaceo = rs.getFloat("puntifarinaceo");
+                float rsUovo = rs.getFloat("puntiuovo");
+                float rsCarnePesce = rs.getFloat("punticarnePesce");
+                float rsBibita = rs.getFloat("puntibibita");
+                float rsConserva = rs.getFloat("punticonserva");
+                float rsAltro = rs.getFloat("puntialtro");
 
                 RaccoltaPunti raccoltaPunti = new RaccoltaPunti(rsidR, rsFruttaVerdura, rsProdottoCaseario, rsFarinaceo, rsUovo, rsCarnePesce, rsBibita, rsConserva, rsAltro);
                 Cliente cliente = new Cliente(rsIdC, rsCf, rsNome, rsCognome, rsData, rsLuogo, rsGenere, rsEmail);
@@ -291,7 +291,7 @@ public class SQLClienteDAO {
         }
     }
     
-    private ObservedList<Scontrino> getScontrini(Cliente cliente) {
+    private ObservedList<Scontrino> getScontrini(Cliente cliente) throws DatabaseException {
     	try {
             Connection conn = context.OpenConnection();
             Statement stm = conn.createStatement();
@@ -321,7 +321,7 @@ public class SQLClienteDAO {
         }
     }
 
-    private ObservedList<Acquisto> getAcquisti(Scontrino scontrino){
+    private ObservedList<Acquisto> getAcquisti(Scontrino scontrino) throws DatabaseException {
     	try {
             Connection conn = context.OpenConnection();
             Statement stm = conn.createStatement();
@@ -335,17 +335,33 @@ public class SQLClienteDAO {
             	float rsPrezzo = rs.getFloat("prezzo");
             	int rsIdLotto = rs.getInt("idLotto");
                 Lotto lotto = getLotto(rsIdLotto, conn);
+
+                Statement prodStm = conn.createStatement();
+                String prodSql = "SELECT * FROM PRODOTTO WHERE id = " + lotto.getIdProdotto() + ";";
+                ResultSet prodRs = prodStm.executeQuery(prodSql);
+                String rsNomeProd;
+                String rsTipoProd;
+                if (prodRs.next())
+                {
+
+                    rsNomeProd = prodRs.getString("Nome");
+                    rsTipoProd = prodRs.getString("Tipo");
+                } else {
+                    throw new DatabaseException("Prodotto di lotto non trovato");
+                }
+
                 //TODO assegnare lotto a acquisto
 
-            	list.add(new Acquisto(rsQuantita, rsPrezzo, lotto, "Bibita"));
+            	list.add(new Acquisto(rsQuantita, rsPrezzo, lotto, rsTipoProd, rsNomeProd));
             }
             conn.close();
             return list;
-        } catch (SQLException se)
+        } catch (Exception se)
         {
             throw new RuntimeException(se);
         }
     }
+
 
     public Lotto getLotto(Integer idLotto, Connection connection) {
         String sql = "SELECT * FROM LOTTO WHERE Id = " + idLotto + ";";
@@ -354,13 +370,14 @@ public class SQLClienteDAO {
             ResultSet rs = stm.executeQuery(sql);
             while(rs.next()) {
                 int rsId = rs.getInt("id");
+                int rsIdProdotto = rs.getInt("idProdotto");
                 String rsCodLotto = rs.getString("CodLotto");
                 java.sql.Date rsScadenza = rs.getDate("Scadenza");
                 float rsDisponibilita = rs.getFloat("Disponibilita");
                 java.sql.Date rsDataProduzione = rs.getDate("DataProduzione");
                 String rsCodPaeseOrigine = rs.getString("CodPaeseOrigine");
                 java.sql.Date rsDataMungitura = rs.getDate("DataMungitura");
-                Lotto lotto = new Lotto(rsId, rsCodLotto, rsScadenza, rsDisponibilita, rsDataProduzione, rsCodPaeseOrigine, rsDataMungitura);
+                Lotto lotto = new Lotto(rsId, rsIdProdotto, rsCodLotto, rsScadenza, rsDisponibilita, rsDataProduzione, rsCodPaeseOrigine, rsDataMungitura);
                 return lotto;
             }
             throw new RuntimeException("Couldn't find the lotto");
@@ -462,8 +479,7 @@ public class SQLClienteDAO {
         }
     }
 
-    public Cliente createCliente(Cliente cliente)
-    {
+    public Cliente createCliente(Cliente cliente) throws DatabaseException {
         String sql = "INSERT INTO CLIENTE (Nome, Cognome, DataNascita, LuogoNascita, Genere, Email) VALUES (?, ?, ?, ?, ?, ?)";
         try {
             Connection conn = context.OpenConnection();
