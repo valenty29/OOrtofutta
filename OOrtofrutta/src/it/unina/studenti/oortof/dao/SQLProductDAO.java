@@ -293,14 +293,14 @@ public class SQLProductDAO implements ProductDAO {
     	ObservedList<Prodotto> prodotti = new ObservedList<Prodotto>("prodotti");
     	boolean allNull = true;
     	
-    	allNull = prodotto.getProdottoCommon().getBibita() == null;
-    	allNull &= prodotto.getProdottoCommon().getConserva() == null;
-    	allNull &= prodotto.getProdottoCommon().getAltro() == null;
-    	allNull &= prodotto.getProdottoCommon().getCarnePesce() == null;
-    	allNull &= prodotto.getProdottoCommon().getFarinaceo() == null;
-    	allNull &= prodotto.getProdottoCommon().getProdottoCaseario() == null;
-    	allNull &= prodotto.getProdottoCommon().getUovo() == null;
-    	allNull &= prodotto.getProdottoCommon().getFruttaVerdura() == null;
+    	allNull = prodotto.getProdottoCommon().getBibita() == false;
+    	allNull &= prodotto.getProdottoCommon().getConserva() == false;
+    	allNull &= prodotto.getProdottoCommon().getAltro() == false;
+    	allNull &= prodotto.getProdottoCommon().getCarnePesce() == false;
+    	allNull &= prodotto.getProdottoCommon().getFarinaceo() == false;
+    	allNull &= prodotto.getProdottoCommon().getProdottoCaseario() == false;
+    	allNull &= prodotto.getProdottoCommon().getUovo() == false;
+    	allNull &= prodotto.getProdottoCommon().getFruttaVerdura() == false;
     	
     	if ( allNull ||  prodotto.getProdottoCommon().isBibita()) {
     		ObservedList<Bibita> prods = getBibita(prodotto);

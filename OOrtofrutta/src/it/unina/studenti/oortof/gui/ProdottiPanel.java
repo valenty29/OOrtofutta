@@ -196,12 +196,13 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
   }
 
   void setEnabledColor(Container container, boolean enabled, Color color) {
+    if (container instanceof JTextField || container instanceof AbstractButton && container != quantitaCarrello) {
+      container.setEnabled(enabled);
+      container.setBackground(color);
+    }
     for (int i = 0; i < container.getComponentCount(); i++) {
       Component c = container.getComponent(i);
-      if (c == quantitaCarrello) {
-        continue;
-      }
-      if (c instanceof JTextField || c instanceof AbstractButton ) {
+      if (c instanceof JTextField || c instanceof AbstractButton && c != quantitaCarrello) {
         c.setEnabled(enabled);
         c.setBackground(color);
       }
@@ -323,11 +324,14 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     setEnabledColor(true, Color.white);
     groupCheckBox(true);
     caratteristicheSpecificheTabbed.setVisible(false);
+    setEnabledColor(codiceProdottoTextField, false, SystemColor.control);
   }
 
   void update() {
     setEnabledColor(true, Color.cyan);
     groupCheckBox(true);
+    setEnabledColor(codiceProdottoTextField, false, SystemColor.control);
+    setEnabledColor(sfusoCheckBox, false, SystemColor.control);
   }
 
   void search() {
@@ -406,21 +410,13 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     boolean group = bg.getButtonCount() > 0;
     groupCheckBox(false);
     fruttaVerduraCheckbox.setSelected(prodotto.getProdottoCommon().isFruttaVerdura());
-    fruttaVerduraCheckbox.setForeground(prodotto.getProdottoCommon().getFruttaVerdura() != null ? Color.black : Color.gray);
     prodottiCaseariCheckbox.setSelected(prodotto.getProdottoCommon().isProdottoCaseario());
-    prodottiCaseariCheckbox.setForeground(prodotto.getProdottoCommon().getProdottoCaseario() != null ? Color.black : Color.gray);
     uovaCheckbox.setSelected(prodotto.getProdottoCommon().isUovo());
-    uovaCheckbox.setForeground(prodotto.getProdottoCommon().getUovo() != null ? Color.black : Color.gray);
     bibiteCheckbox.setSelected(prodotto.getProdottoCommon().isBibita());
-    bibiteCheckbox.setForeground(prodotto.getProdottoCommon().getBibita() != null ? Color.black : Color.gray);
     conserveCheckbox.setSelected(prodotto.getProdottoCommon().isConserva());
-    conserveCheckbox.setForeground(prodotto.getProdottoCommon().getConserva() != null ? Color.black : Color.gray);
     farinaceiCheckbox.setSelected(prodotto.getProdottoCommon().isFarinaceo());
-    farinaceiCheckbox.setForeground(prodotto.getProdottoCommon().getFarinaceo() != null ? Color.black : Color.gray);
     carnePesceCheckbox.setSelected(prodotto.getProdottoCommon().isCarnePesce());
-    carnePesceCheckbox.setForeground(prodotto.getProdottoCommon().getCarnePesce() != null ? Color.black : Color.gray);
     altriTipoCheckbox.setSelected(prodotto.getProdottoCommon().isAltro());
-    altriTipoCheckbox.setForeground(prodotto.getProdottoCommon().getAltro() != null ? Color.black : Color.gray);
     groupCheckBox(group);
     FruttaVerduraSpecifico fvs = (FruttaVerduraSpecifico)prodotto.getProdottoSpecificoAt(Prodotto.FRUTTA_VERDURA_INDEX);
     fruttaRadioButton.setSelected(fvs != null && TipoFruttaVerdura.Frutta.equals(fvs.getTipoFruttaVerdura()));
@@ -638,14 +634,14 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     ProdottoCommon pc = prodotto.getProdottoCommon();
     pc.setValue(ProdottoCommon.NOME, nomeTextField.getText());
     pc.setValue(ProdottoCommon.ID, codiceProdottoTextField.getText());
-    pc.setAltro(altriTipoCheckbox.isSelected() ? Boolean.TRUE : altriTipoCheckbox.getForeground().equals(Color.black) ? Boolean.FALSE : null);
-    pc.setBibita(bibiteCheckbox.isSelected() ? Boolean.TRUE : bibiteCheckbox.getForeground().equals(Color.black) ? Boolean.FALSE : null);
-    pc.setCarnePesce(carnePesceCheckbox.isSelected() ? Boolean.TRUE : carnePesceCheckbox.getForeground().equals(Color.black) ? Boolean.FALSE : null);
-    pc.setConserva(conserveCheckbox.isSelected() ? Boolean.TRUE : conserveCheckbox.getForeground().equals(Color.black) ? Boolean.FALSE : null);
-    pc.setFarinaceo(farinaceiCheckbox.isSelected() ? Boolean.TRUE : farinaceiCheckbox.getForeground().equals(Color.black) ? Boolean.FALSE : null);
-    pc.setFruttaVerdura(fruttaVerduraCheckbox.isSelected() ? Boolean.TRUE : fruttaVerduraCheckbox.getForeground().equals(Color.black) ? Boolean.FALSE : null);
-    pc.setProdottoCaseario(prodottiCaseariCheckbox.isSelected() ? Boolean.TRUE : prodottiCaseariCheckbox.getForeground().equals(Color.black) ? Boolean.FALSE : null);
-    pc.setUovo(uovaCheckbox.isSelected() ? Boolean.TRUE : uovaCheckbox.getForeground().equals(Color.black) ? Boolean.FALSE : null);
+    pc.setAltro(altriTipoCheckbox.isSelected());
+    pc.setBibita(bibiteCheckbox.isSelected());
+    pc.setCarnePesce(carnePesceCheckbox.isSelected());
+    pc.setConserva(conserveCheckbox.isSelected());
+    pc.setFarinaceo(farinaceiCheckbox.isSelected());
+    pc.setFruttaVerdura(fruttaVerduraCheckbox.isSelected());
+    pc.setProdottoCaseario(prodottiCaseariCheckbox.isSelected());
+    pc.setUovo(uovaCheckbox.isSelected());
     pc.setSfuso(sfusoCheckBox.isSelected() ? Boolean.TRUE : sfusoCheckBox.getForeground().equals(Color.black) ? Boolean.FALSE : null);
     pc.setValue(ProdottoCommon.PREZZO, prezzoTextField.getText().isBlank() || prezzoTextField.getText().isEmpty() ? null : prezzoTextField.getText());
 
