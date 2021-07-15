@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import it.unina.studenti.oortof.models.*;
 
+import javax.xml.crypto.Data;
+
 public class SQLProductDAO implements ProductDAO {
 
     private DBContext context;
@@ -55,7 +57,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
     
-    public void createProduct(Prodotto prodotto) {
+    public void createProduct(Prodotto prodotto) throws ValidationException, DatabaseException{
     	int id = -1;
     	if (prodotto.getProdottoCommon().isBibita()) {
     		id = createBibita(prodotto);
@@ -102,7 +104,8 @@ public class SQLProductDAO implements ProductDAO {
     }
     
     @SuppressWarnings("unchecked")
-	private int createProductCommon(ProdottoCommon prodotto){
+	private int createProductCommon(ProdottoCommon prodotto) throws ValidationException, DatabaseException{
+        ArrayList<FieldException> exceptions = new ArrayList();
         int prodId = -1;
         String tipo = getTipo(prodotto);
         
@@ -111,14 +114,29 @@ public class SQLProductDAO implements ProductDAO {
         try {
             Connection conn = context.OpenConnection();
             PreparedStatement createProds = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            createProds.setString(1, prodotto.getNome());
-            createProds.setFloat(2, prodotto.getPrezzo());
+            if (prodotto.getNome().isBlank() || prodotto.getNome().isEmpty()) {
+                exceptions.add(new FieldException(prodotto.getNome(), "Il nome e' un campo richiesto", java.util.Optional.empty()));
+            } else {
+                createProds.setString(1, prodotto.getNome());
+            }
+            if (prodotto.getPrezzo() == null) {
+                exceptions.add(new FieldException("null", "Il prezzo e' un campo richiesto", java.util.Optional.empty()));
+            } else {
+                createProds.setFloat(2, prodotto.getPrezzo());
+            }
+
             createProds.setBoolean(3, prodotto.isSfuso());
+
             createProds.setObject(4, tipo, Types.OTHER);
+
+            if (exceptions.size() > 0) {
+                throw new ValidationException(exceptions);
+            }
+
             createProds.executeUpdate();
 
             try {
-                ResultSet generatedKeys = createProds.getGeneratedKeys();
+                ResultSet generatedKeys = createProds.getGeneratedKeys( );
                 if (generatedKeys.next())
                 {
                     prodId = Math.toIntExact(generatedKeys.getLong(1));
@@ -139,17 +157,37 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    private int createBibita(Prodotto bibita){
-        int id = createProductCommon(bibita.getProdottoCommon());
+    private int createBibita(Prodotto bibita) throws ValidationException, DatabaseException {
+        ArrayList<FieldException> exceptions = new ArrayList();
+        int id = -1;
+        try {
+            id = createProductCommon(bibita.getProdottoCommon());
+        } catch (ValidationException ve) {
+            exceptions.addAll(ve.getExceptionList());
+        }
+
         String sql = "INSERT INTO BIBITA (IdProdotto, GradazioneAlcolica, Frizzante, TipoB) VALUES (?, ?, ?, ?)";
         try {
             Connection conn = context.OpenConnection();
             PreparedStatement createBibs = conn.prepareStatement(sql);
             createBibs.setLong(1, id);
-            createBibs.setFloat(2, bibita.getBibitaSpecifico().getGradazioneAlcolica());
+            if (bibita.getBibitaSpecifico().getGradazioneAlcolica() == null) {
+                exceptions.add(new FieldException("null", "Gradazione alcolica e' un campo richiesto", java.util.Optional.empty()));
+            }  else {
+                createBibs.setFloat(2, bibita.getBibitaSpecifico().getGradazioneAlcolica());
+            }
             createBibs.setBoolean(3, bibita.getBibitaSpecifico().isFrizzante());
-            createBibs.setObject(4, bibita.getBibitaSpecifico().getTipoBibita().name(), Types.OTHER);
+            if (bibita.getBibitaSpecifico().getTipoBibita() == null) {
+                exceptions.add(new FieldException("null", "Tipo bibita e' un campo richiesto", java.util.Optional.empty()));
+            } else {
+                createBibs.setObject(4, bibita.getBibitaSpecifico().getTipoBibita().name(), Types.OTHER);
+            }
 
+
+            if (exceptions.size() > 0) {
+                conn.close();
+                throw new ValidationException(exceptions);
+            }
             createBibs.executeUpdate();
             conn.close();
             return id;
@@ -159,8 +197,15 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    private int createUovo(Prodotto uovo){
-        int id = createProductCommon(uovo.getProdottoCommon());
+    private int createUovo(Prodotto uovo) throws ValidationException, DatabaseException{
+        ArrayList<FieldException> exceptions = new ArrayList<FieldException>();
+        int id = -1;
+        try {
+            id = createProductCommon(uovo.getProdottoCommon());
+        } catch (ValidationException ve) {
+            exceptions.addAll(ve.getExceptionList());
+        }
+
         String sql = "INSERT INTO UOVO (IdProdotto, TipoAllevamento, CodAllevamento, CatPeso) VALUES (?, ?, ?, ?)";
         try {
             Connection conn = context.OpenConnection();
@@ -178,7 +223,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    private int createCarnePesce(Prodotto carnePesce){
+    private int createCarnePesce(Prodotto carnePesce) throws ValidationException, DatabaseException {
         int id = createProductCommon(carnePesce.getProdottoCommon());
         String sql = "INSERT INTO CARNEPESCE (IdProdotto, TipoCP, DaAllevamento, Animale, Confezionato) VALUES (?, ?, ?, ?, ?)";
         try {
@@ -199,7 +244,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    private int createFruttaVerdura(Prodotto fruttaVerdura){
+    private int createFruttaVerdura(Prodotto fruttaVerdura) throws ValidationException, DatabaseException {
         int id = createProductCommon(fruttaVerdura.getProdottoCommon());
         String sql = "INSERT INTO FRUTTAVERDURA (IdProdotto, TipoFV, Bio, Surgelato) VALUES (?, ?, ?, ?)";
         try {
@@ -219,7 +264,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    private int createProdottoCaseario(Prodotto prodottoCaseario){
+    private int createProdottoCaseario(Prodotto prodottoCaseario) throws ValidationException, DatabaseException{
         int id = createProductCommon(prodottoCaseario.getProdottoCommon());
         String sql = "INSERT INTO PRODOTTOCASEARIO (IdProdotto, TipoLatte, Stabilimento, Stagionatura) VALUES (?, ?, ?, ?)";
         try {
@@ -238,7 +283,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    private int createFarinaceo(Prodotto farinaceo){
+    private int createFarinaceo(Prodotto farinaceo) throws ValidationException, DatabaseException  {
         int id = createProductCommon(farinaceo.getProdottoCommon());
         String sql = "INSERT INTO FARINACEO (IdProdotto, Glutine, TipoFarina, Fresco, Surgelato) VALUES (?, ?, ?, ?, ?)";
         try {
@@ -260,7 +305,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    private int createConserva(Prodotto conserva){
+    private int createConserva(Prodotto conserva) throws ValidationException, DatabaseException {
         int id = createProductCommon(conserva.getProdottoCommon());
         String sql = "INSERT INTO CONSERVA (IdProdotto, Glutine, TipoFarina, Fresco, Surgelato) VALUES (?, ?, ?, ?, ?)";
         try {
@@ -290,14 +335,14 @@ public class SQLProductDAO implements ProductDAO {
     	ObservedList<Prodotto> prodotti = new ObservedList<Prodotto>("prodotti");
     	boolean allNull = true;
     	
-    	allNull = prodotto.getProdottoCommon().getBibita() == false;
-    	allNull &= prodotto.getProdottoCommon().getConserva() == false;
-    	allNull &= prodotto.getProdottoCommon().getAltro() == false;
-    	allNull &= prodotto.getProdottoCommon().getCarnePesce() == false;
-    	allNull &= prodotto.getProdottoCommon().getFarinaceo() == false;
-    	allNull &= prodotto.getProdottoCommon().getProdottoCaseario() == false;
-    	allNull &= prodotto.getProdottoCommon().getUovo() == false;
-    	allNull &= prodotto.getProdottoCommon().getFruttaVerdura() == false;
+        	allNull = !prodotto.getProdottoCommon().isBibita();
+    	allNull &= !prodotto.getProdottoCommon().isConserva();
+    	allNull &= !prodotto.getProdottoCommon().isConserva();
+    	allNull &= !prodotto.getProdottoCommon().isCarnePesce();
+    	allNull &= !prodotto.getProdottoCommon().isFarinaceo();
+    	allNull &= !prodotto.getProdottoCommon().isProdottoCaseario();
+    	allNull &= !prodotto.getProdottoCommon().isUovo();
+    	allNull &= !prodotto.getProdottoCommon().isFruttaVerdura();
     	
     	if ( allNull ||  prodotto.getProdottoCommon().isBibita()) {
     		ObservedList<Bibita> prods = getBibita(prodotto);

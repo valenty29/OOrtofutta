@@ -22,7 +22,7 @@ public class DBContext {
         }
         url = props.getProperty("dburl");
         username = props.getProperty("dbuser");
-        password = "postgres"; //props.getProperty("dbpasswd"); 
+        password = props.getProperty("dbpasswd");
     }
 
     public Connection OpenConnection() throws SQLException {

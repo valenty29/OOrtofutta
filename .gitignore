@@ -2,3 +2,5 @@
 OOrtofrutta/bin/
 
 OOrtofrutta/postgresql-42.2.19.jar
+
+OOrtofrutta/src/it/unina/studenti/oortof/dao/resources/properties/db.properties

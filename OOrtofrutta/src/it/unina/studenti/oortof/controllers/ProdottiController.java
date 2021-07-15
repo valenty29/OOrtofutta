@@ -50,7 +50,15 @@ public class ProdottiController implements Controller<Prodotto> {
   }
 
   void commitInsert() {
-    sqlProductDao.createProduct(prodotto);
+    try {
+      sqlProductDao.createProduct(prodotto);
+    } catch (ValidationException ve) {
+      JOptionPane.showMessageDialog(null, ve.toString(), "Campi invalidi", JOptionPane.ERROR_MESSAGE);
+      ApplicationInfo.getInstance().setMessage("Sono stati inseriti dei dati non validi", ApplicationInfo.LEVEL_ERROR);
+    } catch (DatabaseException de) {
+      ApplicationInfo.getInstance().setMessage("Si è verificato un errore nella base dati", ApplicationInfo.LEVEL_ERROR);
+    }
+
     ApplicationStatus.getInstance().setStatus(ApplicationStatus.STATUS_NAVIGATION);
   }
   
