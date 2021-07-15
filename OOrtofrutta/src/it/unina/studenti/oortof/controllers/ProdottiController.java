@@ -2,8 +2,14 @@ package it.unina.studenti.oortof.controllers;
 
 import java.util.ArrayList;
 
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+
 import it.unina.studenti.oortof.dao.SQLProductDAO;
 import it.unina.studenti.oortof.models.*;
+import it.unina.studenti.oortof.gui.*;
 
 public class ProdottiController implements Controller<Prodotto> {
 
@@ -67,7 +73,8 @@ public class ProdottiController implements Controller<Prodotto> {
       ApplicationStatus.getInstance().setStatus(ApplicationStatus.STATUS_NAVIGATION);
     }
     catch (ValidationException ve) {
-      ApplicationInfo.getInstance().setMessage(ve.toString(), ApplicationInfo.LEVEL_ERROR);
+      JOptionPane.showMessageDialog(null, ve.toString(), "Campi non validi", JOptionPane.ERROR_MESSAGE);
+      ApplicationInfo.getInstance().setMessage("CAMPI NON VALIDI", ApplicationInfo.LEVEL_ERROR);
     }
     catch (Exception e) {
       e.printStackTrace();
@@ -120,7 +127,6 @@ public class ProdottiController implements Controller<Prodotto> {
       prodotti.get(index - 1).copyTo(prodotto);
       prodotto.getProdottoCommon().getLotti().forEach(lotto -> {
         carrello.getLotti().stream().filter(lotto1 -> {
-          System.out.println("AOOO");
           if (lotto1.getId().equals(lotto.getId())) {
             lotto.setDisponibilita(lotto.getDisponibilita() - lotto1.getDisponibilita());
             return true;

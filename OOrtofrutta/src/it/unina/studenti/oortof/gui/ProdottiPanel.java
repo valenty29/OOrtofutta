@@ -12,6 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Arrays;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -34,67 +35,15 @@ import it.unina.studenti.oortof.models.*;
 public class ProdottiPanel extends DesignProdottiPanel implements DocumentListener, ActionListener {
 
   private static final long serialVersionUID = 1L;
-  
+
   Prodotto prodotto;
   Carrello carrello;
   ButtonGroup bg = new ButtonGroup();
-  
-  ActionListener checkBoxActionListener = new ActionListener() {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-      boolean selection = ((JCheckBox)e.getSource()).isSelected();
-      boolean oneSelected = false;
-      oneSelected |= fruttaVerduraCheckbox.isSelected();  
-      oneSelected |= conserveCheckbox.isSelected();       
-      oneSelected |= prodottiCaseariCheckbox.isSelected();
-      oneSelected |= farinaceiCheckbox.isSelected();      
-      oneSelected |= uovaCheckbox.isSelected();           
-      oneSelected |= carnePesceCheckbox.isSelected();     
-      oneSelected |= bibiteCheckbox.isSelected();
-      int lastIndex = -1;
-      lastIndex = fruttaVerduraCheckbox.isSelected() ? 0 : lastIndex;  
-      lastIndex = conserveCheckbox.isSelected() ? 1 : lastIndex;         
-      lastIndex = prodottiCaseariCheckbox.isSelected() ? 2 : lastIndex;  
-      lastIndex = farinaceiCheckbox.isSelected() ? 3 : lastIndex;        
-      lastIndex = uovaCheckbox.isSelected() ? 4 : lastIndex;             
-      lastIndex = carnePesceCheckbox.isSelected() ? 5 : lastIndex;       
-      lastIndex = bibiteCheckbox.isSelected() ? 6 : lastIndex;           
-      int selectedIndex = -1;
-      if (selection) {
-        if (e.getSource() == fruttaVerduraCheckbox) {
-          selectedIndex = 0;
-        }
-        else if (e.getSource() == conserveCheckbox) {
-          selectedIndex = 1;
-        }
-        else if (e.getSource() == prodottiCaseariCheckbox) {
-          selectedIndex = 2;
-        }
-        else if (e.getSource() == farinaceiCheckbox) {
-          selectedIndex = 3;
-        }
-        else if (e.getSource() == uovaCheckbox) {
-          selectedIndex = 4;
-        }
-        else if (e.getSource() == carnePesceCheckbox) {
-          selectedIndex = 5;
-        }
-        else if (e.getSource() == bibiteCheckbox) {
-          selectedIndex = 6;
-        }
-      }
-      caratteristicheSpecificheTabbed.setVisible(oneSelected);
-      caratteristicheSpecificheTabbed.setSelectedIndex(selectedIndex >= 0 ? selectedIndex : lastIndex);
-      
-      caratteristicheSpecificheTabbed.setEnabledAt(0, fruttaVerduraCheckbox.isSelected());
-      caratteristicheSpecificheTabbed.setEnabledAt(1, conserveCheckbox.isSelected());
-      caratteristicheSpecificheTabbed.setEnabledAt(2, prodottiCaseariCheckbox.isSelected());
-      caratteristicheSpecificheTabbed.setEnabledAt(3, farinaceiCheckbox.isSelected());
-      caratteristicheSpecificheTabbed.setEnabledAt(4, uovaCheckbox.isSelected());
-      caratteristicheSpecificheTabbed.setEnabledAt(5, carnePesceCheckbox.isSelected());
-      caratteristicheSpecificheTabbed.setEnabledAt(6, bibiteCheckbox.isSelected());
-    }
-  };
+
+  // GESTIONE CHECKBOX TIPI PRODOTTO E TABBED
+  ActionListener checkBoxActionListener=new ActionListener(){@Override public void actionPerformed(ActionEvent e){boolean selection=((JCheckBox)e.getSource()).isSelected();boolean oneSelected=false;oneSelected|=fruttaVerduraCheckbox.isSelected();oneSelected|=conserveCheckbox.isSelected();oneSelected|=prodottiCaseariCheckbox.isSelected();oneSelected|=farinaceiCheckbox.isSelected();oneSelected|=uovaCheckbox.isSelected();oneSelected|=carnePesceCheckbox.isSelected();oneSelected|=bibiteCheckbox.isSelected();int lastIndex=-1;lastIndex=fruttaVerduraCheckbox.isSelected()?0:lastIndex;lastIndex=conserveCheckbox.isSelected()?1:lastIndex;lastIndex=prodottiCaseariCheckbox.isSelected()?2:lastIndex;lastIndex=farinaceiCheckbox.isSelected()?3:lastIndex;lastIndex=uovaCheckbox.isSelected()?4:lastIndex;lastIndex=carnePesceCheckbox.isSelected()?5:lastIndex;lastIndex=bibiteCheckbox.isSelected()?6:lastIndex;int selectedIndex=-1;if(selection){if(e.getSource()==fruttaVerduraCheckbox){selectedIndex=0;}else if(e.getSource()==conserveCheckbox){selectedIndex=1;}else if(e.getSource()==prodottiCaseariCheckbox){selectedIndex=2;}else if(e.getSource()==farinaceiCheckbox){selectedIndex=3;}else if(e.getSource()==uovaCheckbox){selectedIndex=4;}else if(e.getSource()==carnePesceCheckbox){selectedIndex=5;}else if(e.getSource()==bibiteCheckbox){selectedIndex=6;}}caratteristicheSpecificheTabbed.setVisible(oneSelected);caratteristicheSpecificheTabbed.setSelectedIndex(selectedIndex>=0?selectedIndex:lastIndex);
+
+  caratteristicheSpecificheTabbed.setEnabledAt(0,fruttaVerduraCheckbox.isSelected());caratteristicheSpecificheTabbed.setEnabledAt(1,conserveCheckbox.isSelected());caratteristicheSpecificheTabbed.setEnabledAt(2,prodottiCaseariCheckbox.isSelected());caratteristicheSpecificheTabbed.setEnabledAt(3,farinaceiCheckbox.isSelected());caratteristicheSpecificheTabbed.setEnabledAt(4,uovaCheckbox.isSelected());caratteristicheSpecificheTabbed.setEnabledAt(5,carnePesceCheckbox.isSelected());caratteristicheSpecificheTabbed.setEnabledAt(6,bibiteCheckbox.isSelected());}};
 
   public ProdottiPanel() {
     ApplicationStatus.getInstance().addPropertyChangeListener(new PropertyChangeListener() {
@@ -106,20 +55,20 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     fruttaVerduraCheckbox.addActionListener(checkBoxActionListener);
     carnePesceCheckbox.addActionListener(checkBoxActionListener);
     prodottiCaseariCheckbox.addActionListener(checkBoxActionListener);
-    bibiteCheckbox.addActionListener(checkBoxActionListener);     
-    farinaceiCheckbox.addActionListener(checkBoxActionListener);   
-    conserveCheckbox.addActionListener(checkBoxActionListener);    
-    uovaCheckbox.addActionListener(checkBoxActionListener);         
-    altriTipoCheckbox.addActionListener(checkBoxActionListener);   
+    bibiteCheckbox.addActionListener(checkBoxActionListener);
+    farinaceiCheckbox.addActionListener(checkBoxActionListener);
+    conserveCheckbox.addActionListener(checkBoxActionListener);
+    uovaCheckbox.addActionListener(checkBoxActionListener);
+    altriTipoCheckbox.addActionListener(checkBoxActionListener);
     listenGuiField();
-    
+
     lottiTable.setModel(new LottiTableModel());
     quantitaCarrello.setEnabled(false);
     setTriState();
-    
+
     ((AbstractDocument)codiceProdottoTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(codiceProdottoTextField, InputCheckRules.soloNumeri));
     ((AbstractDocument)prezzoTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(prezzoTextField, InputCheckRules.numeriSpazio));
-    
+
     lottiTable.addKeyListener(new KeyAdapter() {
       public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_DELETE && ApplicationStatus.getInstance().isUpdate()) {
@@ -164,9 +113,10 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     lottiTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
       @Override
       public void valueChanged(ListSelectionEvent e) {
-        if (lottiTable.getSelectedRow() != - 1) {
+        if (lottiTable.getSelectedRow() != -1) {
           quantitaCarrello.setEnabled(true);
-        } else {
+        }
+        else {
           quantitaCarrello.setEnabled(false);
         }
       }
@@ -192,7 +142,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
       }
     });
   }
-  
+
   public void setModel(Prodotto prodotto, Carrello carrello) {
     this.prodotto = prodotto;
     this.carrello = carrello;
@@ -211,7 +161,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     carnePesceCheckbox.putClientProperty("attributeIndex", ProdottoCommon.CARNE_PESCE);
     prodottiCaseariCheckbox.putClientProperty("model", prodotto.getProdottoCommon());
     prodottiCaseariCheckbox.putClientProperty("attributeIndex", ProdottoCommon.PRODOTTO_CASEARIO);
-    bibiteCheckbox.putClientProperty("model", prodotto.getProdottoCommon());             
+    bibiteCheckbox.putClientProperty("model", prodotto.getProdottoCommon());
     bibiteCheckbox.putClientProperty("attributeIndex", ProdottoCommon.BIBITA);
     farinaceiCheckbox.putClientProperty("model", prodotto.getProdottoCommon());
     farinaceiCheckbox.putClientProperty("attributeIndex", ProdottoCommon.FARINACEO);
@@ -240,18 +190,18 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     frizzanteCheckBox.putClientProperty("model", prodotto.getBibitaSpecifico());
     frizzanteCheckBox.putClientProperty("attributeIndex", BibitaSpecifico.FRIZZANTE);
   }
-  
+
   void setEnabledColor(boolean enabled, Color color) {
     setEnabledColor(this, enabled, color);
   }
-  
+
   void setEnabledColor(Container container, boolean enabled, Color color) {
     for (int i = 0; i < container.getComponentCount(); i++) {
       Component c = container.getComponent(i);
       if (c == quantitaCarrello) {
         continue;
       }
-      if (c instanceof JTextField || c instanceof AbstractButton) {
+      if (c instanceof JTextField || c instanceof AbstractButton ) {
         c.setEnabled(enabled);
         c.setBackground(color);
       }
@@ -260,38 +210,19 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
       }
     }
   }
-  
-  MouseAdapter tristateMouseAdapter = new MouseAdapter() {
-    public void mouseReleased(MouseEvent e) {
-      if (e.getButton() == MouseEvent.BUTTON3 && ApplicationStatus.getInstance().isSearch()) {
-        if (e.getSource() instanceof JCheckBox) {
-          ObservedModel model = (ObservedModel)((JCheckBox)e.getSource()).getClientProperty("model");
-          int attributeIndex = (int)((JCheckBox)e.getSource()).getClientProperty("attributeIndex");
-          Boolean oldValue = model.getBoolean(attributeIndex);
-          Boolean newValue = oldValue == null ? false : null;
-          model.setValue(attributeIndex, newValue);
-          if (newValue == null) {
-            ((JCheckBox)e.getSource()).setSelected(false);
-          }
-          ActionEvent ae = new ActionEvent(e.getSource(), -1, "");
-          checkBoxActionListener.actionPerformed(ae);
-          model.firePropertyChange("", oldValue, newValue);
-        }
-        else if (e.getSource() instanceof JRadioButton) {
-          ((JRadioButton)e.getSource()).getModel().getGroup().clearSelection();
-        }
-      }
-    }
-  };
-  
+
+  MouseAdapter tristateMouseAdapter=new MouseAdapter(){public void mouseReleased(MouseEvent e){if(e.getButton()==MouseEvent.BUTTON3&&ApplicationStatus.getInstance().isSearch()){if(e.getSource()instanceof JCheckBox){ObservedModel model=(ObservedModel)((JCheckBox)e.getSource()).getClientProperty("model");int attributeIndex=(int)((JCheckBox)e.getSource()).getClientProperty("attributeIndex");Boolean oldValue=model.getBoolean(attributeIndex);Boolean newValue=oldValue==null?false:null;model.setValue(attributeIndex,newValue);if(newValue==null){((JCheckBox)e.getSource()).setSelected(false);}ActionEvent ae=new ActionEvent(e.getSource(),-1,"");checkBoxActionListener.actionPerformed(ae);model.firePropertyChange("",oldValue,newValue);}else if(e.getSource()instanceof JRadioButton){((JRadioButton)e.getSource()).getModel().getGroup().clearSelection();}}}};
+
   void setTriState() {
     setTriState(this);
   }
-  
+
+  private JCheckBox[] tipiCheckBox = new JCheckBox[] {fruttaVerduraCheckbox, conserveCheckbox, prodottiCaseariCheckbox, farinaceiCheckbox, uovaCheckbox, carnePesceCheckbox, bibiteCheckbox, altriTipoCheckbox};
+
   void setTriState(Container container) {
     for (int i = 0; i < container.getComponentCount(); i++) {
       Component c = container.getComponent(i);
-      if (c instanceof AbstractButton) {
+      if (c instanceof AbstractButton && !Arrays.asList(tipiCheckBox).contains(c)) {
         c.addMouseListener(tristateMouseAdapter);
       }
       else if (c instanceof Container) {
@@ -303,7 +234,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
   void listenGuiField() {
     listenGuiField(this);
   }
-  
+
   void listenGuiField(Container container) {
     for (int i = 0; i < container.getComponentCount(); i++) {
       Component c = container.getComponent(i);
@@ -318,7 +249,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
       }
     }
   }
-  
+
   void manageSpecificTab() {
     int index = -1;
     if (prodotto.getProdottoCommon().isFruttaVerdura()) {
@@ -344,7 +275,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     }
     caratteristicheSpecificheTabbed.setVisible(index >= 0);
     caratteristicheSpecificheTabbed.setSelectedIndex(index >= 0 ? index : 0);
-    
+
     caratteristicheSpecificheTabbed.setEnabledAt(0, index == 0);
     caratteristicheSpecificheTabbed.setEnabledAt(1, index == 1);
     caratteristicheSpecificheTabbed.setEnabledAt(2, index == 2);
@@ -353,7 +284,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     caratteristicheSpecificheTabbed.setEnabledAt(5, index == 5);
     caratteristicheSpecificheTabbed.setEnabledAt(6, index == 6);
   }
-  
+
   void groupCheckBox(boolean group) {
     if (group) {
       bg.add(fruttaVerduraCheckbox);
@@ -376,7 +307,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
       bg.remove(altriTipoCheckbox);
     }
   }
-  
+
   void navigation() {
     lottiTable.getDefaultEditor(String.class).cancelCellEditing();
     setEnabledColor(false, SystemColor.control);
@@ -404,23 +335,39 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     groupCheckBox(false);
     caratteristicheSpecificheTabbed.setVisible(false);
   }
-    
+
   void applicationStatusChanged(PropertyChangeEvent evt) {
     if (ApplicationStatus.getInstance().getActiveTab() != ApplicationStatus.TAB_PRODOTTI) {
       return;
     }
     switch (ApplicationStatus.getInstance().getStatus()) {
-      case ApplicationStatus.STATUS_NAVIGATION: navigation(); break;
-      case ApplicationStatus.STATUS_INSERT: insert(); break;
-      case ApplicationStatus.STATUS_UPDATE: update(); break;
-      case ApplicationStatus.STATUS_SEARCH: search(); break;
+    case ApplicationStatus.STATUS_NAVIGATION:
+      navigation();
+      break;
+    case ApplicationStatus.STATUS_INSERT:
+      insert();
+      break;
+    case ApplicationStatus.STATUS_UPDATE:
+      update();
+      break;
+    case ApplicationStatus.STATUS_SEARCH:
+      search();
+      break;
     }
     if (evt.getPropertyName().equals("status")) {
       switch (ApplicationStatus.getInstance().getStatus()) {
-        case ApplicationStatus.STATUS_NAVIGATION: navigation(); break;
-        case ApplicationStatus.STATUS_INSERT: insert(); break;
-        case ApplicationStatus.STATUS_UPDATE: update(); break;
-        case ApplicationStatus.STATUS_SEARCH: search(); break;
+      case ApplicationStatus.STATUS_NAVIGATION:
+        navigation();
+        break;
+      case ApplicationStatus.STATUS_INSERT:
+        insert();
+        break;
+      case ApplicationStatus.STATUS_UPDATE:
+        update();
+        break;
+      case ApplicationStatus.STATUS_SEARCH:
+        search();
+        break;
       }
     }
     else if (evt.getPropertyName().equals("action")) {
@@ -432,7 +379,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
       }
     }
   }
-  
+
   void dataModelChanged(PropertyChangeEvent evt) {
     modelToView();
   }
@@ -441,7 +388,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
   static final Integer UNO = 1;
   static final Integer DUE = 2;
   static final Integer TRE = 3;
-  
+
   void modelToView() {
     SwingUtilities.invokeLater(new Runnable() {
       public void run() {
@@ -481,7 +428,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     if (fvs.getTipoFruttaVerdura() == null) {
       fruttaVerduraBG.clearSelection();
     }
-    surgelatoFruttaVerduraCheckbox.setSelected(fvs != null && fvs.isSurgelato());    
+    surgelatoFruttaVerduraCheckbox.setSelected(fvs != null && fvs.isSurgelato());
     surgelatoFruttaVerduraCheckbox.setForeground(fvs != null && fvs.getSurgelato() != null ? Color.black : Color.gray);
     biologicoCheckbox.setSelected(fvs != null && fvs.isBio());
     biologicoCheckbox.setForeground(fvs != null && fvs.getBio() != null ? Color.black : Color.gray);
@@ -547,13 +494,13 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     gradazioneAlcolicaTextField.setText(bs != null ? bs.getString(BibitaSpecifico.GRADAZIONE_ALCOLICA) : null);
     frizzanteCheckBox.setSelected(bs != null && bs.isFrizzante());
     frizzanteCheckBox.setForeground(bs != null && bs.getFrizzante() != null ? Color.black : Color.gray);
-    
+
     ((LottiTableModel)lottiTable.getModel()).fireTableDataChanged();
     if (ApplicationStatus.getInstance().isNavigation()) {
       manageSpecificTab();
     }
   }
-  
+
   void viewToModelBibitaSpecifico() {
     prodotto.getBibitaSpecifico().setFrizzante(frizzanteCheckBox.isSelected() ? Boolean.TRUE : frizzanteCheckBox.getForeground().equals(Color.black) ? Boolean.FALSE : null);
     prodotto.getBibitaSpecifico().setValue(BibitaSpecifico.GRADAZIONE_ALCOLICA, gradazioneAlcolicaTextField.getText());
@@ -578,7 +525,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     }
     prodotto.getBibitaSpecifico().setValue(BibitaSpecifico.TIPO_BIBITA, tb);
   }
-  
+
   void viewToModelCarnePesceSpecifico() {
     TipoCarnePesce tcp = null;
     if (carneRadioButton.isSelected()) {
@@ -592,7 +539,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     prodotto.getCarnePesceSpecifico().setDaAllevamento(daAllevamentoCheckBox.isSelected() ? Boolean.TRUE : daAllevamentoCheckBox.getForeground().equals(Color.black) ? Boolean.FALSE : null);
     prodotto.getCarnePesceSpecifico().setConfezionato(confezionatoCheckBox.isSelected() ? Boolean.TRUE : confezionatoCheckBox.getForeground().equals(Color.black) ? Boolean.FALSE : null);
   }
-  
+
   void viewToModelConservaSpecifico() {
     TipoConservazione tc = null;
     if (sottacetoRadioButton.isSelected()) {
@@ -621,14 +568,14 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     }
     prodotto.getConservaSpecifico().setValue(ConservaSpecifico.TIPO_CONSERVAZIONE, tc);
   }
-  
+
   void viewToModelFarinaceoSpecifico() {
     prodotto.getFarinaceoSpecifico().setTipoFarina(tipoFarinaTextField.getText());
     prodotto.getFarinaceoSpecifico().setFresco(frescoCheckbox.isSelected() ? Boolean.TRUE : frescoCheckbox.getForeground().equals(Color.black) ? Boolean.FALSE : null);
     prodotto.getFarinaceoSpecifico().setGlutine(senzaGlutineCheckbox.isSelected() ? Boolean.TRUE : senzaGlutineCheckbox.getForeground().equals(Color.black) ? Boolean.FALSE : null);
     prodotto.getFarinaceoSpecifico().setSurgelato(surgelatoFarinaceiCheckbox.isSelected() ? Boolean.TRUE : surgelatoFarinaceiCheckbox.getForeground().equals(Color.black) ? Boolean.FALSE : null);
   }
-  
+
   void viewToModelFruttaVerduraSpecifico() {
     prodotto.getFruttaVerduraSpecifico().setSurgelato(surgelatoFruttaVerduraCheckbox.isSelected() ? Boolean.TRUE : surgelatoFruttaVerduraCheckbox.getForeground().equals(Color.black) ? Boolean.FALSE : null);
     prodotto.getFruttaVerduraSpecifico().setBio(biologicoCheckbox.isSelected() ? Boolean.TRUE : biologicoCheckbox.getForeground().equals(Color.black) ? Boolean.FALSE : null);
@@ -646,7 +593,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     prodotto.getProdottoCasearioSpecifico().setValue(ProdottoCasearioSpecifico.STAGIONATURA, stagionatureTextField.getText());
     prodotto.getProdottoCasearioSpecifico().setTipoLatte(tipoLatteTextField.getText());
   }
-  
+
   void viewToModelUovoSpecifico() {
     Integer ta = null;
     if (tipo0RadioButton.isSelected()) {
@@ -678,7 +625,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     prodotto.getUovoSpecifico().setValue(UovoSpecifico.CAT_PESO, cp);
 
   }
-  
+
   void viewToModel() {
     SwingUtilities.invokeLater(new Runnable() {
       public void run() {
@@ -686,7 +633,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
       }
     });
   }
-  
+
   void viewToModelCore() {
     ProdottoCommon pc = prodotto.getProdottoCommon();
     pc.setValue(ProdottoCommon.NOME, nomeTextField.getText());
@@ -724,24 +671,22 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
       viewToModelUovoSpecifico();
     }
   }
- 
- 
 
   @Override
   public void actionPerformed(ActionEvent e) {
     viewToModel();
   }
-  
+
   @Override
   public void insertUpdate(DocumentEvent e) {
     viewToModel();
   }
-  
+
   @Override
   public void removeUpdate(DocumentEvent e) {
     viewToModel();
   }
-  
+
   @Override
   public void changedUpdate(DocumentEvent e) {
     viewToModel();

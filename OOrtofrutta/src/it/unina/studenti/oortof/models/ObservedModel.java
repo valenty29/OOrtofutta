@@ -5,7 +5,6 @@ import java.beans.PropertyChangeListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public abstract class ObservedModel {
   
@@ -13,7 +12,7 @@ public abstract class ObservedModel {
   boolean sample = false;
 
   private ArrayList<PropertyChangeListener> listeners = new ArrayList<PropertyChangeListener>();
-  
+
   public void setSample(boolean sample) {
     this.sample = sample;
   }
@@ -72,7 +71,6 @@ public abstract class ObservedModel {
       listeners.add(l);
     }
   }
-  
   
   public void removePropertyChangeListener(PropertyChangeListener l) {
     listeners.remove(l);
