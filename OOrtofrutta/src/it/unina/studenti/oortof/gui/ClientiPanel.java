@@ -11,10 +11,7 @@ import java.beans.PropertyChangeListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.swing.AbstractButton;
-import javax.swing.JLabel;
-import javax.swing.JTable;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
@@ -137,6 +134,64 @@ public class ClientiPanel extends DesignClientiPanel implements DocumentListener
   void listenGuiField() {
     listenGuiField(this);
   }
+	  void search() {
+		acquistiModel.isSearching(true);
+	    setEnabledColor(infoClientePanel, true, Color.yellow);
+	    setEnabledColor(puntiPanel, true, Color.yellow);
+	    (new Cliente()).copyTo(cliente);
+	  }
+	    
+	  void applicationStatusChanged(PropertyChangeEvent evt) {
+		  if (ApplicationStatus.getInstance().getActiveTab() != ApplicationStatus.TAB_CLIENTI) {
+			  return;
+		  }
+	    switch (ApplicationStatus.getInstance().getStatus()) {
+	      case ApplicationStatus.STATUS_NAVIGATION: navigation(); break;
+	      case ApplicationStatus.STATUS_INSERT: insert(); break;
+	      case ApplicationStatus.STATUS_UPDATE: update(); break;
+	      case ApplicationStatus.STATUS_SEARCH: search(); break;
+	    }
+		  if (evt.getPropertyName().equals("status")) {
+			  switch (ApplicationStatus.getInstance().getStatus()) {
+				  case ApplicationStatus.STATUS_NAVIGATION:
+					  navigation();
+					  break;
+				  case ApplicationStatus.STATUS_INSERT:
+					  insert();
+					  break;
+				  case ApplicationStatus.STATUS_UPDATE:
+					  update();
+					  break;
+				  case ApplicationStatus.STATUS_SEARCH:
+					  search();
+					  break;
+			  }
+		  }
+		  else if (evt.getPropertyName().equals("action")) {
+			  if (evt.getNewValue().equals(ApplicationStatus.ACTION_PRE_DELETE)) {
+				  int response = JOptionPane.showConfirmDialog(this, "Si conferma la cancellazione ?", "Conferma Cancellazione", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				  if (response == JOptionPane.OK_OPTION) {
+					  ApplicationStatus.getInstance().setAction(ApplicationStatus.ACTION_DELETE);
+				  }
+			  }
+		  }
+	  }
+	
+	void dataModelChanged(PropertyChangeEvent evt) {
+	    modelToView();
+	  }
+	  
+	  boolean modelToViewRunning = false;
+	  
+	  void modelToView() {
+	    modelToViewRunning = true;
+	    nomeTextField.setText(cliente.getString(Cliente.NOME));
+	    cognomeTextField.setText(cliente.getString(Cliente.COGNOME));
+	    cfTextField.setText(cliente.getString(Cliente.CF));
+	    eMailTextField.setText(cliente.getString(Cliente.EMAIL));
+		try {
+			dataNascitaTextField.setText(cliente.getString(Cliente.DATA_NASCITA) != null ? formatter.format(cliente.getDataNascita()) : "");
+		} catch (Exception e ) {
 
   void listenGuiField(Container container) {
     for (int i = 0; i < container.getComponentCount(); i++) {

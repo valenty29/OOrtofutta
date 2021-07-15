@@ -407,8 +407,10 @@ public class SQLClienteDAO {
             if (counter != 0)
             {
                 updateQuery += ",";
+            } else {
+                updateQuery += "SET";
             }
-            updateQuery += String.format("SET Cognome = '%s'", newCliente.getCognome());
+            updateQuery += String.format(" Cognome = '%s'", newCliente.getCognome());
             counter++;
         }
         if (!oldCliente.getDataNascita().equals(newCliente.getDataNascita()))
@@ -416,9 +418,11 @@ public class SQLClienteDAO {
             if (counter != 0)
             {
                 updateQuery += ",";
+            } else {
+                updateQuery += "SET";
             }
             //TODO da verificare
-            updateQuery += String.format("SET DataNascita = '%s'", newCliente.getDataNascita());
+            updateQuery += String.format(" DataNascita = '%s'", newCliente.getDataNascita());
             counter++;
         }
         if (!oldCliente.getLuogoNascita().equals(newCliente.getLuogoNascita()))
@@ -426,8 +430,10 @@ public class SQLClienteDAO {
             if (counter != 0)
             {
                 updateQuery += ",";
+            } else {
+                updateQuery += "SET";
             }
-            updateQuery += String.format("SET LuogoNascita = '%s'", newCliente.getLuogoNascita());
+            updateQuery += String.format(" LuogoNascita = '%s'", newCliente.getLuogoNascita());
             counter++;
         }
         if (oldCliente.getGenere() != newCliente.getGenere())
@@ -435,8 +441,10 @@ public class SQLClienteDAO {
             if (counter != 0)
             {
                 updateQuery += ",";
+            } else {
+                updateQuery += "SET";
             }
-            updateQuery += String.format("SET Genere = '%s'", newCliente.getGenere());
+            updateQuery += String.format(" Genere = '%s'", newCliente.getGenere());
             counter++;
         }
         if (oldCliente.getEmail() != oldCliente.getEmail())
@@ -444,8 +452,10 @@ public class SQLClienteDAO {
             if (counter != 0)
             {
                 updateQuery += ",";
+            } else {
+                updateQuery += "SET";
             }
-            updateQuery += String.format("SET Email = '%s'", newCliente.getEmail());
+            updateQuery += String.format(" Email = '%s'", newCliente.getEmail());
             counter++;
         }
 

@@ -1010,10 +1010,17 @@ public class SQLProductDAO implements ProductDAO {
 
         }
 
+        if (lottiDaEliminare.size() > 0) {
+            deleteLotti(lottiDaEliminare);
+        }
 
-        deleteLotti(lottiDaEliminare);
+        if (lottiDaCreare.size() > 0) {
+            createLotti(lottiDaCreare, id);
+        }
 
-        createLotti(lottiDaCreare, id);
+
+
+
     	
     	if (lottiDaAggiornare.size() > 0) {
     		String sql = "UPDATE LOTTO SET CodLotto = ?, Scadenza = ?, Disponibilita = ?, DataProduzione = ?, CodPaeseOrigine = ?, DataMungitura = ? WHERE id = ?";
@@ -1059,7 +1066,7 @@ public class SQLProductDAO implements ProductDAO {
 
         String updateQuery = "";
         int counter = 0;
-        if (oldProdotto.getNome().equals(newProdotto.getNome()))
+        if (!oldProdotto.getNome().equals(newProdotto.getNome()))
         {
             updateQuery += String.format("SET Nome = '%s'", newProdotto.getNome());
             counter++;
@@ -1069,8 +1076,10 @@ public class SQLProductDAO implements ProductDAO {
             if (counter != 0)
             {
                 updateQuery += ",";
+            } else {
+                updateQuery += "SET";
             }
-            updateQuery += String.format("SET Prezzo = %f", newProdotto.getPrezzo());
+            updateQuery += String.format(" Prezzo = %f", newProdotto.getPrezzo());
             counter++;
         }
         if (oldProdotto.isSfuso() != newProdotto.isSfuso())
@@ -1078,8 +1087,10 @@ public class SQLProductDAO implements ProductDAO {
             if (counter != 0)
             {
                 updateQuery += ",";
+            } else {
+                updateQuery += "SET";
             }
-            updateQuery += "SET Sfuso = " + newProdotto.isSfuso();
+            updateQuery += " Sfuso = " + newProdotto.isSfuso();
         }
 
         String sql = "UPDATE PRODOTTO " + updateQuery + " WHERE id = " + newProdotto.getId();
@@ -1110,8 +1121,10 @@ public class SQLProductDAO implements ProductDAO {
             if (counter != 0)
             {
                 updateQuery += ",";
+            } else {
+                updateQuery += "SET";
             }
-            updateQuery += "SET Frizzante = " + newBibita.getBibitaSpecifico().isFrizzante();
+            updateQuery += " Frizzante = " + newBibita.getBibitaSpecifico().isFrizzante();
             counter++;
         }
         if (!oldBibita.getBibitaSpecifico().getTipoBibita().equals(newBibita.getBibitaSpecifico().getTipoBibita()))
@@ -1119,8 +1132,10 @@ public class SQLProductDAO implements ProductDAO {
             if (counter != 0)
             {
                 updateQuery += ",";
+            } else {
+                updateQuery += "SET";
             }
-            updateQuery += String.format("SET TipoB = '%s'", newBibita.getBibitaSpecifico().getTipoBibita().name());
+            updateQuery += String.format(" TipoB = '%s'", newBibita.getBibitaSpecifico().getTipoBibita().name());
             
         }
 
@@ -1152,8 +1167,10 @@ public class SQLProductDAO implements ProductDAO {
             if (counter != 0)
             {
                 updateQuery += ",";
+            } else {
+                updateQuery += "SET";
             }
-            updateQuery += String.format("SET CatPeso = '%s'", newUovo.getUovoSpecifico().getCatPeso().name());
+            updateQuery += String.format(" CatPeso = '%s'", newUovo.getUovoSpecifico().getCatPeso().name());
         }
 
         String sql = "UPDATE UOVO " + updateQuery + " WHERE IdProdotto = " + newUovo.getProdottoCommon().getId();
@@ -1184,8 +1201,10 @@ public class SQLProductDAO implements ProductDAO {
             if (counter != 0)
             {
                 updateQuery += ",";
+            } else {
+                updateQuery += "SET";
             }
-            updateQuery += String.format("SET TipoFarina = '%s'", newFarinaceo.getFarinaceoSpecifico().getTipoFarina());
+            updateQuery += String.format(" TipoFarina = '%s'", newFarinaceo.getFarinaceoSpecifico().getTipoFarina());
             counter++;
         }
         if (oldFarinaceo.getFarinaceoSpecifico().isFresco() != newFarinaceo.getFarinaceoSpecifico().isFresco())
@@ -1193,8 +1212,10 @@ public class SQLProductDAO implements ProductDAO {
             if (counter != 0)
             {
                 updateQuery += ",";
+            } else {
+                updateQuery += "SET";
             }
-            updateQuery += "SET Fresco = " + newFarinaceo.getFarinaceoSpecifico().isFresco();
+            updateQuery += " Fresco = " + newFarinaceo.getFarinaceoSpecifico().isFresco();
             counter++;
         }
         if (oldFarinaceo.getFarinaceoSpecifico().isSurgelato() != newFarinaceo.getFarinaceoSpecifico().isSurgelato())
@@ -1202,8 +1223,10 @@ public class SQLProductDAO implements ProductDAO {
             if (counter != 0)
             {
                 updateQuery += ",";
+            } else {
+                updateQuery += "SET";
             }
-            updateQuery += "SET Surgelato = " + newFarinaceo.getFarinaceoSpecifico().isSurgelato();
+            updateQuery += " Surgelato = " + newFarinaceo.getFarinaceoSpecifico().isSurgelato();
         }
 
         String sql = "UPDATE FARINACEO " + updateQuery + " WHERE IdProdotto = " + newFarinaceo.getProdottoCommon().getId();
@@ -1233,24 +1256,32 @@ public class SQLProductDAO implements ProductDAO {
             if (counter != 0)
             {
                 updateQuery += ",";
+            } else {
+                updateQuery += "SET";
             }
-            updateQuery += "SET DaAllevamento = " + newCarnePesce.getCarnePesceSpecifico().isDaAllevamento();
+            updateQuery += " DaAllevamento = " + newCarnePesce.getCarnePesceSpecifico().isDaAllevamento();
+            counter++;
         }
         if (oldCarnePesce.getCarnePesceSpecifico().getAnimale() != newCarnePesce.getCarnePesceSpecifico().getAnimale())
         {
             if (counter != 0)
             {
                 updateQuery += ",";
+            } else {
+                updateQuery += "SET";
             }
-            updateQuery += String.format("SET Animale = '%s'", newCarnePesce.getCarnePesceSpecifico().getAnimale());
+            updateQuery += String.format(" Animale = '%s'", newCarnePesce.getCarnePesceSpecifico().getAnimale());
+            counter++;
         }
         if (oldCarnePesce.getCarnePesceSpecifico().isConfezionato() != newCarnePesce.getCarnePesceSpecifico().isConfezionato())
         {
             if (counter != 0)
             {
                 updateQuery += ",";
+            } else {
+                updateQuery += "SET";
             }
-            updateQuery += "SET Confezionato = " + newCarnePesce.getCarnePesceSpecifico().isConfezionato();
+            updateQuery += " Confezionato = " + newCarnePesce.getCarnePesceSpecifico().isConfezionato();
         }
 
         String sql = "UPDATE CARNEPESCE " + updateQuery + " WHERE IdProdotto = " + newCarnePesce.getProdottoCommon().getId();
@@ -1274,22 +1305,28 @@ public class SQLProductDAO implements ProductDAO {
         if (oldFruttaVerdura.getFruttaVerduraSpecifico().getTipoFruttaVerdura() != newFruttaVerdura.getFruttaVerduraSpecifico().getTipoFruttaVerdura())
         {
             updateQuery += String.format("SET TipoFV = '%s'", newFruttaVerdura.getFruttaVerduraSpecifico().getTipoFruttaVerdura().name());
+            counter++;
         }
         if (oldFruttaVerdura.getFruttaVerduraSpecifico().isBio() != newFruttaVerdura.getFruttaVerduraSpecifico().isBio())
         {
             if (counter != 0)
             {
                 updateQuery += ",";
+            } else {
+                updateQuery += "SET";
             }
-            updateQuery += "SET Bio = " + newFruttaVerdura.getFruttaVerduraSpecifico().isBio();
+            updateQuery += " Bio = " + newFruttaVerdura.getFruttaVerduraSpecifico().isBio();
+            counter++;
         }
         if (oldFruttaVerdura.getFruttaVerduraSpecifico().isSurgelato() != newFruttaVerdura.getFruttaVerduraSpecifico().isSurgelato())
         {
             if (counter != 0)
             {
                 updateQuery += ",";
+            } else {
+                updateQuery += "SET";
             }
-            updateQuery += "SET Surgelato = '%s'" + newFruttaVerdura.getFruttaVerduraSpecifico().isSurgelato();
+            updateQuery += " Surgelato = " + newFruttaVerdura.getFruttaVerduraSpecifico().isSurgelato();
         }
 
         String sql = "UPDATE FRUTTAVERDURA " + updateQuery + " WHERE IdProdotto = " + newFruttaVerdura.getProdottoCommon().getId();
@@ -1337,14 +1374,17 @@ public class SQLProductDAO implements ProductDAO {
         if (oldProdottoCaseario.getProdottoCasearioSpecifico().getTipoLatte() != newProdottoCaseario.getProdottoCasearioSpecifico().getTipoLatte())
         {
             updateQuery += String.format("SET TipoLatte = '%s'", newProdottoCaseario.getProdottoCasearioSpecifico().getTipoLatte());
+            counter++;
         }
         if (oldProdottoCaseario.getProdottoCasearioSpecifico().getStagionatura() != newProdottoCaseario.getProdottoCasearioSpecifico().getStagionatura())
         {
             if (counter != 0)
             {
                 updateQuery += ",";
+            } else {
+                updateQuery += "SET";
             }
-            updateQuery += String.format("SET Stagionatura = %d" + newProdottoCaseario.getProdottoCasearioSpecifico().getStagionatura());
+            updateQuery += String.format(" Stagionatura = %d", newProdottoCaseario.getProdottoCasearioSpecifico().getStagionatura());
         }
 
 
