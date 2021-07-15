@@ -50,6 +50,7 @@ public class ProdottiController implements Controller<Prodotto> {
   }
 
   void commitInsert() {
+    
     sqlProductDao.createProduct(prodotto);
     ApplicationStatus.getInstance().setStatus(ApplicationStatus.STATUS_NAVIGATION);
   }
