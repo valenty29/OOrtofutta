@@ -367,10 +367,10 @@ System.err.println("BINGO");
     int selectedItem = ApplicationCounter.getInstance().getCounter();
     rollbackButton.setEnabled(false);
     insertButton.setEnabled(true);
-    updateButton.setEnabled(selectedItem >= 0);
+    updateButton.setEnabled(selectedItem > 0);
     searchButton.setEnabled(true);
     commitButton.setEnabled(false);
-    deleteButton.setEnabled(selectedItem >= 0);
+    deleteButton.setEnabled(selectedItem > 0);
     statusLabel.setText("NAVIGAZIONE");
     statusLabel.setBackground(SystemColor.control);
     for (int i = 0; i < ilTabbedPanel.getTabCount(); i++) {

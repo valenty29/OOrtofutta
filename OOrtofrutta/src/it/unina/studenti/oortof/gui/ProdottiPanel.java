@@ -331,7 +331,9 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     setEnabledColor(true, Color.cyan);
     groupCheckBox(true);
     setEnabledColor(codiceProdottoTextField, false, SystemColor.control);
-    setEnabledColor(sfusoCheckBox, false, SystemColor.control);
+    for (JCheckBox c : tipiCheckBox) {
+      setEnabledColor(c, false, SystemColor.control);
+    }
   }
 
   void search() {

@@ -2,14 +2,9 @@ package it.unina.studenti.oortof.controllers;
 
 import java.util.ArrayList;
 
-import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-
 import it.unina.studenti.oortof.dao.SQLProductDAO;
 import it.unina.studenti.oortof.models.*;
-import it.unina.studenti.oortof.gui.*;
 
 public class ProdottiController implements Controller<Prodotto> {
 
