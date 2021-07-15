@@ -16,12 +16,14 @@ import it.unina.studenti.oortof.dao.SQLProductDAO;
 import it.unina.studenti.oortof.models.*;
 
 import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import javax.swing.AbstractAction;
+import javax.swing.AbstractButton;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -163,9 +165,14 @@ System.err.println("BINGO");
       @Override
       public void stateChanged(ChangeEvent e) {
         ApplicationStatus.getInstance().setActiveTab(ilTabbedPanel.getSelectedIndex());
+        if (ilTabbedPanel.getSelectedIndex() == 1) { 
+          setVisible(toolBar, false);
+        }
+        else {
+          setVisible(toolBar, true);
+        }
       }
     });
-    
     toolBar.setFloatable(false);
     principalePanel.add(toolBar, BorderLayout.NORTH);
     
@@ -185,7 +192,6 @@ System.err.println("BINGO");
     rollbackButton.setIcon(new ImageIcon(PrincipaleFrame.class.getResource("/it/unina/studenti/oortof/gui/resources/images/rollback.gif")));
     toolBar.add(rollbackButton);
     rollbackButton.setEnabled(false);
-    
     
     Action insertAction = new AbstractAction("insertAction") {
       private static final long serialVersionUID = 1L;
@@ -347,6 +353,15 @@ System.err.println("BINGO");
       case ApplicationInfo.LEVEL_LOG:
         messageLabel.setForeground(Color.BLACK);
         break;
+    }
+  }
+  
+  void setVisible (Container container, boolean enabled) {
+    for (int i = 0; i < container.getComponentCount(); i++) { //ciclo sui bottoni della toolbar
+      Component c = toolBar.getComponent(i);
+      if (c instanceof AbstractButton) {
+        c.setVisible(enabled);
+      }
     }
   }
   
