@@ -221,7 +221,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     }
     for (int i = 0; i < container.getComponentCount(); i++) {
       Component c = container.getComponent(i);
-      if(c == quantitaCarrello) {
+      if(c == quantitaCarrelloTextField) {
         continue;
       }
       if (c instanceof JTextField || c instanceof AbstractButton) {
