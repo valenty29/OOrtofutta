@@ -45,7 +45,7 @@ public class CarrelloTableModel extends AbstractTableModel {
     public String getColumnName(int index) {
         switch (index) {
             case 0: return "Codice";
-            case 1: return "Disponibilitï¿½";
+            case 1: return "Disponibilità";
             case 2: return "Prezzo";
             case 3: return "Prodotto il";
             case 4: return "Scadenza";

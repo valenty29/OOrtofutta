@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.AbstractButton;
+import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -124,6 +125,10 @@ public class ClientiPanel extends DesignClientiPanel implements DocumentListener
 	  }
 
 	  void setEnabledColor(Container container, boolean enabled, Color color) {
+	    if (container instanceof JTextField || container instanceof AbstractButton) {
+	      container.setEnabled(enabled);
+        container.setBackground(color);
+	    }
 	    for (int i = 0; i < container.getComponentCount(); i++) {
 	      Component c = container.getComponent(i);
 	      if (c instanceof JTextField || c instanceof AbstractButton) {
@@ -165,6 +170,7 @@ public class ClientiPanel extends DesignClientiPanel implements DocumentListener
 	  void insert() {
 	    setEnabledColor(infoClientePanel, true, Color.white);
 	    setEnabledColor(puntiPanel, false, SystemColor.control);
+	    setEnabledColor(cfTextField, false, SystemColor.control);
 	    //cliente.copyTo(oldCliente);
 	    //cliente.clear();
 	  }
@@ -172,6 +178,7 @@ public class ClientiPanel extends DesignClientiPanel implements DocumentListener
 	  void update() {
 	    setEnabledColor(infoClientePanel, true, Color.cyan);
 	    setEnabledColor(puntiPanel, false, SystemColor.control);
+	    setEnabledColor(cfTextField, false, SystemColor.control);
 	  }
 
 	  void search() {
@@ -292,6 +299,7 @@ public class ClientiPanel extends DesignClientiPanel implements DocumentListener
 		// TODO Auto-generated method stub
 		viewToModel();
 	}
+
 
 
 }
