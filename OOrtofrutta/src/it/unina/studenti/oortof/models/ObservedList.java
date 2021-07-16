@@ -126,8 +126,9 @@ public class ObservedList<E extends ObservedModel> extends ObservedModel impleme
 
   @Override
   public void add(int index, E element) {
+    List<E> oldList = list;
     list.add(index, element);
-    firePropertyChange(name, index, element);
+    firePropertyChange(name, oldList, list);
     element.addPropertyChangeListener(this);
   }
 

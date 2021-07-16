@@ -426,8 +426,22 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
   void modelToView() {
     SwingUtilities.invokeLater(new Runnable() {
       public void run() {
+        applicaCarrello();
         modelToViewCore();
+
       }
+    });
+  }
+
+  void applicaCarrello() {
+    prodotto.getProdottoCommon().getLotti().forEach(lotto -> {
+      carrello.getLotti().stream().filter(lotto1 -> {
+        if (lotto1.getId().equals(lotto.getId())) {
+          lotto.setDisponibilita(lotto.getDisponibilita() - lotto1.getDisponibilita());
+          return true;
+        }
+        return false;
+      }).findFirst();
     });
   }
 

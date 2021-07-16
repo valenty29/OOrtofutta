@@ -55,12 +55,10 @@ public class ClientiController implements Controller {
 				try {
 					Cliente newCliente = sqlClienteDAO.createCliente(cliente);
 					listCliente.add(newCliente);
-					newCliente.copyTo(cliente);
-					
-				} catch(Exception e) {
-					System.out.println(1);
+				} catch (DatabaseException de) {
+					ApplicationInfo.getInstance().setMessage(de.getErrorMessage(), ApplicationInfo.LEVEL_ERROR);
+					listCliente.remove(listCliente.indexOf(cliente));
 				}
-				
 				break;
 			}
 				

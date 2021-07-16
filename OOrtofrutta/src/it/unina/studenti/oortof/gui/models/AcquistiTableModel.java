@@ -90,7 +90,12 @@ public class AcquistiTableModel extends AbstractTableModel {
 			dataChanged();
 		} else {
 			if (ApplicationStatus.getInstance().getAction() == ApplicationStatus.ACTION_ROLLBACK) {
-				this.acquisti = scontrini.get(index).getAcquisti();
+				if (index < scontrini.size() + 1) {
+					this.acquisti = scontrini.get(index).getAcquisti();
+				} else {
+					this.acquisti = null;
+				}
+
 				dataChanged();
 			} else if (ApplicationStatus.getInstance().getAction() == ApplicationStatus.ACTION_COMMIT){
 				if (acquisti.size() > 0) {

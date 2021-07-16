@@ -251,6 +251,9 @@ public class SQLClienteDAO {
             while(rs.next())
             {
                 int rsIdC = rs.getInt("idC");
+                if (rsIdC == -1) {
+                    continue;
+                }
                 String rsCf = rs.getString("cf");
                 String rsNome = rs.getString("Nome");
                 String rsCognome = rs.getString("Cognome");
@@ -459,7 +462,7 @@ public class SQLClienteDAO {
             updateQuery += String.format(" Genere = '%s'", newCliente.getGenere());
             counter++;
         }
-        if (oldCliente.getEmail() != oldCliente.getEmail())
+        if (!oldCliente.getEmail().equals(newCliente.getEmail()) )
         {
             if (counter != 0)
             {
@@ -467,7 +470,7 @@ public class SQLClienteDAO {
             } else {
                 updateQuery += "SET";
             }
-            updateQuery += String.format(" Email = '%s'", newCliente.getEmail());
+            updateQuery += String.format(newCliente.getEmail() != null ? " Email = '%s'" : " Email = null", newCliente.getEmail());
             counter++;
         }
 
@@ -523,11 +526,16 @@ public class SQLClienteDAO {
             PreparedStatement createCliente = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             createCliente.setString(1, cliente.getNome());
             createCliente.setString(2, cliente.getCognome());
-       
+
             createCliente.setDate(3, new java.sql.Date(cliente.getDataNascita().getTime()));
             createCliente.setString(4, cliente.getLuogoNascita());
             createCliente.setObject(5, cliente.getGenere(), Types.OTHER);
-            createCliente.setString(6, cliente.getEmail());
+            if (cliente.getEmail() == null) {
+                createCliente.setNull(6, Types.NULL);
+            } else {
+                createCliente.setString(6, cliente.getEmail());
+            }
+
             createCliente.executeUpdate();
 
             try {

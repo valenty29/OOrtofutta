@@ -10,9 +10,13 @@ import javax.swing.border.LineBorder;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.awt.BorderLayout;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @SuppressWarnings("serial")
 public class CarrelloPanel extends JPanel {
@@ -51,6 +55,8 @@ public class CarrelloPanel extends JPanel {
     confermaButton = new JButton();
     confermaButton.setText("Conferma acquisti");
 
+
+
     confermaButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
@@ -69,6 +75,7 @@ public class CarrelloPanel extends JPanel {
       }
     });
 
+
     importoLabel = new JLabel("Importo:");
 
     cancellaButton = new JButton();
@@ -83,6 +90,20 @@ public class CarrelloPanel extends JPanel {
     southCarrelloPanel.add(cancellaButton);
     southCarrelloPanel.add(importoLabel);
     carrelloTable.setModel(new CarrelloTableModel());
+
+    CarrelloTableModel carrelloModel = (CarrelloTableModel)carrelloTable.getModel();
+    carrelloTable.addKeyListener(new KeyAdapter() {
+      public void keyReleased(KeyEvent e) {
+        if (carrelloTable.getSelectedRow() == -1 ) {
+          return;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_DELETE && ApplicationStatus.getInstance().isNavigation()) {
+          Lotto lotto = carrelloModel.getSelectedLotto(carrelloTable.getSelectedRow());
+          carrello.remove(lotto);
+        }
+      }
+    });
+
   }
 
   public void setModel(Carrello carrello, Cliente cliente) {

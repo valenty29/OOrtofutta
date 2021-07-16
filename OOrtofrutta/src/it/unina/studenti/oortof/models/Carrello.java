@@ -35,6 +35,10 @@ public class Carrello extends ObservedModel implements PropertyChangeListener {
     }
   }
 
+  public void remove(Lotto lotto) {
+    lista.remove(lotto);
+  }
+
   public void clear() {
     lista.clear();
   }

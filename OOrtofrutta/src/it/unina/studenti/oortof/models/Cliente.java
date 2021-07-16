@@ -33,7 +33,6 @@ public class Cliente extends ObservedModel implements PropertyChangeListener{
 
   public Cliente(Integer id, String cf, String nome, String cognome, Date dataNascita, String luogoNascita, Genere genere, String email) {
     this();
-    dataNascita.getHours();
     setValue(ID, id);
     setValue(CF, cf);
     setValue(NOME, nome);
