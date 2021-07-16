@@ -14,7 +14,7 @@ public class Lotto extends ObservedModel implements PropertyChangeListener {
   public static final int DATA_PRODUZIONE = 4;    //Date
   public static final int COD_PAESE_ORIGINE = 5;  //String
   public static final int DATA_MUNGITURA = 6;  //Date
-  public static final int ID_PRODOTTO = 7;
+  public static final int PRODOTTO_COMMON = 7;
 
 
   
@@ -22,10 +22,10 @@ public class Lotto extends ObservedModel implements PropertyChangeListener {
     attributes = new Object[8];
   }
 
-  public Lotto(Integer id, Integer idProdotto, String codLotto, Date scadenza, Float disponibilita, Date dataProduzione, String codPaeseOrigine, Date dataMungitura) {
+  public Lotto(Integer id, ProdottoCommon prodottoCommon, String codLotto, Date scadenza, Float disponibilita, Date dataProduzione, String codPaeseOrigine, Date dataMungitura) {
     this();
     setValue(ID, id);
-    setValue(ID_PRODOTTO, idProdotto);
+    setValue(PRODOTTO_COMMON, prodottoCommon);
     setValue(COD_LOTTO, codLotto);
     setValue(SCADENZA, scadenza);
     setValue(DISPONIBILITA, disponibilita);
@@ -48,17 +48,17 @@ public class Lotto extends ObservedModel implements PropertyChangeListener {
     firePropertyChange("id", oldId, id);
   }
 
-  public Integer getIdProdotto() {
-    return getInteger(ID_PRODOTTO);
+  public ProdottoCommon getProdottoCommon() {
+    return (ProdottoCommon)attributes[PRODOTTO_COMMON];
   }
 
-  public void setIdProdotto(Integer id) {
-    Integer oldId = getId();
-    if (equals(oldId, id)) {
+  public void setProdottoCommon(ProdottoCommon prodottoCommon) {
+    ProdottoCommon oldProdotto = getProdottoCommon();
+    if (equals(oldProdotto, prodottoCommon)) {
       return;
     }
-    setValue(ID_PRODOTTO, id);
-    firePropertyChange("idProdotto", oldId, id);
+    setValue(PRODOTTO_COMMON, prodottoCommon);
+    firePropertyChange("idProdotto", oldProdotto, prodottoCommon);
   }
   
   public String getCodLotto() {
@@ -151,6 +151,7 @@ public class Lotto extends ObservedModel implements PropertyChangeListener {
     ((Lotto)lotto).setDataProduzione(getDataProduzione());;
     ((Lotto)lotto).setCodPaeseOrigine(getCodPaeseOrigine());
     ((Lotto)lotto).setDataMungitura(getDataMungitura());
+    ((Lotto)lotto).setProdottoCommon(getProdottoCommon());
   }
   
   public boolean equals(Object other) {
@@ -169,6 +170,17 @@ public class Lotto extends ObservedModel implements PropertyChangeListener {
     }
 
     return getCodLotto().equals(((Lotto)other).getCodLotto());
+  }
+
+  public void clear(){
+    setId(null);
+    setCodLotto(null);
+    setProdottoCommon(null);
+    setDataMungitura(null);
+    setDataProduzione(null);
+    setCodPaeseOrigine(null);
+    setDisponibilita(null);
+    setScadenza(null);
   }
 
   @Override

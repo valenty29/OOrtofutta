@@ -1,7 +1,9 @@
 package it.unina.studenti.oortof.dao;
 
 import it.unina.studenti.oortof.models.*;
+import org.postgresql.util.PSQLException;
 
+import javax.xml.crypto.Data;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -238,11 +240,7 @@ public class SQLClienteDAO {
                 query = raccoltaPuntiFilters + query;
             }
             String sql = "SELECT DISTINCT C.id AS idC, R.id as idR, C.cf, C.genere, C.nome, C.cognome, C.datanascita, C.luogoNascita, C.email, R.puntifruttaverdura, R.puntiprodottocaseario, R.puntifarinaceo, R.puntiuovo, R.punticarnepesce, R.punticonserva, R.puntibibita, R.puntialtro" + (quantitaFilters.equals("") ? "" : ", SUM(quantita)") + " FROM"
-					        +    "((((CLIENTE C INNER JOIN SCONTRINO S ON C.id = S.idCliente)"
-					        +   			  "INNER JOIN ACQUISTO A ON A.idScontrino = S.id)"
-					        +   		      "INNER JOIN LOTTO L ON A.idLotto = L.id)"
-					        +   		      "INNER JOIN PRODOTTO P ON L.idProdotto = P.id)"
-					        +                 "INNER JOIN RACCOLTAPUNTI R ON R.idCliente = C.id"
+					        +                 " CLIENTE C INNER JOIN RACCOLTAPUNTI R ON R.idCliente = C.id"
 					        +                 (query.equals("") ? ";" : " WHERE " + query)
 					        +                 (quantitaFilters.equals("") ? ";" : quantitaFilters);
 
@@ -337,7 +335,7 @@ public class SQLClienteDAO {
                 Lotto lotto = getLotto(rsIdLotto, conn);
 
                 Statement prodStm = conn.createStatement();
-                String prodSql = "SELECT * FROM PRODOTTO WHERE id = " + lotto.getIdProdotto() + ";";
+                String prodSql = "SELECT * FROM PRODOTTO WHERE id = " + lotto.getProdottoCommon().getId() + ";";
                 ResultSet prodRs = prodStm.executeQuery(prodSql);
                 String rsNomeProd;
                 String rsTipoProd;
@@ -363,7 +361,7 @@ public class SQLClienteDAO {
     }
 
 
-    public Lotto getLotto(Integer idLotto, Connection connection) {
+    public Lotto getLotto(Integer idLotto, Connection connection) throws ValidationException, DatabaseException {
         String sql = "SELECT * FROM LOTTO WHERE Id = " + idLotto + ";";
         try {
             Statement stm = connection.createStatement();
@@ -377,8 +375,22 @@ public class SQLClienteDAO {
                 java.sql.Date rsDataProduzione = rs.getDate("DataProduzione");
                 String rsCodPaeseOrigine = rs.getString("CodPaeseOrigine");
                 java.sql.Date rsDataMungitura = rs.getDate("DataMungitura");
-                Lotto lotto = new Lotto(rsId, rsIdProdotto, rsCodLotto, rsScadenza, rsDisponibilita, rsDataProduzione, rsCodPaeseOrigine, rsDataMungitura);
-                return lotto;
+
+                String prodRicerca = "SELECT * FROM PRODOTTO WHERE Id = " + rsIdProdotto;
+                Statement stmProd = connection.createStatement();
+                ResultSet rsProd = stmProd.executeQuery(prodRicerca);
+
+                if (rsProd.next()) {
+                    int rsIdProd = rsProd.getInt("Id");
+                    String rsNomeProd = rsProd.getString("Nome");
+                    boolean rsSfusoProd = rsProd.getBoolean("Sfuso");
+                    float rsPrezzoProd = rsProd.getFloat("Prezzo");
+                    ProdottoCommon prodCommon = new ProdottoCommon(rsIdProd, rsNomeProd, rsPrezzoProd, rsSfusoProd);
+                    Lotto lotto = new Lotto(rsId, prodCommon, rsCodLotto, rsScadenza, rsDisponibilita, rsDataProduzione, rsCodPaeseOrigine, rsDataMungitura);
+                    return lotto;
+                } else {
+                    throw new DatabaseException("Il lotto non ha un prodotto di base");
+                }
             }
             throw new RuntimeException("Couldn't find the lotto");
         } catch (SQLException e)
@@ -388,7 +400,7 @@ public class SQLClienteDAO {
     }
 
 
-    public void updateCliente(Cliente oldCliente, Cliente newCliente)
+    public Cliente updateCliente(Cliente oldCliente, Cliente newCliente) throws ValidationException, DatabaseException
     {
         if (oldCliente.getId() != newCliente.getId())
         {
@@ -468,10 +480,25 @@ public class SQLClienteDAO {
                 Connection conn = context.OpenConnection();
                 Statement stm = conn.createStatement();
                 stm.executeUpdate(sql);
+
+
+                    Cliente template = new Cliente();
+                    template.setId(newCliente.getId());
+                    Optional<Cliente> updatedCliente = getClienti(template).stream().findFirst();
+                    if(!updatedCliente.isPresent()) {
+                      throw new DatabaseException("Errore nel recuperare il cliente aggiornato");
+                    }
+                    return updatedCliente.get();
+
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                if (e.getSQLState().equals("T1GR0")) {
+                    throw new DatabaseException(((PSQLException) e).getServerErrorMessage().getMessage());
+                } else {
+                    throw new DatabaseException("Si è verificato un errore nell'operazione della base dati");
+                }
             }
         }
+        return oldCliente;
     }
 
     public void deleteCliente(Cliente cliente)
@@ -529,7 +556,7 @@ public class SQLClienteDAO {
         }
     }
 
-    public void createScontrino(Cliente cliente, ObservedList<Lotto> lotti) {
+    public int createScontrino(Cliente cliente, ObservedList<Lotto> lotti) throws DatabaseException{
         int scontrinoId = -1;
         String scontrinoSql = "INSERT INTO SCONTRINO (IdCliente) VALUES (?)";
         try {
@@ -545,7 +572,6 @@ public class SQLClienteDAO {
                     if (scontrinoId == -1) {
                         throw new RuntimeException("Errore nel recupero dell'id dallo scontrino generato");
                     }
-
                 }
 
             } catch (SQLException e) {
@@ -573,6 +599,7 @@ public class SQLClienteDAO {
             createAcquisto.executeBatch();
 
             conn.close();
+            return scontrinoId;
         } catch (SQLException e) {
             // TODO
             throw new RuntimeException(e);

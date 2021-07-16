@@ -33,7 +33,7 @@ public class CarrelloTableModel extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 6;
+        return 7;
     }
 
     @Override
@@ -45,11 +45,13 @@ public class CarrelloTableModel extends AbstractTableModel {
     public String getColumnName(int index) {
         switch (index) {
             case 0: return "Codice";
-            case 1: return "Scadenza";
-            case 2: return "Disponibilit�";
+            case 1: return "Disponibilit�";
+            case 2: return "Prezzo";
             case 3: return "Prodotto il";
-            case 4: return "Origine";
-            case 5: return "Mungitura";
+            case 4: return "Scadenza";
+            case 5: return "Origine";
+            case 6: return "Mungitura";
+
         }
         return null;
     }
@@ -79,10 +81,12 @@ public class CarrelloTableModel extends AbstractTableModel {
         Lotto lotto = lotti.get(rowIndex);
         switch (columnIndex) {
             case 0: return toString(lotto.getCodLotto());
-            case 1: return dateToString(lotto.getScadenza());
-            case 2: return toString(lotto.getDisponibilita());
+            case 1: return toString(lotto.getDisponibilita());
+            case 2: return String.format("%.2f", lotto.getDisponibilita() * lotto.getProdottoCommon().getPrezzo());
             case 3: return dateToString(lotto.getDataProduzione());
-            case 4: return toString(lotto.getCodPaeseOrigine());
+            case 4: return dateToString(lotto.getScadenza());
+            case 5: return toString(lotto.getCodPaeseOrigine());
+            case 6: return lotto.getDataMungitura() != null ? dateToString(lotto.getDataMungitura()) : "";
         }
         return null;
     }

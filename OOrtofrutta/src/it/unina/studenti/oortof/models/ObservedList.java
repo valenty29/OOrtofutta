@@ -99,8 +99,13 @@ public class ObservedList<E extends ObservedModel> extends ObservedModel impleme
     if (list.size() == 0) {
       return;
     }
-    List<ObservedModel> oldList = new ArrayList<ObservedModel>(list);
-    list.clear();
+    ArrayList<ObservedModel> oldList = new ArrayList<ObservedModel>(list);
+    try {
+      list.clear();
+    } catch (Exception e ){
+      System.out.println("wtf");
+    }
+
     firePropertyChange(name, oldList, list);
   }
 
@@ -111,9 +116,10 @@ public class ObservedList<E extends ObservedModel> extends ObservedModel impleme
 
   @Override
   public E set(int index, E element) {
+    List<E> oldList = list;
     E old = list.set(index, element);
     if (old != element) {
-      firePropertyChange(name, index, element);
+      firePropertyChange("listSet", oldList, list);
     }
     return old;
   }

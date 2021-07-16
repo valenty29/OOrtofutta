@@ -17,9 +17,7 @@ public class ApplicationCounter extends ObservedModel {
 
   public void setCounter(int counter) {
     int oldCounter = this.counter;
-    if (oldCounter == counter) {
-      return;
-    }
+
     this.counter = counter;
     firePropertyChange("counter", oldCounter, counter);
   }

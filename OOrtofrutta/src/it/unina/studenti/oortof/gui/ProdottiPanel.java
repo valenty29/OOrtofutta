@@ -13,6 +13,8 @@ import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -67,15 +69,29 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     setTriState();
 
     ((AbstractDocument)codiceProdottoTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(codiceProdottoTextField, InputCheckRules.soloNumeri));
-    ((AbstractDocument)prezzoTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(prezzoTextField, InputCheckRules.numeriSpazio));
-
+     ((AbstractDocument)prezzoTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(prezzoTextField, InputCheckRules.numeriSpazio));
+    LottiTableModel lottiModel = (LottiTableModel)lottiTable.getModel();
     lottiTable.addKeyListener(new KeyAdapter() {
       public void keyReleased(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_DELETE && ApplicationStatus.getInstance().isUpdate()) {
-          boolean selectionNoLastRow = lottiTable.getSelectedRow() >= 0 && lottiTable.getSelectedRow() != (lottiTable.getModel().getRowCount() - 1);
-          if (selectionNoLastRow) {
-            prodotto.getProdottoCommon().removeLotto(lottiTable.getSelectedRow());
+        if (lottiTable.getSelectedRow() == -1 ) {
+          return;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_DELETE && (ApplicationStatus.getInstance().isInsert() || ApplicationStatus.getInstance().isUpdate())) {
+          Lotto lotto = lottiModel.getSelectedLotto(lottiTable.getSelectedRow());
+          if (lotto.getId() == null) {
+            List lotti = prodotto.getProdottoCommon().getLotti().stream().filter(_lotto -> {
+              return _lotto.getId() == null;
+            }).collect(Collectors.toList());
+            if (lotti.size() > 1) {
+              prodotto.getProdottoCommon().removeLotto(lottiTable.getSelectedRow());
+            } else {
+              prodotto.getProdottoCommon().getLottoAt(lottiTable.getSelectedRow()).clear();
+            }
+
           }
+
+        } if (e.getKeyCode() == KeyEvent.VK_ENTER && (ApplicationStatus.getInstance().isUpdate() || ApplicationStatus.getInstance().isInsert())) {
+          prodotto.getProdottoCommon().addLotto(new Lotto());
         }
       }
     });
@@ -92,7 +108,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
             return;
           }
 
-          if (quantita == 0f) {
+          if (quantita <= 0f) {
             ApplicationInfo.getInstance().setMessage("SELEZIONARE UNA QUANTITA MAGGIORE DI 0", ApplicationInfo.LEVEL_ERROR);
             return;
           }
@@ -126,11 +142,14 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
       private static final long serialVersionUID = 1L;
 
       public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+
         boolean lastRow = table.getModel().getRowCount() == (row + 1);
         isSelected = ApplicationStatus.getInstance().isNavigation() || !lastRow ? isSelected : false;
         JLabel l = (JLabel)super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
         l.setBackground(isSelected ? table.getSelectionBackground() : table.getBackground());
-        if (lastRow) {
+
+        Lotto selectedLotto = lottiModel.getSelectedLotto(row);
+        if (selectedLotto.getId() == null) {
           if (ApplicationStatus.getInstance().isInsert()) {
             l.setBackground(Color.white);
           }
@@ -196,13 +215,18 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
   }
 
   void setEnabledColor(Container container, boolean enabled, Color color) {
-    if (container instanceof JTextField || container instanceof AbstractButton && container != quantitaCarrello) {
+
+    if (container instanceof JTextField || container instanceof AbstractButton) {
       container.setEnabled(enabled);
       container.setBackground(color);
     }
     for (int i = 0; i < container.getComponentCount(); i++) {
       Component c = container.getComponent(i);
-      if (c instanceof JTextField || c instanceof AbstractButton && c != quantitaCarrello) {
+
+      if (c instanceof JTextField || c instanceof AbstractButton) {
+        if (c == quantitaCarrello) {
+          return;
+        }
         c.setEnabled(enabled);
         c.setBackground(color);
       }

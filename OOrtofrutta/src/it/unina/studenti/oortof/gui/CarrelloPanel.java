@@ -1,9 +1,9 @@
 package it.unina.studenti.oortof.gui;
 
 import it.unina.studenti.oortof.dao.SQLClienteDAO;
+import it.unina.studenti.oortof.gui.models.CarrelloTableModel;
 import it.unina.studenti.oortof.gui.models.LottiTableModel;
-import it.unina.studenti.oortof.models.Carrello;
-import it.unina.studenti.oortof.models.Cliente;
+import it.unina.studenti.oortof.models.*;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -26,6 +26,7 @@ public class CarrelloPanel extends JPanel {
   private SQLClienteDAO sqlClienteDAO;
   private JPanel northCarrelloPanel;
   private JLabel nomeCognomeLabel;
+  private JLabel importoLabel;
 
   public CarrelloPanel() {
     sqlClienteDAO = new SQLClienteDAO();
@@ -53,10 +54,23 @@ public class CarrelloPanel extends JPanel {
     confermaButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        sqlClienteDAO.createScontrino(cliente, carrello.getLotti());
-        carrello.clear();
+        if (cliente.getId() != null) {
+          try {
+            int idScontrino = sqlClienteDAO.createScontrino(cliente, carrello.getLotti());
+            ApplicationInfo.getInstance().setMessage(String.format("Acquisto contabilizzato: generato scontrino %d di importo %.2f", idScontrino, calcolaImporto()), ApplicationInfo.LEVEL_ERROR);
+            carrello.clear();
+          } catch (DatabaseException de) {
+            ApplicationInfo.getInstance().setMessage("Si è verificato un errore imprevisto nel confermare l\'acquisto", ApplicationInfo.LEVEL_LOG);
+          }
+        } else {
+          ApplicationInfo.getInstance().setMessage("Selezionare un cliente prima di proseguire con l\'acquisto", ApplicationInfo.LEVEL_ERROR);
+        }
+
       }
     });
+
+    importoLabel = new JLabel("Importo:");
+
     cancellaButton = new JButton();
     cancellaButton.addActionListener(new ActionListener() {
       @Override
@@ -67,8 +81,8 @@ public class CarrelloPanel extends JPanel {
     cancellaButton.setText("Cancella acquisti");
     southCarrelloPanel.add(confermaButton);
     southCarrelloPanel.add(cancellaButton);
-
-    carrelloTable.setModel(new LottiTableModel());
+    southCarrelloPanel.add(importoLabel);
+    carrelloTable.setModel(new CarrelloTableModel());
   }
 
   public void setModel(Carrello carrello, Cliente cliente) {
@@ -80,25 +94,41 @@ public class CarrelloPanel extends JPanel {
         dataModelChanged(evt);
       }
     };
-    ((LottiTableModel)carrelloTable.getModel()).setList(carrello.getLotti());
+    ((CarrelloTableModel)carrelloTable.getModel()).setList(carrello.getLotti());
     carrello.addPropertyChangeListener(dataModelListener);
     cliente.addPropertyChangeListener(dataModelListener);
   }
 
   void dataModelChanged(PropertyChangeEvent evt) {
-    modelToView();
+    modelToView(evt);
   }
 
-  void modelToView() {
+  void modelToView(PropertyChangeEvent evt) {
     SwingUtilities.invokeLater(new Runnable() {
       public void run() {
-        modelToViewCore();
+        modelToViewCore(evt);
       }
     });
   }
 
-  void modelToViewCore() {
-    nomeCognomeLabel.setText(cliente.getNome() + " " + cliente.getCognome());
+  void modelToViewCore(PropertyChangeEvent evt) {
+    if (evt.getPropertyName().equals("listaCarrello")) {
+      impostaImportoLabel();
+    }
+    nomeCognomeLabel.setText(cliente.getNome() != null && cliente.getCognome() != null ? cliente.getNome() + " " + cliente.getCognome() : "Selezionare un Cliente");
   }
 
+  void impostaImportoLabel(){
+    float importo = calcolaImporto();
+    importoLabel.setText(String.format("Importo: %.2f", importo));
+  }
+
+  float calcolaImporto() {
+    float importo = 0f;
+    for ( Lotto lotto: carrello.getLotti()) {
+      importo += lotto.getDisponibilita() * (lotto.getProdottoCommon().getPrezzo());
+    }
+    return importo;
+
+  }
 }

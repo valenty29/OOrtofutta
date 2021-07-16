@@ -64,6 +64,7 @@ public class ProdottiController implements Controller<Prodotto> {
   
   void commitUpdate() {
     sqlProductDao.updateProducts(oldProdotto, prodotto);
+    prodotti.set(prodotti.indexOf(oldProdotto), prodotto);
     ApplicationStatus.getInstance().setStatus(ApplicationStatus.STATUS_NAVIGATION);
   }
   
@@ -126,7 +127,7 @@ public class ProdottiController implements Controller<Prodotto> {
   @Override
   public void listToDetail() {
     int index = ApplicationCounter.getInstance().getCounter();
-    if (index > 0) {
+    if (index > 0 && index < prodotti.size() + 1) {
       prodotti.get(index - 1).copyTo(prodotto);
       prodotto.getProdottoCommon().getLotti().forEach(lotto -> {
         carrello.getLotti().stream().filter(lotto1 -> {

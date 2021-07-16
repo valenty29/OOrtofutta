@@ -331,7 +331,7 @@ public class SQLProductDAO implements ProductDAO {
     
 
 
-	public ObservedList<Prodotto> getProduct(Prodotto prodotto) throws ValidationException {
+	public ObservedList<Prodotto> getProduct(Prodotto prodotto) throws ValidationException, DatabaseException{
     	ObservedList<Prodotto> prodotti = new ObservedList<Prodotto>("prodotti");
     	boolean allNull = true;
     	
@@ -395,7 +395,7 @@ public class SQLProductDAO implements ProductDAO {
     	return prodotti;
     }
 
-    private ObservedList<Altro> getAltro(Prodotto prod) throws ValidationException {
+    private ObservedList<Altro> getAltro(Prodotto prod) throws ValidationException, DatabaseException {
 
         try {
             Connection conn = context.OpenConnection();
@@ -432,7 +432,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    private ObservedList<Bibita> getBibita(Prodotto bibita) throws ValidationException {
+    private ObservedList<Bibita> getBibita(Prodotto bibita) throws ValidationException, DatabaseException {
         BibitaSpecifico bibSpec = bibita.getBibitaSpecifico();
         ArrayList<FieldException> exceptionList = new ArrayList<>();
         try {
@@ -505,7 +505,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    private ObservedList<Uovo> getUovo(Prodotto uovo) throws ValidationException {
+    private ObservedList<Uovo> getUovo(Prodotto uovo) throws ValidationException, DatabaseException {
 
         UovoSpecifico uovoSpecifico = uovo.getUovoSpecifico();
 
@@ -557,7 +557,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    private ObservedList<CarnePesce> getCarnePesce(Prodotto carnePesce) throws ValidationException {
+    private ObservedList<CarnePesce> getCarnePesce(Prodotto carnePesce) throws ValidationException, DatabaseException {
 
             CarnePesceSpecifico carnePesceSpecifico = carnePesce.getCarnePesceSpecifico();
 
@@ -627,7 +627,7 @@ public class SQLProductDAO implements ProductDAO {
     }
 
 
-    private ObservedList<Farinaceo> getFarinaceo(Prodotto farinaceo) throws ValidationException {
+    private ObservedList<Farinaceo> getFarinaceo(Prodotto farinaceo) throws ValidationException, DatabaseException {
         FarinaceoSpecifico farinaceoSpecifico = farinaceo.getFarinaceoSpecifico();
         try {
             Connection conn = context.OpenConnection();
@@ -693,7 +693,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    private ObservedList<FruttaVerdura> getFruttaVerdura(Prodotto fruttaVerdura) throws ValidationException {
+    private ObservedList<FruttaVerdura> getFruttaVerdura(Prodotto fruttaVerdura) throws ValidationException, DatabaseException {
         FruttaVerduraSpecifico fruttaVerduraSpecifico = fruttaVerdura.getFruttaVerduraSpecifico();
         try {
             Connection conn = context.OpenConnection();
@@ -751,7 +751,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    private ObservedList<Conserva> getConserva(Prodotto conserva) throws ValidationException {
+    private ObservedList<Conserva> getConserva(Prodotto conserva) throws ValidationException, DatabaseException {
 
         ConservaSpecifico conservaSpecifico = conserva.getConservaSpecifico();
         try {
@@ -794,7 +794,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
 
-    private ObservedList<ProdottoCaseario> getProdottoCaseario(Prodotto prodottoCaseario) throws ValidationException {
+    private ObservedList<ProdottoCaseario> getProdottoCaseario(Prodotto prodottoCaseario) throws ValidationException, DatabaseException {
 
         ProdottoCasearioSpecifico prodCasSpecifico = prodottoCaseario.getProdottoCasearioSpecifico();
         try {
@@ -846,8 +846,8 @@ public class SQLProductDAO implements ProductDAO {
             throw new RuntimeException(se);
         }
     }
-    
-    private ObservedList<Lotto> getLotti(int id, Connection connection)
+
+    private ObservedList<Lotto> getLotti(int id, Connection connection) throws ValidationException, DatabaseException
     {
         ObservedList<Lotto> lotti = new ObservedList<Lotto>("lotto");
         String sql = "SELECT * FROM LOTTO WHERE IdProdotto = " + id + ";";
@@ -864,8 +864,22 @@ public class SQLProductDAO implements ProductDAO {
                 Date rsDataProduzione = rs.getDate("DataProduzione");
                 String rsCodPaeseOrigine = rs.getString("CodPaeseOrigine");
                 Date rsDataMungitura = rs.getDate("DataMungitura");
-                Lotto lotto = new Lotto(rsId, rsIdProdotto, rsCodLotto, rsScadenza, rsDisponibilita, rsDataProduzione, rsCodPaeseOrigine, rsDataMungitura);
-                lotti.add(lotto);
+
+                String prodRicerca = "SELECT * FROM PRODOTTO WHERE Id = " + rsIdProdotto;
+                Statement stmProd = connection.createStatement();
+                ResultSet rsProd = stmProd.executeQuery(prodRicerca);
+
+                if (rsProd.next()) {
+                    int rsIdProd = rsProd.getInt("Id");
+                    String rsNomeProd = rsProd.getString("Nome");
+                    boolean rsSfusoProd = rsProd.getBoolean("Sfuso");
+                    float rsPrezzoProd = rsProd.getFloat("Prezzo");
+                    ProdottoCommon prodCommon = new ProdottoCommon(rsIdProd, rsNomeProd, rsPrezzoProd, rsSfusoProd);
+                    Lotto lotto = new Lotto(rsId, prodCommon, rsCodLotto, rsScadenza, rsDisponibilita, rsDataProduzione, rsCodPaeseOrigine, rsDataMungitura);
+                    lotti.add(lotto);
+                } else {
+                    throw new DatabaseException("Il lotto non ha un prodotto di base");
+                }
             }
             return lotti;
         } catch (SQLException e)
@@ -987,7 +1001,7 @@ public class SQLProductDAO implements ProductDAO {
     	ObservedList<Lotto> lottiDaCreare = new ObservedList<Lotto>("lottiDaCreare");
     	ObservedList<Lotto> lottiDaAggiornare = new ObservedList<Lotto>("lottiDaAggiornare");
     	ObservedList<Lotto> lottiDaEliminare = new ObservedList<>("lottiDaEliminare");
-    	newLotti.removeIf(lotto -> lotto.getId() == null);
+    	newLotti.removeIf(lotto -> lotto.getCodLotto() == null);
 
     	for(Lotto lotto: newLotti) {
 
