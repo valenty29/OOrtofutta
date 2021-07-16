@@ -127,7 +127,7 @@ public class ProdottiController implements Controller<Prodotto> {
   @Override
   public void listToDetail() {
     int index = ApplicationCounter.getInstance().getCounter();
-    if (index > 0) {
+    if (index > 0 && index < prodotti.size() + 1) {
       prodotti.get(index - 1).copyTo(prodotto);
       prodotto.getProdottoCommon().getLotti().forEach(lotto -> {
         carrello.getLotti().stream().filter(lotto1 -> {
