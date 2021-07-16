@@ -215,18 +215,16 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
   }
 
   void setEnabledColor(Container container, boolean enabled, Color color) {
-
     if (container instanceof JTextField || container instanceof AbstractButton) {
       container.setEnabled(enabled);
       container.setBackground(color);
     }
     for (int i = 0; i < container.getComponentCount(); i++) {
       Component c = container.getComponent(i);
-
+      if(c == quantitaCarrello) {
+        continue;
+      }
       if (c instanceof JTextField || c instanceof AbstractButton) {
-        if (c == quantitaCarrello) {
-          return;
-        }
         c.setEnabled(enabled);
         c.setBackground(color);
       }
