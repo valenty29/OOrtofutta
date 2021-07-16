@@ -3,10 +3,7 @@ package it.unina.studenti.oortof.controllers;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import it.unina.studenti.oortof.models.ApplicationCounter;
-import it.unina.studenti.oortof.models.ApplicationStatus;
-import it.unina.studenti.oortof.models.ObservedList;
-import it.unina.studenti.oortof.models.ObservedModel;
+import it.unina.studenti.oortof.models.*;
 
 public class ApplicationController implements Controller, PropertyChangeListener {
 
@@ -35,26 +32,32 @@ public class ApplicationController implements Controller, PropertyChangeListener
   }
   
   public void insert() {
+    ApplicationInfo.getInstance().setMessage("", ApplicationInfo.LEVEL_LOG);
     controllers[ApplicationStatus.getInstance().getActiveTab()].insert();
   }
 
   public void update() {
+    ApplicationInfo.getInstance().setMessage("", ApplicationInfo.LEVEL_LOG);
     controllers[ApplicationStatus.getInstance().getActiveTab()].update();
   }
 
   public void search() {
+    ApplicationInfo.getInstance().setMessage("", ApplicationInfo.LEVEL_LOG);
     controllers[ApplicationStatus.getInstance().getActiveTab()].search();
   }
   
   public void rollback() {
+    ApplicationInfo.getInstance().setMessage("", ApplicationInfo.LEVEL_LOG);
     controllers[ApplicationStatus.getInstance().getActiveTab()].rollback();
   }
   
   public void commit() {
+    ApplicationInfo.getInstance().setMessage("", ApplicationInfo.LEVEL_LOG);
     controllers[ApplicationStatus.getInstance().getActiveTab()].commit();
   }
   
   public void delete() {
+    ApplicationInfo.getInstance().setMessage("", ApplicationInfo.LEVEL_LOG);
     controllers[ApplicationStatus.getInstance().getActiveTab()].delete();
   }
 

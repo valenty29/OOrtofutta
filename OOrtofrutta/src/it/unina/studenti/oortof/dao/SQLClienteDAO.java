@@ -2,6 +2,7 @@ package it.unina.studenti.oortof.dao;
 
 import it.unina.studenti.oortof.models.*;
 
+import javax.xml.crypto.Data;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -337,7 +338,7 @@ public class SQLClienteDAO {
                 Lotto lotto = getLotto(rsIdLotto, conn);
 
                 Statement prodStm = conn.createStatement();
-                String prodSql = "SELECT * FROM PRODOTTO WHERE id = " + lotto.getIdProdotto() + ";";
+                String prodSql = "SELECT * FROM PRODOTTO WHERE id = " + lotto.getProdottoCommon().getId() + ";";
                 ResultSet prodRs = prodStm.executeQuery(prodSql);
                 String rsNomeProd;
                 String rsTipoProd;
@@ -363,7 +364,7 @@ public class SQLClienteDAO {
     }
 
 
-    public Lotto getLotto(Integer idLotto, Connection connection) {
+    public Lotto getLotto(Integer idLotto, Connection connection) throws ValidationException, DatabaseException {
         String sql = "SELECT * FROM LOTTO WHERE Id = " + idLotto + ";";
         try {
             Statement stm = connection.createStatement();
@@ -377,8 +378,22 @@ public class SQLClienteDAO {
                 java.sql.Date rsDataProduzione = rs.getDate("DataProduzione");
                 String rsCodPaeseOrigine = rs.getString("CodPaeseOrigine");
                 java.sql.Date rsDataMungitura = rs.getDate("DataMungitura");
-                Lotto lotto = new Lotto(rsId, rsIdProdotto, rsCodLotto, rsScadenza, rsDisponibilita, rsDataProduzione, rsCodPaeseOrigine, rsDataMungitura);
-                return lotto;
+
+                String prodRicerca = "SELECT * FROM PRODOTTO WHERE Id = " + rsIdProdotto;
+                Statement stmProd = connection.createStatement();
+                ResultSet rsProd = stmProd.executeQuery(prodRicerca);
+
+                if (rsProd.next()) {
+                    int rsIdProd = rsProd.getInt("Id");
+                    String rsNomeProd = rsProd.getString("Nome");
+                    boolean rsSfusoProd = rsProd.getBoolean("Sfuso");
+                    float rsPrezzoProd = rsProd.getFloat("Prezzo");
+                    ProdottoCommon prodCommon = new ProdottoCommon(rsIdProd, rsNomeProd, rsPrezzoProd, rsSfusoProd);
+                    Lotto lotto = new Lotto(rsId, prodCommon, rsCodLotto, rsScadenza, rsDisponibilita, rsDataProduzione, rsCodPaeseOrigine, rsDataMungitura);
+                    return lotto;
+                } else {
+                    throw new DatabaseException("Il lotto non ha un prodotto di base");
+                }
             }
             throw new RuntimeException("Couldn't find the lotto");
         } catch (SQLException e)
@@ -388,7 +403,7 @@ public class SQLClienteDAO {
     }
 
 
-    public void updateCliente(Cliente oldCliente, Cliente newCliente)
+    public Cliente updateCliente(Cliente oldCliente, Cliente newCliente) throws ValidationException, DatabaseException
     {
         if (oldCliente.getId() != newCliente.getId())
         {
@@ -468,10 +483,21 @@ public class SQLClienteDAO {
                 Connection conn = context.OpenConnection();
                 Statement stm = conn.createStatement();
                 stm.executeUpdate(sql);
+
+
+                    Cliente template = new Cliente();
+                    template.setId(newCliente.getId());
+                    Optional<Cliente> updatedCliente = getClienti(template).stream().findFirst();
+                    if(!updatedCliente.isPresent()) {
+                      throw new DatabaseException("Errore nel recuperare il cliente aggiornato");
+                    }
+                    return updatedCliente.get();
+
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         }
+        return oldCliente;
     }
 
     public void deleteCliente(Cliente cliente)

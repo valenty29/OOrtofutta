@@ -12,6 +12,7 @@ import javax.swing.event.ListSelectionListener;
 
 import it.unina.studenti.oortof.gui.models.ClientiListTableModel;
 import it.unina.studenti.oortof.models.ApplicationCounter;
+import it.unina.studenti.oortof.models.ApplicationStatus;
 import it.unina.studenti.oortof.models.Cliente;
 
 import it.unina.studenti.oortof.models.ObservedList;
@@ -36,24 +37,54 @@ public class ClientiListPanel extends JPanel {
       table.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     scrollPane.setViewportView(table);
 
-  }
-  
-  
-  public void setModel(Cliente cliente, ObservedList listCliente) {
-	    ClientiListTableModel model = (ClientiListTableModel)table.getModel();
-	    model.setModel(cliente, listCliente);
-	    table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-	        public void valueChanged(ListSelectionEvent event) {
-	            // do some actions here, for example
-	            // print first column value from selected row
-	        	cliente.getScontrini().clear();
-	        	int index = table.getSelectedRow();
-	        	if (index != -1) {
-	        		listCliente.get(index).copyTo(cliente);
-	        	}
-	        	
-	        }
-	    });
+
+    ApplicationCounter.getInstance().addPropertyChangeListener(new PropertyChangeListener() {
+          @Override
+          public void propertyChange(PropertyChangeEvent evt) {
+              if (ApplicationStatus.getInstance().getActiveTab() == ApplicationStatus.TAB_CLIENTI ) {
+                  int index = ApplicationCounter.getInstance().getCounter() - 1;
+                  if (index >= 0 && index < table.getRowCount()) {
+                      table.setRowSelectionInterval(index, index);
+                  }
+                  else {
+                      table.clearSelection();
+                  }
+              }
+          }
+      });
+      ApplicationStatus.getInstance().addPropertyChangeListener(new PropertyChangeListener() {
+          @Override
+          public void propertyChange(PropertyChangeEvent evt) {
+              ApplicationStatus as = ApplicationStatus.getInstance();
+              if (as.getActiveTab() == ApplicationStatus.TAB_CLIENTI && evt.getOldValue().equals(ApplicationStatus.STATUS_SEARCH) && evt.getNewValue().equals(ApplicationStatus.STATUS_NAVIGATION) && as.getAction() == ApplicationStatus.ACTION_COMMIT) {
+                  if (table.getModel().getRowCount() == 0) {
+                      table.clearSelection();
+                  }
+                  else {
+                      table.setRowSelectionInterval(0, 0);
+                  }
+              }
+          }
+      });
+
+      table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+          @Override
+          public void valueChanged(ListSelectionEvent event) {
+              // do some actions here, for example
+              // print first column value from selected row
+              if (ApplicationCounter.getInstance().getCounter() != (table.getSelectedRow() + 1)) {
+                  if (event.getFirstIndex() == ApplicationCounter.getInstance().getCounter() - 1 && table.getSelectedRow() == -1) {
+                      ApplicationCounter.getInstance().setCounter(ApplicationCounter.getInstance().getCounter());
+                  } else {
+                      ApplicationCounter.getInstance().setCounter(table.getSelectedRow() + 1);
+                  }
+
+                  ApplicationCounter.getInstance().setLimit(table.getRowCount());
+              }
+
+
+          }
+      });
 
       table.addMouseListener(new MouseAdapter() {
           public void mouseClicked(MouseEvent e) {
@@ -65,5 +96,19 @@ public class ClientiListPanel extends JPanel {
               }
           }
       });
+
+  }
+  
+  
+  public void setModel(Cliente cliente, ObservedList listCliente) {
+	    ClientiListTableModel model = (ClientiListTableModel)table.getModel();
+	    model.setModel(cliente, listCliente);
+	    listCliente.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                ApplicationCounter.getInstance().setLimit(listCliente.size());
+            }
+        });
+
   }
 }

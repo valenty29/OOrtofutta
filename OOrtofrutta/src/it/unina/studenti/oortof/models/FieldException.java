@@ -39,10 +39,9 @@ public class FieldException extends Exception {
 
     @Override
     public String toString() {
-        return "Errore validazione{" +
-                "valore='" + value + '\'' +
-                ", messaggio='" + errorMessage + (expectedFormat.isPresent() ? ('\'' +
-                ", expectedFormat=" + expectedFormat) : "") +
-                '}';
+        return "Errore validazione: " +
+                "Valore=" + value +
+                ", messaggio=" + errorMessage + (expectedFormat.isPresent() ? ('\'' +
+                ", expectedFormat=" + expectedFormat) : "");
     }
 }

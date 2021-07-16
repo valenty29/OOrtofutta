@@ -64,6 +64,7 @@ public class ProdottiController implements Controller<Prodotto> {
   
   void commitUpdate() {
     sqlProductDao.updateProducts(oldProdotto, prodotto);
+    prodotti.set(prodotti.indexOf(oldProdotto), prodotto);
     ApplicationStatus.getInstance().setStatus(ApplicationStatus.STATUS_NAVIGATION);
   }
   

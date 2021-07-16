@@ -24,7 +24,7 @@ public class ProdottoCommon extends ObservedModel implements PropertyChangeListe
     attributes[LOTTI] = new ObservedList<Lotto>("lotti");
   }
   
-  protected ProdottoCommon(Integer id, String nome, Float prezzo, Boolean sfuso) {
+  public ProdottoCommon(Integer id, String nome, Float prezzo, Boolean sfuso) {
     this();
     setValue(ID, id);
     setValue(ALTRO, Boolean.FALSE);

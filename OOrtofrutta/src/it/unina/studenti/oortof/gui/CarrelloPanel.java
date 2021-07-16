@@ -1,6 +1,7 @@
 package it.unina.studenti.oortof.gui;
 
 import it.unina.studenti.oortof.dao.SQLClienteDAO;
+import it.unina.studenti.oortof.gui.models.CarrelloTableModel;
 import it.unina.studenti.oortof.gui.models.LottiTableModel;
 import it.unina.studenti.oortof.models.Carrello;
 import it.unina.studenti.oortof.models.Cliente;
@@ -68,7 +69,7 @@ public class CarrelloPanel extends JPanel {
     southCarrelloPanel.add(confermaButton);
     southCarrelloPanel.add(cancellaButton);
 
-    carrelloTable.setModel(new LottiTableModel());
+    carrelloTable.setModel(new CarrelloTableModel());
   }
 
   public void setModel(Carrello carrello, Cliente cliente) {
@@ -80,7 +81,7 @@ public class CarrelloPanel extends JPanel {
         dataModelChanged(evt);
       }
     };
-    ((LottiTableModel)carrelloTable.getModel()).setList(carrello.getLotti());
+    ((CarrelloTableModel)carrelloTable.getModel()).setList(carrello.getLotti());
     carrello.addPropertyChangeListener(dataModelListener);
     cliente.addPropertyChangeListener(dataModelListener);
   }

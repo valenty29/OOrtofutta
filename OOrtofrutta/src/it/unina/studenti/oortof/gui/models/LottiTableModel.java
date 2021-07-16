@@ -54,7 +54,7 @@ public class LottiTableModel extends AbstractTableModel {
     return null;
   }
   
-  static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+  static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
   
   static String dateToString(Date d) {
     return d != null ? sdf.format(d) : "";

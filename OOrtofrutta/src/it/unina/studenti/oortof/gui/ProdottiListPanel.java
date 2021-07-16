@@ -69,11 +69,20 @@ public class ProdottiListPanel extends JPanel {
     
     table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
       @Override
-      public void valueChanged(ListSelectionEvent e) {
+      public void valueChanged(ListSelectionEvent event) {
+        // do some actions here, for example
+        // print first column value from selected row
         if (ApplicationCounter.getInstance().getCounter() != (table.getSelectedRow() + 1)) {
-          ApplicationCounter.getInstance().setCounter(table.getSelectedRow() + 1);
+          if (event.getFirstIndex() == ApplicationCounter.getInstance().getCounter() - 1 && table.getSelectedRow() == -1) {
+            ApplicationCounter.getInstance().setCounter(ApplicationCounter.getInstance().getCounter());
+          } else {
+            ApplicationCounter.getInstance().setCounter(table.getSelectedRow() + 1);
+          }
+
           ApplicationCounter.getInstance().setLimit(table.getRowCount());
         }
+
+
       }
     });
     table.addMouseListener(new MouseAdapter() {

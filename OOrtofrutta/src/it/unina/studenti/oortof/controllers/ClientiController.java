@@ -2,6 +2,7 @@ package it.unina.studenti.oortof.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import it.unina.studenti.oortof.dao.DBContext;
 import it.unina.studenti.oortof.dao.ListHelpers;
@@ -65,9 +66,9 @@ public class ClientiController implements Controller {
 				
 			case ApplicationStatus.STATUS_UPDATE: {
 				try {
-					sqlClienteDAO.updateCliente(oldCliente, cliente);
-					listCliente.remove(cliente);
-					listCliente.add(cliente);
+					Cliente updatedCliente = sqlClienteDAO.updateCliente(oldCliente, cliente);
+					listCliente.set(listCliente.indexOf(cliente), updatedCliente);
+
 				} catch (Exception e) {
 					
 				}
@@ -79,12 +80,8 @@ public class ClientiController implements Controller {
 				try {
 					ObservedList<Cliente> clienti = sqlClienteDAO.getClienti(cliente);
 					listCliente.clear();
-
-
-
-
 					clienti.copyTo(listCliente);
-
+					System.out.println();
 				}
 				catch (ValidationException ve) {
 					ApplicationInfo.getInstance().setMessage(ve.toString(), ApplicationInfo.LEVEL_ERROR);
@@ -126,7 +123,13 @@ public class ClientiController implements Controller {
     @Override
     public void listToDetail() {
       // TODO Auto-generated method stub
-
+		int index = ApplicationCounter.getInstance().getCounter();
+		if (index > 0 && index < listCliente.size() + 1) {
+			listCliente.get(index - 1).copyTo(cliente);
+		}
+		else {
+			cliente.clear();
+		}
     }
 
     @Override

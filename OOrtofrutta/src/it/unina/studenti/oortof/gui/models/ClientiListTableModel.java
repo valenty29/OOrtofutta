@@ -69,7 +69,9 @@ public class ClientiListTableModel extends AbstractTableModel {
 	    PropertyChangeListener dataModelListener = new PropertyChangeListener() {
 	      @Override
 	      public void propertyChange(PropertyChangeEvent evt) {
-	        dataChanged();
+
+	        	dataChanged();
+
 	      }
 	    };
 	    clienteList.addPropertyChangeListener(dataModelListener);
