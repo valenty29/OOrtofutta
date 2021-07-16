@@ -43,7 +43,7 @@ public class ProdottiListPanel extends JPanel {
       public void propertyChange(PropertyChangeEvent evt) {
         if (ApplicationStatus.getInstance().getActiveTab() == ApplicationStatus.TAB_PRODOTTI) {
           int index = ApplicationCounter.getInstance().getCounter() - 1;
-          if (index >= 0) {
+          if (index >= 0 && index < table.getRowCount()) {
             table.setRowSelectionInterval(index, index);
           }
           else {

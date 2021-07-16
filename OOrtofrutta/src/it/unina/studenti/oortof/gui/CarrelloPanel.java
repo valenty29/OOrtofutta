@@ -76,7 +76,7 @@ public class CarrelloPanel extends JPanel {
                     if (cliente.getId() != null) {
                       try {
                         int idScontrino = sqlClienteDAO.createScontrino(cliente, carrello.getLotti());
-                        ApplicationInfo.getInstance().setMessage(String.format("Acquisto contabilizzato: generato scontrino %d di importo %.2f", idScontrino, calcolaImporto()), ApplicationInfo.LEVEL_ERROR);
+                        ApplicationInfo.getInstance().setMessage(String.format("Acquisto contabilizzato: generato scontrino %d di importo %.2f", idScontrino, calcolaImporto()), ApplicationInfo.LEVEL_LOG);
                         carrello.clear();
                       } catch (DatabaseException de) {
                         ApplicationInfo.getInstance().setMessage("Si è verificato un errore imprevisto nel confermare l\'acquisto", ApplicationInfo.LEVEL_LOG);
