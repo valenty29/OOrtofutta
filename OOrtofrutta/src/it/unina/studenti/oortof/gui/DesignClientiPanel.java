@@ -18,6 +18,7 @@ import javax.swing.JTable;
 import java.awt.Dimension;
 import javax.swing.JSeparator;
 import javax.swing.Box;
+import javax.swing.ButtonGroup;
 import javax.swing.JScrollPane;
 
 @SuppressWarnings("serial")
@@ -35,6 +36,7 @@ public abstract class DesignClientiPanel extends JPanel {
   protected JTable acquistiTable;
   protected JRadioButton mRadioButton = new JRadioButton("M");
   protected JRadioButton fRadioButton = new JRadioButton("F");
+  protected ButtonGroup MFBG = new ButtonGroup();
   
   protected JTextField puntiFruttaVerduraTextField;
   protected JTextField puntiFarinaceoTextField;
@@ -440,7 +442,7 @@ public abstract class DesignClientiPanel extends JPanel {
     acquistiTable.getTableHeader().setBackground(SystemColor.control);
     acquistiScrollPane.setViewportView(acquistiTable);
     
-   
-
+    MFBG.add(mRadioButton);
+    MFBG.add(fRadioButton);
   }
 }

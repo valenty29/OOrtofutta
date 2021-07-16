@@ -129,11 +129,11 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     lottiTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
       @Override
       public void valueChanged(ListSelectionEvent e) {
-        if (lottiTable.getSelectedRow() != -1) {
-          quantitaCarrelloTextField.setEnabled(true);
+        if (ApplicationStatus.getInstance().getStatus() == ApplicationStatus.getInstance().STATUS_NAVIGATION && lottiTable.getSelectedRow() != -1) {
+          setEnabledColor(quantitaCarrelloTextField, true, Color.white);
         }
         else {
-          quantitaCarrelloTextField.setEnabled(false);
+          setEnabledColor(quantitaCarrelloTextField, false, SystemColor.control);
         }
       }
     });
@@ -336,9 +336,6 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     setEnabledColor(false, SystemColor.control);
     if (ApplicationCounter.getInstance().getCounter() <= 0) {
       caratteristicheSpecificheTabbed.setVisible(false);
-    }
-    else {
-      setEnabledColor(quantitaCarrelloTextField, true, Color.white);
     }
     lottiTable.editingCanceled(null);
     modelToView();

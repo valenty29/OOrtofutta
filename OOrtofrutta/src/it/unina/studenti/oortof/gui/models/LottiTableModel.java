@@ -46,7 +46,7 @@ public class LottiTableModel extends AbstractTableModel {
     switch (index) {
     case 0: return "Codice";
     case 1: return "Scadenza"; 
-    case 2: return "Disponibilitï¿½"; 
+    case 2: return "Disponibilità"; 
     case 3: return "Prodotto il"; 
     case 4: return "Origine"; 
     case 5: return "Mungitura";
