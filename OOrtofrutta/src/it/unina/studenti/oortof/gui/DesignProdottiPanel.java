@@ -84,7 +84,9 @@ public abstract class DesignProdottiPanel extends JPanel {
   protected ButtonGroup tipoAllevamentoBG = new ButtonGroup();
   protected ButtonGroup carnePesceBG = new ButtonGroup();
   protected ButtonGroup bibitaBG = new ButtonGroup();
-  protected JTextField quantitaCarrello = new JTextField();
+  protected JPanel quantitaCarrelloPanel = new JPanel();
+  protected JLabel quantitaCarrelloLabel = new JLabel("Quantità da inserire nel carrello");
+  protected JTextField quantitaCarrelloTextField = new JTextField();
   
 
   
@@ -92,12 +94,11 @@ public abstract class DesignProdottiPanel extends JPanel {
    * Create the panel.
    */
   public DesignProdottiPanel() {
-  	quantitaCarrello.setColumns(10);
     GridBagLayout gridBagLayout = new GridBagLayout();
     gridBagLayout.columnWidths = new int[]{680, 0};
-    gridBagLayout.rowHeights = new int[]{128, 157, 200, 0, 0};
+    gridBagLayout.rowHeights = new int[]{128, 157, 200, 0, 0, 0};
     gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-    gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+    gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
     setLayout(gridBagLayout);
     
     JPanel commonPanel = new JPanel();
@@ -114,7 +115,7 @@ public abstract class DesignProdottiPanel extends JPanel {
     GridBagLayout gbl_commonPanel = new GridBagLayout();
     gbl_commonPanel.columnWidths = new int[]{0, 147, 0, 0, 0, 0, 0};
     gbl_commonPanel.rowHeights = new int[]{0, 0, 0, 0, 0};
-    gbl_commonPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+    gbl_commonPanel.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
     gbl_commonPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
     commonPanel.setLayout(gbl_commonPanel);
     
@@ -764,12 +765,35 @@ public abstract class DesignProdottiPanel extends JPanel {
     bibitaBG.add(liquoriRadioButton);
     bibitaBG.add(softDrinkRadioButton);
     bibitaBG.add(bibitaAltroRadioButton);
+    quantitaCarrelloTextField.setColumns(10);
     
-    GridBagConstraints gbc_quantitaCarrello = new GridBagConstraints();
-    gbc_quantitaCarrello.fill = GridBagConstraints.HORIZONTAL;
-    gbc_quantitaCarrello.gridx = 0;
-    gbc_quantitaCarrello.gridy = 3;
-    add(quantitaCarrello, gbc_quantitaCarrello);
+    GridBagConstraints gbc_quantitaCarrelloPanel = new GridBagConstraints();
+    gbc_quantitaCarrelloPanel.anchor = GridBagConstraints.WEST;
+    gbc_quantitaCarrelloPanel.insets = new Insets(0, 0, 5, 0);
+    gbc_quantitaCarrelloPanel.fill = GridBagConstraints.BOTH;
+    gbc_quantitaCarrelloPanel.gridx = 0;
+    gbc_quantitaCarrelloPanel.gridy = 3;
+    add(quantitaCarrelloPanel, gbc_quantitaCarrelloPanel);
+    GridBagLayout gbl_quantitaCarrelloPanel = new GridBagLayout();
+    gbl_quantitaCarrelloPanel.columnWidths = new int[]{0, 0, 0};
+    gbl_quantitaCarrelloPanel.rowHeights = new int[]{0, 0};
+    gbl_quantitaCarrelloPanel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+    gbl_quantitaCarrelloPanel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+    quantitaCarrelloPanel.setLayout(gbl_quantitaCarrelloPanel);
+    
+    GridBagConstraints gbc_quantitaCarrelloLabel = new GridBagConstraints();
+    gbc_quantitaCarrelloLabel.anchor = GridBagConstraints.WEST;
+    gbc_quantitaCarrelloLabel.insets = new Insets(0, 5, 0, 5);
+    gbc_quantitaCarrelloLabel.gridx = 0;
+    gbc_quantitaCarrelloLabel.gridy = 0;
+    quantitaCarrelloPanel.add(quantitaCarrelloLabel, gbc_quantitaCarrelloLabel);
+    
+    GridBagConstraints gbc_quantitaCarrelloTextField = new GridBagConstraints();
+    gbc_quantitaCarrelloTextField.anchor = GridBagConstraints.WEST;
+    gbc_quantitaCarrelloTextField.fill = GridBagConstraints.VERTICAL;
+    gbc_quantitaCarrelloTextField.gridx = 1;
+    gbc_quantitaCarrelloTextField.gridy = 0;
+    quantitaCarrelloPanel.add(quantitaCarrelloTextField, gbc_quantitaCarrelloTextField);
 
   }
 

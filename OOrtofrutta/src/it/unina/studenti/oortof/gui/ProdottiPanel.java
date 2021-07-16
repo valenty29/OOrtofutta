@@ -65,7 +65,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     listenGuiField();
 
     lottiTable.setModel(new LottiTableModel());
-    quantitaCarrello.setEnabled(false);
+    quantitaCarrelloTextField.setEnabled(false);
     setTriState();
 
     ((AbstractDocument)codiceProdottoTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(codiceProdottoTextField, InputCheckRules.soloNumeri));
@@ -96,12 +96,12 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
       }
     });
 
-    quantitaCarrello.addKeyListener(new KeyAdapter() {
+    quantitaCarrelloTextField.addKeyListener(new KeyAdapter() {
       public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER && ApplicationStatus.getInstance().isNavigation()) {
 
           Lotto selectedLotto = ((LottiTableModel)lottiTable.getModel()).getSelectedLotto(lottiTable.getSelectedRow());
-          float quantita = Float.parseFloat(quantitaCarrello.getText());
+          float quantita = Float.parseFloat(quantitaCarrelloTextField.getText());
           float newQuantita = selectedLotto.getDisponibilita() - quantita;
           if (newQuantita < 0) {
             ApplicationInfo.getInstance().setMessage("IL LOTTO NON HA ABBASTANZA DISPONIBILITA", ApplicationInfo.LEVEL_ERROR);
@@ -130,10 +130,10 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
       @Override
       public void valueChanged(ListSelectionEvent e) {
         if (lottiTable.getSelectedRow() != -1) {
-          quantitaCarrello.setEnabled(true);
+          quantitaCarrelloTextField.setEnabled(true);
         }
         else {
-          quantitaCarrello.setEnabled(false);
+          quantitaCarrelloTextField.setEnabled(false);
         }
       }
     });
@@ -337,6 +337,9 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     if (ApplicationCounter.getInstance().getCounter() <= 0) {
       caratteristicheSpecificheTabbed.setVisible(false);
     }
+    else {
+      setEnabledColor(quantitaCarrelloTextField, true, Color.white);
+    }
     lottiTable.editingCanceled(null);
     modelToView();
 
@@ -344,6 +347,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
 
   void insert() {
     setEnabledColor(true, Color.white);
+    setEnabledColor(quantitaCarrelloTextField, false, SystemColor.control);
     groupCheckBox(true);
     caratteristicheSpecificheTabbed.setVisible(false);
     setEnabledColor(codiceProdottoTextField, false, SystemColor.control);
@@ -351,6 +355,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
 
   void update() {
     setEnabledColor(true, Color.cyan);
+    setEnabledColor(quantitaCarrelloTextField, false, SystemColor.control);
     groupCheckBox(true);
     setEnabledColor(codiceProdottoTextField, false, SystemColor.control);
     for (JCheckBox c : tipiCheckBox) {
@@ -360,6 +365,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
 
   void search() {
     setEnabledColor(true, Color.yellow);
+    setEnabledColor(quantitaCarrelloTextField, false, SystemColor.control);
     groupCheckBox(false);
     caratteristicheSpecificheTabbed.setVisible(false);
   }
