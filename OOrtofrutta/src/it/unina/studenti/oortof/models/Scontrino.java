@@ -21,6 +21,13 @@ public class Scontrino extends ObservedModel implements PropertyChangeListener{
     addAcquisto(new Acquisto());
   }
 
+  public Scontrino (int id, Date dataOrario, Float totale) {
+    this();
+    setValue(ID, id);
+    setValue(DATA_ORARIO, dataOrario);
+    setValue(TOTALE, totale);
+  }
+
   public Scontrino(int id, Date dataOrario, ObservedList<Acquisto> acquisti, Cliente cliente, Float totale) {
     this();
     setValue(ID, id);

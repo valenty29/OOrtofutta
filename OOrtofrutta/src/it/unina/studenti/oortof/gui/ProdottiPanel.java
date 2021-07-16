@@ -108,7 +108,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
             return;
           }
 
-          if (quantita == 0f) {
+          if (quantita <= 0f) {
             ApplicationInfo.getInstance().setMessage("SELEZIONARE UNA QUANTITA MAGGIORE DI 0", ApplicationInfo.LEVEL_ERROR);
             return;
           }
@@ -215,13 +215,18 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
   }
 
   void setEnabledColor(Container container, boolean enabled, Color color) {
-    if (container instanceof JTextField || container instanceof AbstractButton && container != quantitaCarrello) {
+
+    if (container instanceof JTextField || container instanceof AbstractButton) {
       container.setEnabled(enabled);
       container.setBackground(color);
     }
     for (int i = 0; i < container.getComponentCount(); i++) {
       Component c = container.getComponent(i);
-      if (c instanceof JTextField || c instanceof AbstractButton && c != quantitaCarrello) {
+
+      if (c instanceof JTextField || c instanceof AbstractButton) {
+        if (c == quantitaCarrello) {
+          return;
+        }
         c.setEnabled(enabled);
         c.setBackground(color);
       }

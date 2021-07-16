@@ -69,8 +69,11 @@ public class ClientiController implements Controller {
 					Cliente updatedCliente = sqlClienteDAO.updateCliente(oldCliente, cliente);
 					listCliente.set(listCliente.indexOf(cliente), updatedCliente);
 
-				} catch (Exception e) {
-					
+				} catch (DatabaseException de) {
+					ApplicationInfo.getInstance().setMessage(de.getErrorMessage(), ApplicationInfo.LEVEL_ERROR);
+					listCliente.set(listCliente.indexOf(cliente), oldCliente);
+				} catch (ValidationException ve) {
+
 				}
 				
 				break;

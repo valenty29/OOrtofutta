@@ -1,6 +1,7 @@
 package it.unina.studenti.oortof.dao;
 
 import it.unina.studenti.oortof.models.*;
+import org.postgresql.util.PSQLException;
 
 import javax.xml.crypto.Data;
 import java.sql.*;
@@ -239,11 +240,7 @@ public class SQLClienteDAO {
                 query = raccoltaPuntiFilters + query;
             }
             String sql = "SELECT DISTINCT C.id AS idC, R.id as idR, C.cf, C.genere, C.nome, C.cognome, C.datanascita, C.luogoNascita, C.email, R.puntifruttaverdura, R.puntiprodottocaseario, R.puntifarinaceo, R.puntiuovo, R.punticarnepesce, R.punticonserva, R.puntibibita, R.puntialtro" + (quantitaFilters.equals("") ? "" : ", SUM(quantita)") + " FROM"
-					        +    "((((CLIENTE C INNER JOIN SCONTRINO S ON C.id = S.idCliente)"
-					        +   			  "INNER JOIN ACQUISTO A ON A.idScontrino = S.id)"
-					        +   		      "INNER JOIN LOTTO L ON A.idLotto = L.id)"
-					        +   		      "INNER JOIN PRODOTTO P ON L.idProdotto = P.id)"
-					        +                 "INNER JOIN RACCOLTAPUNTI R ON R.idCliente = C.id"
+					        +                 " CLIENTE C INNER JOIN RACCOLTAPUNTI R ON R.idCliente = C.id"
 					        +                 (query.equals("") ? ";" : " WHERE " + query)
 					        +                 (quantitaFilters.equals("") ? ";" : quantitaFilters);
 
@@ -494,7 +491,11 @@ public class SQLClienteDAO {
                     return updatedCliente.get();
 
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                if (e.getSQLState().equals("T1GR0")) {
+                    throw new DatabaseException(((PSQLException) e).getServerErrorMessage().getMessage());
+                } else {
+                    throw new DatabaseException("Si è verificato un errore nell'operazione della base dati");
+                }
             }
         }
         return oldCliente;
@@ -555,7 +556,7 @@ public class SQLClienteDAO {
         }
     }
 
-    public void createScontrino(Cliente cliente, ObservedList<Lotto> lotti) {
+    public int createScontrino(Cliente cliente, ObservedList<Lotto> lotti) throws DatabaseException{
         int scontrinoId = -1;
         String scontrinoSql = "INSERT INTO SCONTRINO (IdCliente) VALUES (?)";
         try {
@@ -571,7 +572,6 @@ public class SQLClienteDAO {
                     if (scontrinoId == -1) {
                         throw new RuntimeException("Errore nel recupero dell'id dallo scontrino generato");
                     }
-
                 }
 
             } catch (SQLException e) {
@@ -599,6 +599,7 @@ public class SQLClienteDAO {
             createAcquisto.executeBatch();
 
             conn.close();
+            return scontrinoId;
         } catch (SQLException e) {
             // TODO
             throw new RuntimeException(e);
