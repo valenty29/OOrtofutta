@@ -1,4 +1,4 @@
-package it.unina.studenti.oortof.models;
+package it.unina.studenti.oortof.models.entities.prodotti;
 
 public class Bibita extends Prodotto {
   

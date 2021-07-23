@@ -1,5 +1,4 @@
-package it.unina.studenti.oortof.models;
-
+package it.unina.studenti.oortof.models.entities.prodotti;
 
 public class ProdottoCaseario extends Prodotto {
   

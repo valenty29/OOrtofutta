@@ -1,6 +1,9 @@
-package it.unina.studenti.oortof.models;
+package it.unina.studenti.oortof.models.entities.prodotti;
 
 import java.beans.PropertyChangeEvent;
+
+import it.unina.studenti.oortof.models.entities.ObservedModel;
+import it.unina.studenti.oortof.models.entities.prodotti.enumeration.CatPeso;
 
 public class UovoSpecifico extends ProdottoSpecifico {
 

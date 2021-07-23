@@ -1,6 +1,8 @@
-package it.unina.studenti.oortof.models;
+package it.unina.studenti.oortof.models.entities.prodotti;
 
 import java.beans.PropertyChangeEvent;
+
+import it.unina.studenti.oortof.models.entities.ObservedModel;
 
 public class FarinaceoSpecifico extends ProdottoSpecifico {
   

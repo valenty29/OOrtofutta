@@ -1,5 +1,6 @@
-package it.unina.studenti.oortof.models;
+package it.unina.studenti.oortof.models.entities.prodotti;
 
+import it.unina.studenti.oortof.models.entities.prodotti.enumeration.TipoFruttaVerdura;
 
 public class FruttaVerdura extends Prodotto {
   

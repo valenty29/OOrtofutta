@@ -1,7 +1,10 @@
-package it.unina.studenti.oortof.models;
+package it.unina.studenti.oortof.models.entities.prodotti;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
+import it.unina.studenti.oortof.models.entities.ObservedList;
+import it.unina.studenti.oortof.models.entities.ObservedModel;
 
 
 public class Prodotto extends ObservedModel implements PropertyChangeListener {
