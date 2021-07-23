@@ -1,9 +1,11 @@
-package it.unina.studenti.oortof.models;
+package it.unina.studenti.oortof.models.entities;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import it.unina.studenti.oortof.models.entities.prodotti.Acquisto;
 
 public class Scontrino extends ObservedModel implements PropertyChangeListener{
 

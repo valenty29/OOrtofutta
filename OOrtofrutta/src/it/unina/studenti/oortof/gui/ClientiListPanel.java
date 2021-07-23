@@ -11,11 +11,10 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import it.unina.studenti.oortof.gui.models.ClientiListTableModel;
-import it.unina.studenti.oortof.models.ApplicationCounter;
-import it.unina.studenti.oortof.models.ApplicationStatus;
-import it.unina.studenti.oortof.models.Cliente;
-
-import it.unina.studenti.oortof.models.ObservedList;
+import it.unina.studenti.oortof.models.application.ApplicationCounter;
+import it.unina.studenti.oortof.models.application.ApplicationStatus;
+import it.unina.studenti.oortof.models.entities.Cliente;
+import it.unina.studenti.oortof.models.entities.ObservedList;
 
 public class ClientiListPanel extends JPanel {
   private static final long serialVersionUID = 1L;

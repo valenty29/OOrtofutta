@@ -1,4 +1,4 @@
-package it.unina.studenti.oortof.models;
+package it.unina.studenti.oortof.models.entities;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -9,7 +9,7 @@ import java.util.Date;
 
 public abstract class ObservedModel {
   
-  Object[] attributes;
+  protected Object[] attributes;
   boolean sample = false;
 
   private ArrayList<PropertyChangeListener> listeners = new ArrayList<PropertyChangeListener>();

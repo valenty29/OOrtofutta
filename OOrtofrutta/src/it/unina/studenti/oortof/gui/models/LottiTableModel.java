@@ -7,9 +7,9 @@ import java.util.Date;
 
 import javax.swing.table.AbstractTableModel;
 
-import it.unina.studenti.oortof.models.ApplicationStatus;
-import it.unina.studenti.oortof.models.Lotto;
-import it.unina.studenti.oortof.models.ObservedList;
+import it.unina.studenti.oortof.models.application.ApplicationStatus;
+import it.unina.studenti.oortof.models.entities.Lotto;
+import it.unina.studenti.oortof.models.entities.ObservedList;
 
 public class LottiTableModel extends AbstractTableModel {
   

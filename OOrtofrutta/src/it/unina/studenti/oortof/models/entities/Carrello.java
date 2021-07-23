@@ -1,4 +1,4 @@
-package it.unina.studenti.oortof.models;
+package it.unina.studenti.oortof.models.entities;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;

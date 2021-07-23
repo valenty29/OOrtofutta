@@ -2,15 +2,10 @@ package it.unina.studenti.oortof.gui.models;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.swing.table.AbstractTableModel;
 
-import it.unina.studenti.oortof.dao.ListHelpers;
-import it.unina.studenti.oortof.models.Cliente;
-import it.unina.studenti.oortof.models.ObservedList;
-import it.unina.studenti.oortof.models.Scontrino;
+import it.unina.studenti.oortof.models.entities.ObservedList;
+import it.unina.studenti.oortof.models.entities.Scontrino;
 
 public class ScontriniTableModel extends AbstractTableModel {
 	

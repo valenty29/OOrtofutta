@@ -8,6 +8,16 @@ import it.unina.studenti.oortof.dao.DBContext;
 import it.unina.studenti.oortof.dao.ListHelpers;
 import it.unina.studenti.oortof.dao.SQLClienteDAO;
 import it.unina.studenti.oortof.models.*;
+import it.unina.studenti.oortof.models.application.ApplicationCounter;
+import it.unina.studenti.oortof.models.application.ApplicationInfo;
+import it.unina.studenti.oortof.models.application.ApplicationStatus;
+import it.unina.studenti.oortof.models.entities.Cliente;
+import it.unina.studenti.oortof.models.entities.ObservedList;
+import it.unina.studenti.oortof.models.entities.ObservedModel;
+import it.unina.studenti.oortof.models.entities.Scontrino;
+import it.unina.studenti.oortof.models.entities.prodotti.Acquisto;
+import it.unina.studenti.oortof.models.exception.DatabaseException;
+import it.unina.studenti.oortof.models.exception.ValidationException;
 
 public class ClientiController implements Controller {
 	private Cliente cliente;

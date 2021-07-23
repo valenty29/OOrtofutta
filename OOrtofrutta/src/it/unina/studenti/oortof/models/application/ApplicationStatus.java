@@ -1,4 +1,6 @@
-package it.unina.studenti.oortof.models;
+package it.unina.studenti.oortof.models.application;
+
+import it.unina.studenti.oortof.models.entities.ObservedModel;
 
 public class ApplicationStatus extends ObservedModel {
 

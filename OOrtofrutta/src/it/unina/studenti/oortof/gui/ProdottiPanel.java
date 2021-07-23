@@ -33,6 +33,27 @@ import it.unina.studenti.oortof.gui.models.InputCheckRules;
 import it.unina.studenti.oortof.gui.models.InputCheckingDocumentFilter;
 import it.unina.studenti.oortof.gui.models.LottiTableModel;
 import it.unina.studenti.oortof.models.*;
+import it.unina.studenti.oortof.models.application.ApplicationCounter;
+import it.unina.studenti.oortof.models.application.ApplicationInfo;
+import it.unina.studenti.oortof.models.application.ApplicationStatus;
+import it.unina.studenti.oortof.models.entities.Carrello;
+import it.unina.studenti.oortof.models.entities.Lotto;
+import it.unina.studenti.oortof.models.entities.ObservedModel;
+import it.unina.studenti.oortof.models.entities.prodotti.Altro;
+import it.unina.studenti.oortof.models.entities.prodotti.BibitaSpecifico;
+import it.unina.studenti.oortof.models.entities.prodotti.CarnePesceSpecifico;
+import it.unina.studenti.oortof.models.entities.prodotti.ConservaSpecifico;
+import it.unina.studenti.oortof.models.entities.prodotti.FarinaceoSpecifico;
+import it.unina.studenti.oortof.models.entities.prodotti.FruttaVerduraSpecifico;
+import it.unina.studenti.oortof.models.entities.prodotti.Prodotto;
+import it.unina.studenti.oortof.models.entities.prodotti.ProdottoCasearioSpecifico;
+import it.unina.studenti.oortof.models.entities.prodotti.ProdottoCommon;
+import it.unina.studenti.oortof.models.entities.prodotti.TipoBibita;
+import it.unina.studenti.oortof.models.entities.prodotti.UovoSpecifico;
+import it.unina.studenti.oortof.models.entities.prodotti.enumeration.CatPeso;
+import it.unina.studenti.oortof.models.entities.prodotti.enumeration.TipoCarnePesce;
+import it.unina.studenti.oortof.models.entities.prodotti.enumeration.TipoConservazione;
+import it.unina.studenti.oortof.models.entities.prodotti.enumeration.TipoFruttaVerdura;
 
 public class ProdottiPanel extends DesignProdottiPanel implements DocumentListener, ActionListener {
 
@@ -423,7 +444,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
   void modelToView() {
     SwingUtilities.invokeLater(new Runnable() {
       public void run() {
-        applicaCarrello();
+        //applicaCarrello();
         modelToViewCore();
 
       }

@@ -1,4 +1,4 @@
-package it.unina.studenti.oortof.models;
+package it.unina.studenti.oortof.models.exception;
 
 public class DatabaseException extends Exception {
     private String errorMessage;

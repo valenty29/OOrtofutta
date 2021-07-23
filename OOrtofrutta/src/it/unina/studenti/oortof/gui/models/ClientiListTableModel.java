@@ -9,8 +9,8 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import it.unina.studenti.oortof.dao.ListHelpers;
-import it.unina.studenti.oortof.models.Cliente;
-import it.unina.studenti.oortof.models.ObservedList;
+import it.unina.studenti.oortof.models.entities.Cliente;
+import it.unina.studenti.oortof.models.entities.ObservedList;
 
 public class ClientiListTableModel extends AbstractTableModel {
 	

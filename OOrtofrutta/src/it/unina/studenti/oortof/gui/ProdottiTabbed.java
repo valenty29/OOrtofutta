@@ -2,8 +2,8 @@ package it.unina.studenti.oortof.gui;
 
 import javax.swing.JTabbedPane;
 
-import it.unina.studenti.oortof.models.ApplicationCounter;
-import it.unina.studenti.oortof.models.ApplicationStatus;
+import it.unina.studenti.oortof.models.application.ApplicationCounter;
+import it.unina.studenti.oortof.models.application.ApplicationStatus;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;

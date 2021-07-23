@@ -5,9 +5,9 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.table.AbstractTableModel;
 
-import it.unina.studenti.oortof.models.ObservedList;
-import it.unina.studenti.oortof.models.Prodotto;
-import it.unina.studenti.oortof.models.ProdottoCommon;
+import it.unina.studenti.oortof.models.entities.ObservedList;
+import it.unina.studenti.oortof.models.entities.prodotti.Prodotto;
+import it.unina.studenti.oortof.models.entities.prodotti.ProdottoCommon;
 
 public class ProdottiListTableModel extends AbstractTableModel {
   

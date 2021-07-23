@@ -1,13 +1,14 @@
 package it.unina.studenti.oortof.gui.models;
 
-import it.unina.studenti.oortof.models.ApplicationInfo;
-
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
+
+import it.unina.studenti.oortof.models.application.ApplicationInfo;
+
 import java.awt.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

@@ -1,10 +1,10 @@
 package it.unina.studenti.oortof.controllers;
 
 import it.unina.studenti.oortof.dao.SQLClienteDAO;
-import it.unina.studenti.oortof.models.Carrello;
-import it.unina.studenti.oortof.models.Cliente;
-import it.unina.studenti.oortof.models.ObservedList;
-import it.unina.studenti.oortof.models.ObservedModel;
+import it.unina.studenti.oortof.models.entities.Carrello;
+import it.unina.studenti.oortof.models.entities.Cliente;
+import it.unina.studenti.oortof.models.entities.ObservedList;
+import it.unina.studenti.oortof.models.entities.ObservedModel;
 
 public class CarrelloController implements Controller {
   private Carrello carrello;
@@ -79,4 +79,6 @@ public class CarrelloController implements Controller {
     
   }
 
+  
+  
 }

@@ -8,11 +8,11 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import it.unina.studenti.oortof.dao.ListHelpers;
-import it.unina.studenti.oortof.models.Acquisto;
-import it.unina.studenti.oortof.models.ApplicationStatus;
-import it.unina.studenti.oortof.models.Cliente;
-import it.unina.studenti.oortof.models.ObservedList;
-import it.unina.studenti.oortof.models.Scontrino;
+import it.unina.studenti.oortof.models.application.ApplicationStatus;
+import it.unina.studenti.oortof.models.entities.Cliente;
+import it.unina.studenti.oortof.models.entities.ObservedList;
+import it.unina.studenti.oortof.models.entities.Scontrino;
+import it.unina.studenti.oortof.models.entities.prodotti.Acquisto;
 
 public class AcquistiTableModel extends AbstractTableModel {
 	

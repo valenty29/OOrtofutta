@@ -5,6 +5,15 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import it.unina.studenti.oortof.dao.SQLProductDAO;
 import it.unina.studenti.oortof.models.*;
+import it.unina.studenti.oortof.models.application.ApplicationCounter;
+import it.unina.studenti.oortof.models.application.ApplicationInfo;
+import it.unina.studenti.oortof.models.application.ApplicationStatus;
+import it.unina.studenti.oortof.models.entities.Carrello;
+import it.unina.studenti.oortof.models.entities.Lotto;
+import it.unina.studenti.oortof.models.entities.ObservedList;
+import it.unina.studenti.oortof.models.entities.prodotti.Prodotto;
+import it.unina.studenti.oortof.models.exception.DatabaseException;
+import it.unina.studenti.oortof.models.exception.ValidationException;
 
 public class ProdottiController implements Controller<Prodotto> {
 

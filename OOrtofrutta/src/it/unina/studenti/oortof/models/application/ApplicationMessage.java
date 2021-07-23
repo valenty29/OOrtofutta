@@ -1,4 +1,4 @@
-package it.unina.studenti.oortof.models;
+package it.unina.studenti.oortof.models.application;
 
 public class ApplicationMessage {
     private String message;

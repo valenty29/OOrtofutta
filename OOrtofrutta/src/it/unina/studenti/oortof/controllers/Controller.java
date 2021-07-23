@@ -1,7 +1,7 @@
 package it.unina.studenti.oortof.controllers;
 
-import it.unina.studenti.oortof.models.ObservedList;
-import it.unina.studenti.oortof.models.ObservedModel;
+import it.unina.studenti.oortof.models.entities.ObservedList;
+import it.unina.studenti.oortof.models.entities.ObservedModel;
 
 public interface Controller<T extends ObservedModel> {
   public void rollback();

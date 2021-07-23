@@ -1,6 +1,18 @@
 package it.unina.studenti.oortof.dao;
 
 import it.unina.studenti.oortof.models.*;
+import it.unina.studenti.oortof.models.entities.Cliente;
+import it.unina.studenti.oortof.models.entities.Genere;
+import it.unina.studenti.oortof.models.entities.Lotto;
+import it.unina.studenti.oortof.models.entities.ObservedList;
+import it.unina.studenti.oortof.models.entities.RaccoltaPunti;
+import it.unina.studenti.oortof.models.entities.Scontrino;
+import it.unina.studenti.oortof.models.entities.prodotti.Acquisto;
+import it.unina.studenti.oortof.models.entities.prodotti.ProdottoCommon;
+import it.unina.studenti.oortof.models.exception.DatabaseException;
+import it.unina.studenti.oortof.models.exception.FieldException;
+import it.unina.studenti.oortof.models.exception.ValidationException;
+
 import org.postgresql.util.PSQLException;
 
 import javax.xml.crypto.Data;

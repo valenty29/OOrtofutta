@@ -23,16 +23,16 @@ import it.unina.studenti.oortof.gui.models.AcquistiTableModel;
 import it.unina.studenti.oortof.gui.models.InputCheckRules;
 import it.unina.studenti.oortof.gui.models.InputCheckingDocumentFilter;
 import it.unina.studenti.oortof.gui.models.ScontriniTableModel;
-import it.unina.studenti.oortof.models.Acquisto;
-import it.unina.studenti.oortof.models.ApplicationCounter;
-import it.unina.studenti.oortof.models.ApplicationStatus;
-import it.unina.studenti.oortof.models.Cliente;
-import it.unina.studenti.oortof.models.Genere;
-import it.unina.studenti.oortof.models.ObservedList;
-import it.unina.studenti.oortof.models.Prodotto;
-import it.unina.studenti.oortof.models.ProdottoCommon;
-import it.unina.studenti.oortof.models.RaccoltaPunti;
-import it.unina.studenti.oortof.models.Scontrino;
+import it.unina.studenti.oortof.models.application.ApplicationCounter;
+import it.unina.studenti.oortof.models.application.ApplicationStatus;
+import it.unina.studenti.oortof.models.entities.Cliente;
+import it.unina.studenti.oortof.models.entities.Genere;
+import it.unina.studenti.oortof.models.entities.ObservedList;
+import it.unina.studenti.oortof.models.entities.RaccoltaPunti;
+import it.unina.studenti.oortof.models.entities.Scontrino;
+import it.unina.studenti.oortof.models.entities.prodotti.Acquisto;
+import it.unina.studenti.oortof.models.entities.prodotti.Prodotto;
+import it.unina.studenti.oortof.models.entities.prodotti.ProdottoCommon;
 
 public class ClientiPanel extends DesignClientiPanel implements DocumentListener, ActionListener{
 	Cliente cliente;
