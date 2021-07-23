@@ -32,7 +32,6 @@ import javax.swing.text.AbstractDocument;
 import it.unina.studenti.oortof.gui.models.InputCheckRules;
 import it.unina.studenti.oortof.gui.models.InputCheckingDocumentFilter;
 import it.unina.studenti.oortof.gui.models.LottiTableModel;
-import it.unina.studenti.oortof.models.*;
 import it.unina.studenti.oortof.models.application.ApplicationCounter;
 import it.unina.studenti.oortof.models.application.ApplicationInfo;
 import it.unina.studenti.oortof.models.application.ApplicationStatus;

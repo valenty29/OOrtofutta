@@ -1,6 +1,5 @@
 package it.unina.studenti.oortof.dao;
 
-import it.unina.studenti.oortof.models.*;
 import it.unina.studenti.oortof.models.entities.Cliente;
 import it.unina.studenti.oortof.models.entities.Genere;
 import it.unina.studenti.oortof.models.entities.Lotto;
@@ -24,7 +23,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-public class SQLClienteDAO {
+public class SQLClienteDAO implements ClienteDAO {
     private DBContext context;
 
     public SQLClienteDAO()
@@ -376,7 +375,7 @@ public class SQLClienteDAO {
     }
 
 
-    public Lotto getLotto(Integer idLotto, Connection connection) throws ValidationException, DatabaseException {
+    private Lotto getLotto(Integer idLotto, Connection connection) throws ValidationException, DatabaseException {
         String sql = "SELECT * FROM LOTTO WHERE Id = " + idLotto + ";";
         try {
             Statement stm = connection.createStatement();

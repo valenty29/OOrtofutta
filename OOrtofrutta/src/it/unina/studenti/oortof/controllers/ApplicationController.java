@@ -3,7 +3,7 @@ package it.unina.studenti.oortof.controllers;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import it.unina.studenti.oortof.models.*;
+
 import it.unina.studenti.oortof.models.application.ApplicationCounter;
 import it.unina.studenti.oortof.models.application.ApplicationInfo;
 import it.unina.studenti.oortof.models.application.ApplicationStatus;

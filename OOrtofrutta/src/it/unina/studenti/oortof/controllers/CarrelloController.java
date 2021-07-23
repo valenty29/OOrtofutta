@@ -1,5 +1,6 @@
 package it.unina.studenti.oortof.controllers;
 
+import it.unina.studenti.oortof.dao.ClienteDAO;
 import it.unina.studenti.oortof.dao.SQLClienteDAO;
 import it.unina.studenti.oortof.models.entities.Carrello;
 import it.unina.studenti.oortof.models.entities.Cliente;
@@ -9,9 +10,9 @@ import it.unina.studenti.oortof.models.entities.ObservedModel;
 public class CarrelloController implements Controller {
   private Carrello carrello;
   private Cliente cliente;
-  private SQLClienteDAO sqlClienteDAO;
+  private ClienteDAO clienteDAO;
   public CarrelloController() {
-    sqlClienteDAO = new SQLClienteDAO();
+    clienteDAO = new SQLClienteDAO();
   }
   @Override
   public void rollback() {

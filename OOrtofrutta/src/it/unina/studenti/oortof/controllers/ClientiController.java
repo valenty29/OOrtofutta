@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import it.unina.studenti.oortof.dao.ClienteDAO;
 import it.unina.studenti.oortof.dao.DBContext;
 import it.unina.studenti.oortof.dao.ListHelpers;
 import it.unina.studenti.oortof.dao.SQLClienteDAO;
-import it.unina.studenti.oortof.models.*;
 import it.unina.studenti.oortof.models.application.ApplicationCounter;
 import it.unina.studenti.oortof.models.application.ApplicationInfo;
 import it.unina.studenti.oortof.models.application.ApplicationStatus;
@@ -23,10 +23,10 @@ public class ClientiController implements Controller {
 	private Cliente cliente;
 	private ObservedList<Cliente> listCliente;
 	private Cliente oldCliente = new Cliente();
-	private SQLClienteDAO sqlClienteDAO;
+	private ClienteDAO clienteDAO;
 	
 	public ClientiController() {
-		sqlClienteDAO = new SQLClienteDAO();
+		clienteDAO = new SQLClienteDAO();
 	}
 		
 	@Override
@@ -63,7 +63,7 @@ public class ClientiController implements Controller {
 		switch (ApplicationStatus.getInstance().getStatus()) {
 			case ApplicationStatus.STATUS_INSERT: {
 				try {
-					Cliente newCliente = sqlClienteDAO.createCliente(cliente);
+					Cliente newCliente = clienteDAO.createCliente(cliente);
 					listCliente.add(newCliente);
 				} catch (DatabaseException de) {
 					ApplicationInfo.getInstance().setMessage(de.getErrorMessage(), ApplicationInfo.LEVEL_ERROR);
@@ -74,7 +74,7 @@ public class ClientiController implements Controller {
 				
 			case ApplicationStatus.STATUS_UPDATE: {
 				try {
-					Cliente updatedCliente = sqlClienteDAO.updateCliente(oldCliente, cliente);
+					Cliente updatedCliente = clienteDAO.updateCliente(oldCliente, cliente);
 					listCliente.set(listCliente.indexOf(cliente), updatedCliente);
 
 				} catch (DatabaseException de) {
@@ -89,7 +89,7 @@ public class ClientiController implements Controller {
 				
 			case ApplicationStatus.STATUS_SEARCH: {
 				try {
-					ObservedList<Cliente> clienti = sqlClienteDAO.getClienti(cliente);
+					ObservedList<Cliente> clienti = clienteDAO.getClienti(cliente);
 					listCliente.clear();
 					clienti.copyTo(listCliente);
 					System.out.println();
@@ -112,7 +112,7 @@ public class ClientiController implements Controller {
 	  @Override
 	  public void delete() {
 		  try {
-			  sqlClienteDAO.deleteCliente(cliente);
+			  clienteDAO.deleteCliente(cliente);
 			  listCliente.remove(cliente);
 			  cliente.clear();
 		  } catch(Exception e) {

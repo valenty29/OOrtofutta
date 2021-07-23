@@ -3,8 +3,9 @@ package it.unina.studenti.oortof.controllers;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
-import it.unina.studenti.oortof.dao.SQLProductDAO;
-import it.unina.studenti.oortof.models.*;
+
+import it.unina.studenti.oortof.dao.ProdottoDAO;
+import it.unina.studenti.oortof.dao.SQLProdottoDAO;
 import it.unina.studenti.oortof.models.application.ApplicationCounter;
 import it.unina.studenti.oortof.models.application.ApplicationInfo;
 import it.unina.studenti.oortof.models.application.ApplicationStatus;
@@ -22,10 +23,10 @@ public class ProdottiController implements Controller<Prodotto> {
   private Prodotto prodotto;
   private ObservedList<Prodotto> prodotti;
   
-  private SQLProductDAO sqlProductDao;
+  private ProdottoDAO prodottoDao;
   
   public ProdottiController() {
-	  sqlProductDao = new SQLProductDAO();
+	  prodottoDao = new SQLProdottoDAO();
   }
   
   @Override
@@ -60,7 +61,7 @@ public class ProdottiController implements Controller<Prodotto> {
 
   void commitInsert() {
     try {
-      sqlProductDao.createProduct(prodotto);
+      prodottoDao.createProdotto(prodotto);
     } catch (ValidationException ve) {
       JOptionPane.showMessageDialog(null, ve.toString(), "Campi invalidi", JOptionPane.ERROR_MESSAGE);
       ApplicationInfo.getInstance().setMessage("Sono stati inseriti dei dati non validi", ApplicationInfo.LEVEL_ERROR);
@@ -72,7 +73,7 @@ public class ProdottiController implements Controller<Prodotto> {
   }
   
   void commitUpdate() {
-    sqlProductDao.updateProducts(oldProdotto, prodotto);
+    prodottoDao.updateProdotto(oldProdotto, prodotto);
     prodotti.set(prodotti.indexOf(oldProdotto), prodotto);
     ApplicationStatus.getInstance().setStatus(ApplicationStatus.STATUS_NAVIGATION);
   }
@@ -81,7 +82,7 @@ public class ProdottiController implements Controller<Prodotto> {
     try {
       Prodotto prodottoDAO = new Prodotto();
       prodotto.copyTo(prodottoDAO);
-      ObservedList<Prodotto> ritorno = sqlProductDao.getProduct(prodottoDAO);
+      ObservedList<Prodotto> ritorno = prodottoDao.getProdotti(prodottoDAO);
       ritorno.copyTo(prodotti);
       ApplicationStatus.getInstance().setStatus(ApplicationStatus.STATUS_NAVIGATION);
     }
@@ -113,8 +114,13 @@ public class ProdottiController implements Controller<Prodotto> {
   public void delete() {
     ArrayList<Prodotto> toDelete = new ArrayList<>();
     toDelete.add(prodotto);
-    sqlProductDao.deleteProducts(toDelete);
-    prodotti.remove(prodotto);
+    try {
+      prodottoDao.deleteProdotti(toDelete);
+      prodotti.remove(prodotto);
+    } catch (DatabaseException de) {
+      //TODO HANDLE
+    }
+
   }
 
   public void setModel(Prodotto prodotto, ObservedList<Prodotto> prodotti, Carrello carrello) {

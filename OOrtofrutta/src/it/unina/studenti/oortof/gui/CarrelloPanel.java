@@ -1,9 +1,8 @@
 package it.unina.studenti.oortof.gui;
 
+import it.unina.studenti.oortof.dao.ClienteDAO;
 import it.unina.studenti.oortof.dao.SQLClienteDAO;
 import it.unina.studenti.oortof.gui.models.CarrelloTableModel;
-import it.unina.studenti.oortof.gui.models.LottiTableModel;
-import it.unina.studenti.oortof.models.*;
 import it.unina.studenti.oortof.models.application.ApplicationInfo;
 import it.unina.studenti.oortof.models.application.ApplicationStatus;
 import it.unina.studenti.oortof.models.entities.Carrello;
@@ -35,13 +34,13 @@ public class CarrelloPanel extends JPanel {
   private JButton cancellaButton;
   private Carrello carrello;
   private Cliente cliente;
-  private SQLClienteDAO sqlClienteDAO;
+  private ClienteDAO clienteDAO;
   private JPanel northCarrelloPanel;
   private JLabel nomeCognomeLabel;
   private JLabel importoLabel;
 
   public CarrelloPanel() {
-    sqlClienteDAO = new SQLClienteDAO();
+    clienteDAO = new SQLClienteDAO();
     scrollPane = new JScrollPane();
     JPanel southCarrelloPanel = new JPanel();
     setLayout(new BorderLayout(0, 0));
@@ -81,7 +80,7 @@ public class CarrelloPanel extends JPanel {
                   public void actionPerformed(ActionEvent e) {
                     if (cliente.getId() != null) {
                       try {
-                        int idScontrino = sqlClienteDAO.createScontrino(cliente, carrello.getLotti());
+                        int idScontrino = clienteDAO.createScontrino(cliente, carrello.getLotti());
                         ApplicationInfo.getInstance().setMessage(String.format("Acquisto contabilizzato: generato scontrino %d di importo %.2f", idScontrino, calcolaImporto()), ApplicationInfo.LEVEL_LOG);
                         carrello.clear();
                       } catch (DatabaseException de) {

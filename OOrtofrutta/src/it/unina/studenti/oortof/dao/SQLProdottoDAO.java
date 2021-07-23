@@ -4,7 +4,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import it.unina.studenti.oortof.models.*;
 import it.unina.studenti.oortof.models.entities.Lotto;
 import it.unina.studenti.oortof.models.entities.ObservedList;
 import it.unina.studenti.oortof.models.entities.prodotti.Altro;
@@ -35,11 +34,11 @@ import it.unina.studenti.oortof.models.exception.ValidationException;
 
 import javax.xml.crypto.Data;
 
-public class SQLProductDAO implements ProductDAO {
+public class SQLProdottoDAO implements ProdottoDAO {
 
     private DBContext context;
 
-    public SQLProductDAO()
+    public SQLProdottoDAO()
     {
         context = new DBContext();
     }
@@ -48,7 +47,7 @@ public class SQLProductDAO implements ProductDAO {
     
     
 	
-    public void createLotti(ObservedList<Lotto> lotti, long id) {
+    private void createLotti(ObservedList<Lotto> lotti, long id) {
     	
         String sql = "INSERT INTO LOTTO (CodLotto, IdProdotto, Scadenza, Disponibilita, DataProduzione, CodPaeseOrigine) VALUES (?, ?, ?, ?, ?, ?)";
         try {
@@ -84,7 +83,7 @@ public class SQLProductDAO implements ProductDAO {
         }
     }
     
-    public void createProduct(Prodotto prodotto) throws ValidationException, DatabaseException{
+    public void createProdotto(Prodotto prodotto) throws ValidationException, DatabaseException{
     	int id = -1;
     	if (prodotto.getProdottoCommon().isBibita()) {
     		id = createBibita(prodotto);
@@ -358,7 +357,7 @@ public class SQLProductDAO implements ProductDAO {
     
 
 
-	public ObservedList<Prodotto> getProduct(Prodotto prodotto) throws ValidationException, DatabaseException{
+	public ObservedList<Prodotto> getProdotti(Prodotto prodotto) throws ValidationException, DatabaseException{
     	ObservedList<Prodotto> prodotti = new ObservedList<Prodotto>("prodotti");
     	boolean allNull = true;
     	
@@ -968,7 +967,7 @@ public class SQLProductDAO implements ProductDAO {
     //region DELETE
     //la presenza di lotti impedisce la cancellazione di un prodotto
     //@Override
-    public void deleteProducts(List<Prodotto> prodotti) {
+    public void deleteProdotti(List<Prodotto> prodotti) {
         String inSql = arrayToString(prodotti);
         String sql = "DELETE FROM PRODOTTO WHERE id IN (" +inSql + ");";
 
@@ -1003,7 +1002,7 @@ public class SQLProductDAO implements ProductDAO {
 
     //region UPDATE
     
-    public void updateProducts(Prodotto oldProdotto, Prodotto newProdotto) {
+    public void updateProdotto(Prodotto oldProdotto, Prodotto newProdotto) {
     	if (oldProdotto.getProdottoCommon().isBibita() && newProdotto.getProdottoCommon().isBibita()) {
     		updateBibita(oldProdotto, newProdotto);
     	} else if (oldProdotto.getProdottoCommon().isFruttaVerdura() && newProdotto.getProdottoCommon().isFruttaVerdura()) {
