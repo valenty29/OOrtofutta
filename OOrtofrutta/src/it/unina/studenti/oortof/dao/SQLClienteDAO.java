@@ -14,13 +14,9 @@ import it.unina.studenti.oortof.models.exception.ValidationException;
 
 import org.postgresql.util.PSQLException;
 
-import javax.xml.crypto.Data;
 import java.sql.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 public class SQLClienteDAO implements ClienteDAO {
@@ -160,7 +156,7 @@ public class SQLClienteDAO implements ClienteDAO {
     public ObservedList<Cliente> getClienti(Cliente clienteTemplate) throws ValidationException, DatabaseException {
         ArrayList<FieldException> exceptionList = new ArrayList<>();
         try {
-            Connection conn = context.OpenConnection();
+            Connection conn = context.openConnessione();
             Statement stm = conn.createStatement();
             String raccoltaPuntiFilters = getRaccoltaPuntiFilters(clienteTemplate.getRaccoltaPunti());
 
@@ -305,7 +301,7 @@ public class SQLClienteDAO implements ClienteDAO {
     
     private ObservedList<Scontrino> getScontrini(Cliente cliente) throws DatabaseException {
     	try {
-            Connection conn = context.OpenConnection();
+            Connection conn = context.openConnessione();
             Statement stm = conn.createStatement();
             String sql = "SELECT * FROM SCONTRINO WHERE IdCliente = " + cliente.getId() +";";
             ResultSet rs = stm.executeQuery(sql);
@@ -335,7 +331,7 @@ public class SQLClienteDAO implements ClienteDAO {
 
     private ObservedList<Acquisto> getAcquisti(Scontrino scontrino) throws DatabaseException {
     	try {
-            Connection conn = context.OpenConnection();
+            Connection conn = context.openConnessione();
             Statement stm = conn.createStatement();
             String sql = "SELECT * FROM ACQUISTO WHERE IdScontrino = " + scontrino.getId() +";";
             ResultSet rs = stm.executeQuery(sql);
@@ -491,7 +487,7 @@ public class SQLClienteDAO implements ClienteDAO {
 
         if(updateQuery != "") {
             try {
-                Connection conn = context.OpenConnection();
+                Connection conn = context.openConnessione();
                 Statement stm = conn.createStatement();
                 stm.executeUpdate(sql);
 
@@ -520,7 +516,7 @@ public class SQLClienteDAO implements ClienteDAO {
         String sql = "DELETE FROM CLIENTE WHERE id = " + cliente.getId() + ";";
 
         try {
-            Connection conn = context.OpenConnection();
+            Connection conn = context.openConnessione();
             Statement stm = conn.createStatement();
             stm.execute(sql);
             conn.close();
@@ -533,7 +529,7 @@ public class SQLClienteDAO implements ClienteDAO {
     public Cliente createCliente(Cliente cliente) throws DatabaseException {
         String sql = "INSERT INTO CLIENTE (Nome, Cognome, DataNascita, LuogoNascita, Genere, Email) VALUES (?, ?, ?, ?, ?, ?)";
         try {
-            Connection conn = context.OpenConnection();
+            Connection conn = context.openConnessione();
             PreparedStatement createCliente = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             createCliente.setString(1, cliente.getNome());
             createCliente.setString(2, cliente.getCognome());
@@ -579,7 +575,7 @@ public class SQLClienteDAO implements ClienteDAO {
         int scontrinoId = -1;
         String scontrinoSql = "INSERT INTO SCONTRINO (IdCliente) VALUES (?)";
         try {
-            Connection conn = context.OpenConnection();
+            Connection conn = context.openConnessione();
             PreparedStatement createScontrino = conn.prepareStatement(scontrinoSql, Statement.RETURN_GENERATED_KEYS);
 
             createScontrino.setInt(1, cliente.getId());
@@ -603,7 +599,7 @@ public class SQLClienteDAO implements ClienteDAO {
         String acquistiSql = "INSERT INTO ACQUISTO (Quantita, IdLotto, IdScontrino) VALUES (?, ?, ?)";
 
         try {
-            Connection conn = context.OpenConnection();
+            Connection conn = context.openConnessione();
             PreparedStatement createAcquisto = conn.prepareStatement(acquistiSql);
 
             for(Lotto lotto: lotti) {

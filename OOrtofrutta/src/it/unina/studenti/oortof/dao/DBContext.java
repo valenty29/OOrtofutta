@@ -25,7 +25,7 @@ public class DBContext {
         password = props.getProperty("dbpasswd");
     }
 
-    public Connection OpenConnection() throws SQLException {
+    public Connection openConnessione() throws SQLException {
         try {
             Connection conn = DriverManager.getConnection(url, username, password);
             return conn;

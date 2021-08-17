@@ -32,8 +32,6 @@ import it.unina.studenti.oortof.models.exception.DatabaseException;
 import it.unina.studenti.oortof.models.exception.FieldException;
 import it.unina.studenti.oortof.models.exception.ValidationException;
 
-import javax.xml.crypto.Data;
-
 public class SQLProdottoDAO implements ProdottoDAO {
 
     private DBContext context;
@@ -51,7 +49,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
     	
         String sql = "INSERT INTO LOTTO (CodLotto, IdProdotto, Scadenza, Disponibilita, DataProduzione, CodPaeseOrigine) VALUES (?, ?, ?, ?, ?, ?)";
         try {
-            Connection conn = context.OpenConnection();
+            Connection conn = context.openConnessione();
             PreparedStatement createLotto = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             
             for(Lotto lotto: lotti) {
@@ -138,7 +136,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
         
         String sql = "INSERT INTO PRODOTTO (Nome, Prezzo, Sfuso, Tipo) VALUES (?, ?, ?, ?)";
         try {
-            Connection conn = context.OpenConnection();
+            Connection conn = context.openConnessione();
             PreparedStatement createProds = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             if (prodotto.getNome().isBlank() || prodotto.getNome().isEmpty()) {
                 exceptions.add(new FieldException(prodotto.getNome(), "Il nome e' un campo richiesto", java.util.Optional.empty()));
@@ -194,7 +192,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
 
         String sql = "INSERT INTO BIBITA (IdProdotto, GradazioneAlcolica, Frizzante, TipoB) VALUES (?, ?, ?, ?)";
         try {
-            Connection conn = context.OpenConnection();
+            Connection conn = context.openConnessione();
             PreparedStatement createBibs = conn.prepareStatement(sql);
             createBibs.setLong(1, id);
             if (bibita.getBibitaSpecifico().getGradazioneAlcolica() == null) {
@@ -234,7 +232,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
 
         String sql = "INSERT INTO UOVO (IdProdotto, TipoAllevamento, CodAllevamento, CatPeso) VALUES (?, ?, ?, ?)";
         try {
-            Connection conn = context.OpenConnection();
+            Connection conn = context.openConnessione();
             PreparedStatement createUovo = conn.prepareStatement(sql);
             createUovo.setLong(1, id);
             createUovo.setInt(2, uovo.getUovoSpecifico().getTipoAllevamento());
@@ -253,7 +251,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
         int id = createProductCommon(carnePesce.getProdottoCommon());
         String sql = "INSERT INTO CARNEPESCE (IdProdotto, TipoCP, DaAllevamento, Animale, Confezionato) VALUES (?, ?, ?, ?, ?)";
         try {
-            Connection conn = context.OpenConnection();
+            Connection conn = context.openConnessione();
             PreparedStatement createCarnePesce = conn.prepareStatement(sql);
             createCarnePesce.setLong(1, id);
             createCarnePesce.setObject(2, carnePesce.getCarnePesceSpecifico().getTipoCarnePesce().name(), Types.OTHER);
@@ -274,7 +272,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
         int id = createProductCommon(fruttaVerdura.getProdottoCommon());
         String sql = "INSERT INTO FRUTTAVERDURA (IdProdotto, TipoFV, Bio, Surgelato) VALUES (?, ?, ?, ?)";
         try {
-            Connection conn = context.OpenConnection();
+            Connection conn = context.openConnessione();
             PreparedStatement createFruttaVerdura = conn.prepareStatement(sql);
             createFruttaVerdura.setLong(1, id);
             createFruttaVerdura.setObject(2, fruttaVerdura.getFruttaVerduraSpecifico().getTipoFruttaVerdura().name(), Types.OTHER);
@@ -294,7 +292,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
         int id = createProductCommon(prodottoCaseario.getProdottoCommon());
         String sql = "INSERT INTO PRODOTTOCASEARIO (IdProdotto, TipoLatte, Stabilimento, Stagionatura) VALUES (?, ?, ?, ?)";
         try {
-            Connection conn = context.OpenConnection();
+            Connection conn = context.openConnessione();
             PreparedStatement createProdottoCaseario = conn.prepareStatement(sql);
             createProdottoCaseario.setLong(1, id);
             createProdottoCaseario.setString(2, prodottoCaseario.getProdottoCasearioSpecifico().getTipoLatte());
@@ -313,7 +311,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
         int id = createProductCommon(farinaceo.getProdottoCommon());
         String sql = "INSERT INTO FARINACEO (IdProdotto, Glutine, TipoFarina, Fresco, Surgelato) VALUES (?, ?, ?, ?, ?)";
         try {
-            Connection conn = context.OpenConnection();
+            Connection conn = context.openConnessione();
             PreparedStatement createFarinaceo = conn.prepareStatement(sql);
             createFarinaceo.setLong(1, id);
             createFarinaceo.setBoolean(2, farinaceo.getFarinaceoSpecifico().isGlutine());
@@ -335,7 +333,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
         int id = createProductCommon(conserva.getProdottoCommon());
         String sql = "INSERT INTO CONSERVA (IdProdotto, Glutine, TipoFarina, Fresco, Surgelato) VALUES (?, ?, ?, ?, ?)";
         try {
-            Connection conn = context.OpenConnection();
+            Connection conn = context.openConnessione();
             PreparedStatement createConserva = conn.prepareStatement(sql);
             createConserva.setLong(1, id);
             createConserva.setObject(2, conserva.getConservaSpecifico().getTipoConservazione().name(), Types.OTHER);
@@ -424,7 +422,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
     private ObservedList<Altro> getAltro(Prodotto prod) throws ValidationException, DatabaseException {
 
         try {
-            Connection conn = context.OpenConnection();
+            Connection conn = context.openConnessione();
             Statement stm = conn.createStatement();
             String productFilters = getProdottoFilters(prod.getProdottoCommon());
 
@@ -462,7 +460,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
         BibitaSpecifico bibSpec = bibita.getBibitaSpecifico();
         ArrayList<FieldException> exceptionList = new ArrayList<>();
         try {
-            Connection conn = context.OpenConnection();
+            Connection conn = context.openConnessione();
             Statement stm = conn.createStatement();
             String productFilters = getProdottoFilters(bibita.getProdottoCommon());
             String query = "";
@@ -536,7 +534,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
         UovoSpecifico uovoSpecifico = uovo.getUovoSpecifico();
 
         try {
-            Connection conn = context.OpenConnection();
+            Connection conn = context.openConnessione();
             Statement stm = conn.createStatement();
             String productFilters = getProdottoFilters(uovo.getProdottoCommon());
             String query = "";
@@ -588,7 +586,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
             CarnePesceSpecifico carnePesceSpecifico = carnePesce.getCarnePesceSpecifico();
 
         try {
-            Connection conn = context.OpenConnection();
+            Connection conn = context.openConnessione();
             Statement stm = conn.createStatement();
             String productFilters = getProdottoFilters(carnePesce.getProdottoCommon());
             String query = "";
@@ -656,7 +654,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
     private ObservedList<Farinaceo> getFarinaceo(Prodotto farinaceo) throws ValidationException, DatabaseException {
         FarinaceoSpecifico farinaceoSpecifico = farinaceo.getFarinaceoSpecifico();
         try {
-            Connection conn = context.OpenConnection();
+            Connection conn = context.openConnessione();
             Statement stm = conn.createStatement();
             String productFilters = getProdottoFilters(farinaceo.getProdottoCommon());
             String query = "";
@@ -722,7 +720,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
     private ObservedList<FruttaVerdura> getFruttaVerdura(Prodotto fruttaVerdura) throws ValidationException, DatabaseException {
         FruttaVerduraSpecifico fruttaVerduraSpecifico = fruttaVerdura.getFruttaVerduraSpecifico();
         try {
-            Connection conn = context.OpenConnection();
+            Connection conn = context.openConnessione();
             Statement stm = conn.createStatement();
             String productFilters = getProdottoFilters(fruttaVerdura.getProdottoCommon());
             String query = "";
@@ -781,7 +779,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
 
         ConservaSpecifico conservaSpecifico = conserva.getConservaSpecifico();
         try {
-            Connection conn = context.OpenConnection();
+            Connection conn = context.openConnessione();
             Statement stm = conn.createStatement();
             String productFilters = getProdottoFilters(conserva.getProdottoCommon());
             String query = "";
@@ -824,7 +822,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
 
         ProdottoCasearioSpecifico prodCasSpecifico = prodottoCaseario.getProdottoCasearioSpecifico();
         try {
-            Connection conn = context.OpenConnection();
+            Connection conn = context.openConnessione();
             Statement stm = conn.createStatement();
             String productFilters = getProdottoFilters(prodottoCaseario.getProdottoCommon());
             String query = "";
@@ -873,12 +871,12 @@ public class SQLProdottoDAO implements ProdottoDAO {
         }
     }
 
-    private ObservedList<Lotto> getLotti(int id, Connection connection) throws ValidationException, DatabaseException
+    private ObservedList<Lotto> getLotti(int id, Connection connessione) throws ValidationException, DatabaseException
     {
         ObservedList<Lotto> lotti = new ObservedList<Lotto>("lotto");
         String sql = "SELECT * FROM LOTTO WHERE IdProdotto = " + id + ";";
         try {
-            Statement stm = connection.createStatement();
+            Statement stm = connessione.createStatement();
             ResultSet rs = stm.executeQuery(sql);
             while(rs.next())
             {
@@ -892,7 +890,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
                 Date rsDataMungitura = rs.getDate("DataMungitura");
 
                 String prodRicerca = "SELECT * FROM PRODOTTO WHERE Id = " + rsIdProdotto;
-                Statement stmProd = connection.createStatement();
+                Statement stmProd = connessione.createStatement();
                 ResultSet rsProd = stmProd.executeQuery(prodRicerca);
 
                 if (rsProd.next()) {
@@ -972,7 +970,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
         String sql = "DELETE FROM PRODOTTO WHERE id IN (" +inSql + ");";
 
         try {
-            Connection conn = context.OpenConnection();
+            Connection conn = context.openConnessione();
             Statement stm = conn.createStatement();
             stm.execute(sql);
             conn.close();
@@ -983,12 +981,12 @@ public class SQLProdottoDAO implements ProdottoDAO {
         }
     }
 
-    public void deleteLotti(ObservedList<Lotto> lotti) {
+    private void deleteLotti(ObservedList<Lotto> lotti) {
         String inSql = arrayToString(lotti);
         String sql = "DELETE FROM LOTTO WHERE id IN (" +inSql + ");";
 
         try {
-            Connection conn = context.OpenConnection();
+            Connection conn = context.openConnessione();
             Statement stm = conn.createStatement();
             stm.execute(sql);
             conn.close();
@@ -1022,7 +1020,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
     	}
     }
     
-    public void updateLotti(ObservedList<Lotto> oldLotti, ObservedList<Lotto> newLotti, long id) {
+    private void updateLotti(ObservedList<Lotto> oldLotti, ObservedList<Lotto> newLotti, long id) {
 
     	ObservedList<Lotto> lottiDaCreare = new ObservedList<Lotto>("lottiDaCreare");
     	ObservedList<Lotto> lottiDaAggiornare = new ObservedList<Lotto>("lottiDaAggiornare");
@@ -1065,7 +1063,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
     	if (lottiDaAggiornare.size() > 0) {
     		String sql = "UPDATE LOTTO SET CodLotto = ?, Scadenza = ?, Disponibilita = ?, DataProduzione = ?, CodPaeseOrigine = ?, DataMungitura = ? WHERE id = ?";
         	try {
-        		Connection conn = context.OpenConnection();
+        		Connection conn = context.openConnessione();
         		PreparedStatement stm = conn.prepareStatement(sql);
         		
         		for(Lotto lottoDaAggiornare: lottiDaAggiornare) {
@@ -1093,7 +1091,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
     	
     }
 
-    public void updateProductsCommon(ProdottoCommon oldProdotto, ProdottoCommon newProdotto) {
+    private void updateProductsCommon(ProdottoCommon oldProdotto, ProdottoCommon newProdotto) {
 
     	
     	
@@ -1137,7 +1135,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
 
         if(updateQuery != "") {
             try {
-                Connection conn = context.OpenConnection();
+                Connection conn = context.openConnessione();
                 Statement stm = conn.createStatement();
                 stm.executeUpdate(sql);
             } catch (SQLException e) {
@@ -1182,7 +1180,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
         String sql = "UPDATE BIBITA " + updateQuery + " WHERE IdProdotto = " + newBibita.getProdottoCommon().getId();
         if (updateQuery != ""){
             try {
-                Connection conn = context.OpenConnection();
+                Connection conn = context.openConnessione();
 
                 Statement stm = conn.createStatement();
                 stm.executeUpdate(sql);
@@ -1216,7 +1214,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
         String sql = "UPDATE UOVO " + updateQuery + " WHERE IdProdotto = " + newUovo.getProdottoCommon().getId();
         if (updateQuery != ""){
             try {
-                Connection conn = context.OpenConnection();
+                Connection conn = context.openConnessione();
 
                 Statement stm = conn.createStatement();
                 stm.executeUpdate(sql);
@@ -1272,7 +1270,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
         String sql = "UPDATE FARINACEO " + updateQuery + " WHERE IdProdotto = " + newFarinaceo.getProdottoCommon().getId();
         if (updateQuery != ""){
             try {
-                Connection conn = context.OpenConnection();
+                Connection conn = context.openConnessione();
 
                 Statement stm = conn.createStatement();
                 stm.executeUpdate(sql);
@@ -1327,7 +1325,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
         String sql = "UPDATE CARNEPESCE " + updateQuery + " WHERE IdProdotto = " + newCarnePesce.getProdottoCommon().getId();
         if (updateQuery != ""){
             try {
-                Connection conn = context.OpenConnection();
+                Connection conn = context.openConnessione();
 
                 Statement stm = conn.createStatement();
                 stm.executeUpdate(sql);
@@ -1372,7 +1370,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
         String sql = "UPDATE FRUTTAVERDURA " + updateQuery + " WHERE IdProdotto = " + newFruttaVerdura.getProdottoCommon().getId();
         if (updateQuery != ""){
             try {
-                Connection conn = context.OpenConnection();
+                Connection conn = context.openConnessione();
 
                 Statement stm = conn.createStatement();
                 stm.executeUpdate(sql);
@@ -1396,7 +1394,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
         String sql = "UPDATE CONSERVA " + updateQuery + " WHERE IdProdotto = " + newConserva.getProdottoCommon().getId();
         if (updateQuery != ""){
             try {
-                Connection conn = context.OpenConnection();
+                Connection conn = context.openConnessione();
 
                 Statement stm = conn.createStatement();
                 stm.executeUpdate(sql);
@@ -1431,7 +1429,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
         String sql = "UPDATE PRODOTTOCASEARIO " + updateQuery + " WHERE IdProdotto = " + newProdottoCaseario.getProdottoCommon().getId();
         if (updateQuery != ""){
             try {
-                Connection conn = context.OpenConnection();
+                Connection conn = context.openConnessione();
 
                 Statement stm = conn.createStatement();
                 stm.executeUpdate(sql);
