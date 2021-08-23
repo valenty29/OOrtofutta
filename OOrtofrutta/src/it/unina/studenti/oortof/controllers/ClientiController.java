@@ -67,7 +67,8 @@ public class ClientiController implements Controller {
 					listCliente.add(newCliente);
 				} catch (DatabaseException de) {
 					ApplicationInfo.getInstance().setMessage(de.getErrorMessage(), ApplicationInfo.LEVEL_ERROR);
-					listCliente.remove(listCliente.indexOf(cliente));
+					//TODO se c'è un errore il si deve tornare all'inserimento!
+
 				}
 				break;
 			}

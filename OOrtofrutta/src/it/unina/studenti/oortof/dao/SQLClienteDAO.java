@@ -371,6 +371,7 @@ public class SQLClienteDAO implements ClienteDAO {
     }
 
 
+
     private Lotto getLotto(Integer idLotto, Connection connection) throws ValidationException, DatabaseException {
         String sql = "SELECT * FROM LOTTO WHERE Id = " + idLotto + ";";
         try {
@@ -566,8 +567,20 @@ public class SQLClienteDAO implements ClienteDAO {
                 throw new RuntimeException(e);
             }
         } catch (SQLException e) {
-            // TODO
-            throw new RuntimeException();
+            if (e.getSQLState().equals("T1GR0")) {
+                throw new DatabaseException(((PSQLException) e).getServerErrorMessage().getMessage());
+            } else if (e.getSQLState().equals("23514")){
+                String constraintDesc = "Un constraint non è stato rispettato";
+                switch (((PSQLException) e).getServerErrorMessage().getConstraint()) {
+                    case "maggiorenne":
+                        constraintDesc = "Il cliente deve essere maggiorenne";
+                        break;
+                }
+                throw new DatabaseException(constraintDesc);
+            } else {
+                throw new DatabaseException("Si è verificato un errore nell'operazione sulla base dati");
+            }
+
         }
     }
 
@@ -617,6 +630,7 @@ public class SQLClienteDAO implements ClienteDAO {
             return scontrinoId;
         } catch (SQLException e) {
             // TODO
+
             throw new RuntimeException(e);
         }
     }

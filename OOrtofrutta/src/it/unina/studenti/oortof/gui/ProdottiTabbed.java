@@ -37,7 +37,7 @@ public class ProdottiTabbed extends JTabbedPane {
     }
     ApplicationCounter ac = ApplicationCounter.getInstance();
     if (evt.getPropertyName().equals("status")) {
-      if (as.isSearch()) {
+      if (as.isSearch() || as.isInsert() || as.isUpdate()) {
         setSelectedIndex(0);
         setEnabledAt(1, false);
       }
