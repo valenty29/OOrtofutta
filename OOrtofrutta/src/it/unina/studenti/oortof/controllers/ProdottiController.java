@@ -13,6 +13,7 @@ import it.unina.studenti.oortof.models.entities.Carrello;
 import it.unina.studenti.oortof.models.entities.Lotto;
 import it.unina.studenti.oortof.models.entities.ObservedList;
 import it.unina.studenti.oortof.models.entities.prodotti.Prodotto;
+import it.unina.studenti.oortof.models.exception.BatchDatabaseException;
 import it.unina.studenti.oortof.models.exception.DatabaseException;
 import it.unina.studenti.oortof.models.exception.ValidationException;
 
@@ -65,16 +66,28 @@ public class ProdottiController implements Controller<Prodotto> {
     } catch (ValidationException ve) {
       JOptionPane.showMessageDialog(null, ve.toString(), "Campi invalidi", JOptionPane.ERROR_MESSAGE);
       ApplicationInfo.getInstance().setMessage("Sono stati inseriti dei dati non validi", ApplicationInfo.LEVEL_ERROR);
+      ApplicationStatus.getInstance().setAction(ApplicationStatus.ACTION_NONE);
+      return;
     } catch (DatabaseException de) {
-      ApplicationInfo.getInstance().setMessage("Si è verificato un errore nella base dati", ApplicationInfo.LEVEL_ERROR);
+      ApplicationInfo.getInstance().setMessage(de.getErrorMessage(), ApplicationInfo.LEVEL_ERROR);
+      ApplicationStatus.getInstance().setAction(ApplicationStatus.ACTION_NONE);
+      return;
     }
 
     ApplicationStatus.getInstance().setStatus(ApplicationStatus.STATUS_NAVIGATION);
   }
   
   void commitUpdate() {
-    prodottoDao.updateProdotto(oldProdotto, prodotto);
-    prodotti.set(prodotti.indexOf(oldProdotto), prodotto);
+    try {
+      prodottoDao.updateProdotto(oldProdotto, prodotto);
+      prodotti.set(prodotti.indexOf(oldProdotto), prodotto);
+    }
+    catch (DatabaseException e) {
+      ApplicationInfo.getInstance().setMessage(e.getErrorMessage(), ApplicationInfo.LEVEL_ERROR);
+      ApplicationStatus.getInstance().setAction(ApplicationStatus.ACTION_NONE);
+      return;
+    }
+
     ApplicationStatus.getInstance().setStatus(ApplicationStatus.STATUS_NAVIGATION);
   }
   
