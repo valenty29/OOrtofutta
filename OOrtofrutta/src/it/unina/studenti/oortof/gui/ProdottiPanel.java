@@ -29,7 +29,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JTable;
 import javax.swing.text.AbstractDocument;
 
-import it.unina.studenti.oortof.gui.models.InputCheckRules;
+import it.unina.studenti.oortof.gui.models.InputCheckRule;
 import it.unina.studenti.oortof.gui.models.InputCheckingDocumentFilter;
 import it.unina.studenti.oortof.gui.models.LottiTableModel;
 import it.unina.studenti.oortof.models.application.ApplicationCounter;
@@ -38,7 +38,6 @@ import it.unina.studenti.oortof.models.application.ApplicationStatus;
 import it.unina.studenti.oortof.models.entities.Carrello;
 import it.unina.studenti.oortof.models.entities.Lotto;
 import it.unina.studenti.oortof.models.entities.ObservedModel;
-import it.unina.studenti.oortof.models.entities.prodotti.Altro;
 import it.unina.studenti.oortof.models.entities.prodotti.BibitaSpecifico;
 import it.unina.studenti.oortof.models.entities.prodotti.CarnePesceSpecifico;
 import it.unina.studenti.oortof.models.entities.prodotti.ConservaSpecifico;
@@ -88,8 +87,8 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     quantitaCarrelloTextField.setEnabled(false);
     setTriState();
 
-    ((AbstractDocument)codiceProdottoTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(codiceProdottoTextField, InputCheckRules.soloNumeri));
-     ((AbstractDocument)prezzoTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(prezzoTextField, InputCheckRules.numeriSpazio));
+    ((AbstractDocument)codiceProdottoTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(codiceProdottoTextField, InputCheckRule.soloNumeri));
+     ((AbstractDocument)prezzoTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(prezzoTextField, InputCheckRule.numeriSpazio));
     LottiTableModel lottiModel = (LottiTableModel)lottiTable.getModel();
     lottiTable.addKeyListener(new KeyAdapter() {
       public void keyReleased(KeyEvent e) {
