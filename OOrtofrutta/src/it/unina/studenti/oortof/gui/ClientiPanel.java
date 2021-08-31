@@ -282,7 +282,7 @@ public class ClientiPanel extends DesignClientiPanel implements DocumentListener
 	    } else {
 	    	cliente.setValue(Cliente.GENERE, null);
 	    }
-	    //cliente.setValue(Cliente.GENERE, mRadioButton.isSelected() ? 'M' : (fRadioButton.isSelected() ? 'F' : null));
+
 	    cliente.getRaccoltaPunti().setValue(RaccoltaPunti.BIBITA, puntiBibitaTextField.getText().isBlank() || puntiBibitaTextField.getText().isEmpty() ? null : puntiBibitaTextField.getText());
 	    cliente.getRaccoltaPunti().setValue(RaccoltaPunti.ALTRO, puntiAltroTextField.getText().isBlank() || puntiAltroTextField.getText().isEmpty() ? null : puntiAltroTextField.getText());
 	    cliente.getRaccoltaPunti().setValue(RaccoltaPunti.FARINACEO, puntiFarinaceoTextField.getText().isBlank() || puntiFarinaceoTextField.getText().isEmpty() ? null : puntiFarinaceoTextField.getText());
