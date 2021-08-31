@@ -1,9 +1,19 @@
 package it.unina.studenti.oortof.dao;
 
-import java.sql.*;
+
+import java.sql.BatchUpdateException;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Types;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 import it.unina.studenti.oortof.models.entities.Lotto;
 import it.unina.studenti.oortof.models.entities.ObservedList;
 import it.unina.studenti.oortof.models.entities.prodotti.Altro;
@@ -32,9 +42,8 @@ import it.unina.studenti.oortof.models.entities.prodotti.enumeration.TipoFruttaV
 import it.unina.studenti.oortof.models.exception.DatabaseException;
 import it.unina.studenti.oortof.models.exception.FieldException;
 import it.unina.studenti.oortof.models.exception.ValidationException;
-import org.postgresql.util.PSQLException;
 
-import javax.xml.crypto.Data;
+import org.postgresql.util.PSQLException;
 
 public class SQLProdottoDAO implements ProdottoDAO {
 

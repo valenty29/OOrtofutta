@@ -9,6 +9,7 @@ import it.unina.studenti.oortof.models.entities.ObservedList;
 import it.unina.studenti.oortof.models.entities.prodotti.Prodotto;
 import it.unina.studenti.oortof.models.entities.prodotti.ProdottoCommon;
 
+@SuppressWarnings("serial")
 public class ProdottiListTableModel extends AbstractTableModel {
   
   ObservedList<Prodotto> prodotti;

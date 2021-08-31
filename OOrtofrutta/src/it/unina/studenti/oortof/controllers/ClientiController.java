@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import it.unina.studenti.oortof.dao.ClienteDAO;
 import it.unina.studenti.oortof.dao.DBContext;
-import it.unina.studenti.oortof.dao.ListHelpers;
 import it.unina.studenti.oortof.dao.SQLClienteDAO;
 import it.unina.studenti.oortof.models.application.ApplicationCounter;
 import it.unina.studenti.oortof.models.application.ApplicationInfo;

@@ -1,6 +1,6 @@
 package it.unina.studenti.oortof.gui;
 
-import java.awt.*;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -20,7 +20,6 @@ import it.unina.studenti.oortof.models.entities.ObservedList;
 import it.unina.studenti.oortof.models.entities.prodotti.Prodotto;
 
 import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JToolBar;
@@ -31,16 +30,23 @@ import javax.swing.AbstractButton;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.border.BevelBorder;
-import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 import javax.swing.SwingConstants;
 
 public class PrincipaleFrame extends JFrame {

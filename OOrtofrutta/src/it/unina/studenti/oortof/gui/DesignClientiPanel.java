@@ -9,15 +9,12 @@ import java.awt.SystemColor;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
-import java.awt.Container;
-
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
 import javax.swing.JTable;
 import java.awt.Dimension;
 import javax.swing.JSeparator;
-import javax.swing.Box;
 import javax.swing.ButtonGroup;
 import javax.swing.JScrollPane;
 

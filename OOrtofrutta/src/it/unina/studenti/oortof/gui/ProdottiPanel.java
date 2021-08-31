@@ -38,7 +38,6 @@ import it.unina.studenti.oortof.models.application.ApplicationStatus;
 import it.unina.studenti.oortof.models.entities.Carrello;
 import it.unina.studenti.oortof.models.entities.Lotto;
 import it.unina.studenti.oortof.models.entities.ObservedModel;
-import it.unina.studenti.oortof.models.entities.prodotti.Altro;
 import it.unina.studenti.oortof.models.entities.prodotti.BibitaSpecifico;
 import it.unina.studenti.oortof.models.entities.prodotti.CarnePesceSpecifico;
 import it.unina.studenti.oortof.models.entities.prodotti.ConservaSpecifico;
@@ -443,7 +442,6 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
   void modelToView() {
     SwingUtilities.invokeLater(new Runnable() {
       public void run() {
-        //applicaCarrello();
         modelToViewCore();
 
       }

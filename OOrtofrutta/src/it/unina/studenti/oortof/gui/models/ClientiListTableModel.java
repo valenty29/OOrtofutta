@@ -3,15 +3,12 @@ package it.unina.studenti.oortof.gui.models;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.swing.table.AbstractTableModel;
 
-import it.unina.studenti.oortof.dao.ListHelpers;
 import it.unina.studenti.oortof.models.entities.Cliente;
 import it.unina.studenti.oortof.models.entities.ObservedList;
 
+@SuppressWarnings("serial")
 public class ClientiListTableModel extends AbstractTableModel {
 	
 	private String[] columnNames = {"Nome", "Cognome", "CF", "eMail", "Data di nascita", "Luogo di nascita", "Genere"};

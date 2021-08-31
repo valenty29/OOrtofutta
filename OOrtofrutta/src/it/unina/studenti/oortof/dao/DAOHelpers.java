@@ -1,7 +1,5 @@
 package it.unina.studenti.oortof.dao;
 
-import it.unina.studenti.oortof.models.entities.Cliente;
-import it.unina.studenti.oortof.models.entities.prodotti.ProdottoCommon;
 import it.unina.studenti.oortof.models.exception.FieldException;
 
 public class DAOHelpers {

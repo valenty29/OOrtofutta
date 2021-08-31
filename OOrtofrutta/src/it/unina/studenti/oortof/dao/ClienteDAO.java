@@ -3,12 +3,8 @@ package it.unina.studenti.oortof.dao;
 import it.unina.studenti.oortof.models.entities.Cliente;
 import it.unina.studenti.oortof.models.entities.Lotto;
 import it.unina.studenti.oortof.models.entities.ObservedList;
-import it.unina.studenti.oortof.models.entities.Scontrino;
 import it.unina.studenti.oortof.models.exception.DatabaseException;
 import it.unina.studenti.oortof.models.exception.ValidationException;
-
-import javax.xml.crypto.Data;
-import java.util.List;
 
 public interface ClienteDAO {
     ObservedList<Cliente> getClienti(Cliente cliente) throws ValidationException, DatabaseException;

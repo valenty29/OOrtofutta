@@ -11,6 +11,7 @@ import it.unina.studenti.oortof.models.application.ApplicationStatus;
 import it.unina.studenti.oortof.models.entities.Lotto;
 import it.unina.studenti.oortof.models.entities.ObservedList;
 
+@SuppressWarnings("serial")
 public class CarrelloTableModel extends AbstractTableModel {
 
     ObservedList<Lotto> lotti;

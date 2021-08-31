@@ -9,9 +9,12 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
-import javax.swing.*;
+import javax.swing.AbstractButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
@@ -23,7 +26,6 @@ import it.unina.studenti.oortof.gui.models.AcquistiTableModel;
 import it.unina.studenti.oortof.gui.models.InputCheckRules;
 import it.unina.studenti.oortof.gui.models.InputCheckingDocumentFilter;
 import it.unina.studenti.oortof.gui.models.ScontriniTableModel;
-import it.unina.studenti.oortof.models.application.ApplicationCounter;
 import it.unina.studenti.oortof.models.application.ApplicationStatus;
 import it.unina.studenti.oortof.models.entities.Cliente;
 import it.unina.studenti.oortof.models.entities.Genere;
@@ -31,8 +33,6 @@ import it.unina.studenti.oortof.models.entities.ObservedList;
 import it.unina.studenti.oortof.models.entities.RaccoltaPunti;
 import it.unina.studenti.oortof.models.entities.Scontrino;
 import it.unina.studenti.oortof.models.entities.prodotti.Acquisto;
-import it.unina.studenti.oortof.models.entities.prodotti.Prodotto;
-import it.unina.studenti.oortof.models.entities.prodotti.ProdottoCommon;
 
 public class ClientiPanel extends DesignClientiPanel implements DocumentListener, ActionListener{
 	Cliente cliente;
@@ -43,7 +43,8 @@ public class ClientiPanel extends DesignClientiPanel implements DocumentListener
 	private AcquistiTableModel acquistiModel;
 	private static final long serialVersionUID = 1L;
 
-	public ClientiPanel() {
+	@SuppressWarnings("serial")
+  public ClientiPanel() {
 	    ApplicationStatus.getInstance().addPropertyChangeListener(new PropertyChangeListener() {
 	      @Override
 	      public void propertyChange(PropertyChangeEvent evt) {
