@@ -28,9 +28,13 @@ import it.unina.studenti.oortof.models.entities.prodotti.enumeration.CatPeso;
 import it.unina.studenti.oortof.models.entities.prodotti.enumeration.TipoCarnePesce;
 import it.unina.studenti.oortof.models.entities.prodotti.enumeration.TipoConservazione;
 import it.unina.studenti.oortof.models.entities.prodotti.enumeration.TipoFruttaVerdura;
+
 import it.unina.studenti.oortof.models.exception.DatabaseException;
 import it.unina.studenti.oortof.models.exception.FieldException;
 import it.unina.studenti.oortof.models.exception.ValidationException;
+import org.postgresql.util.PSQLException;
+
+import javax.xml.crypto.Data;
 
 public class SQLProdottoDAO implements ProdottoDAO {
 
@@ -45,8 +49,8 @@ public class SQLProdottoDAO implements ProdottoDAO {
     
     
 	
-    private void createLotti(ObservedList<Lotto> lotti, long id) {
-    	
+    private void createLotti(ObservedList<Lotto> lotti, long id) throws DatabaseException {
+    	ArrayList<DatabaseException> exceptionList = new ArrayList();
         String sql = "INSERT INTO LOTTO (CodLotto, IdProdotto, Scadenza, Disponibilita, DataProduzione, CodPaeseOrigine) VALUES (?, ?, ?, ?, ?, ?)";
         try {
             Connection conn = context.openConnessione();
@@ -75,13 +79,32 @@ public class SQLProdottoDAO implements ProdottoDAO {
             }
             
             conn.close();
-        } catch (SQLException e) {
-            // TODO
-            return;
+        } catch (BatchUpdateException e) {
+
+            PSQLException psqlExc = (PSQLException)e.getNextException();
+
+            if (psqlExc.getSQLState().equals("T1GR0")) {
+                throw new DatabaseException(psqlExc.getMessage());
+            } else if (psqlExc.getSQLState().equals("23514")) {
+                String constrDesc = "Un constraint non e' stato rispettato";
+
+                switch (((PSQLException) e.getNextException()).getServerErrorMessage().getConstraint()) {
+                    case "data_prod":
+                        constrDesc = "La data di produzione non puo' essere successiva alla data odierna";
+                        break;
+                    case "data_mungitura":
+                        constrDesc = "La data di mungitura non puo' essere successiva alla data odierna";
+                        break;
+                }
+
+                throw new DatabaseException(constrDesc);
+            }
+        } catch (SQLException se) {
+            throw new DatabaseException("Si e' verificato un errore nell'operazione sulla base dati");
         }
     }
     
-    public void createProdotto(Prodotto prodotto) throws ValidationException, DatabaseException{
+    public void createProdotto(Prodotto prodotto) throws ValidationException, DatabaseException {
     	int id = -1;
     	if (prodotto.getProdottoCommon().isBibita()) {
     		id = createBibita(prodotto);
@@ -128,7 +151,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
     }
     
     @SuppressWarnings("unchecked")
-	private int createProductCommon(ProdottoCommon prodotto) throws ValidationException, DatabaseException{
+	private int createProductCommon(ProdottoCommon prodotto) throws ValidationException {
         ArrayList<FieldException> exceptions = new ArrayList();
         int prodId = -1;
         String tipo = getTipo(prodotto);
@@ -221,16 +244,17 @@ public class SQLProdottoDAO implements ProdottoDAO {
         }
     }
 
-    private int createUovo(Prodotto uovo) throws ValidationException, DatabaseException{
+    private int createUovo(Prodotto uovo) throws ValidationException {
         ArrayList<FieldException> exceptions = new ArrayList<FieldException>();
         int id = -1;
         try {
             id = createProductCommon(uovo.getProdottoCommon());
         } catch (ValidationException ve) {
             exceptions.addAll(ve.getExceptionList());
+            throw new ValidationException(exceptions);
         }
 
-        String sql = "INSERT INTO UOVO (IdProdotto, TipoAllevamento, CodAllevamento, CatPeso) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO UOVO (IdProdotto, TipoAllevamento, CatPeso) VALUES (?, ?, ?)";
         try {
             Connection conn = context.openConnessione();
             PreparedStatement createUovo = conn.prepareStatement(sql);
@@ -247,7 +271,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
         }
     }
 
-    private int createCarnePesce(Prodotto carnePesce) throws ValidationException, DatabaseException {
+    private int createCarnePesce(Prodotto carnePesce) throws ValidationException {
         int id = createProductCommon(carnePesce.getProdottoCommon());
         String sql = "INSERT INTO CARNEPESCE (IdProdotto, TipoCP, DaAllevamento, Animale, Confezionato) VALUES (?, ?, ?, ?, ?)";
         try {
@@ -268,7 +292,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
         }
     }
 
-    private int createFruttaVerdura(Prodotto fruttaVerdura) throws ValidationException, DatabaseException {
+    private int createFruttaVerdura(Prodotto fruttaVerdura) throws ValidationException {
         int id = createProductCommon(fruttaVerdura.getProdottoCommon());
         String sql = "INSERT INTO FRUTTAVERDURA (IdProdotto, TipoFV, Bio, Surgelato) VALUES (?, ?, ?, ?)";
         try {
@@ -288,7 +312,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
         }
     }
 
-    private int createProdottoCaseario(Prodotto prodottoCaseario) throws ValidationException, DatabaseException{
+    private int createProdottoCaseario(Prodotto prodottoCaseario) throws ValidationException {
         int id = createProductCommon(prodottoCaseario.getProdottoCommon());
         String sql = "INSERT INTO PRODOTTOCASEARIO (IdProdotto, TipoLatte, Stabilimento, Stagionatura) VALUES (?, ?, ?, ?)";
         try {
@@ -307,7 +331,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
         }
     }
 
-    private int createFarinaceo(Prodotto farinaceo) throws ValidationException, DatabaseException  {
+    private int createFarinaceo(Prodotto farinaceo) throws ValidationException {
         int id = createProductCommon(farinaceo.getProdottoCommon());
         String sql = "INSERT INTO FARINACEO (IdProdotto, Glutine, TipoFarina, Fresco, Surgelato) VALUES (?, ?, ?, ?, ?)";
         try {
@@ -329,7 +353,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
         }
     }
 
-    private int createConserva(Prodotto conserva) throws ValidationException, DatabaseException {
+    private int createConserva(Prodotto conserva) throws ValidationException {
         int id = createProductCommon(conserva.getProdottoCommon());
         String sql = "INSERT INTO CONSERVA (IdProdotto, Glutine, TipoFarina, Fresco, Surgelato) VALUES (?, ?, ?, ?, ?)";
         try {
@@ -1000,7 +1024,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
 
     //region UPDATE
     
-    public void updateProdotto(Prodotto oldProdotto, Prodotto newProdotto) {
+    public void updateProdotto(Prodotto oldProdotto, Prodotto newProdotto) throws DatabaseException {
     	if (oldProdotto.getProdottoCommon().isBibita() && newProdotto.getProdottoCommon().isBibita()) {
     		updateBibita(oldProdotto, newProdotto);
     	} else if (oldProdotto.getProdottoCommon().isFruttaVerdura() && newProdotto.getProdottoCommon().isFruttaVerdura()) {
@@ -1020,7 +1044,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
     	}
     }
     
-    private void updateLotti(ObservedList<Lotto> oldLotti, ObservedList<Lotto> newLotti, long id) {
+    private void updateLotti(ObservedList<Lotto> oldLotti, ObservedList<Lotto> newLotti, long id) throws DatabaseException {
 
     	ObservedList<Lotto> lottiDaCreare = new ObservedList<Lotto>("lottiDaCreare");
     	ObservedList<Lotto> lottiDaAggiornare = new ObservedList<Lotto>("lottiDaAggiornare");
@@ -1091,7 +1115,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
     	
     }
 
-    private void updateProductsCommon(ProdottoCommon oldProdotto, ProdottoCommon newProdotto) {
+    private void updateProductsCommon(ProdottoCommon oldProdotto, ProdottoCommon newProdotto) throws DatabaseException {
 
     	
     	
@@ -1144,7 +1168,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
         }
     }
 
-    private void updateBibita(Prodotto oldBibita, Prodotto newBibita) {
+    private void updateBibita(Prodotto oldBibita, Prodotto newBibita) throws DatabaseException{
         updateProductsCommon(oldBibita.getProdottoCommon(), newBibita.getProdottoCommon());
 
         String updateQuery = "";
@@ -1190,7 +1214,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
         }
     }
 
-    private void updateUovo(Prodotto oldUovo, Prodotto newUovo) {
+    private void updateUovo(Prodotto oldUovo, Prodotto newUovo) throws DatabaseException {
         updateProductsCommon(oldUovo.getProdottoCommon(), newUovo.getProdottoCommon());
 
         String updateQuery = "";
@@ -1224,7 +1248,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
         }
     }
 
-    private void updateFarinaceo(Prodotto oldFarinaceo, Prodotto newFarinaceo) {
+    private void updateFarinaceo(Prodotto oldFarinaceo, Prodotto newFarinaceo) throws DatabaseException {
         updateProductsCommon(oldFarinaceo.getProdottoCommon(), newFarinaceo.getProdottoCommon());
 
         String updateQuery = "";
@@ -1280,7 +1304,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
         }
     }
 
-    private void updateCarnePesce(Prodotto oldCarnePesce, Prodotto newCarnePesce) {
+    private void updateCarnePesce(Prodotto oldCarnePesce, Prodotto newCarnePesce) throws DatabaseException {
         updateProductsCommon(oldCarnePesce.getProdottoCommon(), newCarnePesce.getProdottoCommon());
 
         String updateQuery = "";
@@ -1335,7 +1359,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
         }
     }
 
-    private void updateFruttaVerdura(Prodotto oldFruttaVerdura, Prodotto newFruttaVerdura) {
+    private void updateFruttaVerdura(Prodotto oldFruttaVerdura, Prodotto newFruttaVerdura) throws DatabaseException {
         updateProductsCommon(oldFruttaVerdura.getProdottoCommon(), newFruttaVerdura.getProdottoCommon());
 
         String updateQuery = "";
@@ -1380,7 +1404,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
         }
     }
 
-    private void updateConserva(Prodotto oldConserva, Prodotto newConserva) {
+    private void updateConserva(Prodotto oldConserva, Prodotto newConserva) throws DatabaseException  {
         updateProductsCommon(oldConserva.getProdottoCommon(), newConserva.getProdottoCommon());
 
         String updateQuery = "";
@@ -1404,7 +1428,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
         }
     }
 
-    private void updateProdottoCaseario(Prodotto oldProdottoCaseario, Prodotto newProdottoCaseario) {
+    private void updateProdottoCaseario(Prodotto oldProdottoCaseario, Prodotto newProdottoCaseario) throws DatabaseException {
         updateProductsCommon(oldProdottoCaseario.getProdottoCommon(), newProdottoCaseario.getProdottoCommon());
 
         String updateQuery = "";

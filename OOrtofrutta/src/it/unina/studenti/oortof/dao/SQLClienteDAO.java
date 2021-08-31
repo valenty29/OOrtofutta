@@ -470,7 +470,7 @@ public class SQLClienteDAO implements ClienteDAO {
             updateQuery += String.format(" Genere = '%s'", newCliente.getGenere());
             counter++;
         }
-        if (!oldCliente.getEmail().equals(newCliente.getEmail()) )
+        if (oldCliente.getEmail() == null || !oldCliente.getEmail().equals(newCliente.getEmail()) )
         {
             if (counter != 0)
             {
@@ -502,11 +502,7 @@ public class SQLClienteDAO implements ClienteDAO {
                     return updatedCliente.get();
 
             } catch (SQLException e) {
-                if (e.getSQLState().equals("T1GR0")) {
-                    throw new DatabaseException(((PSQLException) e).getServerErrorMessage().getMessage());
-                } else {
-                    throw new DatabaseException("Si è verificato un errore nell'operazione della base dati");
-                }
+                throw handleDatabaseException(e);
             }
         }
         return oldCliente;
@@ -567,20 +563,32 @@ public class SQLClienteDAO implements ClienteDAO {
                 throw new RuntimeException(e);
             }
         } catch (SQLException e) {
-            if (e.getSQLState().equals("T1GR0")) {
-                throw new DatabaseException(((PSQLException) e).getServerErrorMessage().getMessage());
-            } else if (e.getSQLState().equals("23514")){
-                String constraintDesc = "Un constraint non è stato rispettato";
-                switch (((PSQLException) e).getServerErrorMessage().getConstraint()) {
-                    case "maggiorenne":
-                        constraintDesc = "Il cliente deve essere maggiorenne";
-                        break;
-                }
-                throw new DatabaseException(constraintDesc);
-            } else {
-                throw new DatabaseException("Si è verificato un errore nell'operazione sulla base dati");
-            }
+            throw handleDatabaseException(e);
+        }
+    }
 
+    private DatabaseException handleDatabaseException(SQLException e)  {
+        if (e.getSQLState().equals("T1GR0")) {
+            return new DatabaseException(((PSQLException) e).getServerErrorMessage().getMessage());
+        } else if (e.getSQLState().equals("23514")){
+            String constraintDesc = "Un constraint non è stato rispettato";
+            switch (((PSQLException) e).getServerErrorMessage().getConstraint()) {
+                case "maggiorenne":
+                    constraintDesc = "Il cliente deve essere maggiorenne";
+                    break;
+                case "nome_valido":
+                    constraintDesc = "Il nome deve iniziare con una lettera e non puo' contenere caratteri speciali";
+                    break;
+                case "cognome_valido":
+                    constraintDesc = "Il cognome deve iniziare con una lettera e non puo' contenere caratteri speciali";
+                    break;
+                case "check_email":
+                    constraintDesc = "Il formato dell'email non e' corretto";
+                    break;
+            }
+            return new DatabaseException(constraintDesc);
+        } else {
+            return new DatabaseException("Si è verificato un errore nell'operazione sulla base dati");
         }
     }
 

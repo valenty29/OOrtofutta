@@ -24,7 +24,7 @@ public class Carrello extends ObservedModel implements PropertyChangeListener {
     boolean isPresent = lista.stream().filter(lotto1 -> {
 
       if (lotto1.getId().equals(lotto.getId())) {
-        lotto1.setDisponibilita(lotto.getDisponibilita() + lotto.getDisponibilita());
+        lotto1.setDisponibilita(lotto1.getDisponibilita() + lotto.getDisponibilita());
         return true;
       }
       return false;

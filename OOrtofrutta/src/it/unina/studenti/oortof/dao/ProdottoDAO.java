@@ -14,5 +14,5 @@ public interface ProdottoDAO {
     void deleteProdotti(List<Prodotto> prodotti) throws DatabaseException;
     void createProdotto(Prodotto prodotto) throws ValidationException, DatabaseException;
     ObservedList<Prodotto> getProdotti(Prodotto prodotto) throws ValidationException, DatabaseException;
-    void updateProdotto(Prodotto oldProdotto, Prodotto newProdotto);
+    void updateProdotto(Prodotto oldProdotto, Prodotto newProdotto) throws DatabaseException;
 }
