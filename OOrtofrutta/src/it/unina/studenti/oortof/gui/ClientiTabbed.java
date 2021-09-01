@@ -5,10 +5,13 @@ import javax.swing.JTabbedPane;
 import it.unina.studenti.oortof.models.application.ApplicationCounter;
 import it.unina.studenti.oortof.models.application.ApplicationStatus;
 
+import java.awt.Component;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+import javax.swing.JRootPane;
 
 public class ClientiTabbed extends JTabbedPane {
 
@@ -39,7 +42,12 @@ public class ClientiTabbed extends JTabbedPane {
     else {
       setEnabledAt(1, true);
     }
-    if (evt.getOldValue().equals(ApplicationStatus.STATUS_SEARCH) && evt.getNewValue().equals(ApplicationStatus.STATUS_NAVIGATION) && ApplicationCounter.getInstance().getLimit() > 0) {
+    Component [] components = ((JPanel)this.getParent().getParent()).getComponents();
+    JTabbedPane ilTabbed = null;
+    for (Component component : components) {
+     if (component instanceof JTabbedPane) {ilTabbed = (JTabbedPane)component;}
+    }
+    if (evt.getOldValue().equals(ApplicationStatus.STATUS_SEARCH) && evt.getNewValue().equals(ApplicationStatus.STATUS_NAVIGATION) && ApplicationCounter.getInstance().getLimit() > 0 && ilTabbed.getSelectedIndex() == 2) {
       setSelectedIndex(1);
     }
   }
