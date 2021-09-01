@@ -1,8 +1,0 @@
-package it.unina.studenti.oortof.gui.models;
-
-public class InputCheckRules {
-    static public InputCheckRule numeriSpazio = new InputCheckRule(".*[^0-9 <>.]", "Inserire numeri, punto, spazio o < >");
-    static public InputCheckRule soloNumeri = new InputCheckRule(".*[^0-9]", "Inserire solo numeri");
-    static public InputCheckRule soloLettere = new InputCheckRule(".*[^a-zA-Z]", "Inserire solo lettere");
-    static public InputCheckRule lettereSpazio = new InputCheckRule(".*[^a-zA-Z ]", "Inserire lettere o spazio");
-}
