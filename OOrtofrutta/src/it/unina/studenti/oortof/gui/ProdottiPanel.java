@@ -179,6 +179,8 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
         return l;
       }
     });
+
+
   }
 
   public void setModel(Prodotto prodotto, Carrello carrello) {
@@ -293,6 +295,20 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
   }
 
   void manageSpecificTab() {
+    int index = getSpecificTab();
+    caratteristicheSpecificheTabbed.setVisible(index >= 0);
+    caratteristicheSpecificheTabbed.setSelectedIndex(index >= 0 ? index : 0);
+
+    caratteristicheSpecificheTabbed.setEnabledAt(0, index == 0);
+    caratteristicheSpecificheTabbed.setEnabledAt(1, index == 1);
+    caratteristicheSpecificheTabbed.setEnabledAt(2, index == 2);
+    caratteristicheSpecificheTabbed.setEnabledAt(3, index == 3);
+    caratteristicheSpecificheTabbed.setEnabledAt(4, index == 4);
+    caratteristicheSpecificheTabbed.setEnabledAt(5, index == 5);
+    caratteristicheSpecificheTabbed.setEnabledAt(6, index == 6);
+  }
+
+  int getSpecificTab() {
     int index = -1;
     if (prodotto.getProdottoCommon().isFruttaVerdura()) {
       index = 0;
@@ -315,16 +331,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     else if (prodotto.getProdottoCommon().isBibita()) {
       index = 6;
     }
-    caratteristicheSpecificheTabbed.setVisible(index >= 0);
-    caratteristicheSpecificheTabbed.setSelectedIndex(index >= 0 ? index : 0);
-
-    caratteristicheSpecificheTabbed.setEnabledAt(0, index == 0);
-    caratteristicheSpecificheTabbed.setEnabledAt(1, index == 1);
-    caratteristicheSpecificheTabbed.setEnabledAt(2, index == 2);
-    caratteristicheSpecificheTabbed.setEnabledAt(3, index == 3);
-    caratteristicheSpecificheTabbed.setEnabledAt(4, index == 4);
-    caratteristicheSpecificheTabbed.setEnabledAt(5, index == 5);
-    caratteristicheSpecificheTabbed.setEnabledAt(6, index == 6);
+    return index;
   }
 
   void groupCheckBox(boolean group) {
@@ -365,7 +372,12 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     setEnabledColor(true, Color.white);
     setEnabledColor(quantitaCarrelloTextField, false, SystemColor.control);
     groupCheckBox(true);
-    caratteristicheSpecificheTabbed.setVisible(false);
+    if (getSpecificTab() == -1) {
+      caratteristicheSpecificheTabbed.setVisible(false);
+    } else {
+      caratteristicheSpecificheTabbed.setVisible(true);
+    }
+
     setEnabledColor(codiceProdottoTextField, false, SystemColor.control);
   }
 
@@ -546,7 +558,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     if (bs.getTipoBibita() == null) {
       bibitaBG.clearSelection();
     }
-    gradazioneAlcolicaTextField.setText(bs != null ? bs.getString(BibitaSpecifico.GRADAZIONE_ALCOLICA) : null);
+    gradazioneAlcolicaTextField.setText(bs != null && bs.getString(BibitaSpecifico.GRADAZIONE_ALCOLICA) != null && !bs.getString(BibitaSpecifico.GRADAZIONE_ALCOLICA).isEmpty() && !bs.getString(BibitaSpecifico.GRADAZIONE_ALCOLICA).isBlank() ? bs.getString(BibitaSpecifico.GRADAZIONE_ALCOLICA) : "0");
     frizzanteCheckBox.setSelected(bs != null && bs.isFrizzante());
     frizzanteCheckBox.setForeground(bs != null && bs.getFrizzante() != null ? Color.black : Color.gray);
 

@@ -227,10 +227,10 @@ public class SQLProdottoDAO implements ProdottoDAO {
             Connection conn = context.openConnessione();
             PreparedStatement createBibs = conn.prepareStatement(sql);
             createBibs.setLong(1, id);
-            if (bibita.getBibitaSpecifico().getGradazioneAlcolica() == null) {
-                exceptions.add(new FieldException("null", "Gradazione alcolica e' un campo richiesto", java.util.Optional.empty()));
-            }  else {
+            if (bibita.getBibitaSpecifico().getGradazioneAlcolica() != null && bibita.getBibitaSpecifico().getGradazioneAlcolica() >= 0) {
                 createBibs.setFloat(2, bibita.getBibitaSpecifico().getGradazioneAlcolica());
+            }  else {
+                exceptions.add(new FieldException(bibita.getBibitaSpecifico().getGradazioneAlcolica() == null ? "null" : bibita.getBibitaSpecifico().getGradazioneAlcolica().toString(), "Valore in gradazione alcolica non valido", java.util.Optional.empty()));
             }
             createBibs.setBoolean(3, bibita.getBibitaSpecifico().isFrizzante());
             if (bibita.getBibitaSpecifico().getTipoBibita() == null) {

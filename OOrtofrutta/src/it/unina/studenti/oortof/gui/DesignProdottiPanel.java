@@ -85,7 +85,7 @@ public abstract class DesignProdottiPanel extends JPanel {
   protected ButtonGroup carnePesceBG = new ButtonGroup();
   protected ButtonGroup bibitaBG = new ButtonGroup();
   protected JPanel quantitaCarrelloPanel = new JPanel();
-  protected JLabel quantitaCarrelloLabel = new JLabel("Quantità da inserire nel carrello");
+  protected JLabel quantitaCarrelloLabel = new JLabel("Quantitï¿½ da inserire nel carrello");
   protected JTextField quantitaCarrelloTextField = new JTextField();
   
 
@@ -645,7 +645,7 @@ public abstract class DesignProdottiPanel extends JPanel {
     bibitePanel.add(fermentatiRadioButton, gbc_fermentatiRadioButton);
     
     JLabel gradazioneAlcolicaLabel = new JLabel("Gradazione alcolica");
-    gradazioneAlcolicaLabel.setEnabled(false);
+
     GridBagConstraints gbc_gradazioneAlcolicaLabel = new GridBagConstraints();
     gbc_gradazioneAlcolicaLabel.anchor = GridBagConstraints.EAST;
     gbc_gradazioneAlcolicaLabel.insets = new Insets(0, 0, 5, 5);
@@ -654,7 +654,8 @@ public abstract class DesignProdottiPanel extends JPanel {
     bibitePanel.add(gradazioneAlcolicaLabel, gbc_gradazioneAlcolicaLabel);
     
     gradazioneAlcolicaTextField = new JTextField();
-    gradazioneAlcolicaTextField.setEnabled(false);
+
+    gradazioneAlcolicaTextField.setText("0");
     GridBagConstraints gbc_gradazioneAlcolicaTextField = new GridBagConstraints();
     gbc_gradazioneAlcolicaTextField.insets = new Insets(0, 0, 5, 0);
     gbc_gradazioneAlcolicaTextField.fill = GridBagConstraints.HORIZONTAL;
