@@ -130,7 +130,9 @@ public class ProdottiController implements Controller<Prodotto> {
       prodottoDao.deleteProdotti(toDelete);
       prodotti.remove(prodotto);
     } catch (DatabaseException de) {
-      //TODO HANDLE
+      ApplicationInfo.getInstance().setMessage(de.getErrorMessage(), ApplicationInfo.LEVEL_ERROR);
+      ApplicationStatus.getInstance().setAction(ApplicationStatus.ACTION_NONE);
+      return;
     }
 
   }

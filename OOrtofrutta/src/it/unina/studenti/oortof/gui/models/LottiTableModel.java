@@ -86,6 +86,7 @@ public class LottiTableModel extends AbstractTableModel {
       case 2: return toString(lotto.getDisponibilita());
       case 3: return dateToString(lotto.getDataProduzione());
       case 4: return toString(lotto.getCodPaeseOrigine());
+      case 5: return dateToString(lotto.getDataMungitura());
     }
     return null;
   }

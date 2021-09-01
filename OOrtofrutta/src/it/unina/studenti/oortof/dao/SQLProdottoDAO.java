@@ -891,7 +891,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
                 String rsTipoLatte = rs.getString("TipoLatte");
                 int rsStagionatura = rs.getInt("Stagionatura");
                 ProdottoCaseario newProdottoCaseario = new ProdottoCaseario(rsId, rsNome, rsPrezzo, rsSfuso, rsTipoLatte, rsStagionatura);
-                //TODO LOtti caseari
+                newProdottoCaseario.getProdottoCommon().setLotti(getLotti(rsId, conn));
                 list.add(newProdottoCaseario);
 
             }
@@ -945,7 +945,8 @@ public class SQLProdottoDAO implements ProdottoDAO {
         }
 
     }
-    
+
+
 
     private String getProdottoFilters(ProdottoCommon prodCom) throws ValidationException {
 
@@ -998,7 +999,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
     //region DELETE
     //la presenza di lotti impedisce la cancellazione di un prodotto
     //@Override
-    public void deleteProdotti(List<Prodotto> prodotti) {
+    public void deleteProdotti(List<Prodotto> prodotti) throws DatabaseException {
         String inSql = arrayToString(prodotti);
         String sql = "DELETE FROM PRODOTTO WHERE id IN (" +inSql + ");";
 
@@ -1009,8 +1010,19 @@ public class SQLProdottoDAO implements ProdottoDAO {
             conn.close();
         } catch (SQLException se)
         {
-            System.out.println(se);
-            return;
+            if (se.getSQLState().equals("23503")) {
+                String errorDesc = "Un constraint non rispettato";
+                switch (((PSQLException) se).getServerErrorMessage().getConstraint()) {
+                    case "lotto_prodotto_fk":
+                       errorDesc = "Non è possibile cancellare un prodotto che ha dei lotti";
+                       break;
+                }
+
+                throw new DatabaseException(errorDesc);
+            }
+
+            throw new DatabaseException("Si è verificato un errore nella comunicazione con la base dati");
+
         }
     }
 
