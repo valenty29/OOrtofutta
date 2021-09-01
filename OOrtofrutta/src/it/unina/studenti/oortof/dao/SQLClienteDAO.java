@@ -535,8 +535,12 @@ public class SQLClienteDAO implements ClienteDAO {
             PreparedStatement createCliente = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             createCliente.setString(1, cliente.getNome());
             createCliente.setString(2, cliente.getCognome());
+            try {
+                createCliente.setDate(3, new java.sql.Date(cliente.getDataNascita().getTime()));
+            } catch (NullPointerException npe) {
+                throw new DatabaseException("La data di nascita è obbligatoria");
+            }
 
-            createCliente.setDate(3, new java.sql.Date(cliente.getDataNascita().getTime()));
             createCliente.setString(4, cliente.getLuogoNascita());
             createCliente.setObject(5, cliente.getGenere(), Types.OTHER);
             if (cliente.getEmail() == null) {
@@ -575,7 +579,7 @@ public class SQLClienteDAO implements ClienteDAO {
     private DatabaseException handleDatabaseException(SQLException e)  {
         if (e.getSQLState().equals("T1GR0")) {
             return new DatabaseException(((PSQLException) e).getServerErrorMessage().getMessage());
-        } else if (e.getSQLState().equals("23514")){
+        } else if (e.getSQLState().equals("23514")) {
             String constraintDesc = "Un constraint non è stato rispettato";
             switch (((PSQLException) e).getServerErrorMessage().getConstraint()) {
                 case "maggiorenne":
@@ -592,6 +596,24 @@ public class SQLClienteDAO implements ClienteDAO {
                     break;
             }
             return new DatabaseException(constraintDesc);
+        } else if (e.getSQLState().equals("23502")) {
+            String errorDesc = "Inserito un valore null in una campo not null";
+            switch (((PSQLException) e).getServerErrorMessage().getColumn()) {
+                case "genere":
+                    errorDesc = "Inserire il genere del cliente";
+                    break;
+                case "nome":
+                    errorDesc = "Inserire il nome del cliente";
+                    break;
+                case "cognome":
+                    errorDesc = "Inserire il cognome del cliente";
+                    break;
+                case "luogonascita":
+                    errorDesc = "Inserire il luogo di nascita del cliente";
+                    break;
+
+            }
+            return new DatabaseException(errorDesc);
         } else {
             return new DatabaseException("Si è verificato un errore nell'operazione sulla base dati");
         }
