@@ -101,7 +101,7 @@ public class CarrelloPanel extends JPanel {
             carrello.clear();
           }
           catch (DatabaseException de) {
-            ApplicationInfo.getInstance().setMessage("Si è verificato un errore imprevisto nel confermare l\'acquisto", ApplicationInfo.LEVEL_LOG);
+            ApplicationInfo.getInstance().setMessage("Si e' verificato un errore imprevisto nel confermare l\'acquisto", ApplicationInfo.LEVEL_LOG);
           }
         }
         else {

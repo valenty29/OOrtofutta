@@ -20,6 +20,7 @@ public class ClientiTabbed extends JTabbedPane {
     setTabPlacement(JTabbedPane.RIGHT);
     this.add(clientiPanel);
     this.add(clientiListPanel);
+    setEnabledAt(1, false);
     setIconAt(0, new ImageIcon(ProdottiTabbed.class.getResource("/it/unina/studenti/oortof/gui/resources/images/detail.gif")));
     setIconAt(1, new ImageIcon(ProdottiTabbed.class.getResource("/it/unina/studenti/oortof/gui/resources/images/list.gif")));
     ApplicationStatus.getInstance().addPropertyChangeListener(new PropertyChangeListener() {

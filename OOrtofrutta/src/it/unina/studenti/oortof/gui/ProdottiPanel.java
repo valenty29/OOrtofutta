@@ -137,7 +137,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
           selectedLotto.copyTo(newLotto);
           newLotto.setDisponibilita(quantita);
           carrello.add(newLotto);
-
+          quantitaCarrelloTextField.setText("");
           ApplicationInfo.getInstance().setMessage(String.format("AGGIUNTI %.2f DEL LOTTO %s AL CARRELLO", quantita, selectedLotto.getCodLotto()), ApplicationInfo.LEVEL_LOG);
         }
       }
