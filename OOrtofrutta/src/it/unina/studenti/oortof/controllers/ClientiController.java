@@ -64,6 +64,7 @@ public class ClientiController implements Controller {
 				try {
 					Cliente newCliente = clienteDAO.createCliente(cliente);
 					listCliente.add(newCliente);
+					newCliente.copyTo(cliente);
 				} catch (DatabaseException de) {
 					ApplicationInfo.getInstance().setMessage(de.getErrorMessage(), ApplicationInfo.LEVEL_ERROR);
 					//TODO se c'è un errore il si deve tornare all'inserimento!
@@ -76,7 +77,9 @@ public class ClientiController implements Controller {
 			case ApplicationStatus.STATUS_UPDATE: {
 				try {
 					Cliente updatedCliente = clienteDAO.updateCliente(oldCliente, cliente);
+
 					listCliente.set(listCliente.indexOf(cliente), updatedCliente);
+					updatedCliente.copyTo(cliente);
 
 				} catch (DatabaseException de) {
 					ApplicationInfo.getInstance().setMessage(de.getErrorMessage(), ApplicationInfo.LEVEL_ERROR);
@@ -96,7 +99,6 @@ public class ClientiController implements Controller {
 					ObservedList<Cliente> clienti = clienteDAO.getClienti(cliente);
 					listCliente.clear();
 					clienti.copyTo(listCliente);
-					System.out.println();
 				}
 				catch (ValidationException ve) {
 					ApplicationInfo.getInstance().setMessage(ve.toString(), ApplicationInfo.LEVEL_ERROR);
