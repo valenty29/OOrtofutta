@@ -2,6 +2,7 @@ package it.unina.studenti.oortof.controllers;
 
 import it.unina.studenti.oortof.dao.ClienteDAO;
 import it.unina.studenti.oortof.dao.SQLClienteDAO;
+import it.unina.studenti.oortof.models.application.ApplicationStatus;
 import it.unina.studenti.oortof.models.entities.Carrello;
 import it.unina.studenti.oortof.models.entities.Cliente;
 import it.unina.studenti.oortof.models.entities.ObservedList;
@@ -16,12 +17,12 @@ public class CarrelloController implements Controller {
   }
   @Override
   public void rollback() {
-    throw new RuntimeException("Rollback non permesso per il Carrello");
+    ApplicationStatus.getInstance().setStatus(ApplicationStatus.STATUS_NAVIGATION);
   }
 
   @Override
   public void insert() {
-    throw new RuntimeException("Insert non permesso per il Carrello");
+    ApplicationStatus.getInstance().setStatus(ApplicationStatus.STATUS_INSERT);
     
   }
 
@@ -39,13 +40,13 @@ public class CarrelloController implements Controller {
 
   @Override
   public void commit() {
-    System.out.println("COMMITTT");
+    ApplicationStatus.getInstance().setStatus(ApplicationStatus.STATUS_NAVIGATION);
     
   }
 
   @Override
   public void delete() {
-    // TODO Auto-generated method stub
+    System.out.println("delete del controllerr");
     
   }
 
@@ -69,13 +70,13 @@ public class CarrelloController implements Controller {
 
   @Override
   public void listToDetail() {
-    // TODO Auto-generated method stub
+    throw new RuntimeException("Carrello non ha un sistema lista/dettaglio");
 
   }
 
   @Override
   public void preDelete() {
-    // TODO Auto-generated method stub
+    System.out.println("preDelete dal Controller");
     
   }
 

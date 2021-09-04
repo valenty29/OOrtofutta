@@ -73,14 +73,22 @@ public class CarrelloPanel extends JPanel {
         carrello.clear();
       }
     });
-    
+
+    ApplicationStatus.getInstance().addPropertyChangeListener(new PropertyChangeListener() {
+      @Override
+      public void propertyChange(PropertyChangeEvent evt) {
+        applicationStatusChanged(evt);
+      }
+    });
+
     carrelloTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
       @Override
       public void valueChanged(ListSelectionEvent event) {
         if (ApplicationCounter.getInstance().getCounter() != (carrelloTable.getSelectedRow() + 1)) {
           if (event.getFirstIndex() == ApplicationCounter.getInstance().getCounter() - 1 && carrelloTable.getSelectedRow() == -1) {
             ApplicationCounter.getInstance().setCounter(ApplicationCounter.getInstance().getCounter());
-          } else {
+          }
+          else {
             ApplicationCounter.getInstance().setCounter(carrelloTable.getSelectedRow() + 1);
           }
 
@@ -202,4 +210,38 @@ public class CarrelloPanel extends JPanel {
     return importo;
 
   }
+
+  void applicationStatusChanged(PropertyChangeEvent evt) {
+    if (evt.getPropertyName().equals("status")) {
+      switch (ApplicationStatus.getInstance().getStatus()) {
+      case ApplicationStatus.STATUS_NAVIGATION:
+        navigation();
+        break;
+      case ApplicationStatus.STATUS_INSERT:
+        insert();
+        break;
+      }
+    }
+    else if (evt.getPropertyName().equals("action")) {
+      if (evt.getNewValue().equals(ApplicationStatus.ACTION_PRE_DELETE)) {
+        System.out.println("PREDELTETEE");
+        int response = JOptionPane.showConfirmDialog(this, "Si conferma la cancellazione ?", "Conferma Cancellazione", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (response == JOptionPane.OK_OPTION) {
+          ApplicationStatus.getInstance().setAction(ApplicationStatus.ACTION_DELETE);
+        }
+        else {
+          ApplicationStatus.getInstance().setAction(ApplicationStatus.ACTION_NONE);
+        }
+      }
+    }
+  }
+
+  void navigation() {
+
+  }
+
+  void insert() {
+    System.out.println("insert() in carrelloPanel");
+  }
+
 }

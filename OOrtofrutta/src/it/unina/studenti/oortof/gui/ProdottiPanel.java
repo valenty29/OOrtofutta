@@ -185,7 +185,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
 
   public void setModel(Prodotto prodotto, Carrello carrello) {
     this.prodotto = prodotto;
-    this.carrello = carrello;
+    this.carrello = carrello;   
     PropertyChangeListener dataModelListener = new PropertyChangeListener() {
       @Override
       public void propertyChange(PropertyChangeEvent evt) {
@@ -437,6 +437,9 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
         int response = JOptionPane.showConfirmDialog(this, "Si conferma la cancellazione ?", "Conferma Cancellazione", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (response == JOptionPane.OK_OPTION) {
           ApplicationStatus.getInstance().setAction(ApplicationStatus.ACTION_DELETE);
+        }
+        else {
+          ApplicationStatus.getInstance().setAction(ApplicationStatus.ACTION_NONE);
         }
       }
     }

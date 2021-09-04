@@ -177,10 +177,10 @@ System.err.println("BINGO");
         ApplicationStatus.getInstance().setActiveTab(ilTabbedPanel.getSelectedIndex());
         if (ilTabbedPanel.getSelectedIndex() == 1) { 
           setVisible(toolBar, false);
+          rollbackButton.setVisible(true);
           commitButton.setVisible(true);
           deleteButton.setVisible(true);
-          commitButton.setEnabled(true);
-          deleteButton.setEnabled(true);
+          insertButton.setVisible(true);
         }
         else {
           setVisible(toolBar, true);
@@ -404,6 +404,9 @@ System.err.println("BINGO");
     statusLabel.setBackground(SystemColor.control);
     for (int i = 0; i < ilTabbedPanel.getTabCount(); i++) {
       ilTabbedPanel.setEnabledAt(i, true);
+    }
+    if (ilTabbedPanel.getSelectedIndex() == 1) {  //per permettere l'eliminazione del carrello
+      deleteButton.setEnabled(true);
     }
   }
   
