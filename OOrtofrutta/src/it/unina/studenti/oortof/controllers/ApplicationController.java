@@ -104,14 +104,12 @@ public class ApplicationController implements Controller, PropertyChangeListener
 
   @Override
   public void listToDetail() {
-    // TODO Auto-generated method stub
-    
+    throw new RuntimeException("Application Controller non passa da una lista ad un dettaglio");
   }
 
   @Override
   public void preDelete() {
-    // TODO Auto-generated method stub
-    
+    throw new RuntimeException("Application Controller non gestisce il preDelete");
   }
   
 }

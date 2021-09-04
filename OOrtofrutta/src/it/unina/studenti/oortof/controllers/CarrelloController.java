@@ -16,31 +16,30 @@ public class CarrelloController implements Controller {
   }
   @Override
   public void rollback() {
-    // TODO Auto-generated method stub
-    
+    throw new RuntimeException("Rollback non permesso per il Carrello");
   }
 
   @Override
   public void insert() {
-    // TODO Auto-generated method stub
+    throw new RuntimeException("Insert non permesso per il Carrello");
     
   }
 
   @Override
   public void update() {
-    // TODO Auto-generated method stub
+    throw new RuntimeException("Update non permesso per il Carrello");
     
   }
 
   @Override
   public void search() {
-    // TODO Auto-generated method stub
+    throw new RuntimeException("Search non permesso per il Carrello");
     
   }
 
   @Override
   public void commit() {
-    // TODO Auto-generated method stub
+    System.out.println("COMMITTT");
     
   }
 

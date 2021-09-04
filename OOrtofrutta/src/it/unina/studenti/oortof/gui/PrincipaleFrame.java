@@ -177,6 +177,10 @@ System.err.println("BINGO");
         ApplicationStatus.getInstance().setActiveTab(ilTabbedPanel.getSelectedIndex());
         if (ilTabbedPanel.getSelectedIndex() == 1) { 
           setVisible(toolBar, false);
+          commitButton.setVisible(true);
+          deleteButton.setVisible(true);
+          commitButton.setEnabled(true);
+          deleteButton.setEnabled(true);
         }
         else {
           setVisible(toolBar, true);

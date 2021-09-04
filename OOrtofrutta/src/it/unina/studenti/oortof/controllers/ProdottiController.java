@@ -145,7 +145,6 @@ public class ProdottiController implements Controller<Prodotto> {
 
   @Override
   public void setModel(Prodotto prodotto) {
-
   }
 
   @Override
