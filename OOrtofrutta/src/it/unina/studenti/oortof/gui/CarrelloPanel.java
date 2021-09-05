@@ -180,7 +180,7 @@ public class CarrelloPanel extends JPanel {
     else if (evt.getPropertyName().equals("action")) {
       if (evt.getNewValue().equals(ApplicationStatus.ACTION_PRE_DELETE) && ((JTabbedPane)this.getParent()).getSelectedIndex() == 1) {
         System.out.println("PREDELTETEE");
-        int response = JOptionPane.showConfirmDialog(this, "Si conferma la cancellazione ?", "Conferma Cancellazione", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        int response = JOptionPane.showConfirmDialog(this, "Si conferma la cancellazione dell intero carrello?", "Conferma Cancellazione", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (response == JOptionPane.OK_OPTION) {
           ApplicationStatus.getInstance().setAction(ApplicationStatus.ACTION_DELETE);
         }

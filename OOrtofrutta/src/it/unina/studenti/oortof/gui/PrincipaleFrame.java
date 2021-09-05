@@ -181,7 +181,9 @@ System.err.println("BINGO");
           rollbackButton.setVisible(true);
           commitButton.setVisible(true);
           deleteButton.setVisible(true);
+          deleteButton.setEnabled(false);
           insertButton.setVisible(true);
+          insertButton.setEnabled(false);
           resetCounter();
         }
         else {
@@ -388,6 +390,10 @@ System.err.println("BINGO");
   
   void applicationCounterChanged(PropertyChangeEvent evt) {
     counterLabel.setText(ApplicationCounter.getInstance().toString());
+    if (ilTabbedPanel.getSelectedIndex() == 1) {
+      insertButton.setEnabled(ApplicationCounter.getInstance().getCounter() > 0);
+      deleteButton.setEnabled(ApplicationCounter.getInstance().getCounter() > 0);
+    }
   }
   
   void applicationStatusChanged(PropertyChangeEvent evt) {
