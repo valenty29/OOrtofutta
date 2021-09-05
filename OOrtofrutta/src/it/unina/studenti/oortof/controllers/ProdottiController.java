@@ -92,19 +92,24 @@ public class ProdottiController implements Controller<Prodotto> {
   
   void commitSearch() {
     try {
+
       Prodotto prodottoDAO = new Prodotto();
       prodotto.copyTo(prodottoDAO);
       ObservedList<Prodotto> ritorno = prodottoDao.getProdotti(prodottoDAO);
+      prodotti.clear();
       ritorno.copyTo(prodotti);
-      ApplicationStatus.getInstance().setStatus(ApplicationStatus.STATUS_NAVIGATION);
+
     }
     catch (ValidationException ve) {
       JOptionPane.showMessageDialog(null, ve.toString(), "Campi non validi", JOptionPane.ERROR_MESSAGE);
       ApplicationInfo.getInstance().setMessage("CAMPI NON VALIDI", ApplicationInfo.LEVEL_ERROR);
+      return;
     }
     catch (Exception e) {
       e.printStackTrace();
+      return;
     }
+    ApplicationStatus.getInstance().setStatus(ApplicationStatus.STATUS_NAVIGATION);
   }
   
   @Override

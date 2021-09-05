@@ -21,6 +21,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
 
@@ -263,9 +264,7 @@ public class SQLClienteDAO implements ClienteDAO {
             while(rs.next())
             {
                 int rsIdC = rs.getInt("idC");
-                if (rsIdC == -1) {
-                    continue;
-                }
+
                 String rsCf = rs.getString("cf");
                 String rsNome = rs.getString("Nome");
                 String rsCognome = rs.getString("Cognome");
@@ -314,7 +313,10 @@ public class SQLClienteDAO implements ClienteDAO {
             while(rs.next())
             {
             	int rsId = rs.getInt("id");
-                Date rsDataOrario =  new Date(rs.getTimestamp("DataOrario").getTime());
+            	Calendar cal = Calendar.getInstance();
+                Calendar.getInstance().setTimeInMillis(rs.getTimestamp("DataOrario").getTime());
+
+                Date rsDataOrario =  Date.from(rs.getTimestamp("DataOrario").toInstant());
 
                 ObservedList<Acquisto> acquisti = new ObservedList<Acquisto>("acquisti");
 

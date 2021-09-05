@@ -82,7 +82,7 @@ public class Scontrino extends ObservedModel implements PropertyChangeListener{
   }
 
   public Date getDataOrario() {
-    return getDate(DATA_ORARIO);
+    return getDateTime(DATA_ORARIO);
   }
   
 
