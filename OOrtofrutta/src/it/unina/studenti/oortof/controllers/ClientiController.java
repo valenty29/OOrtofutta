@@ -129,14 +129,9 @@ public class ClientiController implements Controller {
     ApplicationStatus.getInstance().setAction(ApplicationStatus.ACTION_NONE);
   }
 
-  @Override
   public void setModel(ObservedModel observedModel, ObservedList observedList) {
     listCliente = observedList;
     cliente = (Cliente)observedModel;
-  }
-
-  public void setModel(ObservedModel observedModel) {
-
   }
 
   @Override

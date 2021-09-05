@@ -9,6 +9,7 @@ import javax.swing.event.ChangeListener;
 
 import it.unina.studenti.oortof.controllers.ApplicationController;
 import it.unina.studenti.oortof.controllers.CarrelloController;
+import it.unina.studenti.oortof.controllers.ClientiController;
 import it.unina.studenti.oortof.controllers.ProdottiController;
 import it.unina.studenti.oortof.models.application.ApplicationCounter;
 import it.unina.studenti.oortof.models.application.ApplicationInfo;
@@ -96,7 +97,7 @@ public class PrincipaleFrame extends JFrame {
           ObservedList<Cliente> clienteList = new ObservedList<Cliente>("clienteList");
           ((ClientiPanel)frame.clientiTabbed.getComponent(0)).setModel(c);
           ((ClientiListPanel)frame.clientiTabbed.getComponent(1)).setModel(c, clienteList);
-          ApplicationController.getInstance().getSubController(2).setModel(c, clienteList);
+          ((ClientiController)ApplicationController.getInstance().getSubController(2)).setModel(c, clienteList);
 
 
 

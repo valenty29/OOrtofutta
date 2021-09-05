@@ -3,10 +3,14 @@ package it.unina.studenti.oortof.controllers;
 import it.unina.studenti.oortof.dao.ClienteDAO;
 import it.unina.studenti.oortof.dao.SQLClienteDAO;
 import it.unina.studenti.oortof.models.application.ApplicationStatus;
+import it.unina.studenti.oortof.gui.CarrelloPanel;
+import it.unina.studenti.oortof.models.application.ApplicationInfo;
+import it.unina.studenti.oortof.models.application.ApplicationStatus;
 import it.unina.studenti.oortof.models.entities.Carrello;
 import it.unina.studenti.oortof.models.entities.Cliente;
 import it.unina.studenti.oortof.models.entities.ObservedList;
 import it.unina.studenti.oortof.models.entities.ObservedModel;
+import it.unina.studenti.oortof.models.exception.DatabaseException;
 
 public class CarrelloController implements Controller {
   private Carrello carrello;
@@ -41,25 +45,26 @@ public class CarrelloController implements Controller {
   @Override
   public void commit() {
     ApplicationStatus.getInstance().setStatus(ApplicationStatus.STATUS_NAVIGATION);
-    
+
+    if (cliente.getId() != null) {
+      try {
+        int idScontrino = clienteDAO.createScontrino(cliente, carrello.getLotti());
+        ApplicationInfo.getInstance().setMessage(String.format("Acquisto contabilizzato: generato scontrino %d di importo %.2f", idScontrino, CarrelloPanel.calcolaImporto(carrello)), ApplicationInfo.LEVEL_LOG);
+        carrello.clear();
+      }
+      catch (DatabaseException de) {
+        ApplicationInfo.getInstance().setMessage("Si e' verificato un errore imprevisto nel confermare l\'acquisto", ApplicationInfo.LEVEL_LOG);
+      }
+    }
+    else {
+      ApplicationInfo.getInstance().setMessage("Selezionare un cliente prima di proseguire con l\'acquisto", ApplicationInfo.LEVEL_ERROR);
+    }
+
   }
 
   @Override
   public void delete() {
-    System.out.println("delete del controllerr");
-    
-  }
-
-  @Override
-  public void setModel(ObservedModel observedModel, ObservedList observedList) {
-    // TODO Auto-generated method stub
-
-    
-  }
-  public void setModel(ObservedModel observedModel) {
-    // TODO Auto-generated method stub
-
-
+    carrello.clear();
   }
 
   public void setModel(Carrello carrello, Cliente cliente) {

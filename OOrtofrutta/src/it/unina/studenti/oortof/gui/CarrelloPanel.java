@@ -100,21 +100,11 @@ public class CarrelloPanel extends JPanel {
     confermaButton = new JButton();
     confermaButton.setText("Conferma acquisti");
     confermaButton.addActionListener(new ActionListener() {
-      @Override
+
+
+
       public void actionPerformed(ActionEvent e) {
-        if (cliente.getId() != null) {
-          try {
-            int idScontrino = clienteDAO.createScontrino(cliente, carrello.getLotti());
-            ApplicationInfo.getInstance().setMessage(String.format("Acquisto contabilizzato: generato scontrino %d di importo %.2f", idScontrino, calcolaImporto()), ApplicationInfo.LEVEL_LOG);
-            carrello.clear();
-          }
-          catch (DatabaseException de) {
-            ApplicationInfo.getInstance().setMessage("Si e' verificato un errore imprevisto nel confermare l\'acquisto", ApplicationInfo.LEVEL_LOG);
-          }
-        }
-        else {
-          ApplicationInfo.getInstance().setMessage("Selezionare un cliente prima di proseguire con l\'acquisto", ApplicationInfo.LEVEL_ERROR);
-        }
+        commit();
 
       }
     });
@@ -159,6 +149,10 @@ public class CarrelloPanel extends JPanel {
 
   }
 
+  private void commit(){
+
+  }
+
   public void setModel(Carrello carrello, Cliente cliente) {
     this.carrello = carrello;
     this.cliente = cliente;
@@ -193,7 +187,7 @@ public class CarrelloPanel extends JPanel {
   }
 
   void impostaImportoLabel() {
-    float importo = calcolaImporto();
+    float importo = CarrelloPanel.calcolaImporto(carrello);
     if (importo == 0) {
       importoLabel.setText("Importo:          ");
     }
@@ -202,7 +196,7 @@ public class CarrelloPanel extends JPanel {
     }
   }
 
-  float calcolaImporto() {
+  public static float calcolaImporto(Carrello carrello) {
     float importo = 0f;
     for (Lotto lotto : carrello.getLotti()) {
       importo += lotto.getDisponibilita() * (lotto.getProdottoCommon().getPrezzo());

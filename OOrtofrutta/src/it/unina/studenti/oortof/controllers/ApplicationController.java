@@ -94,15 +94,6 @@ public class ApplicationController implements Controller, PropertyChangeListener
   }
 
   @Override
-  public void setModel(ObservedModel observedModel, ObservedList observedList) {
-    throw new RuntimeException("Application controller lavora senza un modello");
-  }
-
-  public void setModel(ObservedModel observedModel) {
-    throw new RuntimeException("Application controller lavora senza un modello");
-  }
-
-  @Override
   public void listToDetail() {
     throw new RuntimeException("Application Controller non passa da una lista ad un dettaglio");
   }

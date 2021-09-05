@@ -144,15 +144,6 @@ public class ProdottiController implements Controller<Prodotto> {
   }
 
   @Override
-  public void setModel(Prodotto prodotto) {
-  }
-
-  @Override
-  public void setModel(Prodotto prodotto, ObservedList<Prodotto> prodotti) {
-
-  }
-
-  @Override
   public void listToDetail() {
     int index = ApplicationCounter.getInstance().getCounter();
     if (index > 0 && index < prodotti.size() + 1) {
