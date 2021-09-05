@@ -32,8 +32,6 @@ import java.awt.Insets;
 public class CarrelloPanel extends JPanel {
   private JTable carrelloTable;
   private JScrollPane scrollPane;
-  private JButton confermaButton;
-  private JButton cancellaButton;
   private Carrello carrello;
   private Cliente cliente;
   private ClienteDAO clienteDAO;
@@ -66,14 +64,6 @@ public class CarrelloPanel extends JPanel {
     gbl_southCarrelloPanel.rowWeights = new double[] {0.0, Double.MIN_VALUE};
     southCarrelloPanel.setLayout(gbl_southCarrelloPanel);
 
-    cancellaButton = new JButton();
-    cancellaButton.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        carrello.clear();
-      }
-    });
-
     ApplicationStatus.getInstance().addPropertyChangeListener(new PropertyChangeListener() {
       @Override
       public void propertyChange(PropertyChangeEvent evt) {
@@ -96,31 +86,6 @@ public class CarrelloPanel extends JPanel {
         }
       }
     });
-
-    confermaButton = new JButton();
-    confermaButton.setText("Conferma acquisti");
-    confermaButton.addActionListener(new ActionListener() {
-
-
-
-      public void actionPerformed(ActionEvent e) {
-        commit();
-
-      }
-    });
-    GridBagConstraints gbc_confermaButton = new GridBagConstraints();
-    gbc_confermaButton.anchor = GridBagConstraints.WEST;
-    gbc_confermaButton.insets = new Insets(0, 0, 0, 5);
-    gbc_confermaButton.gridx = 0;
-    gbc_confermaButton.gridy = 0;
-    southCarrelloPanel.add(confermaButton, gbc_confermaButton);
-    cancellaButton.setText("Cancella acquisti");
-    GridBagConstraints gbc_cancellaButton = new GridBagConstraints();
-    gbc_cancellaButton.anchor = GridBagConstraints.WEST;
-    gbc_cancellaButton.insets = new Insets(0, 0, 0, 5);
-    gbc_cancellaButton.gridx = 1;
-    gbc_cancellaButton.gridy = 0;
-    southCarrelloPanel.add(cancellaButton, gbc_cancellaButton);
 
     importoLabel = new JLabel("Importo:          ");
     importoLabel.setBorder(new LineBorder(Color.GRAY));
@@ -146,10 +111,6 @@ public class CarrelloPanel extends JPanel {
         }
       }
     });
-
-  }
-
-  private void commit(){
 
   }
 
@@ -217,7 +178,7 @@ public class CarrelloPanel extends JPanel {
       }
     }
     else if (evt.getPropertyName().equals("action")) {
-      if (evt.getNewValue().equals(ApplicationStatus.ACTION_PRE_DELETE)) {
+      if (evt.getNewValue().equals(ApplicationStatus.ACTION_PRE_DELETE) && ((JTabbedPane)this.getParent()).getSelectedIndex() == 1) {
         System.out.println("PREDELTETEE");
         int response = JOptionPane.showConfirmDialog(this, "Si conferma la cancellazione ?", "Conferma Cancellazione", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (response == JOptionPane.OK_OPTION) {
@@ -231,7 +192,7 @@ public class CarrelloPanel extends JPanel {
   }
 
   void navigation() {
-
+    
   }
 
   void insert() {

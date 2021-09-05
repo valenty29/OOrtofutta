@@ -75,8 +75,7 @@ public class CarrelloController implements Controller {
 
   @Override
   public void listToDetail() {
-    throw new RuntimeException("Carrello non ha un sistema lista/dettaglio");
-
+    //Non è previsto un listToDetail, si deve solo aggiornare il counter
   }
 
   @Override

@@ -182,6 +182,7 @@ System.err.println("BINGO");
           commitButton.setVisible(true);
           deleteButton.setVisible(true);
           insertButton.setVisible(true);
+          resetCounter();
         }
         else {
           setVisible(toolBar, true);
@@ -356,6 +357,11 @@ System.err.println("BINGO");
       }
     });
   }
+    
+  void resetCounter() {
+    ApplicationCounter.getInstance().setCounter(0);
+    ApplicationCounter.getInstance().setLimit(0);
+  }
 
   void applicationInfoChanged(PropertyChangeEvent evt) {
     ApplicationMessage mess = ApplicationInfo.getInstance().getMessage();
@@ -406,9 +412,9 @@ System.err.println("BINGO");
     for (int i = 0; i < ilTabbedPanel.getTabCount(); i++) {
       ilTabbedPanel.setEnabledAt(i, true);
     }
-    if (ilTabbedPanel.getSelectedIndex() == 1) {  //per permettere l'eliminazione del carrello
-      deleteButton.setEnabled(true);
-    }
+//    if (ilTabbedPanel.getSelectedIndex() == 1 ) {  //per permettere l'eliminazione del carrello
+//      deleteButton.setEnabled(true);
+//    }
   }
   
   void insert() {
