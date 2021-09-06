@@ -76,6 +76,14 @@ public abstract class ObservedModel {
       return null;
     }
   }
+
+  public Date getDateTime(int index) {
+    try {
+      return sdtf.parse((String)attributes[index]);
+    } catch (Exception e) {
+      return null;
+    }
+  }
   
   public String getString(int index) {
     return (String)attributes[index];

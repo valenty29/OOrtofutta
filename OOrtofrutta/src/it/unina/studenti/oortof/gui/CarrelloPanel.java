@@ -99,7 +99,7 @@ public class CarrelloPanel extends JPanel {
         if (carrelloTable.getSelectedRow() == -1) {
           return;
         }
-        if (e.getKeyCode() == KeyEvent.VK_DELETE && ApplicationStatus.getInstance().isNavigation()) {
+        if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE && ApplicationStatus.getInstance().isNavigation()) {
           Lotto lotto = carrelloModel.getSelectedLotto(carrelloTable.getSelectedRow());
           carrello.remove(lotto);
         }
