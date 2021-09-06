@@ -11,11 +11,11 @@ public class Acquisto extends ObservedModel implements PropertyChangeListener {
   public static final int QUANTITA = 0;  //Float
   public static final int PREZZO = 1;    //Float
   public static final int LOTTO = 2;     //Lotto
-  public static final int TIPO_PRODOTTO = 3; //Lotto
-  public static final int NOME_PRODOTTO = 4;
+  public static final int TIPO_PRODOTTO = 3; //String
+  public static final int NOME_PRODOTTO = 4; //String
   
   public Acquisto() {
-    attributes = new Object[5];
+    attributes = new  Object[5];
     setLotto(new Lotto());
   }
   

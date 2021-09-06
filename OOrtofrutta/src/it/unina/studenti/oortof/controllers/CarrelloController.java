@@ -4,6 +4,7 @@ import it.unina.studenti.oortof.dao.ClienteDAO;
 import it.unina.studenti.oortof.dao.SQLClienteDAO;
 import it.unina.studenti.oortof.models.application.ApplicationStatus;
 import it.unina.studenti.oortof.gui.CarrelloPanel;
+import it.unina.studenti.oortof.models.application.ApplicationCounter;
 import it.unina.studenti.oortof.models.application.ApplicationInfo;
 import it.unina.studenti.oortof.models.application.ApplicationStatus;
 import it.unina.studenti.oortof.models.entities.Carrello;
@@ -51,6 +52,7 @@ public class CarrelloController implements Controller {
         int idScontrino = clienteDAO.createScontrino(cliente, carrello.getLotti());
         ApplicationInfo.getInstance().setMessage(String.format("Acquisto contabilizzato: generato scontrino %d di importo %.2f", idScontrino, CarrelloPanel.calcolaImporto(carrello)), ApplicationInfo.LEVEL_LOG);
         carrello.clear();
+        ApplicationCounter.getInstance().reset();
       }
       catch (DatabaseException de) {
         ApplicationInfo.getInstance().setMessage("Si e' verificato un errore imprevisto nel confermare l\'acquisto", ApplicationInfo.LEVEL_LOG);

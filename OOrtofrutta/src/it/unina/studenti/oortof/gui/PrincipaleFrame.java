@@ -176,7 +176,7 @@ System.err.println("BINGO");
       @Override
       public void stateChanged(ChangeEvent e) { //quando viene cambiata tab
         ApplicationStatus.getInstance().setActiveTab(ilTabbedPanel.getSelectedIndex());
-        resetCounter();
+        ApplicationCounter.getInstance().reset();
         if (ilTabbedPanel.getSelectedIndex() == 1) { 
           setVisible(toolBar, false);
           rollbackButton.setVisible(true);
@@ -359,11 +359,6 @@ System.err.println("BINGO");
       }
     });
   }
-    
-  void resetCounter() {
-    ApplicationCounter.getInstance().setCounter(0);
-    ApplicationCounter.getInstance().setLimit(0);
-  }
 
   void applicationInfoChanged(PropertyChangeEvent evt) {
     ApplicationMessage mess = ApplicationInfo.getInstance().getMessage();
@@ -389,6 +384,9 @@ System.err.println("BINGO");
   }
   
   void applicationCounterChanged(PropertyChangeEvent evt) {
+    int selectedItem = ApplicationCounter.getInstance().getCounter();
+    updateButton.setEnabled(selectedItem > 0);
+    deleteButton.setEnabled(selectedItem > 0);
     counterLabel.setText(ApplicationCounter.getInstance().toString());
     if (ilTabbedPanel.getSelectedIndex() == 1) {
       insertButton.setEnabled(ApplicationCounter.getInstance().getCounter() > 0);

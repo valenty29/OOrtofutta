@@ -15,7 +15,6 @@ public class ApplicationCounter extends ObservedModel {
   public static ApplicationCounter getInstance() {
     return instance;
   }
-  
 
   public void setCounter(int counter) {
     int oldCounter = this.counter;
@@ -39,6 +38,11 @@ public class ApplicationCounter extends ObservedModel {
   
   public int getLimit() {
     return limit;
+  }
+  
+  public void reset() {
+    setCounter(0);
+    setLimit(0);
   }
    
   public String toString() {
