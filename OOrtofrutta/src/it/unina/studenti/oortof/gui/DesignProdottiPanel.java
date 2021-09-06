@@ -85,7 +85,7 @@ public abstract class DesignProdottiPanel extends JPanel {
   protected ButtonGroup carnePesceBG = new ButtonGroup();
   protected ButtonGroup bibitaBG = new ButtonGroup();
   protected JPanel quantitaCarrelloPanel = new JPanel();
-  protected JLabel quantitaCarrelloLabel = new JLabel("Quantit� da inserire nel carrello");
+  protected JLabel quantitaCarrelloLabel = new JLabel("Quantita' da inserire nel carrello");
   protected JTextField quantitaCarrelloTextField = new JTextField();
   
 

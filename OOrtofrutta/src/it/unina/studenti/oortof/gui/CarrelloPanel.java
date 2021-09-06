@@ -186,11 +186,11 @@ public class CarrelloPanel extends JPanel {
   }
 
   void navigation() {
-    
+    //non vi sono operazioni da eseguire a livello grafico nel pannello
   }
 
   void insert() {
-    System.out.println("insert() in carrelloPanel");
+  //non vi sono operazioni da eseguire a livello grafico nel pannello
   }
 
 }

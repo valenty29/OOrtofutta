@@ -1,5 +1,7 @@
 package it.unina.studenti.oortof.models.entities.prodotti;
 
+import it.unina.studenti.oortof.models.entities.prodotti.enumeration.TipoBibita;
+
 public class Bibita extends Prodotto {
   
   public Bibita() {

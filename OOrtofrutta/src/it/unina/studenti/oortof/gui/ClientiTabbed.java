@@ -15,8 +15,8 @@ import javax.swing.JPanel;
 public class ClientiTabbed extends JTabbedPane {
 
   private static final long serialVersionUID = 1L;
-  ClientiPanel clientiPanel = new ClientiPanel();
-  ClientiListPanel clientiListPanel = new ClientiListPanel();
+  private ClientiPanel clientiPanel = new ClientiPanel();
+  private ClientiListPanel clientiListPanel = new ClientiListPanel();
 
   public ClientiTabbed() {
     setTabPlacement(JTabbedPane.RIGHT);

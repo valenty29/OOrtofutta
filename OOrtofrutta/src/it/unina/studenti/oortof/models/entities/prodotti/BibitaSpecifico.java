@@ -3,6 +3,7 @@ package it.unina.studenti.oortof.models.entities.prodotti;
 import java.beans.PropertyChangeEvent;
 
 import it.unina.studenti.oortof.models.entities.ObservedModel;
+import it.unina.studenti.oortof.models.entities.prodotti.enumeration.TipoBibita;
 
 public class BibitaSpecifico extends ProdottoSpecifico {
   
