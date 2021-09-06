@@ -98,10 +98,6 @@ public class AcquistiTableModel extends AbstractTableModel {
 			} else if (ApplicationStatus.getInstance().getAction() == ApplicationStatus.ACTION_COMMIT){
 				if (acquisti.size() > 0) {
 					Acquisto acq = this.acquisti.get(0);
-					/*scontrini.clear();
-					scontrini.add(new Scontrino());
-					scontrini.get(0).clearAcquisti();
-					scontrini.get(0).addAcquisto(acq);*/
 					dataChanged();
 				}
 			}
