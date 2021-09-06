@@ -646,7 +646,6 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     gradazioneAlcolicaTextField.setText(bs != null && bs.getString(BibitaSpecifico.GRADAZIONE_ALCOLICA) != null && !bs.getString(BibitaSpecifico.GRADAZIONE_ALCOLICA).isEmpty() && !bs.getString(BibitaSpecifico.GRADAZIONE_ALCOLICA).isBlank() ? bs.getString(BibitaSpecifico.GRADAZIONE_ALCOLICA) : "0");
     frizzanteCheckBox.setSelected(bs != null && bs.isFrizzante());
     frizzanteCheckBox.setForeground(bs != null && bs.getFrizzante() != null ? Color.black : Color.gray);
-
     ((LottiTableModel)lottiTable.getModel()).fireTableDataChanged();
     if (ApplicationStatus.getInstance().isNavigation()) {
       manageSpecificTab();

@@ -26,18 +26,17 @@ import it.unina.studenti.oortof.models.entities.prodotti.Prodotto;
 public class ProdottiListPanel extends JPanel {
   private static final long serialVersionUID = 1L;
   private JTable table;
+  private JScrollPane scrollPane;
   public ProdottiListPanel() {
     setLayout(new BorderLayout(0, 0));
-    
-    JScrollPane scrollPane = new JScrollPane();
-    add(scrollPane);
-    
+    scrollPane = new JScrollPane();
+    add(scrollPane);    
     table = new JTable();
     table.setOpaque(true);
     table.setBackground(SystemColor.control);
-
     table.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     scrollPane.setViewportView(table);
+    
     ApplicationCounter.getInstance().addPropertyChangeListener(new PropertyChangeListener() {
       @Override
       public void propertyChange(PropertyChangeEvent evt) {
@@ -52,6 +51,7 @@ public class ProdottiListPanel extends JPanel {
         }
       }
     });
+    
     ApplicationStatus.getInstance().addPropertyChangeListener(new PropertyChangeListener() {
       @Override
       public void propertyChange(PropertyChangeEvent evt) {
@@ -83,6 +83,7 @@ public class ProdottiListPanel extends JPanel {
 
       }
     });
+    
     table.addMouseListener(new MouseAdapter() {
       public void mouseClicked(MouseEvent e) {
         if (e.getClickCount() == 2) {

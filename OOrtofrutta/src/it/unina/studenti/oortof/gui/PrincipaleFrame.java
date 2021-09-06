@@ -174,8 +174,9 @@ System.err.println("BINGO");
     
     ilTabbedPanel.addChangeListener(new ChangeListener() {
       @Override
-      public void stateChanged(ChangeEvent e) {
+      public void stateChanged(ChangeEvent e) { //quando viene cambiata tab
         ApplicationStatus.getInstance().setActiveTab(ilTabbedPanel.getSelectedIndex());
+        resetCounter();
         if (ilTabbedPanel.getSelectedIndex() == 1) { 
           setVisible(toolBar, false);
           rollbackButton.setVisible(true);
@@ -184,7 +185,6 @@ System.err.println("BINGO");
           deleteButton.setEnabled(false);
           insertButton.setVisible(true);
           insertButton.setEnabled(false);
-          resetCounter();
         }
         else {
           setVisible(toolBar, true);
@@ -418,9 +418,6 @@ System.err.println("BINGO");
     for (int i = 0; i < ilTabbedPanel.getTabCount(); i++) {
       ilTabbedPanel.setEnabledAt(i, true);
     }
-//    if (ilTabbedPanel.getSelectedIndex() == 1 ) {  //per permettere l'eliminazione del carrello
-//      deleteButton.setEnabled(true);
-//    }
   }
   
   void insert() {
