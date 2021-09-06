@@ -28,13 +28,12 @@ public class CarrelloPanel extends JPanel {
   private JScrollPane scrollPane;
   private Carrello carrello;
   private Cliente cliente;
-  private ClienteDAO clienteDAO;
   private JPanel northCarrelloPanel;
   private JLabel nomeCognomeLabel;
   private JLabel importoLabel;
 
   public CarrelloPanel() {
-    clienteDAO = new SQLClienteDAO();
+
     scrollPane = new JScrollPane();
     JPanel southCarrelloPanel = new JPanel();
     setLayout(new BorderLayout(0, 0));
@@ -122,35 +121,6 @@ public class CarrelloPanel extends JPanel {
     cliente.addPropertyChangeListener(dataModelListener);
   }
 
-  void dataModelChanged(PropertyChangeEvent evt) {
-    modelToView(evt);
-  }
-
-  void modelToView(PropertyChangeEvent evt) {
-    SwingUtilities.invokeLater(new Runnable() {
-      public void run() {
-        modelToViewCore(evt);
-      }
-    });
-  }
-
-  void modelToViewCore(PropertyChangeEvent evt) {
-    if (evt.getPropertyName().equals("listaCarrello")) {
-      impostaImportoLabel();
-    }
-    nomeCognomeLabel.setText(cliente.getNome() != null && cliente.getCognome() != null ? cliente.getNome() + " " + cliente.getCognome() : "Selezionare un Cliente");
-  }
-
-  void impostaImportoLabel() {
-    float importo = CarrelloPanel.calcolaImporto(carrello);
-    if (importo == 0) {
-      importoLabel.setText("Importo:          ");
-    }
-    else {
-      importoLabel.setText(String.format("Importo: %.2f", importo));
-    }
-  }
-
   public static float calcolaImporto(Carrello carrello) {
     float importo = 0f;
     for (Lotto lotto : carrello.getLotti()) {
@@ -160,7 +130,38 @@ public class CarrelloPanel extends JPanel {
 
   }
 
-  void applicationStatusChanged(PropertyChangeEvent evt) {
+  private void dataModelChanged(PropertyChangeEvent evt) {
+    modelToView(evt);
+  }
+
+  private void modelToView(PropertyChangeEvent evt) {
+    SwingUtilities.invokeLater(new Runnable() {
+      public void run() {
+        modelToViewCore(evt);
+      }
+    });
+  }
+
+  private void modelToViewCore(PropertyChangeEvent evt) {
+    if (evt.getPropertyName().equals("listaCarrello")) {
+      impostaImportoLabel();
+    }
+    nomeCognomeLabel.setText(cliente.getNome() != null && cliente.getCognome() != null ? cliente.getNome() + " " + cliente.getCognome() : "Selezionare un Cliente");
+  }
+
+  private void impostaImportoLabel() {
+    float importo = CarrelloPanel.calcolaImporto(carrello);
+    if (importo == 0) {
+      importoLabel.setText("Importo:          ");
+    }
+    else {
+      importoLabel.setText(String.format("Importo: %.2f", importo));
+    }
+  }
+
+
+
+  private void applicationStatusChanged(PropertyChangeEvent evt) {
     if (evt.getPropertyName().equals("status")) {
       switch (ApplicationStatus.getInstance().getStatus()) {
       case ApplicationStatus.STATUS_NAVIGATION:
@@ -185,12 +186,12 @@ public class CarrelloPanel extends JPanel {
     }
   }
 
-  void navigation() {
-    //non vi sono operazioni da eseguire a livello grafico nel pannello
+  private void navigation() {
+    
   }
 
-  void insert() {
-  //non vi sono operazioni da eseguire a livello grafico nel pannello
+  private void insert() {
+    System.out.println("insert() in carrelloPanel");
   }
 
 }

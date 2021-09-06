@@ -13,8 +13,8 @@ import javax.swing.ImageIcon;
 public class ProdottiTabbed extends JTabbedPane {
 
   private static final long serialVersionUID = 1L;
-  ProdottiPanel prodottiPanel = new ProdottiPanel();
-  ProdottiListPanel prodottiListPanel = new ProdottiListPanel();
+  private ProdottiPanel prodottiPanel = new ProdottiPanel();
+  private ProdottiListPanel prodottiListPanel = new ProdottiListPanel();
 
   public ProdottiTabbed() {
     setTabPlacement(JTabbedPane.RIGHT);
@@ -30,7 +30,7 @@ public class ProdottiTabbed extends JTabbedPane {
     });
   }
 
-  void applicationStatusChanged(PropertyChangeEvent evt) {
+  private void applicationStatusChanged(PropertyChangeEvent evt) {
     ApplicationStatus as = ApplicationStatus.getInstance();
     if (as.getActiveTab() != 0) {
       return;

@@ -3,8 +3,8 @@ package it.unina.studenti.oortof.gui.models;
 import java.util.regex.Pattern;
 
 public class InputCheckRule {
-    Pattern pattern;
-    String errorMessage;
+    private Pattern pattern;
+    private String errorMessage;
 
     static public InputCheckRule numeriSpazio = new InputCheckRule(".*[^0-9 <>.]", "Inserire numeri, punto, spazio o < >");
     static public InputCheckRule soloNumeri = new InputCheckRule(".*[^0-9]", "Inserire solo numeri");

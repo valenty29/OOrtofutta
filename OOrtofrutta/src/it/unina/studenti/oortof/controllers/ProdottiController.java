@@ -16,7 +16,7 @@ import it.unina.studenti.oortof.models.entities.prodotti.Prodotto;
 import it.unina.studenti.oortof.models.exception.DatabaseException;
 import it.unina.studenti.oortof.models.exception.ValidationException;
 
-public class ProdottiController implements Controller<Prodotto> {
+public class ProdottiController implements Controller {
 
   private Carrello carrello;
   private Prodotto oldProdotto = new Prodotto();

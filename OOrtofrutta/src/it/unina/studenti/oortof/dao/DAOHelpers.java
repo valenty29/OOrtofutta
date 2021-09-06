@@ -25,7 +25,7 @@ public class DAOHelpers {
             }
 
         } catch (Exception nfe){
-            throw new FieldException(query, "Sintassi ricerca errata", java.util.Optional.of("Sintassi corretta: [numero] < | [numero] > | [numero] [numero]"));
+            throw new FieldException(query, "Sintassi ricerca errata", "Sintassi corretta: [numero] < | [numero] > | [numero] [numero]");
         }
         return finalQuery;
     }

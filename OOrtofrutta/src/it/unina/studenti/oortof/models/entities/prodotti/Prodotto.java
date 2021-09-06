@@ -26,9 +26,7 @@ public class Prodotto extends ObservedModel implements PropertyChangeListener {
   public static final String FRUTTA_VERDURA = "Fruttaverdura";
   public static final String PRODOTTO_CASEARIO = "Prodottocaseario";
   public static final String UOVO = "Uovo";
-  
-  public static final String[] TIPI = new String[] {ALTRO, BIBITA, CARNE_PESCE, CONSERVA, FARINACEO, FRUTTA_VERDURA, PRODOTTO_CASEARIO, UOVO};
-  
+
   public static final int PRODOTTO_COMMON = 0;        // Float
   public static final int PRODOTTI_SPECIFICI = 1;     // Boolean
 
@@ -90,11 +88,7 @@ public class Prodotto extends ObservedModel implements PropertyChangeListener {
     return null;
   }
   
-  public AltroSpecifico getAltroSpecifico() {
-    return (AltroSpecifico)getProdottoSpecificoAt(ALTRO_INDEX);
-  }
-  
-  public BibitaSpecifico getBibitaSpecifico() {
+ public BibitaSpecifico getBibitaSpecifico() {
     return (BibitaSpecifico)getProdottoSpecificoAt(BIBITA_INDEX);
   }
   
@@ -176,19 +170,6 @@ public class Prodotto extends ObservedModel implements PropertyChangeListener {
     firePropertyChanged(evt);
   }
   
-  ProdottoSpecifico newByIndex(int index) {
-    switch (index) {
-    case ALTRO_INDEX: return new AltroSpecifico();
-    case BIBITA_INDEX: return new BibitaSpecifico();
-    case CARNE_PESCE_INDEX: return new CarnePesceSpecifico();
-    case CONSERVA_INDEX: return new ConservaSpecifico();
-    case FARINACEO_INDEX: return new FarinaceoSpecifico();
-    case FRUTTA_VERDURA_INDEX: return new FruttaVerduraSpecifico();
-    case PRODOTTO_CASEARIO_INDEX: return new ProdottoCasearioSpecifico();
-    case UOVO_INDEX: return new UovoSpecifico();       
-    }
-    return null;
-  }
 
   @Override
   public void copyTo(ObservedModel prodotto) {

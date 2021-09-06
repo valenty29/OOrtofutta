@@ -14,18 +14,18 @@ public abstract class ObservedModel {
 
   private ArrayList<PropertyChangeListener> listeners = new ArrayList<PropertyChangeListener>();
 
-  public void setSample(boolean sample) {
-    this.sample = sample;
-  }
-  
-  public boolean isSample() {
-    return sample;
-  }
-  
   static final SimpleDateFormat sdtf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
   static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
   private Calendar cal = Calendar.getInstance();
+
+  public void setSample(boolean sample) {
+    this.sample = sample;
+  }
+
+  public boolean isSample() {
+    return sample;
+  }
 
   public void setValue(int index, Object value) {
     if (value instanceof Date) {

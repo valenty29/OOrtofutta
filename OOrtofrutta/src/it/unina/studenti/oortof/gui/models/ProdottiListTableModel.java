@@ -12,7 +12,7 @@ import it.unina.studenti.oortof.models.entities.prodotti.ProdottoCommon;
 @SuppressWarnings("serial")
 public class ProdottiListTableModel extends AbstractTableModel {
   
-  ObservedList<Prodotto> prodotti;
+  private ObservedList<Prodotto> prodotti;
 
   public ProdottiListTableModel(ObservedList<Prodotto> prodotti) {
     this.prodotti = prodotti;
@@ -45,12 +45,25 @@ public class ProdottiListTableModel extends AbstractTableModel {
     }
     return null;
   }
+
+  @Override
+  public Object getValueAt(int rowIndex, int columnIndex) {
+    ProdottoCommon pc = prodotti.get(rowIndex).getProdottoCommon();
+    switch (columnIndex) {
+      case 0: return toString(pc.getId());
+      case 1: return toString(pc.getNome());
+      case 2: return getTipoString(pc);
+      case 3: return toString(pc.getPrezzo());
+      case 4: return pc.isSfuso() ? "X" : "";
+    }
+    return null;
+  }
   
-  static String toString(Object o) {
+  private static String toString(Object o) {
     return o != null ? o.toString() : "";
   }
   
-  static String getTipoString(ProdottoCommon pc) {
+  private static String getTipoString(ProdottoCommon pc) {
     if (pc.isAltro()) {
       return "Altro";
     }
@@ -78,16 +91,5 @@ public class ProdottiListTableModel extends AbstractTableModel {
     return "";
   }
   
-  @Override
-  public Object getValueAt(int rowIndex, int columnIndex) {
-    ProdottoCommon pc = prodotti.get(rowIndex).getProdottoCommon();
-    switch (columnIndex) {
-    case 0: return toString(pc.getId());
-    case 1: return toString(pc.getNome());
-    case 2: return getTipoString(pc);
-    case 3: return toString(pc.getPrezzo());
-    case 4: return pc.isSfuso() ? "X" : "";
-    }
-    return null;
-  }
+
 }

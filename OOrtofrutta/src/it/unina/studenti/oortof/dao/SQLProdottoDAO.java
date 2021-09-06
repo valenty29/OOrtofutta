@@ -171,12 +171,12 @@ public class SQLProdottoDAO implements ProdottoDAO {
             Connection conn = context.openConnessione();
             PreparedStatement createProds = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             if (prodotto.getNome().isBlank() || prodotto.getNome().isEmpty()) {
-                exceptions.add(new FieldException(prodotto.getNome(), "Il nome e' un campo richiesto", java.util.Optional.empty()));
+                exceptions.add(new FieldException(prodotto.getNome(), "Il nome e' un campo richiesto", null));
             } else {
                 createProds.setString(1, prodotto.getNome());
             }
             if (prodotto.getPrezzo() == null) {
-                exceptions.add(new FieldException("null", "Il prezzo e' un campo richiesto", java.util.Optional.empty()));
+                exceptions.add(new FieldException("null", "Il prezzo e' un campo richiesto", null));
             } else {
                 createProds.setFloat(2, prodotto.getPrezzo());
             }
@@ -230,11 +230,11 @@ public class SQLProdottoDAO implements ProdottoDAO {
             if (bibita.getBibitaSpecifico().getGradazioneAlcolica() != null && bibita.getBibitaSpecifico().getGradazioneAlcolica() >= 0) {
                 createBibs.setFloat(2, bibita.getBibitaSpecifico().getGradazioneAlcolica());
             }  else {
-                exceptions.add(new FieldException(bibita.getBibitaSpecifico().getGradazioneAlcolica() == null ? "null" : bibita.getBibitaSpecifico().getGradazioneAlcolica().toString(), "Valore in gradazione alcolica non valido", java.util.Optional.empty()));
+                exceptions.add(new FieldException(bibita.getBibitaSpecifico().getGradazioneAlcolica() == null ? "null" : bibita.getBibitaSpecifico().getGradazioneAlcolica().toString(), "Valore in gradazione alcolica non valido", null));
             }
             createBibs.setBoolean(3, bibita.getBibitaSpecifico().isFrizzante());
             if (bibita.getBibitaSpecifico().getTipoBibita() == null) {
-                exceptions.add(new FieldException("null", "Tipo bibita e' un campo richiesto", java.util.Optional.empty()));
+                exceptions.add(new FieldException("null", "Tipo bibita e' un campo richiesto", null));
             } else {
                 createBibs.setObject(4, bibita.getBibitaSpecifico().getTipoBibita().name(), Types.OTHER);
             }

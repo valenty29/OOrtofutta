@@ -14,7 +14,12 @@ import it.unina.studenti.oortof.models.entities.ObservedList;
 @SuppressWarnings("serial")
 public class LottiTableModel extends AbstractTableModel {
   
-  ObservedList<Lotto> lotti;
+  private ObservedList<Lotto> lotti;
+
+  private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+  private static int[] tableIndexToModelIndex = new int[] {Lotto.COD_LOTTO, Lotto.SCADENZA, Lotto.DISPONIBILITA, Lotto.DATA_PRODUZIONE, Lotto.COD_PAESE_ORIGINE, Lotto.DATA_MUNGITURA};
+
 
   public void setList(ObservedList<Lotto> lotti) {
     this.lotti = lotti;
@@ -55,15 +60,7 @@ public class LottiTableModel extends AbstractTableModel {
     return null;
   }
   
-  static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-  
-  static String dateToString(Date d) {
-    return d != null ? sdf.format(d) : "";
-  }
 
-  static String toString(Object o) {
-    return o != null ? o.toString() : "";
-  }
 
   public boolean isCellEditable(int rowIndex, int columnIndex) {
 
@@ -91,8 +88,6 @@ public class LottiTableModel extends AbstractTableModel {
     return null;
   }
 
-  static int[] tableIndexToModelIndex = new int[] {Lotto.COD_LOTTO, Lotto.SCADENZA, Lotto.DISPONIBILITA, Lotto.DATA_PRODUZIONE, Lotto.COD_PAESE_ORIGINE, Lotto.DATA_MUNGITURA};
-
   public Lotto getSelectedLotto(int index)
   {
     return lotti.get(index);
@@ -111,5 +106,13 @@ public class LottiTableModel extends AbstractTableModel {
       aValue = Math.abs(Float.parseFloat((String)aValue));
     }
     lotti.get(rowIndex).setValue(tableIndexToModelIndex[columnIndex], aValue);
+  }
+
+  private static String dateToString(Date d) {
+    return d != null ? sdf.format(d) : "";
+  }
+
+  private static String toString(Object o) {
+    return o != null ? o.toString() : "";
   }
 }

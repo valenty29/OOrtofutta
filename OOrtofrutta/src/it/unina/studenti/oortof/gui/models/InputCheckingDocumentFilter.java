@@ -33,7 +33,7 @@ public class InputCheckingDocumentFilter extends DocumentFilter {
       return;
     }
 
-    Matcher matcher = checkRule.pattern.matcher(str);
+    Matcher matcher = checkRule.getPattern().matcher(str);
     if (matcher.matches()) {
       ApplicationInfo.getInstance().setMessage(checkRule.getErrorMessage(), ApplicationInfo.LEVEL_ERROR);
     }
@@ -52,7 +52,7 @@ public class InputCheckingDocumentFilter extends DocumentFilter {
       return;
     }
 
-    Matcher matcher = checkRule.pattern.matcher(str);
+    Matcher matcher = checkRule.getPattern().matcher(str);
     if (matcher.matches()) {
       ApplicationInfo.getInstance().setMessage(checkRule.getErrorMessage(), ApplicationInfo.LEVEL_ERROR);
     }

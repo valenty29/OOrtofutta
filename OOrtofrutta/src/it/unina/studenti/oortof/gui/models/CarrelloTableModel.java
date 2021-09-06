@@ -14,7 +14,12 @@ import it.unina.studenti.oortof.models.entities.ObservedList;
 @SuppressWarnings("serial")
 public class CarrelloTableModel extends AbstractTableModel {
 
-    ObservedList<Lotto> lotti;
+    private ObservedList<Lotto> lotti;
+
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+    private static int[] tableIndexToModelIndex = new int[] {Lotto.COD_LOTTO, Lotto.SCADENZA, Lotto.DISPONIBILITA, Lotto.DATA_PRODUZIONE, Lotto.COD_PAESE_ORIGINE, Lotto.DATA_MUNGITURA};
+
 
     public void setList(ObservedList<Lotto> lotti) {
         this.lotti = lotti;
@@ -46,7 +51,7 @@ public class CarrelloTableModel extends AbstractTableModel {
     public String getColumnName(int index) {
         switch (index) {
             case 0: return "Codice";
-            case 1: return "Disponibilità";
+            case 1: return "Disponibilitï¿½";
             case 2: return "Prezzo";
             case 3: return "Prodotto il";
             case 4: return "Scadenza";
@@ -55,16 +60,6 @@ public class CarrelloTableModel extends AbstractTableModel {
 
         }
         return null;
-    }
-
-    static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-
-    static String dateToString(Date d) {
-        return d != null ? sdf.format(d) : "";
-    }
-
-    static String toString(Object o) {
-        return o != null ? o.toString() : "";
     }
 
     public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -92,8 +87,6 @@ public class CarrelloTableModel extends AbstractTableModel {
         return null;
     }
 
-    static int[] tableIndexToModelIndex = new int[] {Lotto.COD_LOTTO, Lotto.SCADENZA, Lotto.DISPONIBILITA, Lotto.DATA_PRODUZIONE, Lotto.COD_PAESE_ORIGINE, Lotto.DATA_MUNGITURA};
-
     public Lotto getSelectedLotto(int index)
     {
         return lotti.get(index);
@@ -110,4 +103,14 @@ public class CarrelloTableModel extends AbstractTableModel {
         }
         lotti.get(rowIndex).setValue(tableIndexToModelIndex[columnIndex], aValue);
     }
+
+    private static String dateToString(Date d) {
+        return d != null ? sdf.format(d) : "";
+    }
+
+    private static String toString(Object o) {
+        return o != null ? o.toString() : "";
+    }
+
+
 }

@@ -35,12 +35,12 @@ import it.unina.studenti.oortof.models.entities.Scontrino;
 import it.unina.studenti.oortof.models.entities.prodotti.Acquisto;
 
 public class ClientiPanel extends DesignClientiPanel implements DocumentListener, ActionListener {
-  Cliente cliente;
-  Cliente oldCliente = new Cliente();
+  private Cliente cliente;
 
   private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
   private ScontriniTableModel scontriniModel;
   private AcquistiTableModel acquistiModel;
+  private boolean modelToViewRunning = false;
   private static final long serialVersionUID = 1L;
 
   @SuppressWarnings("serial")
@@ -111,8 +111,28 @@ public class ClientiPanel extends DesignClientiPanel implements DocumentListener
 
   }
 
-  private void setEnabledColor(boolean enabled, Color color) {
-    setEnabledColor(this, enabled, color);
+  @Override
+  public void actionPerformed(ActionEvent e) {
+    // TODO Auto-generated method stub
+    viewToModel();
+  }
+
+  @Override
+  public void insertUpdate(DocumentEvent e) {
+    // TODO Auto-generated method stub
+    viewToModel();
+  }
+
+  @Override
+  public void removeUpdate(DocumentEvent e) {
+    // TODO Auto-generated method stub
+    viewToModel();
+  }
+
+  @Override
+  public void changedUpdate(DocumentEvent e) {
+    // TODO Auto-generated method stub
+    viewToModel();
   }
 
   private void setEnabledColor(Container container, boolean enabled, Color color) {
@@ -136,7 +156,7 @@ public class ClientiPanel extends DesignClientiPanel implements DocumentListener
     listenGuiField(this);
   }
 
-  void listenGuiField(Container container) {
+  private void listenGuiField(Container container) {
     for (int i = 0; i < container.getComponentCount(); i++) {
       Component c = container.getComponent(i);
       if (c instanceof JTextField) {
@@ -151,14 +171,14 @@ public class ClientiPanel extends DesignClientiPanel implements DocumentListener
     }
   }
 
-  void navigation() {
+  private void navigation() {
     acquistiModel.isSearching(false);
     setEnabledColor(infoClientePanel, false, SystemColor.control);
     setEnabledColor(puntiPanel, false, SystemColor.control);
     modelToView();
   }
 
-  void insert() {
+  private void insert() {
     setEnabledColor(infoClientePanel, true, Color.white);
     setEnabledColor(puntiPanel, false, SystemColor.control);
     setEnabledColor(cfTextField, false, SystemColor.control);
@@ -166,20 +186,20 @@ public class ClientiPanel extends DesignClientiPanel implements DocumentListener
     // cliente.clear();
   }
 
-  void update() {
+  private void update() {
     setEnabledColor(infoClientePanel, true, Color.cyan);
     setEnabledColor(puntiPanel, false, SystemColor.control);
     setEnabledColor(cfTextField, false, SystemColor.control);
   }
 
-  void search() {
+  private void search() {
     acquistiModel.isSearching(true);
     setEnabledColor(infoClientePanel, true, Color.yellow);
     setEnabledColor(puntiPanel, true, Color.yellow);
     (new Cliente()).copyTo(cliente);
   }
 
-  void applicationStatusChanged(PropertyChangeEvent evt) {
+  private void applicationStatusChanged(PropertyChangeEvent evt) {
     if (ApplicationStatus.getInstance().getActiveTab() != ApplicationStatus.TAB_CLIENTI) {
       return;
     }
@@ -224,13 +244,11 @@ public class ClientiPanel extends DesignClientiPanel implements DocumentListener
     }
   }
 
-  void dataModelChanged(PropertyChangeEvent evt) {
+  private void dataModelChanged(PropertyChangeEvent evt) {
     modelToView();
   }
 
-  boolean modelToViewRunning = false;
-
-  void modelToView() {
+  private void modelToView() {
     modelToViewRunning = true;
     nomeTextField.setText(cliente.getString(Cliente.NOME));
     cognomeTextField.setText(cliente.getString(Cliente.COGNOME));
@@ -269,11 +287,7 @@ public class ClientiPanel extends DesignClientiPanel implements DocumentListener
     modelToViewRunning = false;
   }
 
-  public Cliente getViewModel() {
-    return null;
-  }
-
-  void viewToModel() {
+  private void viewToModel() {
     if (modelToViewRunning) {
       return;
     }
@@ -304,28 +318,6 @@ public class ClientiPanel extends DesignClientiPanel implements DocumentListener
     cliente.getRaccoltaPunti().setValue(RaccoltaPunti.PRODOTTO_CASEARIO, puntiProdottoCasearioTextField.getText().isBlank() || puntiProdottoCasearioTextField.getText().isEmpty() ? null : puntiProdottoCasearioTextField.getText());
   }
 
-  @Override
-  public void actionPerformed(ActionEvent e) {
-    // TODO Auto-generated method stub
-    viewToModel();
-  }
 
-  @Override
-  public void insertUpdate(DocumentEvent e) {
-    // TODO Auto-generated method stub
-    viewToModel();
-  }
-
-  @Override
-  public void removeUpdate(DocumentEvent e) {
-    // TODO Auto-generated method stub
-    viewToModel();
-  }
-
-  @Override
-  public void changedUpdate(DocumentEvent e) {
-    // TODO Auto-generated method stub
-    viewToModel();
-  }
 
 }

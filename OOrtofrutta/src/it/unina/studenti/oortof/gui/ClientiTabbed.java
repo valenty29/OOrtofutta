@@ -33,7 +33,7 @@ public class ClientiTabbed extends JTabbedPane {
     });
   }
 
-  void applicationStatusChanged(PropertyChangeEvent evt) {
+  private void applicationStatusChanged(PropertyChangeEvent evt) {
     if (!ApplicationStatus.getInstance().isNavigation() || ApplicationCounter.getInstance().getCounter() < 0) {
       setSelectedIndex(0);
       setEnabledAt(1, false);
