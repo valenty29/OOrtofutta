@@ -12,7 +12,7 @@ import java.util.List;
 
 public class Cliente extends ObservedModel implements PropertyChangeListener{
 
-  SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+  private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
   public static final int ID = 0;   // Float
   public static final int CF = 1;             // Boolean
   public static final int NOME = 2;           // TipoBibita
@@ -200,36 +200,13 @@ public class Cliente extends ObservedModel implements PropertyChangeListener{
     ((ObservedList<Scontrino>)attributes[SCONTRINI]).add(scontrino);
   }
 
-  @SuppressWarnings("unchecked")
-  public void addScontrino(int index, Scontrino scontrino) {
-    ((ObservedList<Scontrino>)attributes[SCONTRINI]).add(index, scontrino);
-  }
-  
-  @SuppressWarnings("unchecked")
-  public Scontrino getScontrinoAt(int index) {
-    return ((ObservedList<Scontrino>)attributes[SCONTRINI]).get(index);
-  }
-  
-  @SuppressWarnings("unchecked")
-  public void removeScontrino(int index) {
-    ((ObservedList<Scontrino>)attributes[SCONTRINI]).remove(index);
-  }
-  
-  @SuppressWarnings("unchecked")
-  public void removeScontrino(Scontrino scontrino) {
-    ((ObservedList<Scontrino>)attributes[SCONTRINI]).remove(scontrino);
-  }
+
   
   @SuppressWarnings("unchecked")
   public void clearScontrini() {
     ((ObservedList<Scontrino>)attributes[SCONTRINI]).clear();
   }
   
-  @SuppressWarnings("unchecked")
-  public int getScontriniSize() {
-    return ((ObservedList<Scontrino>)attributes[SCONTRINI]).size();
-  }
-
   public String toString() {
     StringBuilder sb = new StringBuilder("");
     sb.append(getCognome());
