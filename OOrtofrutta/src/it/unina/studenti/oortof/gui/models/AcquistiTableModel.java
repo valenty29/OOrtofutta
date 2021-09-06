@@ -18,12 +18,12 @@ public class AcquistiTableModel extends AbstractTableModel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String[] columnNames = {"Quantità", "Importo pagato", "Id lotto", "Nome prodotto", "Tipologia prodotto"};
+	private String[] columnNames = {"Quantitï¿½", "Importo pagato", "Id lotto", "Nome prodotto", "Tipologia prodotto"};
 	private ObservedList<Scontrino> scontrini = new ObservedList<Scontrino>("scontrini");
 	private List<Acquisto> acquisti = new ArrayList<>();
 	private Acquisto acquisto;
 	//private Scontrino scontrino;
-	private int index = 0;
+	private int index = -1;
 	@Override
 	public int getRowCount() {
 		// TODO Auto-generated method stub
@@ -88,10 +88,10 @@ public class AcquistiTableModel extends AbstractTableModel {
 			dataChanged();
 		} else {
 			if (ApplicationStatus.getInstance().getAction() == ApplicationStatus.ACTION_ROLLBACK) {
-				if (index < scontrini.size() + 1) {
+				if (index != -1 && index < scontrini.size() + 1) {
 					this.acquisti = scontrini.get(index).getAcquisti();
 				} else {
-					this.acquisti = null;
+					this.acquisti.clear();
 				}
 
 				dataChanged();
@@ -106,7 +106,12 @@ public class AcquistiTableModel extends AbstractTableModel {
 	
 	public void setIndex(int index) {
 		if (index < scontrini.size()) {
-			this.acquisti = scontrini.get(index).getAcquisti();
+
+			if (index != -1 && index < scontrini.size() + 1) {
+				this.acquisti = scontrini.get(index).getAcquisti();
+			} else {
+				this.acquisti.clear();
+			}
 			this.index = index;
 			dataChanged();
 		}
