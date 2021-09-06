@@ -102,10 +102,10 @@ public class ClientiPanel extends DesignClientiPanel implements DocumentListener
     scontriniTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
       public void valueChanged(ListSelectionEvent event) {
         int index = scontriniTable.getSelectedRow();
-        if (index != -1) {
+
           acquistiModel.setIndex(index);
 
-        }
+
       }
     });
 
