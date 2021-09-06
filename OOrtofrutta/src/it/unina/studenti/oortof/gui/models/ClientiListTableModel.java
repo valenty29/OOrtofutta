@@ -43,8 +43,7 @@ public class ClientiListTableModel extends AbstractTableModel {
 			break;
 			case 3: value = cliente.getEmail();
 			break;
-			case 4: 
-				value = formatter.format(cliente.getDataNascita());
+			case 4: value = formatter.format(cliente.getDataNascita());
 			break;
 			case 5: value = cliente.getLuogoNascita().toString();
 			break;
