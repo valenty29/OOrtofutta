@@ -14,7 +14,7 @@ public class ApplicationController implements Controller, PropertyChangeListener
 
   private static final ApplicationController instance = new ApplicationController();
   
-  Controller[] controllers = new Controller[3];
+  private Controller[] controllers = new Controller[3];
   
   private void initControllers() {
 	  controllers[0] = new ProdottiController();

@@ -55,25 +55,25 @@ public class PrincipaleFrame extends JFrame {
 
   private static final long serialVersionUID = 1L;
   
-  JPanel principalePanel;
+  private JPanel principalePanel;
 
-  JToolBar toolBar = new JToolBar();
-  JButton rollbackButton = new JButton("");
-  JButton insertButton = new JButton("");
-  JButton updateButton = new JButton("");
-  JButton searchButton = new JButton("");
-  JButton commitButton = new JButton("");
-  JButton deleteButton = new JButton("");
+  private JToolBar toolBar = new JToolBar();
+  private JButton rollbackButton = new JButton("");
+  private JButton insertButton = new JButton("");
+  private JButton updateButton = new JButton("");
+  private JButton searchButton = new JButton("");
+  private JButton commitButton = new JButton("");
+  private JButton deleteButton = new JButton("");
 
-  JTabbedPane ilTabbedPanel = new JTabbedPane(JTabbedPane.TOP);
-  ProdottiTabbed prodottiTabbed = new ProdottiTabbed();
-  CarrelloPanel carrelloPanel = new CarrelloPanel();
-  ClientiTabbed clientiTabbed = new ClientiTabbed();
+  private JTabbedPane ilTabbedPanel = new JTabbedPane(JTabbedPane.TOP);
+  private ProdottiTabbed prodottiTabbed = new ProdottiTabbed();
+  private CarrelloPanel carrelloPanel = new CarrelloPanel();
+  private ClientiTabbed clientiTabbed = new ClientiTabbed();
 
-  JPanel statusBar = new JPanel();
-  JLabel counterLabel = new JLabel("");
-  JLabel messageLabel = new JLabel("");
-  JLabel statusLabel = new JLabel("NAVIGAZIONE");
+  private JPanel statusBar = new JPanel();
+  private JLabel counterLabel = new JLabel("");
+  private JLabel messageLabel = new JLabel("");
+  private JLabel statusLabel = new JLabel("NAVIGAZIONE");
 
   /**
    * Launch the application.
@@ -96,7 +96,7 @@ public class PrincipaleFrame extends JFrame {
           Cliente c = new Cliente();
           ObservedList<Cliente> clienteList = new ObservedList<Cliente>("clienteList");
           ((ClientiPanel)frame.clientiTabbed.getComponent(0)).setModel(c);
-          ((ClientiListPanel)frame.clientiTabbed.getComponent(1)).setModel(c, clienteList);
+          ((ClientiListPanel)frame.clientiTabbed.getComponent(1)).setModel(clienteList);
           ((ClientiController)ApplicationController.getInstance().getSubController(2)).setModel(c, clienteList);
 
 
@@ -360,7 +360,7 @@ System.err.println("BINGO");
     });
   }
 
-  void applicationInfoChanged(PropertyChangeEvent evt) {
+  private void applicationInfoChanged(PropertyChangeEvent evt) {
     ApplicationMessage mess = ApplicationInfo.getInstance().getMessage();
     messageLabel.setText(mess.getMessage());
     switch (mess.getLevel()) {
@@ -374,7 +374,7 @@ System.err.println("BINGO");
     }
   }
   
-  void setVisible (Container container, boolean enabled) {
+  private void setVisible (Container container, boolean enabled) {
     for (int i = 0; i < container.getComponentCount(); i++) { //ciclo sui bottoni della toolbar
       Component c = toolBar.getComponent(i);
       if (c instanceof AbstractButton) {
@@ -394,7 +394,7 @@ System.err.println("BINGO");
     }
   }
   
-  void applicationStatusChanged(PropertyChangeEvent evt) {
+  private void applicationStatusChanged(PropertyChangeEvent evt) {
     switch (ApplicationStatus.getInstance().getStatus()) {
     case ApplicationStatus.STATUS_NAVIGATION: navigation(); break;
     case ApplicationStatus.STATUS_INSERT: insert(); break;
@@ -403,7 +403,7 @@ System.err.println("BINGO");
     }
   }
   
-  void navigation() {
+  private void navigation() {
     int selectedItem = ApplicationCounter.getInstance().getCounter();
     rollbackButton.setEnabled(false);
     insertButton.setEnabled(true);
@@ -418,7 +418,7 @@ System.err.println("BINGO");
     }
   }
   
-  void insert() {
+  private void insert() {
     rollbackButton.setEnabled(true);
     insertButton.setEnabled(false);
     updateButton.setEnabled(false);
@@ -432,7 +432,7 @@ System.err.println("BINGO");
     }
   }
 
-  void update() {
+  private void update() {
     rollbackButton.setEnabled(true);
     insertButton.setEnabled(false);
     updateButton.setEnabled(false);
@@ -446,7 +446,7 @@ System.err.println("BINGO");
     }
   }
   
-  void search() {
+  private void search() {
     rollbackButton.setEnabled(true);
     insertButton.setEnabled(false);
     updateButton.setEnabled(false);

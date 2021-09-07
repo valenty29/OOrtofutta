@@ -10,8 +10,8 @@ import java.util.ListIterator;
 
 public class ObservedList<E extends ObservedModel> extends ObservedModel implements List<E>, PropertyChangeListener {
 
-  List<E> list = new ArrayList<E>();
-  String name;
+  private List<E> list = new ArrayList<E>();
+  private String name;
   
   public ObservedList(String name) {
     this.name = name;

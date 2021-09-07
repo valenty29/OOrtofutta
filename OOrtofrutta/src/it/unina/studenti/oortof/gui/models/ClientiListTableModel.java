@@ -12,8 +12,7 @@ import it.unina.studenti.oortof.models.entities.ObservedList;
 public class ClientiListTableModel extends AbstractTableModel {
 	
 	private String[] columnNames = {"Nome", "Cognome", "CF", "eMail", "Data di nascita", "Luogo di nascita", "Genere"};
-	private ObservedList clienteList = new ObservedList("clienti");
-	private Cliente cliente;
+	private ObservedList<Cliente> clienteList = new ObservedList("clienti");
 	private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 	
 	
@@ -59,9 +58,8 @@ public class ClientiListTableModel extends AbstractTableModel {
 		return columnNames[col];
 	}
 	
-	public void setModel(Cliente cliente, ObservedList clienteList) {
+	public void setModel(ObservedList clienteList) {
 	    this.clienteList = clienteList;
-	    this.cliente = cliente;
 	    PropertyChangeListener dataModelListener = new PropertyChangeListener() {
 	      @Override
 	      public void propertyChange(PropertyChangeEvent evt) {

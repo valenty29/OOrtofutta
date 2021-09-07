@@ -71,16 +71,16 @@ public class ClientiPanel extends DesignClientiPanel implements DocumentListener
       }
     });
 
-    ((AbstractDocument)puntiFruttaVerduraTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(puntiFruttaVerduraTextField, InputCheckRule.numeriSpazio));
-    ((AbstractDocument)puntiFarinaceoTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(puntiFarinaceoTextField, InputCheckRule.numeriSpazio));
-    ((AbstractDocument)puntiConservaTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(puntiConservaTextField, InputCheckRule.numeriSpazio));
-    ((AbstractDocument)puntiBibitaTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(puntiBibitaTextField, InputCheckRule.numeriSpazio));
-    ((AbstractDocument)puntiCarnePesceTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(puntiCarnePesceTextField, InputCheckRule.numeriSpazio));
-    ((AbstractDocument)puntiProdottoCasearioTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(puntiProdottoCasearioTextField, InputCheckRule.numeriSpazio));
-    ((AbstractDocument)puntiUovoTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(puntiUovoTextField, InputCheckRule.numeriSpazio));
-    ((AbstractDocument)puntiConservaTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(puntiConservaTextField, InputCheckRule.numeriSpazio));
-    ((AbstractDocument)puntiAltroTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(puntiAltroTextField, InputCheckRule.numeriSpazio));
-    ((AbstractDocument)puntiTotaliTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(puntiTotaliTextField, InputCheckRule.numeriSpazio));
+    ((AbstractDocument)puntiFruttaVerduraTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(InputCheckRule.numeriSpazio));
+    ((AbstractDocument)puntiFarinaceoTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(InputCheckRule.numeriSpazio));
+    ((AbstractDocument)puntiConservaTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(InputCheckRule.numeriSpazio));
+    ((AbstractDocument)puntiBibitaTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(InputCheckRule.numeriSpazio));
+    ((AbstractDocument)puntiCarnePesceTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(InputCheckRule.numeriSpazio));
+    ((AbstractDocument)puntiProdottoCasearioTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(InputCheckRule.numeriSpazio));
+    ((AbstractDocument)puntiUovoTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(InputCheckRule.numeriSpazio));
+    ((AbstractDocument)puntiConservaTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(InputCheckRule.numeriSpazio));
+    ((AbstractDocument)puntiAltroTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(InputCheckRule.numeriSpazio));
+    ((AbstractDocument)puntiTotaliTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(InputCheckRule.numeriSpazio));
   }
 
   public void setModel(Cliente cliente) {

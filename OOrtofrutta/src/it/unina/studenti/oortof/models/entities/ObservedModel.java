@@ -10,7 +10,7 @@ import java.util.Date;
 public abstract class ObservedModel {
   
   protected Object[] attributes;
-  boolean sample = false;
+  private boolean sample = false;
 
   private ArrayList<PropertyChangeListener> listeners = new ArrayList<PropertyChangeListener>();
 

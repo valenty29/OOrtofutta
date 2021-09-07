@@ -18,16 +18,8 @@ public class Scontrino extends ObservedModel implements PropertyChangeListener{
 
   public Scontrino() {
     attributes = new Object[5];
-    //setCliente(new Cliente());
     attributes[ACQUISTI] = new ObservedList<Acquisto>("acquisti");
     addAcquisto(new Acquisto());
-  }
-
-  public Scontrino (int id, Date dataOrario, Float totale) {
-    this();
-    setValue(ID, id);
-    setValue(DATA_ORARIO, dataOrario);
-    setValue(TOTALE, totale);
   }
 
   public Scontrino(int id, Date dataOrario, ObservedList<Acquisto> acquisti, Cliente cliente, Float totale) {
@@ -119,49 +111,9 @@ public class Scontrino extends ObservedModel implements PropertyChangeListener{
   }
 
   @SuppressWarnings("unchecked")
-  public void addAcquisto(int index, Acquisto acquisto) {
-    ((ObservedList<Acquisto>)attributes[ACQUISTI]).add(index, acquisto);
-  }
-  
-  @SuppressWarnings("unchecked")
-  public Acquisto getAcquistoAt(int index) {
-    return ((ObservedList<Acquisto>)attributes[ACQUISTI]).get(index);
-  }
-  
-  @SuppressWarnings("unchecked")
-  public void removeAcquisto(int index) {
-    ((ObservedList<Acquisto>)attributes[ACQUISTI]).remove(index);
-  }
-  
-  @SuppressWarnings("unchecked")
-  public void removeAcquisto(Acquisto acquisto) {
-    ((ObservedList<Acquisto>)attributes[ACQUISTI]).remove(acquisto);
-  }
-  
-  @SuppressWarnings("unchecked")
-  public void clearAcquisti() {
-    ((ObservedList<Acquisto>)attributes[ACQUISTI]).clear();
-  }
-  
-  @SuppressWarnings("unchecked")
-  public int getAcquistiSize() {
-    return ((ObservedList<Acquisto>)attributes[ACQUISTI]).size();
-  }
-  @SuppressWarnings("unchecked")
   public void copyTo(ObservedModel scontrino) {
     ((Scontrino)scontrino).setId(getId());
-    /*if (getCliente() != null && ((Scontrino)scontrino).getCliente() != null) {
-      getCliente().copyTo(((Scontrino)scontrino).getCliente());
-    }
-    else if (getCliente() == null && ((Scontrino)scontrino).getCliente() != null) {
-      ((Scontrino)scontrino).getCliente().removePropertyChangeListener((Scontrino)scontrino);
-      ((Scontrino)scontrino).setCliente(null);
-    }
-    else if (getCliente() != null && ((Scontrino)scontrino).getCliente() == null) {
-      Cliente newCliente = new Cliente();
-      getCliente().copyTo(newCliente);
-      ((Scontrino)scontrino).setCliente(newCliente);
-    }*/
+
     ((Scontrino)scontrino).setDataOrario(getDataOrario());
     ((ObservedList<Acquisto>)attributes[ACQUISTI]).copyTo(((Scontrino)scontrino).getAcquisti());
     ((Scontrino)scontrino).setTotale(getTotale());

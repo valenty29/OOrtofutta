@@ -166,8 +166,8 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     quantitaCarrelloTextField.setEnabled(false);
     setTriState();
 
-    ((AbstractDocument)codiceProdottoTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(codiceProdottoTextField, InputCheckRule.soloNumeri));
-    ((AbstractDocument)prezzoTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(prezzoTextField, InputCheckRule.numeriSpazio));
+    ((AbstractDocument)codiceProdottoTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(InputCheckRule.soloNumeri));
+    ((AbstractDocument)prezzoTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(InputCheckRule.numeriSpazio));
     LottiTableModel lottiModel = (LottiTableModel)lottiTable.getModel();
     lottiTable.addKeyListener(new KeyAdapter() {
       public void keyReleased(KeyEvent e) {

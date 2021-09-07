@@ -21,8 +21,6 @@ public class AcquistiTableModel extends AbstractTableModel {
 	private String[] columnNames = {"Quantit�", "Importo pagato", "Id lotto", "Nome prodotto", "Tipologia prodotto"};
 	private ObservedList<Scontrino> scontrini = new ObservedList<Scontrino>("scontrini");
 	private List<Acquisto> acquisti = new ArrayList<>();
-	private Acquisto acquisto;
-	//private Scontrino scontrino;
 	private int index = -1;
 	@Override
 	public int getRowCount() {

@@ -10,11 +10,10 @@ import it.unina.studenti.oortof.models.application.ApplicationInfo;
 import java.util.regex.Matcher;
 
 public class InputCheckingDocumentFilter extends DocumentFilter {
-  private JTextField textField;
+
   private InputCheckRule checkRule;
 
-  public InputCheckingDocumentFilter(JTextField textField, InputCheckRule checkRule) {
-    this.textField = textField;
+  public InputCheckingDocumentFilter(InputCheckRule checkRule) {
     this.checkRule = checkRule;
   }
 
