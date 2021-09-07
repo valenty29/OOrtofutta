@@ -1,16 +1,13 @@
-package it.unina.studenti.oortof.models.entities.prodotti;
+package it.unina.studenti.oortof.models.entities;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import it.unina.studenti.oortof.models.entities.Lotto;
-import it.unina.studenti.oortof.models.entities.ObservedModel;
-
 public class Acquisto extends ObservedModel implements PropertyChangeListener {
   
-  public static final int QUANTITA = 0;  //Float
-  public static final int PREZZO = 1;    //Float
-  public static final int LOTTO = 2;     //Lotto
+  public static final int QUANTITA = 0;      //Float
+  public static final int PREZZO = 1;        //Float
+  public static final int LOTTO = 2;         //Lotto
   public static final int TIPO_PRODOTTO = 3; //String
   public static final int NOME_PRODOTTO = 4; //String
   

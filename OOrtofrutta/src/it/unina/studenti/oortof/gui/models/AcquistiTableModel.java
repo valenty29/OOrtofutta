@@ -8,9 +8,9 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import it.unina.studenti.oortof.models.application.ApplicationStatus;
+import it.unina.studenti.oortof.models.entities.Acquisto;
 import it.unina.studenti.oortof.models.entities.ObservedList;
 import it.unina.studenti.oortof.models.entities.Scontrino;
-import it.unina.studenti.oortof.models.entities.prodotti.Acquisto;
 
 public class AcquistiTableModel extends AbstractTableModel {
 	

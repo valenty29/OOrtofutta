@@ -3,26 +3,21 @@ package it.unina.studenti.oortof.models.entities;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class Cliente extends ObservedModel implements PropertyChangeListener{
 
   private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-  public static final int ID = 0;   // Float
+  public static final int ID = 0;             // Float
   public static final int CF = 1;             // Boolean
-  public static final int NOME = 2;           // TipoBibita
-  public static final int COGNOME = 3;
-  public static final int DATA_NASCITA = 4;
-  public static final int LUOGO_NASCITA = 5;
-  public static final int GENERE = 6;
-  public static final int EMAIL = 7;
-  public static final int RACCOLTA_PUNTI = 9;
-  public static final int SCONTRINI = 10;
+  public static final int NOME = 2;           // String
+  public static final int COGNOME = 3;        // String
+  public static final int DATA_NASCITA = 4;   // Date
+  public static final int LUOGO_NASCITA = 5;  // String
+  public static final int GENERE = 6;         // Genere
+  public static final int EMAIL = 7;          // String
+  public static final int RACCOLTA_PUNTI = 9; // RaccoltaPunti
+  public static final int SCONTRINI = 10;     // ObservedList<Scontrino>
 
   public Cliente() {
     attributes = new Object[11];

@@ -27,12 +27,12 @@ import it.unina.studenti.oortof.gui.models.InputCheckRule;
 import it.unina.studenti.oortof.gui.models.InputCheckingDocumentFilter;
 import it.unina.studenti.oortof.gui.models.ScontriniTableModel;
 import it.unina.studenti.oortof.models.application.ApplicationStatus;
+import it.unina.studenti.oortof.models.entities.Acquisto;
 import it.unina.studenti.oortof.models.entities.Cliente;
 import it.unina.studenti.oortof.models.entities.Genere;
 import it.unina.studenti.oortof.models.entities.ObservedList;
 import it.unina.studenti.oortof.models.entities.RaccoltaPunti;
 import it.unina.studenti.oortof.models.entities.Scontrino;
-import it.unina.studenti.oortof.models.entities.prodotti.Acquisto;
 
 public class ClientiPanel extends DesignClientiPanel implements DocumentListener, ActionListener {
   private Cliente cliente;

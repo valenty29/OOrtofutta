@@ -5,11 +5,11 @@ import it.unina.studenti.oortof.dao.SQLClienteDAO;
 import it.unina.studenti.oortof.models.application.ApplicationCounter;
 import it.unina.studenti.oortof.models.application.ApplicationInfo;
 import it.unina.studenti.oortof.models.application.ApplicationStatus;
+import it.unina.studenti.oortof.models.entities.Acquisto;
 import it.unina.studenti.oortof.models.entities.Cliente;
 import it.unina.studenti.oortof.models.entities.ObservedList;
 import it.unina.studenti.oortof.models.entities.ObservedModel;
 import it.unina.studenti.oortof.models.entities.Scontrino;
-import it.unina.studenti.oortof.models.entities.prodotti.Acquisto;
 import it.unina.studenti.oortof.models.exception.DatabaseException;
 import it.unina.studenti.oortof.models.exception.ValidationException;
 

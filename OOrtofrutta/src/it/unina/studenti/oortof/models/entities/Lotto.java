@@ -15,8 +15,8 @@ public class Lotto extends ObservedModel implements PropertyChangeListener {
   public static final int DISPONIBILITA = 3;      //Float
   public static final int DATA_PRODUZIONE = 4;    //Date
   public static final int COD_PAESE_ORIGINE = 5;  //String
-  public static final int DATA_MUNGITURA = 6;  //Date
-  public static final int PRODOTTO_COMMON = 7;
+  public static final int DATA_MUNGITURA = 6;     //Date
+  public static final int PRODOTTO_COMMON = 7;    //ProdottoCommon
 
 
   

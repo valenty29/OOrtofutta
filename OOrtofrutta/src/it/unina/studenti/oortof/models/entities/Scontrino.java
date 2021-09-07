@@ -5,8 +5,6 @@ import java.beans.PropertyChangeListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import it.unina.studenti.oortof.models.entities.prodotti.Acquisto;
-
 public class Scontrino extends ObservedModel implements PropertyChangeListener{
 
   public static final int ID = 0;
