@@ -1,5 +1,6 @@
 package it.unina.studenti.oortof.models.exception;
 
+@SuppressWarnings("serial")
 public class DatabaseException extends Exception {
     private String errorMessage;
 

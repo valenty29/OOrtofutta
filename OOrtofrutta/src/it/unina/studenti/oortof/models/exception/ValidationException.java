@@ -2,6 +2,7 @@ package it.unina.studenti.oortof.models.exception;
 
 import java.util.List;
 
+@SuppressWarnings("serial")
 public class ValidationException extends Exception {
     private List<FieldException> exceptionList;
 
