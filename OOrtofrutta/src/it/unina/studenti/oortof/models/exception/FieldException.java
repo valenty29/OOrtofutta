@@ -1,9 +1,6 @@
 package it.unina.studenti.oortof.models.exception;
 
-import it.unina.studenti.oortof.models.entities.ObservedModel;
-
-import java.util.Optional;
-
+@SuppressWarnings("serial")
 public class FieldException extends Exception {
     private String value;
     private String errorMessage;
