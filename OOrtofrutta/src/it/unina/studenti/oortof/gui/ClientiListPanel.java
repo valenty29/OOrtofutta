@@ -18,8 +18,6 @@ import it.unina.studenti.oortof.models.entities.ObservedList;
 public class ClientiListPanel extends JPanel {
   private static final long serialVersionUID = 1L;
   private JTable table;
-  private Cliente cliente;
-  private ObservedList listCliente;
 
   public ClientiListPanel() {
 

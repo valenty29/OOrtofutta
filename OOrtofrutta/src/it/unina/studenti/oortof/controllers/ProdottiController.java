@@ -93,9 +93,9 @@ public class ProdottiController implements Controller {
   void commitSearch() {
     try {
 
-      Prodotto prodottoDAO = new Prodotto();
-      prodotto.copyTo(prodottoDAO);
-      ObservedList<Prodotto> ritorno = prodottoDao.getProdotti(prodottoDAO);
+      Prodotto prodottoTemplate = new Prodotto();
+      prodotto.copyTo(prodottoTemplate);
+      ObservedList<Prodotto> ritorno = prodottoDao.getProdotti(prodottoTemplate);
       prodotti.clear();
       ritorno.copyTo(prodotti);
 

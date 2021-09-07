@@ -26,11 +26,11 @@ import java.awt.GridBagConstraints;
 public class CarrelloPanel extends JPanel {
   private JTable carrelloTable;
   private JScrollPane scrollPane;
-  private Carrello carrello;
-  private Cliente cliente;
   private JPanel northCarrelloPanel;
   private JLabel nomeCognomeLabel;
   private JLabel importoLabel;
+  private Carrello carrello;
+  private Cliente cliente;
 
   public CarrelloPanel() {
 
