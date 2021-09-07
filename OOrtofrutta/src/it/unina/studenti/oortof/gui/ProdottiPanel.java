@@ -545,18 +545,6 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     });
   }
 
-  private void applicaCarrello() {
-    prodotto.getProdottoCommon().getLotti().forEach(lotto -> {
-      carrello.getLotti().stream().filter(lotto1 -> {
-        if (lotto1.getId().equals(lotto.getId())) {
-          lotto.setDisponibilita(lotto.getDisponibilita() - lotto1.getDisponibilita());
-          return true;
-        }
-        return false;
-      }).findFirst();
-    });
-  }
-
   private void modelToViewCore() {
     nomeTextField.setText(prodotto.getProdottoCommon().getString(ProdottoCommon.NOME));
     codiceProdottoTextField.setText(prodotto.getProdottoCommon().getString(ProdottoCommon.ID));

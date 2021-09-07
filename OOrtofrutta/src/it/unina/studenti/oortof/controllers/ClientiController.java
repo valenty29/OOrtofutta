@@ -129,14 +129,13 @@ public class ClientiController implements Controller {
     ApplicationStatus.getInstance().setAction(ApplicationStatus.ACTION_NONE);
   }
 
-  public void setModel(ObservedModel observedModel, ObservedList observedList) {
+  public void setModel(ObservedModel observedModel, ObservedList<Cliente> observedList) {
     listCliente = observedList;
     cliente = (Cliente)observedModel;
   }
 
   @Override
   public void listToDetail() {
-    // TODO Auto-generated method stub
     int index = ApplicationCounter.getInstance().getCounter();
     if (index > 0 && index < listCliente.size() + 1) {
       listCliente.get(index - 1).copyTo(cliente);
@@ -148,8 +147,6 @@ public class ClientiController implements Controller {
 
   @Override
   public void preDelete() {
-    // TODO Auto-generated method stub
-
   }
 
 }

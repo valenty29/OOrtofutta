@@ -12,8 +12,4 @@ public interface ClienteDAO {
     void deleteCliente(Cliente clienti);
     Cliente createCliente(Cliente cliente) throws DatabaseException;
     int createScontrino(Cliente cliente, ObservedList<Lotto> lotti) throws DatabaseException;
-
-
-
-
 }

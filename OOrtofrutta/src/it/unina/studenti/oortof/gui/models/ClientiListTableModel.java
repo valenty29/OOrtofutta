@@ -12,25 +12,22 @@ import it.unina.studenti.oortof.models.entities.ObservedList;
 public class ClientiListTableModel extends AbstractTableModel {
 	
 	private String[] columnNames = {"Nome", "Cognome", "CF", "eMail", "Data di nascita", "Luogo di nascita", "Genere"};
-	private ObservedList<Cliente> clienteList = new ObservedList("clienti");
+	private ObservedList<Cliente> clienteList = new ObservedList<Cliente>("clienti");
 	private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 	
 	
 	@Override
 	public int getRowCount() {
-		// TODO Auto-generated method stub
 		return clienteList.size();
 	}
 
 	@Override
 	public int getColumnCount() {
-		// TODO Auto-generated method stub
 		return columnNames.length;
 	}
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		// TODO Auto-generated method stub
 		Cliente cliente = (Cliente)clienteList.get(rowIndex);
 		String value = "";
 		switch (columnIndex) {
@@ -58,7 +55,7 @@ public class ClientiListTableModel extends AbstractTableModel {
 		return columnNames[col];
 	}
 	
-	public void setModel(ObservedList clienteList) {
+	public void setModel(ObservedList<Cliente> clienteList) {
 	    this.clienteList = clienteList;
 	    PropertyChangeListener dataModelListener = new PropertyChangeListener() {
 	      @Override

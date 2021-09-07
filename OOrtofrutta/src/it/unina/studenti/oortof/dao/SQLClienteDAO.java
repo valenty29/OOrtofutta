@@ -257,7 +257,6 @@ public class SQLClienteDAO implements ClienteDAO {
 					        +                 (query.equals("") ? ";" : " WHERE " + query)
 					        +                 (quantitaFilters.equals("") ? ";" : quantitaFilters);
 
-            //String sql = "SELECT C.id AS idC, R.id as idR, * FROM CLIENTE C INNER JOIN RACCOLTAPUNTI R ON R.idCliente = C.id" + (query.equals("") ? ";" : " WHERE " + query + ";") ;
             System.out.println(sql);
             ResultSet rs = stm.executeQuery(sql);
             ObservedList<Cliente> list = new ObservedList<Cliente>("cliente");
@@ -313,7 +312,8 @@ public class SQLClienteDAO implements ClienteDAO {
             while(rs.next())
             {
             	int rsId = rs.getInt("id");
-            	Calendar cal = Calendar.getInstance();
+            	@SuppressWarnings("unused")
+              Calendar cal = Calendar.getInstance();
                 Calendar.getInstance().setTimeInMillis(rs.getTimestamp("DataOrario").getTime());
 
                 Date rsDataOrario =  Date.from(rs.getTimestamp("DataOrario").toInstant());
@@ -345,7 +345,8 @@ public class SQLClienteDAO implements ClienteDAO {
             ObservedList<Acquisto> list = new ObservedList<Acquisto>("acquisti");
             while(rs.next())
             {
-            	int rsId = rs.getInt("id");
+            	@SuppressWarnings("unused")
+              int rsId = rs.getInt("id");
             	float rsQuantita = rs.getFloat("quantita");
             	float rsPrezzo = rs.getFloat("prezzo");
             	int rsIdLotto = rs.getInt("idLotto");
@@ -364,9 +365,6 @@ public class SQLClienteDAO implements ClienteDAO {
                 } else {
                     throw new DatabaseException("Prodotto di lotto non trovato");
                 }
-
-                //TODO assegnare lotto a acquisto
-
             	list.add(new Acquisto(rsQuantita, rsPrezzo, lotto, rsTipoProd, rsNomeProd));
             }
             conn.close();
@@ -451,7 +449,6 @@ public class SQLClienteDAO implements ClienteDAO {
             } else {
                 updateQuery += "SET";
             }
-            //TODO da verificare
             updateQuery += String.format(" DataNascita = '%s'", newCliente.getDataNascita());
             counter++;
         }
@@ -666,8 +663,6 @@ public class SQLClienteDAO implements ClienteDAO {
             conn.close();
             return scontrinoId;
         } catch (SQLException e) {
-            // TODO
-
             throw new RuntimeException(e);
         }
     }

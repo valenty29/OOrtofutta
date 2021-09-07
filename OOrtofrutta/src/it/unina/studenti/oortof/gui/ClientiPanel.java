@@ -83,6 +83,7 @@ public class ClientiPanel extends DesignClientiPanel implements DocumentListener
     ((AbstractDocument)puntiTotaliTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(InputCheckRule.numeriSpazio));
   }
 
+  @SuppressWarnings("unused")
   public void setModel(Cliente cliente) {
     Scontrino modelloScontrino = new Scontrino();
     ObservedList<Acquisto> modelloAcquisti = new ObservedList<Acquisto>("acquisti");
@@ -113,25 +114,21 @@ public class ClientiPanel extends DesignClientiPanel implements DocumentListener
 
   @Override
   public void actionPerformed(ActionEvent e) {
-    // TODO Auto-generated method stub
     viewToModel();
   }
 
   @Override
   public void insertUpdate(DocumentEvent e) {
-    // TODO Auto-generated method stub
     viewToModel();
   }
 
   @Override
   public void removeUpdate(DocumentEvent e) {
-    // TODO Auto-generated method stub
     viewToModel();
   }
 
   @Override
   public void changedUpdate(DocumentEvent e) {
-    // TODO Auto-generated method stub
     viewToModel();
   }
 
@@ -182,8 +179,6 @@ public class ClientiPanel extends DesignClientiPanel implements DocumentListener
     setEnabledColor(infoClientePanel, true, Color.white);
     setEnabledColor(puntiPanel, false, SystemColor.control);
     setEnabledColor(cfTextField, false, SystemColor.control);
-    // cliente.copyTo(oldCliente);
-    // cliente.clear();
   }
 
   private void update() {

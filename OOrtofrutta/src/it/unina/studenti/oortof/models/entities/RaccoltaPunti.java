@@ -2,7 +2,6 @@ package it.unina.studenti.oortof.models.entities;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
 
 public class RaccoltaPunti extends ObservedModel implements PropertyChangeListener {
 

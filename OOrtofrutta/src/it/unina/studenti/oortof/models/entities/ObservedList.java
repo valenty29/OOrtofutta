@@ -167,16 +167,17 @@ public class ObservedList<E extends ObservedModel> extends ObservedModel impleme
     return list.subList(fromIndex, toIndex);
   }
 
+  @SuppressWarnings({"deprecation", "unchecked"})
   @Override
   public void copyTo(ObservedModel other) {
     for (int i = 0; i < list.size(); i++) {
       ObservedModel om1 = list.get(i);
-      ObservedModel om2 = i < ((ObservedList)other).size() ? ((ObservedList)other).get(i) : null;
+      ObservedModel om2 = i < ((ObservedList<?>)other).size() ? ((ObservedList<?>)other).get(i) : null;
       if (om1 != null && om2 != null) {
         om1.copyTo(om2);
       }
       else if (om1 == null && om2 != null) {
-        ((ObservedList)other).set(i, null);
+        ((ObservedList<?>)other).set(i, null);
       }
       else if (om1 != null && om2 == null) {
         ObservedModel newOm = null;
@@ -187,16 +188,16 @@ public class ObservedList<E extends ObservedModel> extends ObservedModel impleme
           throw new RuntimeException("Exception creating class " + om1.getClass().getName());
         }
         om1.copyTo(newOm);
-        if (i < ((ObservedList)other).size()) {
-          ((ObservedList)other).set(i, newOm);
+        if (i < ((ObservedList<?>)other).size()) {
+          ((ObservedList<ObservedModel>)other).set(i, newOm);
         }
         else {
-          ((ObservedList)other).add(i, newOm);
+          ((ObservedList<ObservedModel>)other).add(i, newOm);
         }
       }    
     }
-    for (int i = ((ObservedList)other).size() - 1; i >= list.size(); i--) {
-      ((ObservedList)other).remove(i);
+    for (int i = ((ObservedList<?>)other).size() - 1; i >= list.size(); i--) {
+      ((ObservedList<?>)other).remove(i);
     }
   }
 

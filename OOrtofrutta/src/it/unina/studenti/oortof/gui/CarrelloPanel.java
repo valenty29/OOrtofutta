@@ -1,7 +1,5 @@
 package it.unina.studenti.oortof.gui;
 
-import it.unina.studenti.oortof.dao.ClienteDAO;
-import it.unina.studenti.oortof.dao.SQLClienteDAO;
 import it.unina.studenti.oortof.gui.models.CarrelloTableModel;
 import it.unina.studenti.oortof.models.application.ApplicationCounter;
 import it.unina.studenti.oortof.models.application.ApplicationStatus;

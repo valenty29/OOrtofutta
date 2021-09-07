@@ -7,11 +7,10 @@ import java.util.Date;
 public class Scontrino extends ObservedModel implements PropertyChangeListener{
 
   public static final int ID = 0;
-  public static final int DATA_ORARIO = 1;
-  public static final int CLIENTE = 2;
-  public static final int ACQUISTI = 3;
-  public static final int TOTALE = 4;
-
+  public static final int DATA_ORARIO = 1;  //Date
+  public static final int CLIENTE = 2;      //Cliente
+  public static final int ACQUISTI = 3;     //ObservedList<Acquisto>
+  public static final int TOTALE = 4;       //Float
 
   public Scontrino() {
     attributes = new Object[5];

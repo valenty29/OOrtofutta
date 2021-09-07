@@ -7,8 +7,6 @@ import java.beans.PropertyChangeListener;
 import it.unina.studenti.oortof.models.application.ApplicationCounter;
 import it.unina.studenti.oortof.models.application.ApplicationInfo;
 import it.unina.studenti.oortof.models.application.ApplicationStatus;
-import it.unina.studenti.oortof.models.entities.ObservedList;
-import it.unina.studenti.oortof.models.entities.ObservedModel;
 
 public class ApplicationController implements Controller, PropertyChangeListener {
 

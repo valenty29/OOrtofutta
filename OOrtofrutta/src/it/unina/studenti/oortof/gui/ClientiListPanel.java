@@ -91,7 +91,7 @@ public class ClientiListPanel extends JPanel {
 
   }
 
-  public void setModel(ObservedList listCliente) {
+  public void setModel(ObservedList<Cliente> listCliente) {
     ClientiListTableModel model = (ClientiListTableModel)table.getModel();
     model.setModel(listCliente);
     listCliente.addPropertyChangeListener(new PropertyChangeListener() {

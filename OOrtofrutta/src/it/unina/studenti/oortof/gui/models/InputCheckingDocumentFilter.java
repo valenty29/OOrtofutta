@@ -1,6 +1,5 @@
 package it.unina.studenti.oortof.gui.models;
 
-import javax.swing.*;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;

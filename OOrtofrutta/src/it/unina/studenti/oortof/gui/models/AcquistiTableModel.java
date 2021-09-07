@@ -18,25 +18,22 @@ public class AcquistiTableModel extends AbstractTableModel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String[] columnNames = {"Quantit�", "Importo pagato", "Id lotto", "Nome prodotto", "Tipologia prodotto"};
+	private String[] columnNames = {"Quantita'", "Importo pagato", "Id lotto", "Nome prodotto", "Tipologia prodotto"};
 	private ObservedList<Scontrino> scontrini = new ObservedList<Scontrino>("scontrini");
 	private List<Acquisto> acquisti = new ArrayList<>();
 	private int index = -1;
 	@Override
 	public int getRowCount() {
-		// TODO Auto-generated method stub
 		return acquisti.size();
 	}
 
 	@Override
 	public int getColumnCount() {
-		// TODO Auto-generated method stub
 		return columnNames.length;
 	}
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		// TODO Auto-generated method stub
 		Acquisto currentAcquisto = acquisti.get(rowIndex);
 		String value = "";
 		switch (columnIndex) {
@@ -95,7 +92,8 @@ public class AcquistiTableModel extends AbstractTableModel {
 				dataChanged();
 			} else if (ApplicationStatus.getInstance().getAction() == ApplicationStatus.ACTION_COMMIT){
 				if (acquisti.size() > 0) {
-					Acquisto acq = this.acquisti.get(0);
+					@SuppressWarnings("unused")
+          Acquisto acq = this.acquisti.get(0);
 					dataChanged();
 				}
 			}

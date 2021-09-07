@@ -6,11 +6,8 @@ import it.unina.studenti.oortof.models.application.ApplicationStatus;
 import it.unina.studenti.oortof.gui.CarrelloPanel;
 import it.unina.studenti.oortof.models.application.ApplicationCounter;
 import it.unina.studenti.oortof.models.application.ApplicationInfo;
-import it.unina.studenti.oortof.models.application.ApplicationStatus;
 import it.unina.studenti.oortof.models.entities.Carrello;
 import it.unina.studenti.oortof.models.entities.Cliente;
-import it.unina.studenti.oortof.models.entities.ObservedList;
-import it.unina.studenti.oortof.models.entities.ObservedModel;
 import it.unina.studenti.oortof.models.exception.DatabaseException;
 
 public class CarrelloController implements Controller {

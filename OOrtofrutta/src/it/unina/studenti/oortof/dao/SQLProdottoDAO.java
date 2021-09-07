@@ -59,7 +59,8 @@ public class SQLProdottoDAO implements ProdottoDAO {
     
 	
     private void createLotti(ObservedList<Lotto> lotti, long id) throws DatabaseException {
-    	ArrayList<DatabaseException> exceptionList = new ArrayList();
+    	@SuppressWarnings("unused")
+      ArrayList<DatabaseException> exceptionList = new ArrayList<DatabaseException>();
         String sql = "INSERT INTO LOTTO (CodLotto, IdProdotto, Scadenza, Disponibilita, DataProduzione, CodPaeseOrigine) VALUES (?, ?, ?, ?, ?, ?)";
         try {
             Connection conn = context.openConnessione();
@@ -159,9 +160,8 @@ public class SQLProdottoDAO implements ProdottoDAO {
     	return tipo;
     }
     
-    @SuppressWarnings("unchecked")
-	private int createProductCommon(ProdottoCommon prodotto) throws ValidationException {
-        ArrayList<FieldException> exceptions = new ArrayList();
+    private int createProductCommon(ProdottoCommon prodotto) throws ValidationException, DatabaseException {
+        ArrayList<FieldException> exceptions = new ArrayList<FieldException>();
         int prodId = -1;
         String tipo = getTipo(prodotto);
         
@@ -208,13 +208,12 @@ public class SQLProdottoDAO implements ProdottoDAO {
 
             return prodId;
         } catch (SQLException e) {
-            // TODO
-            throw new RuntimeException(e);
+          throw new DatabaseException("Errore dalla base dati");
         }
     }
 
     private int createBibita(Prodotto bibita) throws ValidationException, DatabaseException {
-        ArrayList<FieldException> exceptions = new ArrayList();
+        ArrayList<FieldException> exceptions = new ArrayList<FieldException>();
         int id = -1;
         try {
             id = createProductCommon(bibita.getProdottoCommon());
@@ -248,12 +247,11 @@ public class SQLProdottoDAO implements ProdottoDAO {
             conn.close();
             return id;
         } catch (SQLException e) {
-            // TODO
-            throw new RuntimeException(e);
+          throw new DatabaseException("Errore dalla base dati");
         }
     }
 
-    private int createUovo(Prodotto uovo) throws ValidationException {
+    private int createUovo(Prodotto uovo) throws ValidationException, DatabaseException {
         ArrayList<FieldException> exceptions = new ArrayList<FieldException>();
         int id = -1;
         try {
@@ -275,12 +273,11 @@ public class SQLProdottoDAO implements ProdottoDAO {
             conn.close();
             return id;
         } catch (SQLException e) {
-            // TODO
-        	throw new RuntimeException(e);
+          throw new DatabaseException("Errore dalla base dati");
         }
     }
 
-    private int createCarnePesce(Prodotto carnePesce) throws ValidationException {
+    private int createCarnePesce(Prodotto carnePesce) throws ValidationException, DatabaseException {
         int id = createProductCommon(carnePesce.getProdottoCommon());
         String sql = "INSERT INTO CARNEPESCE (IdProdotto, TipoCP, DaAllevamento, Animale, Confezionato) VALUES (?, ?, ?, ?, ?)";
         try {
@@ -296,12 +293,11 @@ public class SQLProdottoDAO implements ProdottoDAO {
             conn.close();
             return id;
         } catch (SQLException e) {
-            // TODO
-        	throw new RuntimeException(e);
+          throw new DatabaseException("Errore dalla base dati");
         }
     }
 
-    private int createFruttaVerdura(Prodotto fruttaVerdura) throws ValidationException {
+    private int createFruttaVerdura(Prodotto fruttaVerdura) throws ValidationException, DatabaseException {
         int id = createProductCommon(fruttaVerdura.getProdottoCommon());
         String sql = "INSERT INTO FRUTTAVERDURA (IdProdotto, TipoFV, Bio, Surgelato) VALUES (?, ?, ?, ?)";
         try {
@@ -316,12 +312,11 @@ public class SQLProdottoDAO implements ProdottoDAO {
             conn.close();
             return id;
         } catch (SQLException e) {
-            // TODO
-        	throw new RuntimeException(e);
+          throw new DatabaseException("Errore dalla base dati");
         }
     }
 
-    private int createProdottoCaseario(Prodotto prodottoCaseario) throws ValidationException {
+    private int createProdottoCaseario(Prodotto prodottoCaseario) throws ValidationException, DatabaseException {
         int id = createProductCommon(prodottoCaseario.getProdottoCommon());
         String sql = "INSERT INTO PRODOTTOCASEARIO (IdProdotto, TipoLatte, Stabilimento, Stagionatura) VALUES (?, ?, ?, ?)";
         try {
@@ -335,12 +330,11 @@ public class SQLProdottoDAO implements ProdottoDAO {
             conn.close();
             return id;
         } catch (SQLException e) {
-            // TODO
-        	throw new RuntimeException(e);
+          throw new DatabaseException("Errore dalla base dati");
         }
     }
 
-    private int createFarinaceo(Prodotto farinaceo) throws ValidationException {
+    private int createFarinaceo(Prodotto farinaceo) throws ValidationException, DatabaseException {
         int id = createProductCommon(farinaceo.getProdottoCommon());
         String sql = "INSERT INTO FARINACEO (IdProdotto, Glutine, TipoFarina, Fresco, Surgelato) VALUES (?, ?, ?, ?, ?)";
         try {
@@ -357,12 +351,11 @@ public class SQLProdottoDAO implements ProdottoDAO {
             conn.close();
             return id;
         } catch (SQLException e) {
-            // TODO
-        	throw new RuntimeException(e);
+          throw new DatabaseException("Errore dalla base dati");
         }
     }
 
-    private int createConserva(Prodotto conserva) throws ValidationException {
+    private int createConserva(Prodotto conserva) throws ValidationException, DatabaseException {
         int id = createProductCommon(conserva.getProdottoCommon());
         String sql = "INSERT INTO CONSERVA (IdProdotto, Glutine, TipoFarina, Fresco, Surgelato) VALUES (?, ?, ?, ?, ?)";
         try {
@@ -375,8 +368,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
             conn.close();
             return id;
         } catch (SQLException e) {
-            // TODO
-        	throw new RuntimeException(e);
+          throw new DatabaseException("Errore dalla base dati");
         }
     }
 
@@ -459,6 +451,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
             Statement stm = conn.createStatement();
             String productFilters = getProdottoFilters(prod.getProdottoCommon());
 
+            @SuppressWarnings("unused")
             int filterCount = 0;
 
 
@@ -485,7 +478,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
         }
         catch (SQLException se)
         {
-            throw new RuntimeException(se);
+          throw new DatabaseException("Errore dalla base dati");
         }
     }
 
@@ -558,7 +551,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
             }
         catch (SQLException se)
         {
-           throw new RuntimeException(se);
+          throw new DatabaseException("Errore dalla base dati");
         }
     }
 
@@ -610,7 +603,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
             return list;
         } catch (SQLException se)
         {
-            throw new RuntimeException(se);
+          throw new DatabaseException("Errore dalla base dati");
         }
     }
 
@@ -679,7 +672,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
             return list;
         } catch (SQLException se)
         {
-            throw new RuntimeException(se);
+          throw new DatabaseException("Errore dalla base dati");
         }
     }
 
@@ -746,10 +739,11 @@ public class SQLProdottoDAO implements ProdottoDAO {
             return list;
         } catch (SQLException se)
         {
-            throw new RuntimeException(se);
+          throw new DatabaseException("Errore dalla base dati");
         }
     }
 
+    @SuppressWarnings("unlikely-arg-type")
     private ObservedList<FruttaVerdura> getFruttaVerdura(Prodotto fruttaVerdura) throws ValidationException, DatabaseException {
         FruttaVerduraSpecifico fruttaVerduraSpecifico = fruttaVerdura.getFruttaVerduraSpecifico();
         try {
@@ -804,7 +798,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
             return list;
         } catch (SQLException se)
         {
-            throw new RuntimeException(se);
+          throw new DatabaseException("Errore dalla base dati");
         }
     }
 
@@ -847,7 +841,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
             return list;
         } catch (SQLException se)
         {
-            throw new RuntimeException(se);
+          throw new DatabaseException("Errore dalla base dati");
         }
     }
 
@@ -900,7 +894,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
             return list;
         } catch (SQLException se)
         {
-            throw new RuntimeException(se);
+          throw new DatabaseException("Errore dalla base dati");
         }
     }
 
@@ -941,7 +935,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
             return lotti;
         } catch (SQLException e)
         {
-            throw new RuntimeException(e);
+          throw new DatabaseException("Errore dalla base dati");
         }
 
     }
@@ -950,7 +944,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
 
     private String getProdottoFilters(ProdottoCommon prodCom) throws ValidationException {
 
-        ArrayList<FieldException> exceptions = new ArrayList();
+        ArrayList<FieldException> exceptions = new ArrayList<FieldException>();
         String query = "";
         int filterCount = 0;
         if (prodCom.getId() != null) {
@@ -998,7 +992,6 @@ public class SQLProdottoDAO implements ProdottoDAO {
 
     //region DELETE
     //la presenza di lotti impedisce la cancellazione di un prodotto
-    //@Override
     public void deleteProdotti(List<Prodotto> prodotti) throws DatabaseException {
         String inSql = arrayToString(prodotti);
         String sql = "DELETE FROM PRODOTTO WHERE id IN (" +inSql + ");";
@@ -1014,19 +1007,19 @@ public class SQLProdottoDAO implements ProdottoDAO {
                 String errorDesc = "Un constraint non rispettato";
                 switch (((PSQLException) se).getServerErrorMessage().getConstraint()) {
                     case "lotto_prodotto_fk":
-                       errorDesc = "Non è possibile cancellare un prodotto che ha dei lotti";
+                       errorDesc = "Non e' possibile cancellare un prodotto che ha dei lotti";
                        break;
                 }
 
                 throw new DatabaseException(errorDesc);
             }
 
-            throw new DatabaseException("Si è verificato un errore nella comunicazione con la base dati");
+            throw new DatabaseException("Si e' verificato un errore nella comunicazione con la base dati");
 
         }
     }
 
-    private void deleteLotti(ObservedList<Lotto> lotti) {
+    private void deleteLotti(ObservedList<Lotto> lotti) throws DatabaseException{
         String inSql = arrayToString(lotti);
         String sql = "DELETE FROM LOTTO WHERE id IN (" +inSql + ");";
 
@@ -1037,8 +1030,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
             conn.close();
         } catch (SQLException se)
         {
-            System.out.println(se);
-            return;
+          throw new DatabaseException("Errore dalla base dati");
         }
     }
     //endregion
@@ -1129,7 +1121,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
         		stm.executeBatch();
         		conn.close();
         	} catch (Exception e) {
-        		throw new RuntimeException(e);
+        	  throw new DatabaseException("Errore dalla base dati");
         	}
     	}
     	
@@ -1184,7 +1176,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
                 Statement stm = conn.createStatement();
                 stm.executeUpdate(sql);
             } catch (SQLException e) {
-                return;
+              throw new DatabaseException("Errore dalla base dati");
             }
         }
     }
@@ -1230,7 +1222,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
                 Statement stm = conn.createStatement();
                 stm.executeUpdate(sql);
             } catch (SQLException e) {
-                return;
+              throw new DatabaseException("Errore dalla base dati");
             }
         }
     }
@@ -1264,7 +1256,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
                 Statement stm = conn.createStatement();
                 stm.executeUpdate(sql);
             } catch (SQLException e) {
-                return;
+              throw new DatabaseException("Errore dalla base dati");
             }
         }
     }
@@ -1320,7 +1312,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
                 Statement stm = conn.createStatement();
                 stm.executeUpdate(sql);
             } catch (SQLException e) {
-                return;
+              throw new DatabaseException("Errore dalla base dati");
             }
         }
     }
@@ -1375,7 +1367,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
                 Statement stm = conn.createStatement();
                 stm.executeUpdate(sql);
             } catch (SQLException e) {
-                return;
+              throw new DatabaseException("Errore dalla base dati");
             }
         }
     }
@@ -1420,7 +1412,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
                 Statement stm = conn.createStatement();
                 stm.executeUpdate(sql);
             } catch (SQLException e) {
-                return;
+              throw new DatabaseException("Errore dalla base dati");
             }
         }
     }
@@ -1429,6 +1421,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
         updateProductsCommon(oldConserva.getProdottoCommon(), newConserva.getProdottoCommon());
 
         String updateQuery = "";
+        @SuppressWarnings("unused")
         int counter = 0;
         if (oldConserva.getConservaSpecifico().getTipoConservazione() != newConserva.getConservaSpecifico().getTipoConservazione())
         {
@@ -1444,7 +1437,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
                 Statement stm = conn.createStatement();
                 stm.executeUpdate(sql);
             } catch (SQLException e) {
-                return;
+              throw new DatabaseException("Errore dalla base dati");
             }
         }
     }
@@ -1479,7 +1472,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
                 Statement stm = conn.createStatement();
                 stm.executeUpdate(sql);
             } catch (SQLException e) {
-                return;
+              throw new DatabaseException("Errore dalla base dati");
             }
         }
     }
