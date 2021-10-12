@@ -2,8 +2,6 @@ package it.unina.studenti.oortof.controllers;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-
-
 import it.unina.studenti.oortof.models.application.ApplicationCounter;
 import it.unina.studenti.oortof.models.application.ApplicationInfo;
 import it.unina.studenti.oortof.models.application.ApplicationStatus;
@@ -33,6 +31,8 @@ public class ApplicationController implements Controller, PropertyChangeListener
   public Controller getSubController(int index) {
     return controllers[index];
   }
+  
+  //Quando cambia lo status viene chiamato il controller corretto a seconda della activeTab
   
   public void insert() {
     ApplicationInfo.getInstance().setMessage("", ApplicationInfo.LEVEL_LOG);

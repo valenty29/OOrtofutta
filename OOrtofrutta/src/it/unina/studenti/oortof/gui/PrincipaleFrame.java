@@ -99,8 +99,6 @@ public class PrincipaleFrame extends JFrame {
           ((ClientiListPanel)frame.clientiTabbed.getComponent(1)).setModel(clienteList);
           ((ClientiController)ApplicationController.getInstance().getSubController(2)).setModel(c, clienteList);
 
-
-
           frame.carrelloPanel.setModel(carr, c);
           ((CarrelloController)ApplicationController.getInstance().getSubController(1)).setModel(carr, c);
           

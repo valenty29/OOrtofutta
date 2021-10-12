@@ -63,7 +63,6 @@ public class ClientiController implements Controller {
       }
       catch (DatabaseException de) {
         ApplicationInfo.getInstance().setMessage(de.getErrorMessage(), ApplicationInfo.LEVEL_ERROR);
-        // TODO se c'e' un errore il si deve tornare all'inserimento!
         ApplicationStatus.getInstance().setAction(ApplicationStatus.ACTION_NONE);
         return;
       }

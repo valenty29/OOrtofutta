@@ -6,6 +6,8 @@ import java.beans.PropertyChangeListener;
 public class Carrello extends ObservedModel implements PropertyChangeListener {
   private ObservedList<Lotto> lista = new ObservedList<>("listaCarrello");
 
+  
+  
   public Carrello() {
     lista.addPropertyChangeListener(this);
   }

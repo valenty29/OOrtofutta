@@ -181,7 +181,7 @@ public class CarrelloPanel extends JPanel {
       }
     }
     else if (evt.getPropertyName().equals("activeTab")) {
-      if (ApplicationStatus.getInstance().getActiveTab() == ApplicationStatus.getInstance().TAB_CARRELLO) {
+      if ((ApplicationStatus.getInstance().getActiveTab() == ApplicationStatus.getInstance().TAB_CARRELLO) && carrelloTable.getSelectedRow() > -1) {
         carrelloTable.removeRowSelectionInterval(0, carrelloTable.getRowCount()-1);
       }
     }
