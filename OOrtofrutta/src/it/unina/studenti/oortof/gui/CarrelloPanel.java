@@ -157,6 +157,7 @@ public class CarrelloPanel extends JPanel {
     }
   }
 
+  @SuppressWarnings("static-access")
   private void applicationStatusChanged(PropertyChangeEvent evt) {
     if (evt.getPropertyName().equals("status")) {
       switch (ApplicationStatus.getInstance().getStatus()) {
@@ -191,7 +192,7 @@ public class CarrelloPanel extends JPanel {
   }
 
   private void insert() {
-    System.out.println("insert() in carrelloPanel");
+
   }
 
 }
