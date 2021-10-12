@@ -19,7 +19,7 @@ public class DAOHelpers {
 
             catch (ArrayIndexOutOfBoundsException oob) {
                 finalQuery += String.format("= %f", f1);
-                finalQuery.replace(",", ".");
+                finalQuery = finalQuery.replace(",", ".");
             }
 
             catch (NumberFormatException nfef){
