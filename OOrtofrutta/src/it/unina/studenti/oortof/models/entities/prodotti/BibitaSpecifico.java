@@ -13,6 +13,7 @@ public class BibitaSpecifico extends ProdottoSpecifico {
 
   public BibitaSpecifico() {
     attributes = new Object[3];
+    setValue(GRADAZIONE_ALCOLICA, "");
   }
   
   public BibitaSpecifico(Float gradazioneAlcolica, Boolean frizzante, TipoBibita tipoBibita) {

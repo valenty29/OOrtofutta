@@ -655,7 +655,7 @@ public abstract class DesignProdottiPanel extends JPanel {
     
     gradazioneAlcolicaTextField = new JTextField();
 
-    gradazioneAlcolicaTextField.setText("0");
+    gradazioneAlcolicaTextField.setText("");
     GridBagConstraints gbc_gradazioneAlcolicaTextField = new GridBagConstraints();
     gbc_gradazioneAlcolicaTextField.insets = new Insets(0, 0, 5, 0);
     gbc_gradazioneAlcolicaTextField.fill = GridBagConstraints.HORIZONTAL;
