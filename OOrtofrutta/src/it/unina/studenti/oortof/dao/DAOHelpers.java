@@ -17,6 +17,11 @@ public class DAOHelpers {
                 finalQuery = finalQuery.replace(",", ".");
             }
 
+            catch (ArrayIndexOutOfBoundsException oob) {
+                finalQuery += String.format("= %f", f1);
+                finalQuery.replace(",", ".");
+            }
+
             catch (NumberFormatException nfef){
                 String operator = queryDestr[1];
 

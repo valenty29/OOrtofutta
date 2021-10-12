@@ -502,7 +502,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
                     query += " AND ";
                 String gradazioneFilter = bibSpec.getString(BibitaSpecifico.GRADAZIONE_ALCOLICA);
                 try {
-                    query += String.format("PuntiFruttaVerdura %s", DAOHelpers.getFloatQueryField(gradazioneFilter));
+                    query += String.format("GradazioneAlcolica %s", DAOHelpers.getFloatQueryField(gradazioneFilter));
                 } catch (FieldException fe){
                     exceptionList.add(fe);
                 }
