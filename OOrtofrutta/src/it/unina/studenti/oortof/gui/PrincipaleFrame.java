@@ -105,36 +105,17 @@ public class PrincipaleFrame extends JFrame {
           new Thread() {
             public void run() {
               try {
-System.err.println("THREAD START");
                 Thread.sleep(3000);
-System.err.println("BINGO");
-
-
-
-
-
-
-                System.err.println();
-
                 new Thread() {
                   public void run() {
                     try {
-
-
                       Thread.sleep(5000);
-
-
-
-
-
                     }
                     catch (Exception e) {
                       e.printStackTrace();
                     }
                   }
                 }.start();
-
-                System.out.println("a");
               }
               catch (Exception e) {
                 e.printStackTrace();
