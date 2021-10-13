@@ -151,8 +151,13 @@ public class RaccoltaPunti extends ObservedModel implements PropertyChangeListen
   }
   
   public Float getTotale() {
-    return getFloat(FRUTTA_VERDURA) + getFloat(PRODOTTO_CASEARIO) + getFloat(FARINACEO) + getFloat(UOVO) + getFloat(CARNE_PESCE) + getFloat(BIBITA) + getFloat(CONSERVA) + getFloat(ALTRO);
-  }
+      try {
+        return getFloat(FRUTTA_VERDURA) + getFloat(PRODOTTO_CASEARIO) + getFloat(FARINACEO) + getFloat(UOVO) + getFloat(CARNE_PESCE) + getFloat(BIBITA) + getFloat(CONSERVA) + getFloat(ALTRO);
+      }
+      catch (NullPointerException e) {
+        return 0f;
+      }
+    }
 
   @Override
   public void propertyChange(PropertyChangeEvent evt) {

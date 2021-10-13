@@ -7,6 +7,7 @@ import java.util.Date;
 
 import javax.swing.table.AbstractTableModel;
 
+import it.unina.studenti.oortof.models.application.ApplicationInfo;
 import it.unina.studenti.oortof.models.application.ApplicationStatus;
 import it.unina.studenti.oortof.models.entities.Lotto;
 import it.unina.studenti.oortof.models.entities.ObservedList;
@@ -103,7 +104,12 @@ public class LottiTableModel extends AbstractTableModel {
       }
     }
     if (columnIndex == 2) {
-      aValue = Math.abs(Float.parseFloat((String)aValue));
+      try {
+        aValue = Math.abs(Float.parseFloat((String)aValue));
+      }
+      catch (Exception e) {
+        ApplicationInfo.getInstance().setMessage("Quantità non valida", 0);
+      }
     }
     lotti.get(rowIndex).setValue(tableIndexToModelIndex[columnIndex], aValue);
   }

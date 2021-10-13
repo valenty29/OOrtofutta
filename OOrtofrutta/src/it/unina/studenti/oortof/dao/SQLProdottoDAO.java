@@ -1502,7 +1502,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
         if (e.getSQLState().equals("T1GR0")) {
             return new DatabaseException(((PSQLException) e).getServerErrorMessage().getMessage());
         } else if (e.getSQLState().equals("23514")) {
-            String constraintDesc = "Un constraint non è stato rispettato";
+            String constraintDesc = "Un constraint non e' stato rispettato";
             switch (((PSQLException) e).getServerErrorMessage().getConstraint()) {
                 case "nome_prodotto_valido":
                     constraintDesc = "Nome del prodotto non valido";

@@ -26,6 +26,7 @@ import it.unina.studenti.oortof.gui.models.AcquistiTableModel;
 import it.unina.studenti.oortof.gui.models.InputCheckRule;
 import it.unina.studenti.oortof.gui.models.InputCheckingDocumentFilter;
 import it.unina.studenti.oortof.gui.models.ScontriniTableModel;
+import it.unina.studenti.oortof.models.application.ApplicationCounter;
 import it.unina.studenti.oortof.models.application.ApplicationStatus;
 import it.unina.studenti.oortof.models.entities.Acquisto;
 import it.unina.studenti.oortof.models.entities.Cliente;
@@ -279,6 +280,14 @@ public class ClientiPanel extends DesignClientiPanel implements DocumentListener
     puntiProdottoCasearioTextField.setText(cliente.getRaccoltaPunti().getString(RaccoltaPunti.PRODOTTO_CASEARIO));
     puntiUovoTextField.setText(cliente.getRaccoltaPunti().getString(RaccoltaPunti.UOVO));
     puntiAltroTextField.setText(cliente.getRaccoltaPunti().getString(RaccoltaPunti.ALTRO));
+    
+    if (ApplicationCounter.getInstance().getCounter() != 0) {
+      puntiTotaliTextField.setText(Float.toString(cliente.getRaccoltaPunti().getTotale()));
+    }
+    else {
+      puntiTotaliTextField.setText("");
+    }
+    
     modelToViewRunning = false;
   }
 

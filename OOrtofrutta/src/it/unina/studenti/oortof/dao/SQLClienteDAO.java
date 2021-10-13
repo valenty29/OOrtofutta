@@ -537,7 +537,7 @@ public class SQLClienteDAO implements ClienteDAO {
             try {
                 createCliente.setDate(3, new java.sql.Date(cliente.getDataNascita().getTime()));
             } catch (NullPointerException npe) {
-                throw new DatabaseException("La data di nascita è obbligatoria");
+                throw new DatabaseException("La data di nascita e' obbligatoria");
             }
 
             createCliente.setString(4, cliente.getLuogoNascita());
@@ -579,7 +579,7 @@ public class SQLClienteDAO implements ClienteDAO {
         if (e.getSQLState().equals("T1GR0")) {
             return new DatabaseException(((PSQLException) e).getServerErrorMessage().getMessage());
         } else if (e.getSQLState().equals("23514")) {
-            String constraintDesc = "Un constraint non è stato rispettato";
+            String constraintDesc = "Un constraint non e' stato rispettato";
             switch (((PSQLException) e).getServerErrorMessage().getConstraint()) {
                 case "maggiorenne":
                     constraintDesc = "Il cliente deve essere maggiorenne";
@@ -617,7 +617,7 @@ public class SQLClienteDAO implements ClienteDAO {
             }
             return new DatabaseException(errorDesc);
         } else {
-            return new DatabaseException("Si è verificato un errore nell'operazione sulla base dati");
+            return new DatabaseException("Si e' verificato un errore nell'operazione sulla base dati");
         }
     }
 
