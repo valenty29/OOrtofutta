@@ -95,8 +95,8 @@ public class Cliente extends ObservedModel implements PropertyChangeListener{
       Date convertedCurrentDate = sdf.parse(getString(DATA_NASCITA));
       return convertedCurrentDate;
     } catch (Exception e ){
-      //TODO gestire questo errore
-      return null;
+
+      throw new RuntimeException(e);
     }
 
   } 

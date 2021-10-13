@@ -282,7 +282,7 @@ public class ClientiPanel extends DesignClientiPanel implements DocumentListener
     puntiAltroTextField.setText(cliente.getRaccoltaPunti().getString(RaccoltaPunti.ALTRO));
     
     if (ApplicationCounter.getInstance().getCounter() != 0) {
-      puntiTotaliTextField.setText(Float.toString(cliente.getRaccoltaPunti().getTotale()));
+      puntiTotaliTextField.setText(String.format("%.2f",cliente.getRaccoltaPunti().getTotale()));
     }
     else {
       puntiTotaliTextField.setText("");
