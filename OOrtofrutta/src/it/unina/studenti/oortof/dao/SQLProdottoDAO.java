@@ -1528,7 +1528,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
                     errorDesc = "Inserire il prezzo del prodotto";
                     break;
                 case "sfuso":
-                    errorDesc = "Inserire se il prodotto è sfuso o meno";
+                    errorDesc = "Inserire se il prodotto e' sfuso o meno";
                     break;
                 case "tipoProdotto":
                     errorDesc = "Inserire la tipologia di prodotto";
@@ -1594,7 +1594,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
             }
             return new DatabaseException(errorDesc);
         } else {
-            return new DatabaseException("Si è verificato un errore nell'operazione sulla base dati");
+            return new DatabaseException("Si e' verificato un errore nell'operazione sulla base dati");
         }
     }
 
