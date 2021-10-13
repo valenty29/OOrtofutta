@@ -61,8 +61,6 @@ public class LottiTableModel extends AbstractTableModel {
     return null;
   }
   
-
-
   public boolean isCellEditable(int rowIndex, int columnIndex) {
 
     if (ApplicationStatus.getInstance().isNavigation() || ApplicationStatus.getInstance().isSearch()) {
@@ -72,9 +70,20 @@ public class LottiTableModel extends AbstractTableModel {
     if (rowIndex != (getRowCount() - 1)) {
       return false;
     }
+    
+    if (columnEditable[columnIndex] != true) {
+      return false;
+    }
+    
     return true;
   }
 
+  boolean[] columnEditable = {true, true, true, true, true, false};
+  
+  public void setColumnEditable(int columnIndex, boolean editable) {
+    columnEditable[columnIndex] = editable;
+  }
+  
   @Override
   public Object getValueAt(int rowIndex, int columnIndex) {
     Lotto lotto = lotti.get(rowIndex);

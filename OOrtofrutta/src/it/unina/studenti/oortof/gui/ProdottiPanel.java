@@ -60,11 +60,12 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
   private Prodotto prodotto;
   private Carrello carrello;
   private ButtonGroup bg = new ButtonGroup();
-  
+  private LottiTableModel model = new LottiTableModel();
   private JCheckBox[] tipiCheckBox = new JCheckBox[] {fruttaVerduraCheckbox, conserveCheckbox, prodottiCaseariCheckbox, farinaceiCheckbox, uovaCheckbox, carnePesceCheckbox, bibiteCheckbox, altriTipoCheckbox};
 
-  //GESTIONE CHECKBOX TIPI PRODOTTO E TABBED
+  //GESTIONE CHECKBOX TIPI PRODOTTO E TABBED e COLONNA MUNGITURA
   private ActionListener checkBoxActionListener = new ActionListener() {
+    @SuppressWarnings("static-access")
     @Override
     public void actionPerformed(ActionEvent e) {
       boolean selection = ((JCheckBox)e.getSource()).isSelected();
@@ -84,6 +85,10 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
       lastIndex = uovaCheckbox.isSelected() ? 4 : lastIndex;
       lastIndex = carnePesceCheckbox.isSelected() ? 5 : lastIndex;
       lastIndex = bibiteCheckbox.isSelected() ? 6 : lastIndex;
+      
+      if ((ApplicationStatus.getInstance().getStatus() == (ApplicationStatus.getInstance().STATUS_INSERT)) || (ApplicationStatus.getInstance().getStatus() == (ApplicationStatus.getInstance().STATUS_UPDATE))) {
+        model.setColumnEditable(5, prodottiCaseariCheckbox.isSelected());
+      }
       int selectedIndex = -1;
       if (selection) {
         if (e.getSource() == fruttaVerduraCheckbox) {
@@ -162,7 +167,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     altriTipoCheckbox.addActionListener(checkBoxActionListener);
     listenGuiField();
 
-    lottiTable.setModel(new LottiTableModel());
+    lottiTable.setModel(model);
     quantitaCarrelloTextField.setEnabled(false);
     setTriState();
 
@@ -249,7 +254,6 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
       private static final long serialVersionUID = 1L;
 
       public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-
         boolean lastRow = table.getModel().getRowCount() == (row + 1);
         isSelected = ApplicationStatus.getInstance().isNavigation() || !lastRow ? isSelected : false;
         JLabel l = (JLabel)super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
@@ -459,7 +463,6 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     else {
       caratteristicheSpecificheTabbed.setVisible(true);
     }
-
     setEnabledColor(codiceProdottoTextField, false, SystemColor.control);
   }
 
@@ -471,6 +474,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     for (JCheckBox c : tipiCheckBox) {
       setEnabledColor(c, false, SystemColor.control);
     }
+    model.setColumnEditable(5, prodottiCaseariCheckbox.isSelected());
   }
 
   private void search() {
