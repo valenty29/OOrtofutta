@@ -593,6 +593,9 @@ public class SQLClienteDAO implements ClienteDAO {
                 case "check_email":
                     constraintDesc = "Il formato dell'email non e' corretto";
                     break;
+                case "etavalida":
+                    constraintDesc = "Il cliente deve essere in vita";
+                    break;
             }
             return new DatabaseException(constraintDesc);
         } else if (e.getSQLState().equals("23502")) {

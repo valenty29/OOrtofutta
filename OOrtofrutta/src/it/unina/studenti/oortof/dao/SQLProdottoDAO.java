@@ -11,6 +11,7 @@ import java.sql.Statement;
 import java.sql.Types;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,27 +59,56 @@ public class SQLProdottoDAO implements ProdottoDAO {
     
     
 	
-    private void createLotti(ObservedList<Lotto> lotti, long id) throws DatabaseException {
-    	@SuppressWarnings("unused")
+    private void createLotti(ObservedList<Lotto> lotti, long id) throws SQLException {
       ArrayList<DatabaseException> exceptionList = new ArrayList<DatabaseException>();
         String sql = "INSERT INTO LOTTO (CodLotto, IdProdotto, Scadenza, Disponibilita, DataProduzione, CodPaeseOrigine) VALUES (?, ?, ?, ?, ?, ?)";
-        try {
+
             Connection conn = context.openConnessione();
             PreparedStatement createLotto = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            
+
+            Iterator<Lotto> iter = lotti.iterator();
+            while (iter.hasNext()) {
+                Lotto lotto = iter.next();
+                if (lotto.getCodLotto() == null && lotto.getScadenza() == null && lotto.getDisponibilita() == null && lotto.getDataProduzione() == null && lotto.getCodPaeseOrigine() == null)
+                {
+                    iter.remove();
+                }
+            }
+
+            if (lotti.size() == 0) {
+                conn.close();
+                return;
+            }
+
             for(Lotto lotto: lotti) {
             	
-            	if (lotto.getCodLotto() != null && !lotto.getCodLotto().equals("")) {
+
             		createLotto.setString(1, lotto.getCodLotto());
                     createLotto.setLong(2, id);
-                    createLotto.setDate(3, new java.sql.Date(lotto.getScadenza().getTime()));	
-                    createLotto.setFloat(4, lotto.getDisponibilita());
-                    createLotto.setDate(5, new java.sql.Date(lotto.getDataProduzione().getTime()));
+                    if (lotto.getScadenza() == null) {
+                        createLotto.setNull(3, Types.NULL);
+                    } else {
+                        createLotto.setDate(3, new java.sql.Date(lotto.getScadenza().getTime()));
+                    }
+                    if (lotto.getDisponibilita() == null) {
+                        createLotto.setNull(4, Types.NULL);
+                    } else {
+                        createLotto.setFloat(4, lotto.getDisponibilita());
+                    }
+
+                    if (lotto.getDataProduzione() == null) {
+                        createLotto.setNull(5, Types.NULL);
+                    } else {
+                        createLotto.setDate(5, new java.sql.Date(lotto.getDataProduzione().getTime()));
+                    }
+
                     createLotto.setString(6, lotto.getCodPaeseOrigine());
                     createLotto.addBatch();
-            	}	
             }
-            createLotto.executeBatch();
+
+
+            createLotto.executeUpdate();
+
             
             ResultSet rs = createLotto.getGeneratedKeys();
             int counter = 0;
@@ -89,52 +119,37 @@ public class SQLProdottoDAO implements ProdottoDAO {
             }
             
             conn.close();
-        } catch (BatchUpdateException e) {
 
-            PSQLException psqlExc = (PSQLException)e.getNextException();
-
-            if (psqlExc.getSQLState().equals("T1GR0")) {
-                throw new DatabaseException(psqlExc.getMessage());
-            } else if (psqlExc.getSQLState().equals("23514")) {
-                String constrDesc = "Un constraint non e' stato rispettato";
-
-                switch (((PSQLException) e.getNextException()).getServerErrorMessage().getConstraint()) {
-                    case "data_prod":
-                        constrDesc = "La data di produzione non puo' essere successiva alla data odierna";
-                        break;
-                    case "data_mungitura":
-                        constrDesc = "La data di mungitura non puo' essere successiva alla data odierna";
-                        break;
-                }
-
-                throw new DatabaseException(constrDesc);
-            }
-        } catch (SQLException se) {
-            throw new DatabaseException("Si e' verificato un errore nell'operazione sulla base dati");
-        }
     }
     
     public void createProdotto(Prodotto prodotto) throws ValidationException, DatabaseException {
     	int id = -1;
-    	if (prodotto.getProdottoCommon().isBibita()) {
-    		id = createBibita(prodotto);
-    	} else if (prodotto.getProdottoCommon().isFruttaVerdura()) {
-    		id = createFruttaVerdura(prodotto);
-    	} else if (prodotto.getProdottoCommon().isProdottoCaseario()) {
-    		id = createProdottoCaseario(prodotto);
-    	} else if (prodotto.getProdottoCommon().isUovo()) {
-    		id = createUovo(prodotto);
-    	} else if (prodotto.getProdottoCommon().isCarnePesce()) {
-    		id = createCarnePesce(prodotto);
-    	} else if (prodotto.getProdottoCommon().isConserva()) {
-    		id = createConserva(prodotto);
-    	} else if (prodotto.getProdottoCommon().isFarinaceo()) {
-    		id = createFarinaceo(prodotto);
-    	} else if (prodotto.getProdottoCommon().isAltro()) {
-    		id = createProductCommon(prodotto.getProdottoCommon());
-    	}
-    	
-    	prodotto.getProdottoCommon().setId(id);
+        try {
+            if (prodotto.getProdottoCommon().isBibita()) {
+                id = createBibita(prodotto);
+            } else if (prodotto.getProdottoCommon().isFruttaVerdura()) {
+                id = createFruttaVerdura(prodotto);
+            } else if (prodotto.getProdottoCommon().isProdottoCaseario()) {
+                id = createProdottoCaseario(prodotto);
+            } else if (prodotto.getProdottoCommon().isUovo()) {
+                id = createUovo(prodotto);
+            } else if (prodotto.getProdottoCommon().isCarnePesce()) {
+                id = createCarnePesce(prodotto);
+            } else if (prodotto.getProdottoCommon().isConserva()) {
+                id = createConserva(prodotto);
+            } else if (prodotto.getProdottoCommon().isFarinaceo()) {
+                id = createFarinaceo(prodotto);
+            } else if (prodotto.getProdottoCommon().isAltro()) {
+                id = createProductCommon(prodotto.getProdottoCommon());
+            }
+            if (id == -1) 
+                throw new DatabaseException("Selezionare un tipo di prodotto");
+
+            prodotto.getProdottoCommon().setId(id);
+        } catch (SQLException se) {
+            throw handleDatabaseException(se);
+        }
+
     }
     
     private String getTipo(ProdottoCommon prodotto) {
@@ -160,23 +175,20 @@ public class SQLProdottoDAO implements ProdottoDAO {
     	return tipo;
     }
     
-    private int createProductCommon(ProdottoCommon prodotto) throws ValidationException, DatabaseException {
+    private int createProductCommon(ProdottoCommon prodotto) throws ValidationException, SQLException {
         ArrayList<FieldException> exceptions = new ArrayList<FieldException>();
         int prodId = -1;
         String tipo = getTipo(prodotto);
         
         
         String sql = "INSERT INTO PRODOTTO (Nome, Prezzo, Sfuso, Tipo) VALUES (?, ?, ?, ?)";
-        try {
+
             Connection conn = context.openConnessione();
             PreparedStatement createProds = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            if (prodotto.getNome().isBlank() || prodotto.getNome().isEmpty()) {
-                exceptions.add(new FieldException(prodotto.getNome(), "Il nome e' un campo richiesto", null));
-            } else {
+
                 createProds.setString(1, prodotto.getNome());
-            }
             if (prodotto.getPrezzo() == null) {
-                exceptions.add(new FieldException("null", "Il prezzo e' un campo richiesto", null));
+                createProds.setNull(2, Types.NULL);
             } else {
                 createProds.setFloat(2, prodotto.getPrezzo());
             }
@@ -199,6 +211,10 @@ public class SQLProdottoDAO implements ProdottoDAO {
                  	createLotti(prodotto.getLotti(), prodId);
                     
                 }
+
+            }
+            catch(SQLException se) {
+                throw se;
             } catch (Exception e)
             {
                 throw new RuntimeException(e);
@@ -207,12 +223,10 @@ public class SQLProdottoDAO implements ProdottoDAO {
             conn.close();
 
             return prodId;
-        } catch (SQLException e) {
-          throw new DatabaseException("Errore dalla base dati");
-        }
+
     }
 
-    private int createBibita(Prodotto bibita) throws ValidationException, DatabaseException {
+    private int createBibita(Prodotto bibita) throws ValidationException, SQLException {
         ArrayList<FieldException> exceptions = new ArrayList<FieldException>();
         int id = -1;
         try {
@@ -222,14 +236,14 @@ public class SQLProdottoDAO implements ProdottoDAO {
         }
 
         String sql = "INSERT INTO BIBITA (IdProdotto, GradazioneAlcolica, Frizzante, TipoB) VALUES (?, ?, ?, ?)";
-        try {
+
             Connection conn = context.openConnessione();
             PreparedStatement createBibs = conn.prepareStatement(sql);
             createBibs.setLong(1, id);
-            if (bibita.getBibitaSpecifico().getGradazioneAlcolica() != null && bibita.getBibitaSpecifico().getGradazioneAlcolica() >= 0) {
+            if (bibita.getBibitaSpecifico().getGradazioneAlcolica() != null) {
                 createBibs.setFloat(2, bibita.getBibitaSpecifico().getGradazioneAlcolica());
             }  else {
-                exceptions.add(new FieldException(bibita.getBibitaSpecifico().getGradazioneAlcolica() == null ? "null" : bibita.getBibitaSpecifico().getGradazioneAlcolica().toString(), "Valore in gradazione alcolica non valido", null));
+                createBibs.setNull(2, Types.NULL);
             }
             createBibs.setBoolean(3, bibita.getBibitaSpecifico().isFrizzante());
             if (bibita.getBibitaSpecifico().getTipoBibita() == null) {
@@ -246,12 +260,10 @@ public class SQLProdottoDAO implements ProdottoDAO {
             createBibs.executeUpdate();
             conn.close();
             return id;
-        } catch (SQLException e) {
-          throw new DatabaseException("Errore dalla base dati");
-        }
+
     }
 
-    private int createUovo(Prodotto uovo) throws ValidationException, DatabaseException {
+    private int createUovo(Prodotto uovo) throws ValidationException, SQLException {
         ArrayList<FieldException> exceptions = new ArrayList<FieldException>();
         int id = -1;
         try {
@@ -262,29 +274,41 @@ public class SQLProdottoDAO implements ProdottoDAO {
         }
 
         String sql = "INSERT INTO UOVO (IdProdotto, TipoAllevamento, CatPeso) VALUES (?, ?, ?)";
-        try {
             Connection conn = context.openConnessione();
             PreparedStatement createUovo = conn.prepareStatement(sql);
             createUovo.setLong(1, id);
-            createUovo.setInt(2, uovo.getUovoSpecifico().getTipoAllevamento());
-            createUovo.setObject(3, uovo.getUovoSpecifico().getCatPeso().name(), Types.OTHER);
+            if (uovo.getUovoSpecifico().getTipoAllevamento() == null) {
+                createUovo.setNull(2, Types.NULL);
+            } else {
+                createUovo.setInt(2, uovo.getUovoSpecifico().getTipoAllevamento());
+            }
+
+            if (uovo.getUovoSpecifico().getCatPeso() == null) {
+                createUovo.setNull(3, Types.NULL);
+            } else {
+                createUovo.setObject(3, uovo.getUovoSpecifico().getCatPeso().name(), Types.OTHER);
+            }
+
 
             createUovo.executeUpdate();
             conn.close();
             return id;
-        } catch (SQLException e) {
-          throw new DatabaseException("Errore dalla base dati");
-        }
+
     }
 
-    private int createCarnePesce(Prodotto carnePesce) throws ValidationException, DatabaseException {
+    private int createCarnePesce(Prodotto carnePesce) throws ValidationException, SQLException {
         int id = createProductCommon(carnePesce.getProdottoCommon());
         String sql = "INSERT INTO CARNEPESCE (IdProdotto, TipoCP, DaAllevamento, Animale, Confezionato) VALUES (?, ?, ?, ?, ?)";
-        try {
+
             Connection conn = context.openConnessione();
             PreparedStatement createCarnePesce = conn.prepareStatement(sql);
             createCarnePesce.setLong(1, id);
-            createCarnePesce.setObject(2, carnePesce.getCarnePesceSpecifico().getTipoCarnePesce().name(), Types.OTHER);
+            if (carnePesce.getCarnePesceSpecifico().getTipoCarnePesce() == null) {
+                createCarnePesce.setNull(2, Types.NULL);
+            } else {
+                createCarnePesce.setObject(2, carnePesce.getCarnePesceSpecifico().getTipoCarnePesce().name(), Types.OTHER);
+            }
+
             createCarnePesce.setBoolean(3, carnePesce.getCarnePesceSpecifico().isDaAllevamento());
             createCarnePesce.setString(4, carnePesce.getCarnePesceSpecifico().getAnimale());
             createCarnePesce.setBoolean(5, carnePesce.getCarnePesceSpecifico().isConfezionato());
@@ -292,52 +316,59 @@ public class SQLProdottoDAO implements ProdottoDAO {
             createCarnePesce.executeUpdate();
             conn.close();
             return id;
-        } catch (SQLException e) {
-          throw new DatabaseException("Errore dalla base dati");
-        }
+
     }
 
-    private int createFruttaVerdura(Prodotto fruttaVerdura) throws ValidationException, DatabaseException {
+    private int createFruttaVerdura(Prodotto fruttaVerdura) throws ValidationException, SQLException {
         int id = createProductCommon(fruttaVerdura.getProdottoCommon());
         String sql = "INSERT INTO FRUTTAVERDURA (IdProdotto, TipoFV, Bio, Surgelato) VALUES (?, ?, ?, ?)";
-        try {
+
+
             Connection conn = context.openConnessione();
             PreparedStatement createFruttaVerdura = conn.prepareStatement(sql);
             createFruttaVerdura.setLong(1, id);
-            createFruttaVerdura.setObject(2, fruttaVerdura.getFruttaVerduraSpecifico().getTipoFruttaVerdura().name(), Types.OTHER);
+            if (fruttaVerdura.getFruttaVerduraSpecifico().getTipoFruttaVerdura() == null) {
+                createFruttaVerdura.setNull(2, Types.NULL);
+            } else {
+                createFruttaVerdura.setObject(2, fruttaVerdura.getFruttaVerduraSpecifico().getTipoFruttaVerdura().name(), Types.OTHER);
+            }
+
+
             createFruttaVerdura.setBoolean(3, fruttaVerdura.getFruttaVerduraSpecifico().isBio());
             createFruttaVerdura.setBoolean(4, fruttaVerdura.getFruttaVerduraSpecifico().isSurgelato());
 
             createFruttaVerdura.executeUpdate();
             conn.close();
             return id;
-        } catch (SQLException e) {
-          throw new DatabaseException("Errore dalla base dati");
-        }
+
+
     }
 
-    private int createProdottoCaseario(Prodotto prodottoCaseario) throws ValidationException, DatabaseException {
+    private int createProdottoCaseario(Prodotto prodottoCaseario) throws ValidationException, SQLException {
         int id = createProductCommon(prodottoCaseario.getProdottoCommon());
-        String sql = "INSERT INTO PRODOTTOCASEARIO (IdProdotto, TipoLatte, Stabilimento, Stagionatura) VALUES (?, ?, ?, ?)";
-        try {
+        String sql = "INSERT INTO PRODOTTOCASEARIO (IdProdotto, TipoLatte, Stagionatura) VALUES (?, ?, ?)";
+
             Connection conn = context.openConnessione();
             PreparedStatement createProdottoCaseario = conn.prepareStatement(sql);
             createProdottoCaseario.setLong(1, id);
             createProdottoCaseario.setString(2, prodottoCaseario.getProdottoCasearioSpecifico().getTipoLatte());
-            createProdottoCaseario.setInt(3, prodottoCaseario.getProdottoCasearioSpecifico().getStagionatura());
+            if (prodottoCaseario.getProdottoCasearioSpecifico().getStagionatura() == null) {
+                createProdottoCaseario.setNull(3, Types.NULL);
+            } else {
+                createProdottoCaseario.setInt(3, prodottoCaseario.getProdottoCasearioSpecifico().getStagionatura());
+            }
+
 
             createProdottoCaseario.executeUpdate();
             conn.close();
             return id;
-        } catch (SQLException e) {
-          throw new DatabaseException("Errore dalla base dati");
-        }
+
     }
 
-    private int createFarinaceo(Prodotto farinaceo) throws ValidationException, DatabaseException {
+    private int createFarinaceo(Prodotto farinaceo) throws ValidationException, SQLException {
         int id = createProductCommon(farinaceo.getProdottoCommon());
         String sql = "INSERT INTO FARINACEO (IdProdotto, Glutine, TipoFarina, Fresco, Surgelato) VALUES (?, ?, ?, ?, ?)";
-        try {
+
             Connection conn = context.openConnessione();
             PreparedStatement createFarinaceo = conn.prepareStatement(sql);
             createFarinaceo.setLong(1, id);
@@ -350,26 +381,26 @@ public class SQLProdottoDAO implements ProdottoDAO {
             createFarinaceo.executeUpdate();
             conn.close();
             return id;
-        } catch (SQLException e) {
-          throw new DatabaseException("Errore dalla base dati");
-        }
+
     }
 
-    private int createConserva(Prodotto conserva) throws ValidationException, DatabaseException {
+    private int createConserva(Prodotto conserva) throws ValidationException, SQLException {
         int id = createProductCommon(conserva.getProdottoCommon());
-        String sql = "INSERT INTO CONSERVA (IdProdotto, Glutine, TipoFarina, Fresco, Surgelato) VALUES (?, ?, ?, ?, ?)";
-        try {
+        String sql = "INSERT INTO CONSERVA (IdProdotto, TipoConservazione) VALUES (?, ?)";
             Connection conn = context.openConnessione();
             PreparedStatement createConserva = conn.prepareStatement(sql);
             createConserva.setLong(1, id);
-            createConserva.setObject(2, conserva.getConservaSpecifico().getTipoConservazione().name(), Types.OTHER);
+            if (conserva.getConservaSpecifico().getTipoConservazione() == null) {
+                createConserva.setNull(2, Types.NULL);
+            } else {
+                createConserva.setObject(2, conserva.getConservaSpecifico().getTipoConservazione().name(), Types.OTHER);
+            }
+
 
             createConserva.executeUpdate();
             conn.close();
             return id;
-        } catch (SQLException e) {
-          throw new DatabaseException("Errore dalla base dati");
-        }
+
     }
 
 
@@ -1019,45 +1050,47 @@ public class SQLProdottoDAO implements ProdottoDAO {
         }
     }
 
-    private void deleteLotti(ObservedList<Lotto> lotti) throws DatabaseException{
+    private void deleteLotti(ObservedList<Lotto> lotti) throws SQLException {
         String inSql = arrayToString(lotti);
         String sql = "DELETE FROM LOTTO WHERE id IN (" +inSql + ");";
 
-        try {
+
             Connection conn = context.openConnessione();
             Statement stm = conn.createStatement();
             stm.execute(sql);
             conn.close();
-        } catch (SQLException se)
-        {
-          throw new DatabaseException("Errore dalla base dati");
-        }
+
     }
     //endregion
 
     //region UPDATE
     
     public void updateProdotto(Prodotto oldProdotto, Prodotto newProdotto) throws DatabaseException {
-    	if (oldProdotto.getProdottoCommon().isBibita() && newProdotto.getProdottoCommon().isBibita()) {
-    		updateBibita(oldProdotto, newProdotto);
-    	} else if (oldProdotto.getProdottoCommon().isFruttaVerdura() && newProdotto.getProdottoCommon().isFruttaVerdura()) {
-    		updateFruttaVerdura(oldProdotto, newProdotto);
-    	} else if (oldProdotto.getProdottoCommon().isProdottoCaseario() && newProdotto.getProdottoCommon().isProdottoCaseario()) {
-    		updateProdottoCaseario(oldProdotto, newProdotto);
-    	} else if (oldProdotto.getProdottoCommon().isUovo() && newProdotto.getProdottoCommon().isUovo()) {
-    		updateUovo(oldProdotto, newProdotto);
-    	} else if (oldProdotto.getProdottoCommon().isCarnePesce() && newProdotto.getProdottoCommon().isCarnePesce()) {
-    		updateCarnePesce(oldProdotto, newProdotto);
-    	} else if (oldProdotto.getProdottoCommon().isConserva() && newProdotto.getProdottoCommon().isConserva()) {
-    		updateConserva(oldProdotto, newProdotto);
-    	} else if (oldProdotto.getProdottoCommon().isFarinaceo() && newProdotto.getProdottoCommon().isFarinaceo()) {
-    		updateFarinaceo(oldProdotto, newProdotto);
-    	} else if (oldProdotto.getProdottoCommon().isAltro() && newProdotto.getProdottoCommon().isAltro()) {
-    		updateProductsCommon(oldProdotto.getProdottoCommon(), newProdotto.getProdottoCommon());
-    	}
+        try {
+            if (oldProdotto.getProdottoCommon().isBibita() && newProdotto.getProdottoCommon().isBibita()) {
+                updateBibita(oldProdotto, newProdotto);
+            } else if (oldProdotto.getProdottoCommon().isFruttaVerdura() && newProdotto.getProdottoCommon().isFruttaVerdura()) {
+                updateFruttaVerdura(oldProdotto, newProdotto);
+            } else if (oldProdotto.getProdottoCommon().isProdottoCaseario() && newProdotto.getProdottoCommon().isProdottoCaseario()) {
+                updateProdottoCaseario(oldProdotto, newProdotto);
+            } else if (oldProdotto.getProdottoCommon().isUovo() && newProdotto.getProdottoCommon().isUovo()) {
+                updateUovo(oldProdotto, newProdotto);
+            } else if (oldProdotto.getProdottoCommon().isCarnePesce() && newProdotto.getProdottoCommon().isCarnePesce()) {
+                updateCarnePesce(oldProdotto, newProdotto);
+            } else if (oldProdotto.getProdottoCommon().isConserva() && newProdotto.getProdottoCommon().isConserva()) {
+                updateConserva(oldProdotto, newProdotto);
+            } else if (oldProdotto.getProdottoCommon().isFarinaceo() && newProdotto.getProdottoCommon().isFarinaceo()) {
+                updateFarinaceo(oldProdotto, newProdotto);
+            } else if (oldProdotto.getProdottoCommon().isAltro() && newProdotto.getProdottoCommon().isAltro()) {
+                updateProductsCommon(oldProdotto.getProdottoCommon(), newProdotto.getProdottoCommon());
+            }
+        } catch (SQLException se) {
+            throw handleDatabaseException(se);
+        }
+
     }
     
-    private void updateLotti(ObservedList<Lotto> oldLotti, ObservedList<Lotto> newLotti, long id) throws DatabaseException {
+    private void updateLotti(ObservedList<Lotto> oldLotti, ObservedList<Lotto> newLotti, long id) throws SQLException {
 
     	ObservedList<Lotto> lottiDaCreare = new ObservedList<Lotto>("lottiDaCreare");
     	ObservedList<Lotto> lottiDaAggiornare = new ObservedList<Lotto>("lottiDaAggiornare");
@@ -1099,7 +1132,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
     	
     	if (lottiDaAggiornare.size() > 0) {
     		String sql = "UPDATE LOTTO SET CodLotto = ?, Scadenza = ?, Disponibilita = ?, DataProduzione = ?, CodPaeseOrigine = ?, DataMungitura = ? WHERE id = ?";
-        	try {
+
         		Connection conn = context.openConnessione();
         		PreparedStatement stm = conn.prepareStatement(sql);
         		
@@ -1120,15 +1153,13 @@ public class SQLProdottoDAO implements ProdottoDAO {
         		}
         		stm.executeBatch();
         		conn.close();
-        	} catch (Exception e) {
-        	  throw new DatabaseException("Errore dalla base dati");
-        	}
+
     	}
     	
     	
     }
 
-    private void updateProductsCommon(ProdottoCommon oldProdotto, ProdottoCommon newProdotto) throws DatabaseException {
+    private void updateProductsCommon(ProdottoCommon oldProdotto, ProdottoCommon newProdotto) throws SQLException {
 
     	
     	
@@ -1171,17 +1202,15 @@ public class SQLProdottoDAO implements ProdottoDAO {
         String sql = "UPDATE PRODOTTO " + updateQuery + " WHERE id = " + newProdotto.getId();
 
         if(updateQuery != "") {
-            try {
+
                 Connection conn = context.openConnessione();
                 Statement stm = conn.createStatement();
                 stm.executeUpdate(sql);
-            } catch (SQLException e) {
-              throw new DatabaseException("Errore dalla base dati");
-            }
+
         }
     }
 
-    private void updateBibita(Prodotto oldBibita, Prodotto newBibita) throws DatabaseException{
+    private void updateBibita(Prodotto oldBibita, Prodotto newBibita) throws SQLException {
         updateProductsCommon(oldBibita.getProdottoCommon(), newBibita.getProdottoCommon());
 
         String updateQuery = "";
@@ -1216,18 +1245,16 @@ public class SQLProdottoDAO implements ProdottoDAO {
 
         String sql = "UPDATE BIBITA " + updateQuery + " WHERE IdProdotto = " + newBibita.getProdottoCommon().getId();
         if (updateQuery != ""){
-            try {
+
                 Connection conn = context.openConnessione();
 
                 Statement stm = conn.createStatement();
                 stm.executeUpdate(sql);
-            } catch (SQLException e) {
-              throw new DatabaseException("Errore dalla base dati");
-            }
+
         }
     }
 
-    private void updateUovo(Prodotto oldUovo, Prodotto newUovo) throws DatabaseException {
+    private void updateUovo(Prodotto oldUovo, Prodotto newUovo) throws SQLException {
         updateProductsCommon(oldUovo.getProdottoCommon(), newUovo.getProdottoCommon());
 
         String updateQuery = "";
@@ -1250,18 +1277,16 @@ public class SQLProdottoDAO implements ProdottoDAO {
 
         String sql = "UPDATE UOVO " + updateQuery + " WHERE IdProdotto = " + newUovo.getProdottoCommon().getId();
         if (updateQuery != ""){
-            try {
+
                 Connection conn = context.openConnessione();
 
                 Statement stm = conn.createStatement();
                 stm.executeUpdate(sql);
-            } catch (SQLException e) {
-              throw new DatabaseException("Errore dalla base dati");
-            }
+
         }
     }
 
-    private void updateFarinaceo(Prodotto oldFarinaceo, Prodotto newFarinaceo) throws DatabaseException {
+    private void updateFarinaceo(Prodotto oldFarinaceo, Prodotto newFarinaceo) throws SQLException {
         updateProductsCommon(oldFarinaceo.getProdottoCommon(), newFarinaceo.getProdottoCommon());
 
         String updateQuery = "";
@@ -1306,18 +1331,16 @@ public class SQLProdottoDAO implements ProdottoDAO {
 
         String sql = "UPDATE FARINACEO " + updateQuery + " WHERE IdProdotto = " + newFarinaceo.getProdottoCommon().getId();
         if (updateQuery != ""){
-            try {
+
                 Connection conn = context.openConnessione();
 
                 Statement stm = conn.createStatement();
                 stm.executeUpdate(sql);
-            } catch (SQLException e) {
-              throw new DatabaseException("Errore dalla base dati");
-            }
+
         }
     }
 
-    private void updateCarnePesce(Prodotto oldCarnePesce, Prodotto newCarnePesce) throws DatabaseException {
+    private void updateCarnePesce(Prodotto oldCarnePesce, Prodotto newCarnePesce) throws SQLException{
         updateProductsCommon(oldCarnePesce.getProdottoCommon(), newCarnePesce.getProdottoCommon());
 
         String updateQuery = "";
@@ -1361,18 +1384,16 @@ public class SQLProdottoDAO implements ProdottoDAO {
 
         String sql = "UPDATE CARNEPESCE " + updateQuery + " WHERE IdProdotto = " + newCarnePesce.getProdottoCommon().getId();
         if (updateQuery != ""){
-            try {
+
                 Connection conn = context.openConnessione();
 
                 Statement stm = conn.createStatement();
                 stm.executeUpdate(sql);
-            } catch (SQLException e) {
-              throw new DatabaseException("Errore dalla base dati");
-            }
+
         }
     }
 
-    private void updateFruttaVerdura(Prodotto oldFruttaVerdura, Prodotto newFruttaVerdura) throws DatabaseException {
+    private void updateFruttaVerdura(Prodotto oldFruttaVerdura, Prodotto newFruttaVerdura) throws SQLException {
         updateProductsCommon(oldFruttaVerdura.getProdottoCommon(), newFruttaVerdura.getProdottoCommon());
 
         String updateQuery = "";
@@ -1406,18 +1427,16 @@ public class SQLProdottoDAO implements ProdottoDAO {
 
         String sql = "UPDATE FRUTTAVERDURA " + updateQuery + " WHERE IdProdotto = " + newFruttaVerdura.getProdottoCommon().getId();
         if (updateQuery != ""){
-            try {
+
                 Connection conn = context.openConnessione();
 
                 Statement stm = conn.createStatement();
                 stm.executeUpdate(sql);
-            } catch (SQLException e) {
-              throw new DatabaseException("Errore dalla base dati");
-            }
+
         }
     }
 
-    private void updateConserva(Prodotto oldConserva, Prodotto newConserva) throws DatabaseException  {
+    private void updateConserva(Prodotto oldConserva, Prodotto newConserva) throws SQLException {
         updateProductsCommon(oldConserva.getProdottoCommon(), newConserva.getProdottoCommon());
 
         String updateQuery = "";
@@ -1431,18 +1450,16 @@ public class SQLProdottoDAO implements ProdottoDAO {
 
         String sql = "UPDATE CONSERVA " + updateQuery + " WHERE IdProdotto = " + newConserva.getProdottoCommon().getId();
         if (updateQuery != ""){
-            try {
+
                 Connection conn = context.openConnessione();
 
                 Statement stm = conn.createStatement();
                 stm.executeUpdate(sql);
-            } catch (SQLException e) {
-              throw new DatabaseException("Errore dalla base dati");
-            }
+
         }
     }
 
-    private void updateProdottoCaseario(Prodotto oldProdottoCaseario, Prodotto newProdottoCaseario) throws DatabaseException {
+    private void updateProdottoCaseario(Prodotto oldProdottoCaseario, Prodotto newProdottoCaseario) throws SQLException {
         updateProductsCommon(oldProdottoCaseario.getProdottoCommon(), newProdottoCaseario.getProdottoCommon());
 
         String updateQuery = "";
@@ -1466,14 +1483,118 @@ public class SQLProdottoDAO implements ProdottoDAO {
 
         String sql = "UPDATE PRODOTTOCASEARIO " + updateQuery + " WHERE IdProdotto = " + newProdottoCaseario.getProdottoCommon().getId();
         if (updateQuery != ""){
-            try {
+
                 Connection conn = context.openConnessione();
 
                 Statement stm = conn.createStatement();
                 stm.executeUpdate(sql);
-            } catch (SQLException e) {
-              throw new DatabaseException("Errore dalla base dati");
+
+        }
+    }
+
+    private DatabaseException handleDatabaseException(SQLException e)  {
+
+
+        if (e instanceof BatchUpdateException) {
+            e = e.getNextException();
+        }
+
+        if (e.getSQLState().equals("T1GR0")) {
+            return new DatabaseException(((PSQLException) e).getServerErrorMessage().getMessage());
+        } else if (e.getSQLState().equals("23514")) {
+            String constraintDesc = "Un constraint non è stato rispettato";
+            switch (((PSQLException) e).getServerErrorMessage().getConstraint()) {
+                case "nome_prodotto_valido":
+                    constraintDesc = "Nome del prodotto non valido";
+                    break;
+                case "tipo_allevamento":
+                    constraintDesc = "Tipologia di allevamento non valida";
+                    break;
+                case "data_prod":
+                    constraintDesc = "La data di produzione non puo' essere successiva alla data odierna";
+                    break;
+                case "data_mungitura":
+                    constraintDesc = "La data di mungitura non puo' essere successiva alla data odierna";
+                    break;
             }
+            return new DatabaseException(constraintDesc);
+        } else if (e.getSQLState().equals("23502")) {
+            String errorDesc = "Inserito un valore null in una campo not null";
+            switch (((PSQLException) e).getServerErrorMessage().getColumn()) {
+                case "nome":
+                    errorDesc = "Inserire il nome del prodotto";
+                    break;
+                case "prezzo":
+                    errorDesc = "Inserire il prezzo del prodotto";
+                    break;
+                case "sfuso":
+                    errorDesc = "Inserire se il prodotto è sfuso o meno";
+                    break;
+                case "tipoProdotto":
+                    errorDesc = "Inserire la tipologia di prodotto";
+                    break;
+                case "gradazionealcolica":
+                    errorDesc = "Inserire la gradazione alcolica del prodotto";
+                    break;
+                    case "tipocp":
+                    errorDesc = "Inserire se carne o pesce";
+                    break;
+                case "daallevamento":
+                    errorDesc = "Inserire se da allevamento";
+                    break;
+                case "animale":
+                    errorDesc = "Inserire l'animale";
+                    break;
+                case "confezionato":
+                    errorDesc = "Inserire se confezionato";
+                    break;
+                case "tipoconservazione":
+                    errorDesc = "Inserire tipo di conservazione";
+                    break;
+                case "glutine":
+                    errorDesc = "Inserire se con glutine";
+                    break;
+                case "fresco":
+                    errorDesc = "Inserire se fresco";
+                    break;
+                case "surgelato":
+                    errorDesc = "Inserire se surgelato";
+                    break;
+                case "tipofv":
+                    errorDesc = "Inserire se frutta o verdura";
+                    break;
+                case "bio":
+                    errorDesc = "Inserire se biologico";
+                    break;
+                case "tipolatte":
+                    errorDesc = "Inserire tipo di latte";
+                    break;
+                case "stagionatura":
+                    errorDesc = "Inserire stagionatura";
+                    break;
+                case "tipoallevamento":
+                    errorDesc = "Inserire tipo allevamento";
+                    break;
+                case "catpeso":
+                    errorDesc = "Inserire categoria di peso";
+                    break;
+                case "codlotto":
+                    errorDesc  = "Inserire il codice del lotto";
+                    break;
+                case "codpaeseorigine":
+                    errorDesc = "Inserire il codice del paese d'origine";
+                    break;
+                case "disponibilita":
+                    errorDesc = "Inserire la disponibilità del lotto";
+                    break;
+                case "dataproduzione":
+                    errorDesc = "Inserire data di produzione del lotto";
+                    break;
+
+            }
+            return new DatabaseException(errorDesc);
+        } else {
+            return new DatabaseException("Si è verificato un errore nell'operazione sulla base dati");
         }
     }
 
