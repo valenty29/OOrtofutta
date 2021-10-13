@@ -61,7 +61,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
 	
     private void createLotti(ObservedList<Lotto> lotti, long id) throws SQLException {
       ArrayList<DatabaseException> exceptionList = new ArrayList<DatabaseException>();
-        String sql = "INSERT INTO LOTTO (CodLotto, IdProdotto, Scadenza, Disponibilita, DataProduzione, CodPaeseOrigine) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO LOTTO (CodLotto, IdProdotto, Scadenza, Disponibilita, DataProduzione, CodPaeseOrigine, DataMungitura) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
             Connection conn = context.openConnessione();
             PreparedStatement createLotto = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -103,6 +103,14 @@ public class SQLProdottoDAO implements ProdottoDAO {
                     }
 
                     createLotto.setString(6, lotto.getCodPaeseOrigine());
+
+                    if (lotto.getDataMungitura() == null) {
+                        createLotto.setNull(7, Types.NULL);
+                    } else {
+                        createLotto.setDate(7, new java.sql.Date(lotto.getDataMungitura().getTime()));
+                    }
+
+
                     createLotto.addBatch();
             }
 
