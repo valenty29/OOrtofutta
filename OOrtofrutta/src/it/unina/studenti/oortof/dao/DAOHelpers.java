@@ -45,16 +45,23 @@ public class DAOHelpers {
             try {
                 int i2 = Integer.parseInt(queryDestr[1]);
 
-                finalQuery = String.format("BETWEEN %d AND %d", i1, i2);
+                finalQuery += String.format("BETWEEN %d AND %d", i1, i2);
+                finalQuery = finalQuery.replace(",", ".");
+            }
+
+            catch (ArrayIndexOutOfBoundsException oob) {
+                finalQuery += String.format("= %d", i1);
+                finalQuery = finalQuery.replace(",", ".");
             }
 
             catch (NumberFormatException nfef){
                 String operator = queryDestr[1];
 
                 finalQuery += String.format("%s %d", operator, i1);
+                finalQuery = finalQuery.replace(",", ".");
             }
 
-        } catch (NumberFormatException nfe){
+        } catch (Exception nfe){
             System.out.println("PASSATO VALORE INVALIDO A QUERY");
         }
 

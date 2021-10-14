@@ -70,6 +70,10 @@ public class ProdottiListPanel extends JPanel {
     table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
       @Override
       public void valueChanged(ListSelectionEvent event) {
+        if (ApplicationCounter.getInstance().getCounter() == 1 && (table.getSelectedRow() == 0)) {
+          ApplicationCounter.getInstance().setCounter(1);
+        }
+
         if (ApplicationCounter.getInstance().getCounter() != (table.getSelectedRow() + 1)) {
           if (event.getFirstIndex() == ApplicationCounter.getInstance().getCounter() - 1 && table.getSelectedRow() == -1) {
             ApplicationCounter.getInstance().setCounter(ApplicationCounter.getInstance().getCounter());

@@ -171,7 +171,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
     quantitaCarrelloTextField.setEnabled(false);
     setTriState();
 
-    ((AbstractDocument)codiceProdottoTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(InputCheckRule.soloNumeri));
+    ((AbstractDocument)codiceProdottoTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(InputCheckRule.numeriSpazio));
     ((AbstractDocument)prezzoTextField.getDocument()).setDocumentFilter(new InputCheckingDocumentFilter(InputCheckRule.numeriSpazio));
     LottiTableModel lottiModel = (LottiTableModel)lottiTable.getModel();
     lottiTable.addKeyListener(new KeyAdapter() {
@@ -551,7 +551,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
 
   private void modelToViewCore() {
     nomeTextField.setText(prodotto.getProdottoCommon().getString(ProdottoCommon.NOME));
-    codiceProdottoTextField.setText(prodotto.getProdottoCommon().getString(ProdottoCommon.ID));
+    codiceProdottoTextField.setText(prodotto.getProdottoCommon().getString(ProdottoCommon.ID) == null ? null : prodotto.getProdottoCommon().getString(ProdottoCommon.ID).isBlank() || prodotto.getProdottoCommon().getString(ProdottoCommon.ID).isEmpty() ? null : prodotto.getProdottoCommon().getString(ProdottoCommon.ID));
     prezzoTextField.setText(prodotto.getProdottoCommon().getString(ProdottoCommon.PREZZO) == null ? null : prodotto.getProdottoCommon().getString(ProdottoCommon.PREZZO).isBlank() || prodotto.getProdottoCommon().getString(ProdottoCommon.PREZZO).isEmpty() ? null : prodotto.getProdottoCommon().getString(ProdottoCommon.PREZZO));
     sfusoCheckBox.setSelected(prodotto.getProdottoCommon().isSfuso());
     sfusoCheckBox.setForeground(prodotto.getProdottoCommon().getSfuso() != null ? Color.black : Color.gray);
@@ -780,7 +780,7 @@ public class ProdottiPanel extends DesignProdottiPanel implements DocumentListen
   private void viewToModelCore() {
     ProdottoCommon pc = prodotto.getProdottoCommon();
     pc.setValue(ProdottoCommon.NOME, nomeTextField.getText());
-    pc.setValue(ProdottoCommon.ID, codiceProdottoTextField.getText());
+    pc.setValue(ProdottoCommon.ID, codiceProdottoTextField.getText().isBlank() || codiceProdottoTextField.getText().isEmpty() ? null : codiceProdottoTextField.getText());
     pc.setAltro(altriTipoCheckbox.isSelected());
     pc.setBibita(bibiteCheckbox.isSelected());
     pc.setCarnePesce(carnePesceCheckbox.isSelected());

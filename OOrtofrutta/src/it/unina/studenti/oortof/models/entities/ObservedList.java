@@ -170,6 +170,7 @@ public class ObservedList<E extends ObservedModel> extends ObservedModel impleme
   @SuppressWarnings({"deprecation", "unchecked"})
   @Override
   public void copyTo(ObservedModel other) {
+
     for (int i = 0; i < list.size(); i++) {
       ObservedModel om1 = list.get(i);
       ObservedModel om2 = i < ((ObservedList<?>)other).size() ? ((ObservedList<?>)other).get(i) : null;
@@ -199,6 +200,7 @@ public class ObservedList<E extends ObservedModel> extends ObservedModel impleme
     for (int i = ((ObservedList<?>)other).size() - 1; i >= list.size(); i--) {
       ((ObservedList<?>)other).remove(i);
     }
+    firePropertyChange(((ObservedList<?>) other).name, null, (ObservedList)other);
   }
 
   @Override

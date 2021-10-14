@@ -431,7 +431,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
     	allNull &= !prodotto.getProdottoCommon().isProdottoCaseario();
     	allNull &= !prodotto.getProdottoCommon().isUovo();
     	allNull &= !prodotto.getProdottoCommon().isFruttaVerdura();
-    	
+    	allNull &= !prodotto.getProdottoCommon().isAltro();
     	if ( allNull ||  prodotto.getProdottoCommon().isBibita()) {
     		ObservedList<Bibita> prods = getBibita(prodotto);
     		for(Bibita bib: prods) {
@@ -657,7 +657,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
             String query = "";
             int filterCount = 0;
             if (carnePesceSpecifico.getString(CarnePesceSpecifico.TIPO_CARNE_PESCE) != null && !carnePesceSpecifico.getString(CarnePesceSpecifico.TIPO_CARNE_PESCE).equals("")) {
-                query += String.format("Tipo = '%s'", carnePesceSpecifico.getTipoCarnePesce().name());
+                query += String.format("TipoCP = '%s'", carnePesceSpecifico.getTipoCarnePesce().name());
                 filterCount++;
             }
             if(carnePesceSpecifico.getString(CarnePesceSpecifico.DA_ALLEVAMENTO) != null)
@@ -671,7 +671,7 @@ public class SQLProdottoDAO implements ProdottoDAO {
             {
                 if(filterCount != 0)
                     query += " AND ";
-                query += String.format("Animale = '%s'" + carnePesceSpecifico.getAnimale());
+                query += String.format("Animale = '%s'", carnePesceSpecifico.getAnimale());
                 filterCount++;
             }
             if(carnePesceSpecifico.getString(CarnePesceSpecifico.CONFEZIONATO) != null)
@@ -986,8 +986,14 @@ public class SQLProdottoDAO implements ProdottoDAO {
         ArrayList<FieldException> exceptions = new ArrayList<FieldException>();
         String query = "";
         int filterCount = 0;
-        if (prodCom.getId() != null) {
-            query += "Id = " + prodCom.getId();
+        if (prodCom.getString(ProdottoCommon.ID) != null && !prodCom.getString(ProdottoCommon.ID).equals("")) {
+
+            try {
+                query += String.format("Id %s", DAOHelpers.getIntQueryField(prodCom.getString(ProdottoCommon.ID)));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
             filterCount++;
         }
        

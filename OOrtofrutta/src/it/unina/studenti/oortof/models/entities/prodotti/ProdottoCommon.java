@@ -290,7 +290,6 @@ public class ProdottoCommon extends ObservedModel implements PropertyChangeListe
   
   @SuppressWarnings("unchecked")
   public void copyTo(ObservedModel prodottoCommon) {
-    ((ProdottoCommon)prodottoCommon).setId(getId());
     ((ProdottoCommon)prodottoCommon).setAltro(getAltro());
     ((ProdottoCommon)prodottoCommon).setBibita(getBibita());
     ((ProdottoCommon)prodottoCommon).setCarnePesce(getCarnePesce());
@@ -300,6 +299,7 @@ public class ProdottoCommon extends ObservedModel implements PropertyChangeListe
     ((ProdottoCommon)prodottoCommon).setProdottoCaseario(getProdottoCaseario());
     ((ProdottoCommon)prodottoCommon).setUovo(getUovo());
     ((ProdottoCommon)prodottoCommon).setNome(getNome());
+    ((ProdottoCommon)prodottoCommon).setValue(ID, attributes[ID]);
     ((ProdottoCommon)prodottoCommon).setValue(PREZZO, attributes[PREZZO]);
     ((ProdottoCommon)prodottoCommon).setSfuso(getSfuso());
     ((ObservedList<Lotto>)attributes[LOTTI]).copyTo(((ProdottoCommon)prodottoCommon).getLotti());
